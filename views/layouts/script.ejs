@@ -1,0 +1,134 @@
+   <!-- Vendor js -->
+   <script src="/javascripts/vendor.min.js"></script>
+   <script src="/libs/parsleyjs/parsley.min.js"></script>
+
+   <!-- Validation init js-->
+   <script src="/javascripts/pages/form-validation.init.js"></script>
+
+   <!-- Plugins js-->
+   <script src="/libs/flatpickr/flatpickr.min.js"></script>
+   <!-- <script src="/libs/apexcharts/apexcharts.min.js"></script> -->
+
+   <script src="/libs/selectize/js/standalone/selectize.min.js"></script>
+
+   <!-- Dashboar 1 init js-->
+   <script src="/libs/selectize/js/standalone/selectize.min.js"></script>
+   <script src="/libs/mohithg-switchery/switchery.min.js"></script>
+   <script src="/libs/multiselect/js/jquery.multi-select.js"></script>
+   <!-- <script src="/libs/select2/js/select2.min.js"></script> -->
+   <script src="/libs/jquery-mockjax/jquery.mockjax.min.js"></script>
+   <script src="/libs/devbridge-autocomplete/jquery.autocomplete.min.js"></script>
+   <script src="/libs/bootstrap-select/js/bootstrap-select.min.js"></script>
+   <script src="/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
+   <script src="/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+
+   <!-- Init js-->
+   <!-- <script src="/javascripts/pages/form-advanced.init.js"></script> -->
+
+
+
+
+
+   <!-- Plugin js-->
+   <script src="/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+   <script src="/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+   <script src="/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+   <script src="/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+   <script src="/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+   <script src="/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+   <script src="/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+   <script src="/libs/datatables.net-buttons/js/buttons.flash.min.js"></script>
+   <script src="/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+   <script src="/libs/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+   <script src="/libs/datatables.net-select/js/dataTables.select.min.js"></script>
+   <script src="/libs/pdfmake/build/pdfmake.min.js"></script>
+   <script src="/libs/pdfmake/build/vfs_fonts.js"></script>
+   <!-- third party js ends -->
+
+   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+   <!-- For Loading Button -->
+   <script src="/libs/ladda/spin.min.js"></script>
+   <script src="/libs/ladda/ladda.min.js"></script>
+
+   <!-- Buttons init js-->
+   <script src="/javascripts/pages/loading-btn.init.js"></script>
+
+
+   <script  src="/javascripts/ckeditor/ckeditor.js" ></script>
+   <!-- Datatables init -->
+   <script src="/javascripts/pages/datatables.init.js"></script>
+   
+   <!-- App js-->
+   <script src="/libs/jquery-mask-plugin/jquery.mask.min.js"></script>
+   <script src="/libs/autonumeric/autoNumeric-min.js"></script>
+
+   <!-- Init js-->
+   <script src="/javascripts/pages/form-masks.init.js"></script>
+
+   <script src="/javascripts/app.min.js"></script>
+ 
+
+<!-- My Scripts -->
+ <script src="/javascripts/scripts/setting.js"></script>
+ <script src="/javascripts/scripts/admin.js"></script>
+ <script src="/javascripts/scripts/product.js"></script>
+ <script src="/javascripts/scripts/productAttributes.js"></script>
+ <script src="/javascripts/scripts/subcategories.js"></script>
+
+
+ <script>
+      $('#specialoffer_startdate').flatpickr({
+          enableTime: false,
+          dateFormat: "Y/m/d",
+       });
+
+       $('#specialoffer_enddate').flatpickr({
+          enableTime: false,
+          dateFormat: "Y/m/d",
+       });
+
+           
+       $('#flashsale-startdate').flatpickr({
+          enableTime: false,
+          dateFormat: "Y/m/d",
+       });
+    
+       $('#flashsale-starttime').flatpickr({
+          enableTime: true,
+          noCalendar: true,
+          dateFormat: "H:i",
+          defaultDate: "12:00"
+       });
+
+       $('#editflashsale-starttime').flatpickr({
+          enableTime: true,
+          noCalendar: true,
+          dateFormat: "H:i",       
+       });
+    
+       $('#flashsale-enddate').flatpickr({
+          enableTime: false,
+          dateFormat: "Y/m/d",
+          minDate: "today",
+       });
+    
+       $('#flashsale-endtime').flatpickr({
+          enableTime: true,
+          noCalendar: true,
+          dateFormat: "H:i",
+          defaultDate: "12:00",
+       });
+       $('#editflashsale-endtime').flatpickr({
+          enableTime: true,
+          noCalendar: true,
+          dateFormat: "H:i",
+        
+       });
+
+       $('#flashsalePicker').selectpicker('refresh');
+        $('#flashsalePicker').selectpicker('render');
+
+     
+      
+ </script>
