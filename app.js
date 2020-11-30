@@ -7,7 +7,7 @@ var logger = require('morgan');
 var app = express();
 
 
-
+app.set('port', process.env.PORT || 3000);
 
 //For Flash Message
 var session = require('express-session');
