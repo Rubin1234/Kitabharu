@@ -1,1 +1,1 @@
-web: node frontend/home.js
+web: ./bin/www npm start
