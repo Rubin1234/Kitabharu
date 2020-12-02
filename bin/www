@@ -14,7 +14,7 @@ var http = require('http');
 
 // var port = normalizePort(process.env.PORT || '3000');
 
-var port = normalizePort(process.env.MONGO_URL || 'mongodb:://localhost/kitabharu');
+var port = normalizePort(process.env.MONGO_URL || '3000');
 console.log(port);
 
 app.set('port', port);
