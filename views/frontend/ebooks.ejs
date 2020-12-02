@@ -162,286 +162,31 @@
     </div>
     <div class="col-md-9">
       <div class="row book-listing-page">
-        <div class="col-md-3">
-              <div class="new-arrival-books">
-          <img src="frontend_images/books/9789937905831-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-           
-            <h4>विनोद चौधरी</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-                 <h4>Rs. 1100</h4>
-            </div>
-          </div>
-               <div class="view-book">
-            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-          
-        </div>
-         <div class="col-md-3">
-        <div class="new-arrival-books">
-          <img src="frontend_images/books/Tyes_Bakhat_ko_Nepal_-_Part_1_to_5_-_Bhim_Bahadur_Pandey-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-          <!--    <span>Auther: Rozen Awale</span> -->
-            <h4>त्यस बखतको नेपाल</h4>
-            <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-
-
-           <div class="view-book">
-            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
-         <div class="col-md-3">
-          <div class="new-arrival-books">
-          <img src="frontend_images/books/Durbarko_Dukhanta-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-            <h4>दरबारको दुःखान्त</h4>
-                <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-           <div class="view-book">
-            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
+        <% if(allEbooks.length > 0){ %>
+          <% allEbooks.forEach(function(data){ %>
             <div class="col-md-3">
-            <div class="new-arrival-books">
-          <img src="frontend_images/books/_Sambandhaharu_By_Vijay_Kumar-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-          <div class="new-arrival-books-desc">
-          <h4>सम्बन्धहरु</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-
-                 <h4>Rs. 1100</h4>
-            </div> 
-          </div>
-          <div class="view-book">
-            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
-         <div class="col-md-3">
               <div class="new-arrival-books">
-          <img src="frontend_images/books/Atikramanko_Chapetama_Limpiyadhura_Lipulek_by_Ratan_Bhandari_-_front-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
+          <img src="images/backend/products/<%= data.product_image %>" alt="" style="width: 100%;height: 235px;">
            <div class="new-arrival-books-desc">
            
-            <h4>अतिक्रमणको चपेटामा लिम्पियाधुरा-लिपुलेक</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
+            <h4><%= data.product_name %></h4>
+            <span style="font-size: 14px;color: #8b8b8b">
+            <% if(data.book_attribute.length > 0){ %>
+              <%= data.book_attribute[0].author_name %>
+            <% } %>
+            </span>
             <div class="price-box">
-                 <h4>Rs. 1100</h4>
+                 <h4>Rs. <%= data.product_price %></h4>
             </div>
           </div>
                <div class="view-book">
-            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-          
-        </div>
-         <div class="col-md-3">
-        <div class="new-arrival-books">
-          <img src="frontend_images/books/Ranahar-front-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-          <!--    <span>Auther: Rozen Awale</span> -->
-            <h4>रणहार</h4>
-            <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-
-
-           <div class="view-book">
-            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
+           <a href="bookdetails/<%= data.slug%>" ><button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
             <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
           </div>
         </div>
         </div>
-         <div class="col-md-3">
-          <div class="new-arrival-books">
-          <img src="frontend_images/books/Kumari_Prashnaharu_by_Durga_Karki_-_front-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-            <h4>कुमारी प्रश्नहरु</h4>
-                <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-           <div class="view-book">
-            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
-            <div class="col-md-3">
-            <div class="new-arrival-books">
-          <img src="frontend_images/books/koreana_coffee_guff-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-          <div class="new-arrival-books-desc">
-          <h4>कोरियाना कफी गफ</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-
-                 <h4>Rs. 1100</h4>
-            </div> 
-          </div>
-          <div class="view-book">
-            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
-
-               <div class="col-md-3">
-            <div class="new-arrival-books">
-          <img src="frontend_images/books/Khalanga_ma_Hamala_by_Radha_Paudel-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-          <div class="new-arrival-books-desc">
-          <h4>खलंगामा हमला</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-
-                 <h4>Rs. 1100</h4>
-            </div> 
-          </div>
-          <div class="view-book">
-            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
-         <div class="col-md-3">
-              <div class="new-arrival-books">
-          <img src="frontend_images/books/Arthat_Arthatantra_-_Sujeev_Shakya_-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-           
-            <h4>अर्थात् अर्थतन्त्र</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-                 <h4>Rs. 1100</h4>
-            </div>
-          </div>
-               <div class="view-book">
-            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-          
-        </div>
-         <div class="col-md-3">
-        <div class="new-arrival-books">
-          <img src="frontend_images/books/9789937874076-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-          <!--    <span>Auther: Rozen Awale</span> -->
-            <h4>रुकमाङ्गद कटवाल</h4>
-            <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-
-
-           <div class="view-book">
-            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
-         <div class="col-md-3">
-          <div class="new-arrival-books">
-          <img src="frontend_images/books/Lok-Sewako-tayari-kasari-garne-front-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-            <h4>लोक सेवाको तयारी कसरी गर्ने</h4>
-                <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-           <div class="view-book">
-            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
-            <div class="col-md-3">
-            <div class="new-arrival-books">
-          <img src="frontend_images/books/palpasa_cafe_nepali_frontcover-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-          <div class="new-arrival-books-desc">
-          <h4>पल्पसा क्याफे</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-
-                 <h4>Rs. 1100</h4>
-            </div> 
-          </div>
-          <div class="view-book">
-            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
-           <div class="col-md-3">
-        <div class="new-arrival-books">
-          <img src="frontend_images/books/Sanduk_Ruit_by_Ali_Gripper_-_Khagendra_Sangraula_-_Nepali-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-          <!--    <span>Auther: Rozen Awale</span> -->
-            <h4>सन्दुक रूइत</h4>
-            <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-
-
-           <div class="view-book">
-            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
-         <div class="col-md-3">
-          <div class="new-arrival-books">
-          <img src="frontend_images/books/9789937874021-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-            <h4>फोसिल</h4>
-                <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-           <div class="view-book">
-            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
-             <div class="col-md-3">
-              <div class="new-arrival-books">
-          <img src="frontend_images/books/Hajuramaka_Katha_by_Amrita_Lamsal-thumbnail-175x255-70.jpeg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-           
-            <h4>हजुरआमाका कथा</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-                 <h4>Rs. 1100</h4>
-            </div>
-          </div>
-               <div class="view-book">
-            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
+         <% }) %>
+        <% } %>
       </div>
       <div class="pagination">
 <ul class="pagination pagination-rounded pagination-3d pagination-lg">

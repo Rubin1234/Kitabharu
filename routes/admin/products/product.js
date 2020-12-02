@@ -674,20 +674,18 @@ router.post('/update',edit_upload,function(req,res,next){
     var images = req.files;
 
   
-   
+ 
 
     var productId = req.body.id;
     var category_id = req.body.product_category;
     var subcategory_id = req.body.product_subcategory;
 
     var paperBook = req.body.paperbook;
+
+    //Ebook
     var ebook = req.body.ebook;
     var ebook_id = req.body.ebook_id;
-
-
     var previousPdfFile = req.body.previousPdfFile;
- 
-
     var ebookPrice = req.body.ebook_price;
 
     var productName = req.body.product_name;
@@ -696,6 +694,18 @@ router.post('/update',edit_upload,function(req,res,next){
     var productDescription = req.body.product_description;
  
     var previousProductImage = req.body.previousproductImage;
+
+        
+    console.log(productId);
+    console.log(category_id);
+    console.log(subcategory_id);
+    console.log(productName); 
+    console.log(productPrice);
+    console.log(productStock);
+    console.log(productDescription);
+    console.log(previousProductImage);
+
+
     var status = req.body.status;
     var slugname = slug(productName);
 
@@ -2694,7 +2704,7 @@ router.post('/update',edit_upload,function(req,res,next){
         var updateFlashSale = ModelFlashSale.findByIdAndDelete(flash_sale_id);
         var updateSpecialOffer = SpecialOfferModel.findByIdAndDelete(special_offer_id);
         var updateBulkOffer = BulkOfferModel.findByIdAndDelete(bulk_offer_id);
-        var productDetails =   productModel.findOne({_id:productId});
+        var productDetails =   productModel.findOne({_id:productId}).populate('category_id');
 
         //Removing Previous Offer Image
         if(previousSpecialOfferImage != null){
@@ -2712,6 +2722,8 @@ router.post('/update',edit_upload,function(req,res,next){
 
 
          productDetails.exec(function(err,doc){
+            console.log(doc);
+
            if(booktype == 'paperbook' && doc.ebook_id != null){
 
             var updateProduct = productModel.findByIdAndUpdate(productId,{
@@ -3098,10 +3110,51 @@ router.post('/update',edit_upload,function(req,res,next){
                      });       
                 });
              });
+        }else if(doc.category_id.category_name == 'Stationary'){
+            
+            var updateProduct = productModel.findByIdAndUpdate(productId,{
+                book_type : null,
+                product_image : productImage,
+                product_description : productDescription,
+                category_id : category_id,
+                subcategory_id : subcategory_id,
+                product_name : productName,
+                product_price : productPrice,
+                product_stock : productStock,
+                ebook_id : null,
+                slug : slugname,
+                status : status,
+            });
+
+                     
+           updateProduct.exec(function(err,doc){
+            var removeArray = subcategoryModel.update({_id:doc.subcategory_id}, { $pull: { products : { $in : doc._id} }})
+            subcategoryModel.findOne({_id:subcategory_id},function(error,subcategoriesData){
+                if(subcategoriesData){
+                     subcategoriesData.products.push(productId);
+                     subcategoriesData.save();
+                }
+             });
+
+          
+            
+
+            removeArray.exec(function(err1,doc1){
+                 updateFlashSale.exec(function(err2,doc2){
+                    updateSpecialOffer.exec(function(err3,doc3){
+                        updateBulkOffer.exec(function(err4,doc4){
+                            updateProductFlashSale.exec(function(err5,doc5){
+                                
+                                req.flash('success','Product Updated Succesfully. Thank you!!!');
+                                res.redirect('/product/index');
+                            });
+                        });  
+                     });     
+                 });
+                });                
+         });
         }
-    
-    
-        })
+        });
     }
     //End If there is no Flash sale
 });

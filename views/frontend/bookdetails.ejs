@@ -28,7 +28,10 @@
      <ol class="breadcrumb" >
             <li class="breadcrumb-item"><a href="">Home</a></li>
             <li class="breadcrumb-item "><a href="">Books</a></li>
-             <li class="breadcrumb-item active"><a href="">Binod Chaudary</a></li>
+             <li class="breadcrumb-item active"><a href="">
+              <% if(bookDetails.book_attribute.length > 0){ %> 
+              <%= bookDetails.book_attribute[0].author_name %></a></li>
+              <% } %>
           </ol>
 </div>
  
@@ -39,97 +42,166 @@
     <div class="col-md-5">
       <div class="image-description">
       <div class="product-image">
-            <img class="mainImage block__pic"  src="frontend_images/blogs/book.jpg"    alt="" style="width: 100%;height: 375px;">
-      </div>
+        <% if(bookDetails.product_image){ %>
+            <img class="mainImage block__pic"  src="../images/backend/products/<%= bookDetails.product_image %>"    alt=""  style="width: 100%;height: 375px;">
+          <% } %>
+          </div>
       <div class="product-carousel">
-         <div id="oc-images" class="owl-carousel image-carousel carousel-widget" data-margin="20" data-nav="true" data-pagi="false" data-items-xs="2" data-items-sm="3" data-items-lg="4" data-items-xl="4" data-speed="400" data-loop="false" >
-              <div class="oc-item">
-                   <div class="new-arrival-books">
-                        <img class="changeImage" src="frontend_images/books/palpasa_cafe_nepali_frontcover-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 150px;">
-                    </div>
-              </div>
 
-              <div class="oc-item">
-                   <div class="new-arrival-books">
-                        <img class="changeImage" src="frontend_images/books/_Sambandhaharu_By_Vijay_Kumar-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 150px;"> 
-                    </div>
+        
+     
+
+         <div id="oc-images" class="owl-carousel image-carousel carousel-widget" data-margin="20" data-nav="true" data-pagi="false" data-items-xs="2" data-items-sm="3" data-items-lg="4" data-items-xl="4" data-speed="400" data-loop="false" >
+          <% if(bookDetails.product_image){ %>
+            <div class="oc-item">
+              <div class="new-arrival-books">
+                  <img class="changeImage" src="../images/backend/products/<%= bookDetails.product_image %>" alt="" style="width: 100%;height: 150px;">
               </div>
+            </div> 
+          <% } %>
+          <% if(bookDetails.images.length > 0){ %>
+          <% bookDetails.images.forEach(function(data){ %>
               <div class="oc-item">
-                   <div class="new-arrival-books">
-                        <img class="changeImage" src="frontend_images/books/9789937905831-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 150px;">       
-                      </div>
+                <div class="new-arrival-books">
+                    <img class="changeImage" src="../images/backend/products/product_images/<%= data.productImage %>" alt="" style="width: 100%;height: 150px;">
+                </div>
               </div>
-              <div class="oc-item">
-                   <div class="new-arrival-books">
-                        <img class="changeImage" src="frontend_images/books/Arthat_Arthatantra_-_Sujeev_Shakya_-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 150px;">       
-                      </div>
-              </div>
+          <% }) %>
+          <% } %>
 </div>
+
       </div>
       </div>
     </div>
-    <div class="col-md-7">
+    <div class="col-md-7" >
       <div class="product-details" style="padding-left: 10px;">
         <div class="product-title">
-            <h3>Binod Chaudary</h3>
-            <h4>विनोद चौधरी : आत्मकथा</h4>
-             <h5 class="by">By : Binod Chaudary</h5>
+            <h3><%= bookDetails.product_name %> <% if(bookDetails.book_attribute.length > 0){ %> 
+              - <%= bookDetails.book_attribute[0].author_name %>
+              <% } %></h3>
+            <span style="color: #1b9b49;">
+                <i class="icon-star"></i>
+                <i class="icon-star"></i>
+                <i class="icon-star"></i>
+                <i class="icon-star"></i>
+                <i class="icon-star1"></i>            
+            </span>
+            <div style="text-align: right;">
+              <button type="" class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #a21476;color: white;border-color:#a21476;padding: 5px 10px;border-radius:0px;" data-toggle="tooltip" title="Add to wishlist"><i class="icon-heart1"></i></button>
+                  </div>
+        <hr>
+             <!-- <% if(bookDetails.book_attribute.length > 0){ %>  <h5 class="by">By :
+              <%= bookDetails.book_attribute[0].author_name %></h5>
+              <% } %> -->
+             
         </div>
      
         <div class="product-addtocart row">
-          <div class="col-md-6">
-            <div class="buybook">
-                <h4 style="margin-bottom: 5px;font-size: 25px;">E-Book</h4>
-                <h3 style="margin-bottom: 15px;font-family: auto;">Rs 1000</h3>
-                <div  class="row" style="margin: auto;">
-                  <div class="quantity clearfix">
-<input type="button" value="-" class="minus">
-<input type="text" step="1" min="1" name="quantity" value="1" title="Qty" class="qty" size="4">
-<input type="button" value="+" class="plus">
-</div>
-                  <button type="" class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #145ba2;color: white;border-color:#145ba2;padding: 5px 10px;border-radius:0px; "><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</button>
-                </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-       <div class="buybook">
-                <h4 style="margin-bottom: 5px;font-size: 25px;">Hardcover</h4>
-                <h3 style="margin-bottom: 15px;font-family: auto;">Rs 500</h3>
-                <div  class="row" style="margin: auto;">
-                  <div class="quantity clearfix">
-<input type="button" value="-" class="minus">
-<input type="text" step="1" min="1" name="quantity" value="1" title="Qty" class="qty" size="4">
-<input type="button" value="+" class="plus">
-</div>
-                  <button type="" class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #145ba2;color: white;border-color:#145ba2;padding: 5px 10px;border-radius:0px; "><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</button>
-                </div>
-            </div>
 
-           
-          </div> 
+      <% if(bookDetails.book_type == 'paperbook' || bookDetails.book_type == 'both'){ %>
+        <div class="col-md-6">
+          <div class="col-md-12">
+            <h4 style="margin-bottom: 5px;font-size: 25px; text-transform: uppercase;">Paperbook</h4>
+  
+              <h3>Price: <span class="text-danger">Rs <%= bookDetails.product_price %></span></h3>
+          </div>
+              <div  class="col-md-12">
+                  <div class="quantity clearfix">
+                    <input type="button" value="-" class="minus">
+                    <input type="text" step="1" min="1" name="quantity" value="1" title="Qty" class="qty" size="4">
+                    <input type="button" value="+" class="plus">
+                  </div>
+                  <h5>Availability: <span>3 items left.</span></h5>
+    
+                </div>
+              <div class="col-md-12">
+                <button type="" class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #145ba2;color: white;border-color:#145ba2;padding: 5px 10px;border-radius:0px; "><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</button>
+              </div>
+        </div>
+
+<% } %>
+
+<% if(bookDetails.book_type == 'ebook' || bookDetails.book_type == 'both'){ %>
+  <div class="col-md-6" >
+
+    <div class="col-md-12">
+    <h4 style="margin-bottom: 5px;font-size: 25px; text-transform: uppercase;">E-Book</h4>
+        <h3>Price: <span class="text-danger">Rs <%= bookDetails.ebook_id.ebook_price %></span></h3>
+    </div>
+        <div  class="col-md-12">
+            <div class="quantity clearfix">
+              <input type="button" value="-" class="minus">
+              <input type="text" step="1" min="1" name="quantity" value="1" title="Qty" class="qty" size="4">
+              <input type="button" value="+" class="plus">
+            </div>
+          <h5>Availability: <span>3 items left.</span></h5>
+
+          </div>
+        <div class="col-md-12">
+
+          <button type="" class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #145ba2;color: white;border-color:#145ba2;padding: 5px 10px;border-radius:0px; "><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</button>
+        </div>
+  </div>
+
+
+          <!-- <div class="col-md-6">
+       <div class="buybook">
+                <h4 style="margin-bottom: 5px;font-size: 25px;">E-Book</h4>
+                <h3 style="margin-bottom: 15px;font-family: auto;">Rs <%= bookDetails.ebook_id.ebook_price %></h3>
+                <div  class="row" style="margin: auto;">
+                  <div class="quantity clearfix">
+<input type="button" value="-" class="minus">
+<input type="text" step="1" min="1" name="quantity" value="1" title="Qty" class="qty" size="4">
+<input type="button" value="+" class="plus">
+</div>
+                  <button type="" class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #145ba2;color: white;border-color:#145ba2;padding: 5px 10px;border-radius:0px; "><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</button>
+                </div>
+            </div>
+          </div> -->
+          <% } %>  
         </div>
          <div class="description">
               <h4>Description</h4>
-              <table style="width: 80%">
+              <table style="width: 80%;line-height: 1.7;">
                 <tr>
                   <td style="font-weight: bold;font-size: 17px;">Publisher:</td>
-                  <td style="    font-size: 15px;">Nepalaya</td>
+                  <td style="    font-size: 15px;">
+                    <% if(bookDetails.book_attribute.length > 0){ %>
+                    <%= bookDetails.book_attribute[0].publication %>
+                    <% } %>
+                  </td>
                 </tr>
                  <tr>
                   <td style="font-weight: bold;font-size: 17px;">Genre:</td>
-                  <td style="    font-size: 15px;">Autobiography</td>
+                  <td style="    font-size: 15px;">
+                    <% if(bookDetails.book_attribute.length > 0){ %>
+                    <%= bookDetails.subcategory_id.subcategory_name %>
+                    <% } %>
+                  </td>
                 </tr>
                   <tr>
                   <td style="font-weight: bold;font-size: 17px;">Language:  </td>
-                  <td style="    font-size: 15px;">Nepali</td>
+                  <td style="    font-size: 15px;">
+                    <% if(bookDetails.book_attribute.length > 0){ %>
+                    <%= bookDetails.book_attribute[0].language %>
+                    <% } %>
+                  </td>
                 </tr>
                    <tr>
                   <td style="font-weight: bold;font-size: 17px;">Published:  </td>
-                  <td style="    font-size: 15px;">2013</td>
+                  <td style="    font-size: 15px;">
+                    <% if(bookDetails.book_attribute.length > 0){ %>
+                    <%= bookDetails.book_attribute[0].published_year %>
+                    <% } %>
+                  </td>
                 </tr>
                     <tr>
-                  <td style="font-weight: bold;font-size: 17px;">Edition:  </td>
-                  <td style="    font-size: 15px;">1st</td>
+                  <td style="font-weight: bold;font-size: 17px;">Total Pages:  </td>
+                  <td style="    font-size: 15px;">
+                    <% if(bookDetails.book_attribute.length > 0){ %>
+                    <%= bookDetails.book_attribute[0].total_pages %>
+                    <% } %>
+                  </td>
                 </tr>
               </table>
 
@@ -139,13 +211,8 @@
    </div>
    <hr>
    <div class="aboutthebook">
-     <h2>About the book</h2>
-     <p style="font-size: 16px;color: grey;">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-     consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-     cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-     proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+     <h2>Book Details</h2>
+     <p style="font-size: 16px;color: #616161;line-height: 1.8;"><%= bookDetails.product_description %></p>
    </div>
 
  </div> 
@@ -169,10 +236,10 @@
  <div id="oc-images" class="owl-carousel image-carousel carousel-widget" data-margin="20" data-nav="true" data-pagi="false" data-items-xs="2" data-items-sm="3" data-items-lg="4" data-items-xl="5" data-speed="400">
 <div class="oc-item">
      <div class="new-arrival-books">
-          <img src="frontend_images/books/9789937905831-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
+          <img src="../frontend_images/books/9789937905831-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
            <div class="new-arrival-books-desc">
            
-            <h4>विनोद चौधरी</h4>
+            <h4><विनोद चौधरी></h4>
              <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
             <div class="price-box">
                  <h4>Rs. 1100</h4>
@@ -186,7 +253,7 @@
 </div>
 <div class="oc-item">
         <div class="new-arrival-books">
-          <img src="frontend_images/books/Tyes_Bakhat_ko_Nepal_-_Part_1_to_5_-_Bhim_Bahadur_Pandey-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
+          <img src="../frontend_images/books/Tyes_Bakhat_ko_Nepal_-_Part_1_to_5_-_Bhim_Bahadur_Pandey-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
           <div class="new-arrival-books-desc">
           <h4>त्यस बखतको नेपाल</h4>
              <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
@@ -203,7 +270,7 @@
 </div>
 <div class="oc-item">
      <div class="new-arrival-books">
-          <img src="frontend_images/books/Durbarko_Dukhanta-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
+          <img src="../frontend_images/books/Durbarko_Dukhanta-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
            <div class="new-arrival-books-desc">
            
             <h4>दरबारको दुःखान्त</h4>
@@ -220,7 +287,7 @@
 </div>
 <div class="oc-item">
       <div class="new-arrival-books">
-          <img src="frontend_images/books/_Sambandhaharu_By_Vijay_Kumar-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
+          <img src="../frontend_images/books/_Sambandhaharu_By_Vijay_Kumar-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
            <div class="new-arrival-books-desc">
           <!--    <span>Auther: Rozen Awale</span> -->
             <h4>सम्बन्धहरु</h4>
@@ -255,7 +322,7 @@
 </div>
 <div class="oc-item">
      <div class="new-arrival-books">
-          <img src="frontend_images/books/Atikramanko_Chapetama_Limpiyadhura_Lipulek_by_Ratan_Bhandari_-_front-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
+          <img src="../frontend_images/books/Atikramanko_Chapetama_Limpiyadhura_Lipulek_by_Ratan_Bhandari_-_front-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
            <div class="new-arrival-books-desc">
            
             <h4>अतिक्रमणको चपेटामा लिम्पियाधुरा-लिपुलेक</h4>
@@ -272,7 +339,7 @@
 </div>
 <div class="oc-item">
      <div class="new-arrival-books">
-          <img src="frontend_images/books/Ranahar-front-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
+          <img src="../frontend_images/books/Ranahar-front-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
            <div class="new-arrival-books-desc">
            
             <h4>रणहार</h4>
@@ -289,7 +356,7 @@
 </div>
 <div class="oc-item">
           <div class="new-arrival-books">
-          <img src="frontend_images/books/Kumari_Prashnaharu_by_Durga_Karki_-_front-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
+          <img src="../frontend_images/books/Kumari_Prashnaharu_by_Durga_Karki_-_front-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
            <div class="new-arrival-books-desc">
             <h4>कुमारी प्रश्नहरु</h4>
                 <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
@@ -314,7 +381,7 @@
                <div class="col-lg-3 col-md-3">
                   <h4 class="mb-5 mt-0" style="margin-bottom: 2rem !important;"><a class="logo" href="index.html">
                      <div>
-                         <img src="frontend_images/logo.jpg" alt="gharjaggasansar logo" style="background-color: white;padding: 12px 22px;">
+                         <img src="../frontend_images/logo.jpg" alt="gharjaggasansar logo" style="background-color: white;padding: 12px 22px;">
                      </div>
                   
                 </a></h4>
@@ -370,11 +437,11 @@
                   </div>
                   <div class="footer-payment-icon">
                      <h6 class="mb-4">We Accept</h6>
-                     <img src="frontend_images/footer/esewa.jpg" alt="" width="80px" height="50px">
-                       <img src="frontend_images/footer/cod.jpg" alt="" width="80px" height="50px">
-                        <img src="frontend_images/footer/visa.png" alt="" width="80px" height="50px">
-                         <img src="frontend_images/footer/khalti.png" alt="" width="80px" height="50px">
-                         <img src="frontend_images/footer/phonepay.jpg" alt="" width="80px" height="50px">
+                     <img src="../frontend_images/footer/esewa.jpg" alt="" width="80px" height="50px">
+                       <img src="../frontend_images/footer/cod.jpg" alt="" width="80px" height="50px">
+                        <img src="../frontend_images/footer/visa.png" alt="" width="80px" height="50px">
+                         <img src="../frontend_images/footer/khalti.png" alt="" width="80px" height="50px">
+                         <img src="../frontend_images/footer/phonepay.jpg" alt="" width="80px" height="50px">
                   </div>
                </div>
             </div>
@@ -398,8 +465,8 @@
 <!-- <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script> -->
 
 
-    <script src="frontend_js/zoomsl.js"></script>
-    <script src="frontend_js/script.js"></script>
+    <script src="../frontend_js/zoomsl.js"></script>
+    <script src="../frontend_js/script.js"></script>
 
 <script type="text/javascript">
   $(document).ready(function(){

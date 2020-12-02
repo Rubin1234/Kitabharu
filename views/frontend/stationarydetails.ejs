@@ -1,0 +1,420 @@
+<html dir="ltr" lang="en-US">
+    <%- include('../layouts/frontend/head') %>
+    <body class="stretched">
+        <div id="wrapper" class="clearfix">
+            <%- include('../layouts/frontend/top-header') %>
+            <header id="header" class="sticky-style-2">
+                <%- include('../layouts/frontend/mid-header') %>
+                <%- include('../layouts/frontend/menu') %>
+            </header>
+
+<div class="banner">
+   <div class="overlay"></div>
+  <div class="inner-banner container">
+     
+      <div class="inner-banner-title">
+           <h4>Our Book</h4>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="">Home</a></li>
+            <li class="breadcrumb-item"><a href="">Books</a></li>
+            <li class="breadcrumb-item active"><a href="">Book Details</a></li>
+          </ol>
+      </div>
+     
+  </div>
+</div>
+
+<div class="listing container mt-4 mb-4">
+     <ol class="breadcrumb" >
+            <li class="breadcrumb-item"><a href="">Home</a></li>
+            <li class="breadcrumb-item "><a href="">Stationary</a></li>
+            <li class="breadcrumb-item active"><a href="">
+                <% if(stationaryDetails.stationary_attribute.length > 0){ %> 
+                <%= stationaryDetails.product_name %></a></li>
+                <% } %>
+          </ol>
+</div>
+ 
+
+<section class="section" style="padding: 15px 0px;">
+ <div class="container detailpage">
+   <div class="row">
+    <div class="col-md-5">
+        <div class="image-description">
+            <div class="product-image">
+              <% if(stationaryDetails.product_image){ %>
+                  <img class="mainImage block__pic"  src="../images/backend/products/<%= stationaryDetails.product_image %>"    alt=""  style="width: 100%;height: 375px;">
+                <% } %>
+                </div>
+            <div class="product-carousel">
+      
+              
+           
+      
+               <div id="oc-images" class="owl-carousel image-carousel carousel-widget" data-margin="20" data-nav="true" data-pagi="false" data-items-xs="2" data-items-sm="3" data-items-lg="4" data-items-xl="4" data-speed="400" data-loop="false" >
+                <% if(stationaryDetails.product_image){ %>
+                  <div class="oc-item">
+                    <div class="new-arrival-books">
+                        <img class="changeImage" src="../images/backend/products/<%= stationaryDetails.product_image %>" alt="" style="width: 100%;height: 150px;">
+                    </div>
+                  </div> 
+                <% } %>
+                <% if(stationaryDetails.images.length > 0){ %>
+                <% stationaryDetails.images.forEach(function(data){ %>
+                    <div class="oc-item">
+                      <div class="new-arrival-books">
+                          <img class="changeImage" src="../images/backend/products/product_images/<%= data.productImage %>" alt="" style="width: 100%;height: 150px;">
+                      </div>
+                    </div>
+                <% }) %>
+                <% } %>
+      </div>
+      
+            </div>
+            </div>
+    </div>
+    <div class="col-md-7">
+      <div class="product-details" style="padding-left: 10px;">
+        <div class="product-title">
+            <h2 style="margin-bottom: 0px;"><%= stationaryDetails.product_name %></h2>
+        
+            <span style="color: #1b9b49;">
+                <i class="icon-star"></i>
+                <i class="icon-star"></i>
+                <i class="icon-star"></i>
+                <i class="icon-star1"></i>
+                <i class="icon-star1"></i>            
+            </span>
+            <div style="text-align: right;">
+                <button type="" class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #a21476;color: white;border-color:#a21476;padding: 5px 10px;border-radius:0px;" data-toggle="tooltip" title="Add to wishlist"><i class="icon-heart1"></i></button>
+                    </div>
+            
+        <hr>
+        </div>
+     
+        <div class="product-addtocart row">
+            <div class="col-md-12">
+            <h3>Price: <span class="text-danger">Rs <%= stationaryDetails.product_price %></span></h3>
+        </div>
+            <div  class="col-md-6">
+                <div class="quantity clearfix">
+<input type="button" value="-" class="minus">
+<input type="text" step="1" min="1" name="quantity" value="1" title="Qty" class="qty" size="4">
+<input type="button" value="+" class="plus">
+</div>
+
+              </div>
+            <div class="col-md-6">
+                <h5>Availability: <span>3 items left.</span></h5>
+            </div>
+            <div class="col-md-12 mt-3">
+                <button type="" class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #145ba2;color: white;border-color:#145ba2;padding: 5px 10px;border-radius:0px; "><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</button>
+            </div>
+
+
+
+
+            <!-- <div class="col-md-6">
+                <div class="buybook">
+                         <div  class="row" style="margin: auto;">
+                           <div class="quantity clearfix">
+         <input type="button" value="-" class="minus">
+         <input type="text" step="1" min="1" name="quantity" value="1" title="Qty" class="qty" size="4">
+         <input type="button" value="+" class="plus">
+         </div>
+                           <button type="" class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #145ba2;color: white;border-color:#145ba2;padding: 5px 10px;border-radius:0px; "><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</button>
+                         </div>
+                     </div>
+         
+                    
+                   </div>  -->
+
+        </div>
+         <div class="description">
+              <h4>Description</h4>
+              <table style="width: 80%">
+                <tr>
+                  <td style="font-weight: bold;font-size: 17px;">Manufacturer:</td>
+                  <td style="font-size: 15px;"><%= stationaryDetails.stationary_attribute[0].manufacturer_name %></td>
+                </tr>
+              </table>
+              
+              
+            </div>
+      </div>
+    </div>
+   </div>
+   <hr>
+   <div class="aboutthebook">
+    <h2>Details of <%= stationaryDetails.product_name %></h2>
+
+    <p style="font-size: 16px;color: grey;"><%= stationaryDetails.product_description %></p>
+           
+   </div>
+
+ </div> 
+</section>
+
+
+<section class="section">
+  <div class="container">
+
+      <div class="section-inner">
+      <div class="section-title">
+        <h3>Other Books</h3>
+      </div>
+      <div class="section-viewall">
+            <button class="btn btn-success">View All</button> 
+      </div>
+     
+    </div>
+
+
+ <div id="oc-images" class="owl-carousel image-carousel carousel-widget" data-margin="20" data-nav="true" data-pagi="false" data-items-xs="2" data-items-sm="3" data-items-lg="4" data-items-xl="5" data-speed="400">
+<div class="oc-item">
+     <div class="new-arrival-books">
+          <img src="../frontend_images/books/9789937905831-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
+           <div class="new-arrival-books-desc">
+           
+            <h4>विनोद चौधरी</h4>
+             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
+            <div class="price-box">
+                 <h4>Rs. 1100</h4>
+            </div>
+          </div>
+               <div class="view-book">
+            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
+            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
+          </div>
+        </div>
+</div>
+<div class="oc-item">
+        <div class="new-arrival-books">
+          <img src="../frontend_images/books/Tyes_Bakhat_ko_Nepal_-_Part_1_to_5_-_Bhim_Bahadur_Pandey-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
+          <div class="new-arrival-books-desc">
+          <h4>त्यस बखतको नेपाल</h4>
+             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
+            <div class="price-box">
+
+                 <h4>Rs. 1100</h4>
+            </div> 
+          </div>
+          <div class="view-book">
+            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
+            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
+          </div>
+        </div>
+</div>
+<div class="oc-item">
+     <div class="new-arrival-books">
+          <img src="../frontend_images/books/Durbarko_Dukhanta-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
+           <div class="new-arrival-books-desc">
+           
+            <h4>दरबारको दुःखान्त</h4>
+             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
+            <div class="price-box">
+                 <h4>Rs. 1100</h4>
+            </div>
+          </div>
+               <div class="view-book">
+            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
+            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
+          </div>
+        </div>
+</div>
+<div class="oc-item">
+      <div class="new-arrival-books">
+          <img src="../frontend_images/books/_Sambandhaharu_By_Vijay_Kumar-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
+           <div class="new-arrival-books-desc">
+          <!--    <span>Auther: Rozen Awale</span> -->
+            <h4>सम्बन्धहरु</h4>
+            <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
+            <div class="price-box">
+                 <h4>Rs. 1500</h4>
+            </div>
+          </div>
+
+
+           <div class="view-book">
+            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
+            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
+          </div>
+        </div>
+</div>
+<div class="oc-item">
+        <div class="new-arrival-books">
+          <img src="https://cdn.shopify.com/s/files/1/0359/5979/9852/products/shop-new-40_grande.jpg?v=1587119146" alt="" style="width: 100%;height: 235px;">
+           <div class="new-arrival-books-desc">
+            <h4>The Stage By Cabin</h4>
+                <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
+            <div class="price-box">
+                 <h4>Rs. 1500</h4>
+            </div>
+          </div>
+           <div class="view-book">
+            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
+            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
+          </div>
+        </div>
+</div>
+<div class="oc-item">
+     <div class="new-arrival-books">
+          <img src="../frontend_images/books/Atikramanko_Chapetama_Limpiyadhura_Lipulek_by_Ratan_Bhandari_-_front-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
+           <div class="new-arrival-books-desc">
+           
+            <h4>अतिक्रमणको चपेटामा लिम्पियाधुरा-लिपुलेक</h4>
+             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
+            <div class="price-box">
+                 <h4>Rs. 1100</h4>
+            </div>
+          </div>
+               <div class="view-book">
+            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
+            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
+          </div>
+        </div>
+</div>
+<div class="oc-item">
+     <div class="new-arrival-books">
+          <img src="../frontend_images/books/Ranahar-front-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
+           <div class="new-arrival-books-desc">
+           
+            <h4>रणहार</h4>
+             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
+            <div class="price-box">
+                 <h4>Rs. 1100</h4>
+            </div>
+          </div>
+               <div class="view-book">
+            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
+            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
+          </div>
+        </div>
+</div>
+<div class="oc-item">
+          <div class="new-arrival-books">
+          <img src="../frontend_images/books/Kumari_Prashnaharu_by_Durga_Karki_-_front-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
+           <div class="new-arrival-books-desc">
+            <h4>कुमारी प्रश्नहरु</h4>
+                <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
+            <div class="price-box">
+                 <h4>Rs. 1500</h4>
+            </div>
+          </div>
+           <div class="view-book">
+            <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button>
+            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
+          </div>
+        </div>
+</div>
+</div>
+  </div>
+</section>
+
+
+    <section class="section-padding footer" style="padding: 70px 0px">
+         <div class="container">
+            <div class="row">
+               <div class="col-lg-3 col-md-3">
+                  <h4 class="mb-5 mt-0" style="margin-bottom: 2rem !important;"><a class="logo" href="index.html">
+                     <div>
+                         <img src="../frontend_images/logo.jpg" alt="gharjaggasansar logo" style="background-color: white;padding: 12px 22px;">
+                     </div>
+                  
+                </a></h4>
+                <!--   <p>, Lalitpur<br>Waedll Steet, Australia PA 6550</p> -->
+                <div class="footer-contact">
+                   <p class="mb-0"><a class="" href="#" style="color: white;"><i class="icon-location"></i> Lagankhel, Lalitpur</a></p>
+                  <p class="mb-0"><a class="" href="#" style="color: white;"><i class="icon-phone3"></i> +977985-1075401</a></p>
+                  <p class="mb-0"><a class="" href="#" style="color: white;"><i class="icon-line-mail"></i> rubinawale10@gmail.com</a></p>
+                  <p class="mb-0"><a class="" href="#" style="color: white;"><i class="icon-world"></i> www.kitabharu.com</a></p> 
+                </div>
+               
+
+     
+               </div>
+               <div class="col-lg-2 col-md-2">
+                  <h6 class="mb-4">OUR PROPERTIES</h6>
+                  <ul>
+                  <li><a href="#"><i class="icon-arrow-right1"></i> Popular Listing</a></li>
+                  <li><a href="#"><i class="icon-arrow-right1"></i> Basic Listing</a></li>
+              
+                  </ul>
+               </div>
+               <div class="col-lg-2 col-md-2">
+                  <h6 class="mb-4">QUICK LINKS</h6>
+                  <ul>
+                  <li><a href="#"><i class="icon-arrow-right1"></i> About Us</a></li>
+                  <li><a href="#"><i class="icon-arrow-right1"></i> Our Services</a></li>
+                  <li><a href="#"><i class="icon-arrow-right1"></i> Contact Us</a></li>
+               <!--    <li><a href="#"><i class="mdi mdi-arrow-right"></i> Land / Plots</a></li>
+                  <li><a href="#"><i class="mdi mdi-arrow-right"></i> Restaurent</a></li> -->
+                  </ul>
+               </div>
+               <div class="col-lg-2 col-md-2">
+                  <h6 class="mb-4">Follow Us On</h6>
+                  <ul>
+                  <li><a href="#"><i class="icon-facebook-f"></i> Facebook</a></li>
+                  <li><a href="#"><i class="icon-twitter2"></i> Twitter</a></li>
+                  <li><a href="#"><i class="icon-linkedin2"></i> LinkedIn</a></li>
+                  <li><a href="#"><i class="icon-youtube"></i> Youtube</a></li>
+                  </ul>
+               </div>
+               <div class="col-lg-3 col-md-3">
+                <div class="footer-newsletter">
+                  <h6 class="mb-4">NEWSLETTER</h6>
+                  <div class="input-group">
+                     <input type="text" class="form-control" placeholder="Email Address">
+                     <div class="input-group-append">
+                        <button class="btn btn-secondary" type="button" style="background-color: #f3cd11;
+    border-color: #f3cd11;"><i class="icon-email2" ></i></button>
+                     </div>
+                  </div>
+                  <p class="text-info newsletter-info">Get the most recent updates from our site and be updated your self...</p>
+                  </div>
+                  <div class="footer-payment-icon">
+                     <h6 class="mb-4">We Accept</h6>
+                     <img src="../frontend_images/footer/esewa.jpg" alt="" width="80px" height="50px">
+                       <img src="../frontend_images/footer/cod.jpg" alt="" width="80px" height="50px">
+                        <img src="../frontend_images/footer/visa.png" alt="" width="80px" height="50px">
+                         <img src="../frontend_images/footer/khalti.png" alt="" width="80px" height="50px">
+                         <img src="../frontend_images/footer/phonepay.jpg" alt="" width="80px" height="50px">
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- End Footer -->
+      <!-- Copyright -->
+      <div class=" text-center footer-bottom" >
+         <p class="mt-0 mb-0">&copy; Copyright 2020 <strong style="color: #d14031">Smart Innovation</strong>. All Rights Reserved</p>
+     <!--     <small class="mt-0 mb-0">
+         Made with <i class="mdi mdi-heart text-danger"></i> by <a target="_blank" href="https://giftechies.com/" class="text-warning">Giftechies</a>
+         </small> -->
+      </div>
+
+
+
+</div>
+
+<%- include('../layouts/frontend/script') %>
+<!-- <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script> -->
+
+    <script src="../frontend_js/zoomsl.js"></script>
+    <script src="../frontend_js/script.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+     $('.changeImage').click(function(){
+         var img = $(this).attr('src');
+      $('.mainImage').attr('src',img);
+  });
+
+  });
+ 
+</script>
+</body>
+
+<!-- Mirrored from themes.semicolonweb.com/html/canvas/menu-7.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 11 Jan 2020 08:25:24 GMT -->
+</html>

@@ -15,7 +15,8 @@ var brandModel = require('../../modules/brand');
 var bookAttributesModel = require('../../modules/bookAttributes'); 
 var productImagesModel = require('../../modules/product_images'); 
 const util = require('util');
-const productModel = require('../../modules/product');
+var ModelProduct = require('../../modules/product'); 
+var stationaryAttributesModel = require('../../modules/stationaryAttributes'); 
 const subCategoryModel = require('../../modules/subcategories');
 const { populate, db } = require('../../modules/categories');
 
@@ -23,10 +24,26 @@ const { populate, db } = require('../../modules/categories');
 
 
   router.get('/', function(req, res, next) {
-  // var records = util.inspect(data, false, null, true /* enable colors */);
 
-  res.render('frontend/index');      
 
+    var newArrival = ModelProduct.find({book_type : ['paperbook','both','ebook']}).sort({_id:-1}).populate('book_attribute').limit(10);
+
+    var books = ModelProduct.find({book_type : ['paperbook','both','ebook']}).populate('book_attribute').limit(10);
+    //  var productModel = ModelProduct.find({book_type : ['paperbook','both']}).populate('book_attribute');
+
+    var stationaryProducts = ModelProduct.find({category_id:'5fba1b3afae27545a0334206'}).populate('book_attribute').populate('stationary_attribute').limit(10);
+
+
+    newArrival.exec(function(err,data){
+        books.exec(function(err1,data1){
+          stationaryProducts.exec(function(err2,data2){
+  
+            var records = util.inspect(data2, false, null, true /* enable colors */);
+            console.log(records);
+            res.render('frontend/index',{newArrival:data,books:data1,stationary:data2});  
+          });
+        });
+    });
   });
 
           

@@ -7,7 +7,6 @@ var logger = require('morgan');
 var app = express();
 
 
-app.set('port', process.env.PORT || 3000);
 
 //For Flash Message
 var session = require('express-session');
@@ -62,6 +61,7 @@ var publicationRouter = require('./routes/frontend/publications');
 var videosRouter = require('./routes/frontend/videos');
 var contactusRouter = require('./routes/frontend/contactus');
 var bookdetailsRouter = require('./routes/frontend/bookdetails');
+var stationarydetailsRouter = require('./routes/frontend/stationarydetails');
 var articledetailsRouter = require('./routes/frontend/articledetails');
 
 
@@ -77,6 +77,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use(bodyParser.json({ type: 'application/*+json' }))
 
@@ -105,7 +106,8 @@ app.use('/blogs', blogRouter);
 app.use('/publications', publicationRouter);
 app.use('/videos', videosRouter);
 app.use('/contactus', contactusRouter);
-app.use('/bookdetails', bookdetailsRouter);
+app.use('/', bookdetailsRouter);
+app.use('/stationarydetails', stationarydetailsRouter);
 app.use('/articledetails', articledetailsRouter);
 
 

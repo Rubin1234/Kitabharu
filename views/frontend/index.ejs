@@ -100,142 +100,31 @@
 
 
  <div id="oc-images" class="owl-carousel image-carousel carousel-widget" data-margin="20" data-nav="true" data-pagi="false" data-items-xs="1" data-items-sm="2" data-items-md="3" data-items-lg="4" data-items-xl="5" data-speed="400">
-<div class="oc-item">
-     <div class="new-arrival-books">
-          <img src="frontend_images/books/9789937905831-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-           
-            <h4>विनोद चौधरी</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-                 <h4>Rs. 1100</h4>
-            </div>
-          </div>
-               <div class="view-book">
-                <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
-        <div class="new-arrival-books">
-          <img src="frontend_images/books/Tyes_Bakhat_ko_Nepal_-_Part_1_to_5_-_Bhim_Bahadur_Pandey-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
+
+<% newArrival.forEach(function(data){ %>
+  <div class="oc-item">
+    <div class="new-arrival-books">
+         <img src="images/backend/products/<%= data.product_image %>" alt="" style="width: 100%;height: 235px;">
           <div class="new-arrival-books-desc">
-          <h4>त्यस बखतको नेपाल</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
+          
+           <h4><%= data.product_name %></h4>
+            <% if(data.book_attribute.length > 0){  %>
+            <span style="font-size: 14px;color: #8b8b8b"><%= data.book_attribute[0].author_name %></span>
+            <% }else{ %>
+              <span>&nbsp;</span>
+            <% } %>
+           <div class="price-box">
+                <h4>Rs. <%= data.product_price %></h4>
+           </div>
+         </div>
+              <div class="view-book">
+               <a href="/bookdetails/<%= data.slug %>" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
+           <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
+         </div>
+       </div>
+</div>
+<% }) %>
 
-                 <h4>Rs. 1100</h4>
-            </div> 
-          </div>
-          <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
-     <div class="new-arrival-books">
-          <img src="frontend_images/books/Durbarko_Dukhanta-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-           
-            <h4>दरबारको दुःखान्त</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-                 <h4>Rs. 1100</h4>
-            </div>
-          </div>
-               <div class="view-book">
-                <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
-      <div class="new-arrival-books">
-          <img src="frontend_images/books/_Sambandhaharu_By_Vijay_Kumar-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-          <!--    <span>Auther: Rozen Awale</span> -->
-            <h4>सम्बन्धहरु</h4>
-            <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-
-
-           <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
-        <div class="new-arrival-books">
-          <img src="https://cdn.shopify.com/s/files/1/0359/5979/9852/products/shop-new-40_grande.jpg?v=1587119146" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-            <h4>The Stage By Cabin</h4>
-                <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-           <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
-     <div class="new-arrival-books">
-          <img src="frontend_images/books/Atikramanko_Chapetama_Limpiyadhura_Lipulek_by_Ratan_Bhandari_-_front-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-           
-            <h4>अतिक्रमणको चपेटामा लिम्पियाधुरा-लिपुलेक</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-                 <h4>Rs. 1100</h4>
-            </div>
-          </div>
-               <div class="view-book">
-                <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
-     <div class="new-arrival-books">
-          <img src="frontend_images/books/Ranahar-front-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-           
-            <h4>रणहार</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-                 <h4>Rs. 1100</h4>
-            </div>
-          </div>
-               <div class="view-book">
-                <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
-          <div class="new-arrival-books">
-          <img src="frontend_images/books/Kumari_Prashnaharu_by_Durga_Karki_-_front-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-            <h4>कुमारी प्रश्नहरु</h4>
-                <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-           <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
 </div>
   </div>
 </section>
@@ -275,7 +164,7 @@
 
       <div class="section-inner">
       <div class="section-title">
-        <h3>Featured Products</h3>
+        <h3>Our Books</h3>
       </div>
       <div class="section-viewall">
             <button class="btn btn-success">View All</button> 
@@ -285,142 +174,30 @@
 
 
  <div id="oc-images" class="owl-carousel image-carousel carousel-widget" data-margin="20" data-nav="true" data-pagi="false" data-items-xs="1" data-items-sm="2" data-items-md="3" data-items-lg="4" data-items-xl="5" data-speed="400">
-<div class="oc-item">
-     <div class="new-arrival-books">
-          <img src="frontend_images/books/palpasa_cafe_nepali_frontcover-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-           
-            <h4>पल्पसा क्याफे</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-                 <h4>Rs. 1100</h4>
-            </div>
-          </div>
-               <div class="view-book">
-                <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
-        <div class="new-arrival-books">
-          <img src="frontend_images/books/Sanduk_Ruit_by_Ali_Gripper_-_Khagendra_Sangraula_-_Nepali-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-          <div class="new-arrival-books-desc">
-          <h4>सन्दुक रूइत</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-
-                 <h4>Rs. 1100</h4>
-            </div> 
-          </div>
-          <div class="view-book">
-            <      <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
-     <div class="new-arrival-books">
-          <img src="frontend_images/books/9789937874021-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-           
-            <h4>फोसिल</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-                 <h4>Rs. 1100</h4>
-            </div>
-          </div>
-               <div class="view-book">
-                <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
+  <% books.forEach(function(data){ %>
+    <div class="oc-item">
       <div class="new-arrival-books">
-          <img src="frontend_images/books/Hajuramaka_Katha_by_Amrita_Lamsal-thumbnail-175x255-70.jpeg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-          <!--    <span>Auther: Rozen Awale</span> -->
-            <h4>हजुरआमाका कथा</h4>
-            <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
+           <img src="images/backend/products/<%= data.product_image %>" alt="" style="width: 100%;height: 235px;">
+            <div class="new-arrival-books-desc">
+            
+             <h4><%= data.product_name %></h4>
+              <% if(data.book_attribute.length > 0){  %>
+              <span style="font-size: 14px;color: #8b8b8b"><%= data.book_attribute[0].author_name %></span>
+              <% }else{ %>
+                <span>&nbsp;</span>
+              <% } %>
+             <div class="price-box">
+                  <h4>Rs. <%= data.product_price %></h4>
+             </div>
+           </div>
+                <div class="view-book">
+                 <a href="/bookdetails/<%= data.slug %>" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
+             <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
+           </div>
+         </div>
+  </div>
+  <% }) %>
 
-
-           <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
-        <div class="new-arrival-books">
-          <img src="https://cdn.shopify.com/s/files/1/0359/5979/9852/products/shop-new-40_grande.jpg?v=1587119146" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-            <h4>The Stage By Cabin</h4>
-                <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-           <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
-     <div class="new-arrival-books">
-          <img src="frontend_images/books/Durbarko_Dukhanta-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-           
-            <h4>दरबारको दुःखान्त</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-                 <h4>Rs. 1100</h4>
-            </div>
-          </div>
-               <div class="view-book">
-                <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
-     <div class="new-arrival-books">
-          <img src="https://cdn.shopify.com/s/files/1/0359/5979/9852/products/shop-new-104_grande.jpg?v=1587120877" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-           
-            <h4>Wake Me Up</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-                 <h4>Rs. 1100</h4>
-            </div>
-          </div>
-               <div class="view-book">
-                <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
-          <div class="new-arrival-books">
-          <img src="https://cdn.shopify.com/s/files/1/0359/5979/9852/products/shop-new-40_grande.jpg?v=1587119146" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-            <h4>The Stage By Cabin</h4>
-                <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-           <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
 </div>
   </div>
 </section>
@@ -443,7 +220,7 @@
   <div class="container">
     <div class="section-inner">
       <div class="section-title">
-        <h3>Featured Products</h3>
+        <h3>Our Stationary Products</h3>
       </div>
       <div class="section-viewall">
             <button class="btn btn-success">View All</button> 
@@ -452,142 +229,30 @@
     </div>
 
      <div id="oc-images" class="owl-carousel image-carousel carousel-widget" data-margin="20" data-nav="true" data-pagi="false" data-items-xs="1" data-items-sm="2" data-items-md="3" data-items-lg="4" data-items-xl="5" data-speed="400">
-<div class="oc-item">
-     <div class="new-arrival-books">
-          <img src="frontend_images/books/palpasa_cafe_nepali_frontcover-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-           
-            <h4>पल्पसा क्याफे</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-                 <h4>Rs. 1100</h4>
-            </div>
-          </div>
-               <div class="view-book">
-                <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
-        <div class="new-arrival-books">
-          <img src="frontend_images/books/Sanduk_Ruit_by_Ali_Gripper_-_Khagendra_Sangraula_-_Nepali-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-          <div class="new-arrival-books-desc">
-          <h4>सन्दुक रूइत</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-
-                 <h4>Rs. 1100</h4>
-            </div> 
-          </div>
-          <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
-     <div class="new-arrival-books">
-          <img src="frontend_images/books/9789937874021-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-           
-            <h4>फोसिल</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-                 <h4>Rs. 1100</h4>
-            </div>
-          </div>
-               <div class="view-book">
-                <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
-      <div class="new-arrival-books">
-          <img src="frontend_images/books/Hajuramaka_Katha_by_Amrita_Lamsal-thumbnail-175x255-70.jpeg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-          <!--    <span>Auther: Rozen Awale</span> -->
-            <h4>हजुरआमाका कथा</h4>
-            <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-
-
-           <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
-        <div class="new-arrival-books">
-          <img src="https://cdn.shopify.com/s/files/1/0359/5979/9852/products/shop-new-40_grande.jpg?v=1587119146" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-            <h4>The Stage By Cabin</h4>
-                <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-           <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
-     <div class="new-arrival-books">
-          <img src="frontend_images/books/Durbarko_Dukhanta-thumbnail-175x255-70.jpg" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-           
-            <h4>दरबारको दुःखान्त</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-                 <h4>Rs. 1100</h4>
-            </div>
-          </div>
-               <div class="view-book">
-                <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
-     <div class="new-arrival-books">
-          <img src="https://cdn.shopify.com/s/files/1/0359/5979/9852/products/shop-new-104_grande.jpg?v=1587120877" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-           
-            <h4>Wake Me Up</h4>
-             <span style="font-size: 14px;color: #8b8b8b">Sameer Awale</span>
-            <div class="price-box">
-                 <h4>Rs. 1100</h4>
-            </div>
-          </div>
-               <div class="view-book">
-                <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
-<div class="oc-item">
+      <% stationary.forEach(function(data){ %>
+        <div class="oc-item">
           <div class="new-arrival-books">
-          <img src="https://cdn.shopify.com/s/files/1/0359/5979/9852/products/shop-new-40_grande.jpg?v=1587119146" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-            <h4>The Stage By Cabin</h4>
-                <span style="font-size: 14px;color: #8b8b8b"> Aileen Nedd</span>
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-           <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-</div>
+               <img src="images/backend/products/<%= data.product_image %>" alt="" style="width: 100%;height: 235px;">
+                <div class="new-arrival-books-desc">
+                
+                 <h4><%= data.product_name %></h4>
+                  <% if(data.stationary_attribute.length > 0){  %>
+                  <span style="font-size: 14px;color: #8b8b8b"><%= data.stationary_attribute[0].manufacturer_name %></span>
+                  <% }else{ %>
+                    <span>&nbsp;</span>
+                  <% } %>
+                 <div class="price-box">
+                      <h4>Rs. <%= data.product_price %></h4>
+                 </div>
+               </div>
+                    <div class="view-book">
+                     <a href="stationarydetails/<%= data.slug %>" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
+                 <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
+               </div>
+             </div>
+      </div>
+      <% }) %>
+
 </div>
    
 

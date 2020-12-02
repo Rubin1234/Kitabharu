@@ -130,287 +130,31 @@
     </div>
     <div class="col-md-9">
       <div class="row book-listing-page">
-                 <div class="col-md-3">
-        <div class="new-arrival-books">
-          <img src="frontend_images/stationary/_MG_2731.jpg.png" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-          <!--    <span>Auther: Rozen Awale</span> -->
-            <h4>Scientific Calculator (NUNA-249)</h4>
-       
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-
-
-           <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
-        <div class="col-md-3">
-              <div class="new-arrival-books">
-          <img src="frontend_images/stationary/17_nbnv-xs.jpg.png" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-           
-            <h4>Arita Calculator HL-656</h4>
-      
-            <div class="price-box">
-                 <h4>Rs. 1100</h4>
-            </div>
-          </div>
-               <div class="view-book">
-                <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-          
-        </div>
-
-         <div class="col-md-3">
-          <div class="new-arrival-books">
-          <img src="frontend_images/stationary/_MG_2751.jpg.png" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-            <h4>CT-912 Electronic Calculator (NUNA-252)</h4>
-           
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-           <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
+        <% if(stationaryProducts.length > 0){ %>
+          <% stationaryProducts.forEach(function(data){ %>
             <div class="col-md-3">
-            <div class="new-arrival-books">
-          <img src="frontend_images/stationary/_MG_2750.jpg.png" alt="" style="width: 100%;height: 235px;">
-          <div class="new-arrival-books-desc">
-          <h4>Caseilo Scientific Calculator (NUNA-251)</h4>
-     
-            <div class="price-box">
-
-                 <h4>Rs. 1100</h4>
-            </div> 
-          </div>
-          <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
-         <div class="col-md-3">
               <div class="new-arrival-books">
-          <img src="frontend_images/stationary/_MG_2742.jpg.png" alt="" style="width: 100%;height: 235px;">
+          <img src="images/backend/products/<%= data.product_image %>" alt="" style="width: 100%;height: 235px;">
            <div class="new-arrival-books-desc">
            
-            <h4>Osaka Scientific Calculator fx-911W (NUNA-250)</h4>
-         
+            <h4><%= data.product_name %></h4>
+            <span style="font-size: 14px;color: #8b8b8b">
+            <% if(data.stationary_attribute.length > 0){ %>
+              <%= data.stationary_attribute[0].manufacturer_name %>
+            <% } %>
+            </span>
             <div class="price-box">
-                 <h4>Rs. 1100</h4>
+                 <h4>Rs. <%= data.product_price %></h4>
             </div>
           </div>
                <div class="view-book">
-                <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-          
-        </div>
-         <div class="col-md-3">
-        <div class="new-arrival-books">
-          <img src="frontend_images/stationary/16_lxbw-m4.jpg.png" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-          <!--    <span>Auther: Rozen Awale</span> -->
-            <h4>AnyBy DeskTop Calculator Ay-5001P</h4>
-          
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-
-
-           <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
+           <a href="stationarydetails/<%= data.slug%>" ><button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
             <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
           </div>
         </div>
         </div>
-         <div class="col-md-3">
-          <div class="new-arrival-books">
-          <img src="frontend_images/stationary/_MG_5237.jpg.png" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-            <h4>Casio Electronic Calculator (ST-0023)</h4>
-      
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-           <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
-            <div class="col-md-3">
-            <div class="new-arrival-books">
-          <img src="frontend_images/stationary/_MG_2762.jpg.png" alt="" style="width: 100%;height: 235px;">
-          <div class="new-arrival-books-desc">
-          <h4>CT-9500 Electronic Calculator (NUNA-254)</h4>
-        
-            <div class="price-box">
-
-                 <h4>Rs. 1100</h4>
-            </div> 
-          </div>
-          <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
-
-               <div class="col-md-3">
-            <div class="new-arrival-books">
-          <img src=frontend_images/stationary/_MG_5257.jpg.png alt="" style="width: 100%;height: 235px;">
-          <div class="new-arrival-books-desc">
-          <h4>Comix Electronic Calculator (ST-0032)</h4>
-      
-            <div class="price-box">
-
-                 <h4>Rs. 1100</h4>
-            </div> 
-          </div>
-          <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
-         <div class="col-md-3">
-              <div class="new-arrival-books">
-          <img src="frontend_images/stationary/15_zswm-8f.jpg.png" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-           
-            <h4>AnyBy DeskTop Calculator Ay-2056P</h4>
-          
-            <div class="price-box">
-                 <h4>Rs. 1100</h4>
-            </div>
-          </div>
-               <div class="view-book">
-                <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-          
-        </div>
-         <div class="col-md-3">
-        <div class="new-arrival-books">
-          <img src="frontend_images/stationary/Untitled-1_ri8u-ii.gif.png" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-          <!--    <span>Auther: Rozen Awale</span> -->
-            <h4>Brother P-Touch Tape (TZE-111)-6mm x 8m</h4>
-       
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-
-
-           <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
-         <div class="col-md-3">
-          <div class="new-arrival-books">
-          <img src="frontend_images/stationary/5e_wvbw-pi.jpg.png" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-            <h4>xLab A4 Glossy Photo Paper (XLGBL3-230)</h4>
-              
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-           <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
-            <div class="col-md-3">
-            <div class="new-arrival-books">
-          <img src="frontend_images/stationary/_MG_5143_kpf5-2a.jpg.png" alt="" style="width: 100%;height: 235px;">
-          <div class="new-arrival-books-desc">
-          <h4>Foska Stamp Pad (ST-0005)</h4>
-           
-            <div class="price-box">
-
-                 <h4>Rs. 1100</h4>
-            </div> 
-          </div>
-          <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
-           <div class="col-md-3">
-        <div class="new-arrival-books">
-          <img src="frontend_images/stationary/5g_9bfd-x6.jpg.png" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-          <!--    <span>Auther: Rozen Awale</span> -->
-            <h4>Xlab Label Sticker Offset Paper XLP-2515F</h4>
-      
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-
-
-           <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
-         <div class="col-md-3">
-          <div class="new-arrival-books">
-          <img src="frontend_images/stationary/_MG_7234.jpg.png" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-            <h4>Cross Century II Medalist Ballpoint Pen (INA-0127)</h4>
-         
-            <div class="price-box">
-                 <h4>Rs. 1500</h4>
-            </div>
-          </div>
-           <div class="view-book">
-            <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
-             <div class="col-md-3">
-              <div class="new-arrival-books">
-          <img src="frontend_images/stationary/38_1ug5-px.jpg.png" alt="" style="width: 100%;height: 235px;">
-           <div class="new-arrival-books-desc">
-           
-            <h4>Scotch Masking  Tape - 36mm*25m</h4>
-     
-            <div class="price-box">
-                 <h4>Rs. 1100</h4>
-            </div>
-          </div>
-               <div class="view-book">
-                <a href="bookdetails" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
-          </div>
-        </div>
-        </div>
+         <% }) %>
+        <% } %>
       </div>
       <div class="pagination">
 <ul class="pagination pagination-rounded pagination-3d pagination-lg">

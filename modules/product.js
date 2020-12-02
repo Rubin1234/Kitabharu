@@ -61,7 +61,7 @@ var productSchema = new Schema({
   
     book_attribute :[{type:Schema.Types.ObjectId, ref:'bookattributes'}],
 
-    stationary_attribute :[{type:Schema.Types.ObjectId, ref:'bookattributes'}],
+    stationary_attribute :[{type:Schema.Types.ObjectId, ref:'stationaryattributes'}],
 
     flash_sale:{type:Schema.Types.ObjectId, ref:'flash_sales'},
 

@@ -15,7 +15,7 @@ var brandModel = require('../../modules/brand');
 var bookAttributesModel = require('../../modules/bookAttributes'); 
 var productImagesModel = require('../../modules/product_images'); 
 const util = require('util');
-const productModel = require('../../modules/product');
+var ModelProduct = require('../../modules/product'); 
 const subCategoryModel = require('../../modules/subcategories');
 const { populate, db } = require('../../modules/categories');
 
@@ -24,8 +24,13 @@ const { populate, db } = require('../../modules/categories');
 
   router.get('/', function(req, res, next) {
   // var records = util.inspect(data, false, null, true /* enable colors */);
-
-  res.render('frontend/ebooks');      
+  var allEbooks = ModelProduct.find({book_type : ['ebook','both']}).populate('book_attribute');
+  allEbooks.exec(function(err,data){
+        var records = util.inspect(data, false, null, true /* enable colors */);
+      console.log(records);
+      res.render('frontend/ebooks',{allEbooks:data}); 
+    });
+      
 
   });
 

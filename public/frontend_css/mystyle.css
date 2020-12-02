@@ -707,7 +707,7 @@ label {
 
 .detailpage .product-details .product-title h3{
     font-size: 25px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 .detailpage .product-details .product-title h4{
@@ -741,6 +741,7 @@ label {
 .detailpage .description h4{
       background-color: #f3cd11;
     padding: 6px;
+    padding-left: 11px;
     color: white;
     border-radius: 4px;   
 }
