@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var timestamps = require('mongoose-timestamp');
 const { NotImplemented } = require('http-errors');
 
-mongoose.connect('mongodb+srv://mongodb:mongodb@cluster0.mcxac.mongodb.net/kitabharu?retryWrites=true&w=majority', {useNewUrlParser: true, useCreateIndex: true,useUnifiedTopology: true});
+mongoose.connect('mongodb+srv://mongodb:rubin123123@cluster0.mcxac.mongodb.net/kitabharu?retryWrites=true&w=majority', {useNewUrlParser: true, useCreateIndex: true,useUnifiedTopology: true});
 var conn = mongoose.connection;
 var Schema = mongoose.Schema; 
 
