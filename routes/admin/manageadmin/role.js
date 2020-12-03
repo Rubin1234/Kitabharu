@@ -3,10 +3,10 @@ var dateFormat = require('dateformat');
 var router = express.Router();
 
 var adminTypeModel = require('../../../modules/admintype');
-
+var sessionstorage = require('sessionstorage');
 
 router.get('/index',function(req,res,next){
-  var adminType = localStorage.getItem('adminType');
+  var adminType = sessionstorage.getItem('adminType');
     var dataAdminType = adminTypeModel.find({});
    
     dataAdminType.exec(function(err,data){
@@ -19,7 +19,7 @@ router.get('/index',function(req,res,next){
 
 
 router.get('/create',function(req,res,next){
-  var adminType = localStorage.getItem('adminType');
+  var adminType = sessionstorage.getItem('adminType');
     res.render('manageadmin/admintype/create',{adminType,title:"Add Admin Type"});
 });
 
@@ -42,7 +42,7 @@ router.post('/store',function(req,res,next){
 
 
 router.get('/edit/:id',function(req,res,next){
-  var adminType = localStorage.getItem('adminType');
+  var adminType = sessionstorage.getItem('adminType');
   var id = req.params.id;
 
   var editData = adminTypeModel.findOne({_id:id});

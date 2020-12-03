@@ -10,10 +10,10 @@ var router = express.Router();
 //Model
 var admin = require('../../../modules/admin');
 var adminTypeModel = require('../../../modules/admintype');
-
+var sessionstorage = require('sessionstorage');
 
 router.get('/index',function(req,res,next){
-    var adminType = localStorage.getItem('adminType');
+    var adminType = sessionstorage.getItem('adminType');
 
     //accessing all data
     allData = admin.find({}).populate('admin_type');
@@ -24,8 +24,8 @@ router.get('/index',function(req,res,next){
 
 
 router.get('/create',function(req,res,next){
-    var userName = localStorage.getItem('userName');
-    var adminType = localStorage.getItem('adminType');
+    var userName = sessionstorage.getItem('userName');
+    var adminType = sessionstorage.getItem('adminType');
     var dataAdminType = adminTypeModel.find({});
 
     dataAdminType.exec(function(err,data){
@@ -106,7 +106,7 @@ router.post('/store',upload,function(req,res,next){
 
 
 router.get('/edit/:id',function(req,res,next){
-    var adminType = localStorage.getItem('adminType');
+    var adminType = sessionstorage.getItem('adminType');
     var id = req.params.id;
 
     //For All Admin Type

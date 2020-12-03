@@ -10,10 +10,10 @@ var router = app.Router();
 
 
 var brandModel = require('../../../modules/brand'); 
-
+var sessionstorage = require('sessionstorage');
 
 router.get('/index',function(req,res,next){
-    var adminType = localStorage.getItem('adminType');
+    var adminType = sessionstorage.getItem('adminType');
 
     var brand = brandModel.find({});
 
@@ -24,7 +24,7 @@ router.get('/index',function(req,res,next){
 });
 
 router.get('/create',function(req,res,next){
-    var adminType = localStorage.getItem('adminType');
+    var adminType = sessionstorage.getItem('adminType');
     res.render('backend/brands/create',{adminType,title:"Add Brand"});
 });
 
@@ -52,7 +52,7 @@ var upload = multer({
 
 
 router.post('/store',upload,function(req,res,next){
-    var adminType = localStorage.getItem('adminType');
+    var adminType = sessionstorage.getItem('adminType');
     var brandName = req.body.brandname;
     var status = req.body.status;
     
@@ -83,7 +83,7 @@ router.post('/store',upload,function(req,res,next){
 
 
 router.get('/edit/:id',function(req,res,next){
-    var adminType = localStorage.getItem('adminType');
+    var adminType = sessionstorage.getItem('adminType');
     var Id = req.params.id;
     var edit_brand = brandModel.findById(Id);
     var selected = 'selected';

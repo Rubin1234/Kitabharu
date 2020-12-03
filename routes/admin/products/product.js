@@ -31,7 +31,7 @@ const { isArray } = require('util');
 const { update } = require('../../../modules/admintype');
 const productAttributeImagesModel = require('../../../modules/productAttributeImages');
 
-
+var sessionstorage = require('sessionstorage');
 
 //storage for Image Upload
 var Storage = multer.diskStorage({
@@ -49,7 +49,7 @@ var Storage = multer.diskStorage({
 router.get('/index',function(req,res,next){
 
  
-    var adminType = localStorage.getItem('adminType');
+    var adminType = sessionstorage.getItem('adminType');
 
     var productDetails = ModelProduct.find({}).sort({_id:-1}).populate('category_id').populate('subcategory_id');
 
@@ -65,7 +65,7 @@ router.get('/index',function(req,res,next){
 router.get('/create',function(req,res,next){
     var category = categoryModel.find({});
     
-    var adminType = localStorage.getItem('adminType');
+    var adminType = sessionstorage.getItem('adminType');
     var brands = brandModel.find({});
 
     category.exec(function(err,data){
@@ -112,7 +112,7 @@ var upload = multer({
 
 router.post('/store',upload,function(req,res,next){
    
-    var adminType = localStorage.getItem('adminType');
+    var adminType = sessionstorage.getItem('adminType');
 
     console.log(req.body);
    
@@ -602,7 +602,7 @@ router.post('/store',upload,function(req,res,next){
 
 
 router.get('/edit/:id',function(req,res,next){
-    var adminType = localStorage.getItem('adminType');
+    var adminType = sessionstorage.getItem('adminType');
     var id = req.params.id;
 
     var category = categoryModel.find({});
@@ -613,7 +613,7 @@ router.get('/edit/:id',function(req,res,next){
   
     var brands = brandModel.find({});
     
-    var adminType = localStorage.getItem('adminType');
+  
 
 
   
@@ -670,7 +670,7 @@ var edit_upload = multer({
   
 router.post('/update',edit_upload,function(req,res,next){
       
-    var adminType = localStorage.getItem('adminType');
+    var adminType = sessionstorage.getItem('adminType');
     var images = req.files;
 
   
@@ -3163,7 +3163,7 @@ router.post('/update',edit_upload,function(req,res,next){
 router.get('/delete/:id',function(req,res,next){
     var Id = req.query.Id;
    
-    var adminType = localStorage.getItem('adminType');
+    var adminType = sessionstorage.getItem('adminType');
     var id = req.params.id;
 
 
@@ -3654,7 +3654,7 @@ router.get('/changecategory',function(req,res,next){
 
 router.get('/:id/attributes/index',function(req,res,next){
     var productId = req.params.id;
-    var adminType = localStorage.getItem('adminType');
+    var adminType = sessionstorage.getItem('adminType');
 
 
     var productDetails = productModel.findOne({ _id : productId }).populate('category_id');
@@ -3859,7 +3859,7 @@ router.get('/:id/attributes/edit/:attributeId',function(req,res,next){
 
 
 
-    var adminType = localStorage.getItem('adminType');
+    var adminType = sessionstorage.getItem('adminType');
     var editAttribute = bookAttributesModel.findOne({_id:attributeId,product_id:productId});
     var stationaryAttribute = stationaryAttributesModel.findOne({_id:attributeId,product_id:productId});
     var productDetails = productModel.findOne({ _id : productId }).populate('category_id');
@@ -3968,7 +3968,7 @@ router.get('/:id/attributes/delete/:attributeId',function(req,res,next){
 
 router.get('/:id/productimages/index',function(req,res,next){
     var productId = req.params.id;
-    var adminType = localStorage.getItem('adminType');
+    var adminType = sessionstorage.getItem('adminType');
 
     var productImage = productImagesModel.find({product_id:productId});
 
@@ -3981,7 +3981,7 @@ router.get('/:id/productimages/index',function(req,res,next){
 
 router.get('/:id/productimages/create',function(req,res,next){
     var productId = req.params.id;
-    var adminType = localStorage.getItem('adminType');
+    var adminType = sessionstorage.getItem('adminType');
     res.render('backend/products/productimages/create',{adminType,productId,title:"Create Product Image "}); 
 });
 
@@ -4039,7 +4039,7 @@ router.post('/:id/productimages/store',product,function(req,res,next){
 router.get('/:id/productimages/edit/:productImageId',function(req,res,next){
     var productId = req.params.id;
     var productImageId = req.params.productImageId;
-    var adminType = localStorage.getItem('adminType');
+    var adminType = sessionstorage.getItem('adminType');
 
    var productImageDetails =  productImagesModel.findById(productImageId);
   
@@ -4059,7 +4059,7 @@ var edit_productImage = multer({
   
 router.post('/:id/productimages/update',edit_productImage,function(req,res,next){
       
-    var adminType = localStorage.getItem('adminType');
+    var adminType = sessionstorage.getItem('adminType');
 
     var productImageId = req.body.Id;
     var productId = req.params.id;

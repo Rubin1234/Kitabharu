@@ -4,13 +4,14 @@ var bcrypt = require('bcryptjs');
 //package
 
 var jwt = require('jsonwebtoken');
+var sessionstorage = require('sessionstorage');
 
 
-//checking node-localstorage
-if (typeof localStorage === "undefined" || localStorage === null) {
-  var LocalStorage = require('node-localstorage').LocalStorage;
-  localStorage = new LocalStorage('./scratch');
-}
+// //checking node-localstorage
+// if (typeof localStorage === "undefined" || localStorage === null) {
+//   var LocalStorage = require('node-localstorage').LocalStorage;
+//   localStorage = new LocalStorage('./scratch');
+// }
  
 //Models
 var userModel = require('../../modules/admin');
@@ -20,7 +21,8 @@ var userModel = require('../../modules/admin');
 //Check if there is user session
 
 checkLogin = function(req,res,next){
-  var myToken = localStorage.getItem('userToken');
+  var myToken = sessionstorage.getItem('userToken');
+
 try {
   var decoded = jwt.verify(myToken, 'loginToken');
   res.redirect('/dashboard');
@@ -59,10 +61,10 @@ router.post('/login', function(req, res, next) {
         if(bcrypt.compareSync(password,getPassword)){
           var token = jwt.sign({ userId: getUserId }, 'loginToken');
           
-          localStorage.setItem('userToken',token);
-          localStorage.setItem('userName',fullName);
-          localStorage.setItem('userId',getUserId);
-          localStorage.setItem('adminType',adminType);
+          sessionstorage.setItem('userToken',token);
+          sessionstorage.setItem('userName',fullName);
+          sessionstorage.setItem('userId',getUserId);
+          sessionstorage.setItem('adminType',adminType);
 
           res.redirect('/dashboard');
         }else{
@@ -82,9 +84,9 @@ router.post('/login', function(req, res, next) {
 
 
 router.get('/logout', function(req, res, next) {
-  localStorage.removeItem('userToken');
-   localStorage.removeItem('userName');
-   localStorage.removeItem('userId');
+  sessionstorage.removeItem('userToken');
+  sessionstorage.removeItem('userName');
+  sessionstorage.removeItem('userId');
   res.redirect('/login');
 });
 

@@ -12,11 +12,11 @@ var router = express.Router();
 var categoryModel = require('../../../modules/categories');
 var SubCategoryModel = require('../../../modules/subcategories');
 const subCategoryModel = require('../../../modules/subcategories');
-
+var sessionstorage = require('sessionstorage');
 
 
 router.get('/index',function(req,res,next){
-    var adminType = localStorage.getItem('adminType');
+    var adminType = sessionstorage.getItem('adminType');
 
     var subCategories = SubCategoryModel.find({}).populate('category_type_id');
     var categories = categoryModel.find({});
@@ -32,12 +32,12 @@ router.get('/index',function(req,res,next){
 
 
 router.get('/create',function(req,res,next){
-    var userName = localStorage.getItem('userName');
+    var userName = sessionstorage.getItem('userName');
 
     var category = categoryModel.find({});
     
     category.exec(function(err,data){
-        var adminType = localStorage.getItem('adminType');
+        var adminType = sessionstorage.getItem('adminType');
         res.render('backend/subcategories/create',{adminType,title:"Add Sub-Category",records:data});
     });
 });
@@ -68,8 +68,8 @@ var image = multer({
 
 router.post('/store',image,function(req,res,next){
     
-    var userName = localStorage.getItem('userName');
-    var adminType = localStorage.getItem('adminType');
+    var userName = sessionstorage.getItem('userName');
+    var adminType = sessionstorage.getItem('adminType');
     var category_type = req.body.categoryTypeId;
 
      
@@ -201,7 +201,7 @@ router.post('/store',image,function(req,res,next){
 
 
 router.get('/edit/:id',function(req,res,next){
-    var adminType = localStorage.getItem('adminType');
+    var adminType = sessionstorage.getItem('adminType');
     var id = req.params.id;
 
 
@@ -435,8 +435,8 @@ router.post('/update',image1,function(req,res,next){
 
 
 router.get('/delete/:id',function(req,res,next){
-    var userName = localStorage.getItem('userName');
-    var adminType = localStorage.getItem('adminType');
+    var userName = sessionstorage.getItem('userName');
+    var adminType = sessionstorage.getItem('adminType');
     var id = req.params.id;
 
     var deletesubCategory = SubCategoryModel.findByIdAndDelete(id);

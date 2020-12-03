@@ -13,18 +13,20 @@ var jwt = require('jsonwebtoken');
 //Models
 var userModel = require('../../modules/admin');
 
+var sessionstorage = require('sessionstorage');
 
 //checking node-localstorage
-if (typeof localStorage === "undefined" || localStorage === null) {
-  var LocalStorage = require('node-localstorage').LocalStorage;
-  localStorage = new LocalStorage('./scratch');
-}
+// if (typeof localStorage === "undefined" || localStorage === null) {
+//   var LocalStorage = require('node-localstorage').LocalStorage;
+//   localStorage = new LocalStorage('./scratch');
+// }
 
 
 checkUserLogin = function(req,res,next){
-  var myToken = localStorage.getItem('userToken');
-console.log(myToken);
-  
+  var myToken = sessionstorage.getItem('userToken');
+  var adminType = sessionstorage.getItem('adminType');
+console.log(adminType);
+
   try {
     var decoded = jwt.verify(myToken, 'loginToken');
     next();
@@ -38,7 +40,7 @@ console.log(myToken);
 /* GET home page. */
 router.get('/dashboard', checkUserLogin,function(req, res, next) {
 
-  var adminType = localStorage.getItem('adminType');
+  var adminType = sessionstorage.getItem('adminType');
   res.render('dashboard',{adminType});
 });
 
