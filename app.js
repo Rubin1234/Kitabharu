@@ -11,7 +11,7 @@ var app = express();
 
 
 //For Flash Message
-const MongoStore = require('connect-mongo')(session);
+var MemoryStore = require('memorystore')(session)
 mongoose.connect('mongodb+srv://rubin123123:rubin123123@cluster0.mcxac.mongodb.net/kitabharu?retryWrites=true&w=majority', {useNewUrlParser: true, useCreateIndex: true,useUnifiedTopology: true});
 
 // app.use(session({
@@ -23,8 +23,8 @@ mongoose.connect('mongodb+srv://rubin123123:rubin123123@cluster0.mcxac.mongodb.n
 app.use(session({
   secret: 'secret123',
   saveUninitialized: true,
-  store : new MongoStore({mongooseConnection : mongoose.connection,
-                          ttl : 2 * 24 * 60 * 60}),
+  store : new MemoryStore({mongooseConnection : mongoose.connection,
+    checkPeriod: 86400000}),
   resave: false,
   
 })); 

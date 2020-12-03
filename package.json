@@ -25,6 +25,7 @@
     "http-errors": "~1.6.3",
     "image-size": "^0.8.3",
     "jsonwebtoken": "^8.5.1",
+    "memorystore": "^1.6.4",
     "mongodb": "^3.6.3",
     "mongoose": "^5.9.24",
     "mongoose-timestamp": "^0.6.0",
