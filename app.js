@@ -3,18 +3,33 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser');
+var mongoose = require('mongoose');
 var logger = require('morgan');
+var session = require('express-session');
 var app = express();
 
 
 
 //For Flash Message
-var session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+mongoose.connect('mongodb+srv://rubin123123:rubin123123@cluster0.mcxac.mongodb.net/kitabharu?retryWrites=true&w=majority', {useNewUrlParser: true, useCreateIndex: true,useUnifiedTopology: true});
+
+// app.use(session({
+//   secret: 'secret123',
+//   saveUninitialized: true,
+//   resave: false,
+// }));
+
 app.use(session({
   secret: 'secret123',
   saveUninitialized: true,
+  store : new MongoStore({mongooseConnection : mongoose.connection,
+                          ttl : 2 * 24 * 60 * 60}),
   resave: false,
-}));
+  
+})); 
+
+
 
 var flash = require('express-flash');
 app.use(flash());
@@ -32,8 +47,6 @@ app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-
-
 
 
 

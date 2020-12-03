@@ -34,7 +34,9 @@ checkUserLogin = function(req,res,next){
 
 /* GET home page. */
 router.get('/dashboard', checkUserLogin,function(req, res, next) {
-  console.log(1);
+  console.log(req);
+  console.log(req.session);
+  console.log(req.user);
   var adminType = localStorage.getItem('adminType');
   res.render('dashboard',{adminType});
 });
