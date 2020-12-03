@@ -31,8 +31,7 @@ const { populate, db } = require('../../modules/categories');
     var books = ModelProduct.find({book_type : ['paperbook','both','ebook']}).populate('book_attribute').limit(10);
     //  var productModel = ModelProduct.find({book_type : ['paperbook','both']}).populate('book_attribute');
 
-    var stationaryProducts = ModelProduct.find({category_id:'5fba1b3afae27545a0334206'}).populate('book_attribute').populate('stationary_attribute').limit(10);
-
+    var stationaryProducts = ModelProduct.find({category_id:'5fc871bce5825658544dfa0c'}).populate('book_attribute').populate('stationary_attribute').limit(10);
 
     newArrival.exec(function(err,data){
         books.exec(function(err1,data1){
