@@ -23,20 +23,21 @@ if (typeof localStorage === "undefined" || localStorage === null) {
 
 checkUserLogin = function(req,res,next){
   var myToken = localStorage.getItem('userToken');
+console.log(myToken);
+  
   try {
     var decoded = jwt.verify(myToken, 'loginToken');
+    next();
   } catch(err) {
     res.redirect('/login');
   }
-  next();
+ 
 }
 
 
 /* GET home page. */
 router.get('/dashboard', checkUserLogin,function(req, res, next) {
-  console.log(req);
-  console.log(req.session);
-  console.log(req.user);
+
   var adminType = localStorage.getItem('adminType');
   res.render('dashboard',{adminType});
 });
