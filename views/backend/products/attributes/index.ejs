@@ -373,7 +373,22 @@
         <div class="rightbar-overlay"></div>
 
         <%- include('../../../layouts/script') %>
-        
+        <script>
+            $(document).ready(function(){
+   $('#attributes').children().first().children().last().children().last().hide();
+
+   //REmove Add Attributes if it has already one attributes
+  var tableLength = $('#attributes_table .tr').length;
+  if(tableLength > 0){
+    $('#add_product_attributes').css('display','none');
+  }else{
+    $('#add_product_attributes').css('display','block');
+  }
+  console.log(tableLength);
+
+});
+        </script>
+
     </body>
 
 <!-- Mirrored from coderthemes.com/ubold/layouts/default/tables-datatables.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 15 Jul 2020 07:32:18 GMT -->
