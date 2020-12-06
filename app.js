@@ -78,8 +78,8 @@ var stationarydetailsRouter = require('./routes/frontend/stationarydetails');
 var articledetailsRouter = require('./routes/frontend/articledetails');
 
 
-
-
+//API
+var homeApiRouter = require('./routes/api/home');
 
 // view engine setup
 
@@ -123,7 +123,8 @@ app.use('/', bookdetailsRouter);
 app.use('/stationarydetails', stationarydetailsRouter);
 app.use('/articledetails', articledetailsRouter);
 
-
+//API
+app.use('/api', homeApiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
