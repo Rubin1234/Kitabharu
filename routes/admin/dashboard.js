@@ -55,8 +55,8 @@ router.get('/dashboard', checkUserLogin,function(req, res, next) {
 
 router.get('/setting',function(req, res, next) {
  
-  var userId = localStorage.getItem('userId');
-  var adminType = localStorage.getItem('adminType');
+  var userId = req.cookies.userId;
+  var adminType = req.cookies.adminType;
   var userData = userModel.findOne({_id:userId});
 
   userData.exec(function(err,data){
@@ -97,7 +97,9 @@ router.post('/setting',upload,function(req,res,next){
     var previousprofilePic = req.body.previousprofilePic;
 
   //accessing Id from session 
-  var id = localStorage.getItem('userId');
+
+  var id = req.cookies.userId;
+
 
   //Accessing Image and deleting the previuosly saved image
     // var image = req.file.filename;

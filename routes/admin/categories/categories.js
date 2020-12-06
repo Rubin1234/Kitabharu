@@ -16,7 +16,7 @@ var sessionstorage = require('sessionstorage');
 
 
 router.get('/index',function(req,res,next){
-    var adminType = sessionstorage.getItem('adminType');
+    var adminType = req.cookies.adminType;
 
     var categories = categoryModel.find({});
 
@@ -28,8 +28,8 @@ router.get('/index',function(req,res,next){
 
 
 router.get('/create',function(req,res,next){
-    var userName = sessionstorage.getItem('userName');
-    var adminType = sessionstorage.getItem('adminType');
+    var userName = req.cookies.userName;
+    var adminType = req.cookies.adminType;
         res.render('backend/categories/create',{adminType,title:"Add Category"});
 });
 
@@ -57,8 +57,8 @@ var image = multer({
 
 router.post('/store',image,function(req,res,next){
     
-    var userName = sessionstorage.getItem('userName');
-    var adminType = sessionstorage.getItem('adminType');
+    var userName = req.cookies.userName;
+    var adminType = req.cookies.adminType;
     
     var categoryName = req.body.categoryname;
     var status = req.body.status;
@@ -311,7 +311,8 @@ router.post('/update',image1,function(req,res,next){
 
 
 router.get('/edit/:id',function(req,res,next){
-    var adminType = sessionstorage.getItem('adminType');
+    var userName = req.cookies.userName;
+    var adminType = req.cookies.adminType;
     var id = req.params.id;
 
     var categoryDetails = categoryModel.findById(id);
@@ -335,8 +336,8 @@ router.get('/edit/:id',function(req,res,next){
 
 
 router.get('/delete/:id',function(req,res,next){
-    var userName = sessionstorage.getItem('userName');
-    var adminType = sessionstorage.getItem('adminType');
+    var userName = req.cookies.userName;
+    var adminType = req.cookies.adminType;
     var id = req.params.id;
 
     var deleteCategory = categoryModel.findByIdAndDelete(id);

@@ -16,7 +16,8 @@ var sessionstorage = require('sessionstorage');
 
 
 router.get('/index',function(req,res,next){
-    var adminType = sessionstorage.getItem('adminType');
+    var userName = req.cookies.userName;
+    var adminType = req.cookies.adminType;
 
     var subCategories = SubCategoryModel.find({}).populate('category_type_id');
     var categories = categoryModel.find({});
@@ -32,7 +33,8 @@ router.get('/index',function(req,res,next){
 
 
 router.get('/create',function(req,res,next){
-    var userName = sessionstorage.getItem('userName');
+    var userName = req.cookies.userName;
+    var adminType = req.cookies.adminType;
 
     var category = categoryModel.find({});
     
@@ -68,8 +70,8 @@ var image = multer({
 
 router.post('/store',image,function(req,res,next){
     
-    var userName = sessionstorage.getItem('userName');
-    var adminType = sessionstorage.getItem('adminType');
+    var userName = req.cookies.userName;
+    var adminType = req.cookies.adminType;
     var category_type = req.body.categoryTypeId;
 
      
@@ -201,7 +203,8 @@ router.post('/store',image,function(req,res,next){
 
 
 router.get('/edit/:id',function(req,res,next){
-    var adminType = sessionstorage.getItem('adminType');
+    var userName = req.cookies.userName;
+    var adminType = req.cookies.adminType;
     var id = req.params.id;
 
 
@@ -435,8 +438,8 @@ router.post('/update',image1,function(req,res,next){
 
 
 router.get('/delete/:id',function(req,res,next){
-    var userName = sessionstorage.getItem('userName');
-    var adminType = sessionstorage.getItem('adminType');
+    var userName = req.cookies.userName;
+    var adminType = req.cookies.adminType;
     var id = req.params.id;
 
     var deletesubCategory = SubCategoryModel.findByIdAndDelete(id);
