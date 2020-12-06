@@ -3,6 +3,8 @@ var router = express.Router();
 var bcrypt = require('bcryptjs');
 //package
 
+'use strict';
+
 var jwt = require('jsonwebtoken');
 var sessionstorage = require('sessionstorage');
 
@@ -21,10 +23,12 @@ var userModel = require('../../modules/admin');
 //Check if there is user session
 
 checkLogin = function(req,res,next){
-  var myToken = sessionstorage.getItem('userToken');
+  var myToken = req.cookies.userToken;
 
+  
 try {
   var decoded = jwt.verify(myToken, 'loginToken');
+
   res.redirect('/dashboard');
 } catch(err) {
 
@@ -43,10 +47,10 @@ router.post('/login', function(req, res, next) {
   var password = req.body.password;
 
   var checkEmail = userModel.findOne({email:emailAddress}).populate('admin_type');
-
+ 
  
   checkEmail.exec(function(err,data){
-    
+
  
     if(err) throw err;
     if(data != null){
@@ -60,12 +64,12 @@ router.post('/login', function(req, res, next) {
       if(data.status == "Active"){
         if(bcrypt.compareSync(password,getPassword)){
           var token = jwt.sign({ userId: getUserId }, 'loginToken');
-          
-          sessionstorage.setItem('userToken',token);
-          sessionstorage.setItem('userName',fullName);
-          sessionstorage.setItem('userId',getUserId);
-          sessionstorage.setItem('adminType',adminType);
-
+      
+          res.cookie('userToken',token)
+          res.cookie('userName',fullName);
+          res.cookie('userId',getUserId);
+          res.cookie('adminType',adminType);
+     
           res.redirect('/dashboard');
         }else{
           res.render('login',{successmsg:'',errormsg:'Invalid credential. Please try again'});
@@ -84,9 +88,10 @@ router.post('/login', function(req, res, next) {
 
 
 router.get('/logout', function(req, res, next) {
-  sessionstorage.removeItem('userToken');
-  sessionstorage.removeItem('userName');
-  sessionstorage.removeItem('userId');
+  res.clearCookie('userToken');
+  res.clearCookie('userName');
+  res.clearCookie('userId');
+
   res.redirect('/login');
 });
 

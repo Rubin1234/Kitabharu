@@ -23,24 +23,26 @@ var sessionstorage = require('sessionstorage');
 
 
 checkUserLogin = function(req,res,next){
-  var myToken = sessionstorage.getItem('userToken');
-  var adminType = sessionstorage.getItem('adminType');
-console.log(adminType);
+  var myToken = req.cookies.userToken;
 
+
+
+  
   try {
     var decoded = jwt.verify(myToken, 'loginToken');
-    next();
+    console.log(decoded);
+
   } catch(err) {
     res.redirect('/login');
   }
- 
+  next();
 }
 
 
 /* GET home page. */
 router.get('/dashboard', checkUserLogin,function(req, res, next) {
 
-  var adminType = sessionstorage.getItem('adminType');
+  var adminType = req.cookies.adminType;
   res.render('dashboard',{adminType});
 });
 
