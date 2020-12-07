@@ -168,7 +168,7 @@
             <% allbooks.forEach(function(data){ %>
               <div class="col-md-3">
                 <div class="new-arrival-books">
-            <img src="images/backend/products/<%= data.product_image %>" alt="" style="width: 100%;height: 235px;">
+            <img src="../images/backend/products/<%= data.product_image %>" alt="" style="width: 100%;height: 235px;">
              <div class="new-arrival-books-desc">
              
               <h4><%= data.product_name %></h4>
@@ -182,16 +182,20 @@
               </div>
             </div>
                  <div class="view-book">
-             <a href="bookdetails/<%= data.slug%>" ><button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
+             <a href="../bookdetails/<%= data.slug%>" ><button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
               <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
             </div>
           </div>
           </div>
            <% }) %>
-          <% } %>
-      
+          <% }else{ %>
+           
+              <h4 style="margin: auto;">Sorry, No Books Available</h4>
+            
+            <% } %>
  
       </div>
+      <% if(allbooks.length > 0){ %>
       <div class="pagination">
 <ul class="pagination pagination-rounded pagination-3d pagination-lg">
 <li class="page-item disabled"><a class="page-link" href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>
@@ -203,6 +207,7 @@
 <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 </ul>
 </div>
+<% } %>
     </div>
   </div>
 </div>
@@ -223,7 +228,7 @@
                <div class="col-lg-3 col-md-3">
                   <h4 class="mb-5 mt-0" style="margin-bottom: 2rem !important;"><a class="logo" href="index.html">
                      <div>
-                         <img src="frontend_images/logo.jpg" alt="gharjaggasansar logo" style="background-color: white;padding: 12px 22px;">
+                         <img src="../frontend_images/logo.jpg" alt="gharjaggasansar logo" style="background-color: white;padding: 12px 22px;">
                      </div>
                   
                 </a></h4>
@@ -288,11 +293,11 @@
                   </div>
                   <div class="footer-payment-icon">
                      <h6 class="mb-4">We Accept</h6>
-                     <img src="frontend_images/footer/esewa.jpg" alt="" width="80px" height="50px">
-                       <img src="frontend_images/footer/cod.jpg" alt="" width="80px" height="50px">
-                        <img src="frontend_images/footer/visa.png" alt="" width="80px" height="50px">
-                         <img src="frontend_images/footer/khalti.png" alt="" width="80px" height="50px">
-                         <img src="frontend_images/footer/phonepay.jpg" alt="" width="80px" height="50px">
+                     <img src="../frontend_images/footer/esewa.jpg" alt="" width="80px" height="50px">
+                       <img src="../frontend_images/footer/cod.jpg" alt="" width="80px" height="50px">
+                        <img src="../frontend_images/footer/visa.png" alt="" width="80px" height="50px">
+                         <img src="../frontend_images/footer/khalti.png" alt="" width="80px" height="50px">
+                         <img src="../frontend_images/footer/phonepay.jpg" alt="" width="80px" height="50px">
                   </div>
                </div>
             </div>

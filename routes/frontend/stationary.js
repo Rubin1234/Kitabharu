@@ -60,6 +60,44 @@ const { populate, db } = require('../../modules/categories');
    return self.indexOf(value) === index;
   } 
     
+  router.get('/:slug',(req,res,next) => {
+
+    var slug = req.params.slug;
+    var subCategoryName = subCategoryModel.findOne({slug:slug});
+
+    //FOr Menu
+    var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
+    var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
+    var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
+
+
+
+    subCategoryName.exec(function(err,data){
+     
+      var subcategoryId = data._id;
+
+      ModelProduct.find({subcategory_id:subcategoryId}).exec(function(err1,data1){
+        console.log(data1);
+        bookSubcategories.exec(function(err2,data2){
+          stationarySubcategories.exec(function(err3,data3){
+            ebookSubcategories.exec(function(err4,data4){
+
+                  //Storing subcategories in array for taking unique value
+             var array = [];
+             data4.forEach(function(data5){
+               var subcategoryEbook = data5.subcategory_id;
+               array.push(subcategoryEbook);
+             });
+         
+             var uniqueValueEbook = array.filter(onlyUnique);
+
+              res.render('frontend/stationary',{stationaryProducts:data1,bookSubcategories:data2,stationarySubcategories:data3,ebookSubcategories:uniqueValueEbook});
+            });
+          });
+        });
+      });   
+    });
+});
           
 
 
