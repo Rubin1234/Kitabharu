@@ -42,50 +42,13 @@
             <hr>
           </div>
           <div class="">
-        <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="new">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="new">Astrology</label>
-  </div>
-  <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="used">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="used">Ayurveda</label>
-  </div>
-  <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="collectible">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="collectible">Cookbooks</label>
-  </div>
-  <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Fashion</label>
-  </div>
-    <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Gems and jewelleries</label>
-  </div>
-    <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Mind, Body & Spirit</label>
-  </div>
-    <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Pregnancy</label>
-  </div>
-     <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Pregnancy</label>
-  </div>
-     <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Spiritual</label>
-  </div>
-     <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Tarot</label>
-  </div>
-     <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Yoga</label>
-  </div>
+            <% bookSubcategories.forEach(function(data){ %>
+              <div class="form-check pl-0 mb-1">
+                <input type="checkbox" class="form-check-input filled-in" id="<%= data.subcategory_name %>" subcategory_id="<%= data._id %>" onclick="bookSubcategoryCheckbox()">
+                <label class="form-check-label small text-uppercase card-link-secondary" for="<%= data.subcategory_name %>"><%= data.subcategory_name %></label>
+              </div>
+            <% }) %>
+ 
 
           </div>
 
@@ -162,7 +125,11 @@
 <!-- Section: Condition -->
     </div>
     <div class="col-md-9">
+      <div class="col-md-12 text-center mt-5 load" style="display: none;">
+        <img src="../../images/loading.gif">
+      </div>
       <div class="row book-listing-page">
+       
 
         <% if(allbooks.length > 0){ %>
             <% allbooks.forEach(function(data){ %>
@@ -195,7 +162,7 @@
             <% } %>
  
       </div>
-      <% if(allbooks.length > 0){ %>
+      <!-- <% if(allbooks.length > 0){ %>
       <div class="pagination">
 <ul class="pagination pagination-rounded pagination-3d pagination-lg">
 <li class="page-item disabled"><a class="page-link" href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>
@@ -207,7 +174,7 @@
 <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 </ul>
 </div>
-<% } %>
+<% } %> -->
     </div>
   </div>
 </div>
@@ -318,6 +285,9 @@
 
 <%- include('../layouts/frontend/script') %>
 </body>
+
+
+
 
 <!-- Mirrored from themes.semicolonweb.com/html/canvas/menu-7.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 11 Jan 2020 08:25:24 GMT -->
 </html>

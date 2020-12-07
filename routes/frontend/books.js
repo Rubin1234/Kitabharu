@@ -57,7 +57,7 @@ const productModel = require('../../modules/product');
   router.get('/:slug',(req,res,next) => {
 
       var slug = req.params.slug;
-      var subCategoryName = subCategoryModel.findOne({slug:slug});
+    var subCategoryName = subCategoryModel.findOne({slug:slug});
 
       //FOr Menu
       var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
@@ -66,11 +66,8 @@ const productModel = require('../../modules/product');
 
 
 
-      subCategoryName.exec(function(err,data){
-
-        var subcategoryId = data._id;
-
-        ModelProduct.find({subcategory_id:subcategoryId,book_type : ['paperbook','both']}).exec(function(err1,data1){
+    subCategoryName.exec(function(err,data){
+        ModelProduct.find({subcategory_id:data._id,book_type : ['paperbook','both']}).exec(function(err1,data1){
           bookSubcategories.exec(function(err2,data2){
             stationarySubcategories.exec(function(err3,data3){
               ebookSubcategories.exec(function(err4,data4){
@@ -93,12 +90,35 @@ const productModel = require('../../modules/product');
   });
 
 
+ 
+
+
 
    //Making Unique value for E-book
    function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
   }
-          
+        
+  router.get('/subcategory/changecheckbox',function(req,res,next){
+    var subcategoryId = req.query.subcategoryId;
+   console.log(subcategoryId);
 
+    if(subcategoryId == undefined){
+      var allBooks = ModelProduct.find({book_type : ['paperbook','both']}).populate('book_attribute');
+      allBooks.exec(function(err,data){
+        res.send(data);
+      });
+    }else{
+      var productDetails = productModel.find({subcategory_id:subcategoryId,book_type:['paperbook','both']}).populate('book_attribute');
+      
+      productDetails.exec(function(err,data){
+        res.send(data);
+      });
+    }
+ 
+  
+  });
+
+ 
 
 module.exports = router;
