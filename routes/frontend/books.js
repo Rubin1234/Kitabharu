@@ -29,8 +29,10 @@ const productModel = require('../../modules/product');
     var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
     var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
   
-  
     var allBooks = ModelProduct.find({book_type : ['paperbook','both']}).populate('book_attribute');
+ 
+    var slug = '';
+    var checked = '';
 
     allBooks.exec(function(err,data){
       bookSubcategories.exec(function(err1,data1){
@@ -47,7 +49,7 @@ const productModel = require('../../modules/product');
                var uniqueValueEbook = array.filter(onlyUnique);
             // var records = util.inspect(data, false, null, true /* enable colors */);
             // console.log(records);
-            res.render('frontend/books',{allbooks:data,bookSubcategories:data1,stationarySubcategories:data2,ebookSubcategories:uniqueValueEbook}); 
+            res.render('frontend/books',{allbooks:data,bookSubcategories:data1,stationarySubcategories:data2,ebookSubcategories:uniqueValueEbook,slug,checked}); 
           });
         });
       });
@@ -56,7 +58,8 @@ const productModel = require('../../modules/product');
 
   router.get('/:slug',(req,res,next) => {
 
-      var slug = req.params.slug;
+    var slug = req.params.slug;
+    var checked = 'checked';
     var subCategoryName = subCategoryModel.findOne({slug:slug});
 
       //FOr Menu
@@ -81,7 +84,7 @@ const productModel = require('../../modules/product');
            
                var uniqueValueEbook = array.filter(onlyUnique);
 
-                res.render('frontend/books',{allbooks:data1,bookSubcategories:data2,stationarySubcategories:data3,ebookSubcategories:uniqueValueEbook});
+                res.render('frontend/books',{allbooks:data1,bookSubcategories:data2,stationarySubcategories:data3,ebookSubcategories:uniqueValueEbook,slug:slug,checked});
               });
             });
           });
@@ -99,7 +102,7 @@ const productModel = require('../../modules/product');
     return self.indexOf(value) === index;
   }
         
-  router.get('/subcategory/changecheckbox',function(req,res,next){
+  router.get('/booksubcategory/changecheckbox',function(req,res,next){
     var subcategoryId = req.query.subcategoryId;
    console.log(subcategoryId);
 

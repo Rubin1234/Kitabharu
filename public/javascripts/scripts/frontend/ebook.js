@@ -1,9 +1,9 @@
+
 var loader  = $('.load');
 var array = [];
 
-
 $(document).ready(function(){
-    $('.bookcheckbox').each(function(){
+    $('.ebookcheckbox').each(function(){
         if($(this).is(":checked")){
             var subcategory_id = $(this).attr('subcategory_id');
             array.push(subcategory_id);
@@ -12,20 +12,19 @@ $(document).ready(function(){
     console.log(array);
 });
 
-  function bookSubcategoryCheckbox(){
-
+function ebookSubcategoryCheckbox(){
     if($(event.currentTarget).is(":checked")){
-
-        $('.book-listing-page').empty();
-       
+        
+        $('.ebook-listing-page').empty();
         loader.show();
+
        var subcategory_id =  $(event.currentTarget).attr('subcategory_id');
         array.push(subcategory_id);
 
         console.log(array);
-
+  
        axios
-       .get('/books/booksubcategory/changecheckbox',
+       .get('/ebooks/ebooksubcategory/changecheckbox',
        {
            params:{
                subcategoryId: array
@@ -54,13 +53,13 @@ $(document).ready(function(){
                 doc += ' <h4 style="margin: auto;">Sorry, No Books Available</h4>';
                 $('.pagination').remove();
             }
-                $('.book-listing-page').empty().append(doc);
+                $('.ebook-listing-page').empty().append(doc);
               
            });
         }else{
             
             
-        $('.book-listing-page').empty();
+        $('.ebook-listing-page').empty();
       
         loader.show();
             var subcategory_id =  $(event.currentTarget).attr('subcategory_id');
@@ -71,7 +70,7 @@ $(document).ready(function(){
             }
        
        axios
-       .get('/books/booksubcategory/changecheckbox',
+       .get('/ebooks/ebooksubcategory/changecheckbox',
        {
            params:{
                subcategoryId: array
@@ -102,9 +101,9 @@ $(document).ready(function(){
                 doc += ' <h4 style="margin: auto;">Sorry, No Books Available</h4>';
                 $('.pagination').remove();
             }
-                $('.book-listing-page').empty().append(doc);
+                $('.ebook-listing-page').empty().append(doc);
               
            });
             
         }
-    }
+}

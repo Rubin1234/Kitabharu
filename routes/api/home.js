@@ -29,9 +29,7 @@ const { rejects } = require('assert');
     
 
     categoryModel.find({}).exec(function(err,data){
-      
-      var array = [];
-
+    
 
       const promises = data.map((item) => new Promise((resolve,reject) => {
 
@@ -44,16 +42,7 @@ const { rejects } = require('assert');
                         });
                                   
                         resolve(item);
-                      })
-                      // .exec(function(err1,data1){
-
-                      //   data1.forEach(function(doc){
-                      //     console.log(doc);
-                      //     var a = item.subcategories;
-                      //     a.push(doc);
-                      //   });
-                      // });
-       
+                      });   
       }));
 
       Promise.all(promises)

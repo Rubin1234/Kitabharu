@@ -44,7 +44,7 @@
           <div class="">
             <% bookSubcategories.forEach(function(data){ %>
               <div class="form-check pl-0 mb-1">
-                <input type="checkbox" class="form-check-input filled-in" id="<%= data.subcategory_name %>" subcategory_id="<%= data._id %>" onclick="bookSubcategoryCheckbox()">
+                <input type="checkbox" class="form-check-input filled-in bookcheckbox" id="<%= data.subcategory_name %>" subcategory_id="<%= data._id %>" onclick="bookSubcategoryCheckbox()" <% if(data.slug == slug){%> <%= checked %> <% } %>> 
                 <label class="form-check-label small text-uppercase card-link-secondary" for="<%= data.subcategory_name %>"><%= data.subcategory_name %></label>
               </div>
             <% }) %>

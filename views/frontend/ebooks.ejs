@@ -35,133 +35,99 @@
 <div class="container" style="margin-bottom: 35px;">
   <div class="row">
     <div class="col-md-3">
-        <div class="listing-aside-filter">
-          <div class="aside-filter-title">
-            <h4>Books Category</h4>
-            <hr>
-          </div>
-          <div class="">
-        <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="new">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="new">Astrology</label>
-  </div>
-  <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="used">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="used">Ayurveda</label>
-  </div>
-  <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="collectible">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="collectible">Cookbooks</label>
-  </div>
-  <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Fashion</label>
-  </div>
-    <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Gems and jewelleries</label>
-  </div>
-    <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Mind, Body & Spirit</label>
-  </div>
-    <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Pregnancy</label>
-  </div>
-     <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Pregnancy</label>
-  </div>
-     <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Spiritual</label>
-  </div>
-     <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Tarot</label>
-  </div>
-     <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Yoga</label>
-  </div>
+      <div class="listing-aside-filter">
+        <div class="aside-filter-title">
+          <h4>Sub Genre</h4>
+          <hr>
+        </div>
+        <div class="" style="line-height: 2;">
+          <% ebookSubcategories.forEach(function(data){ %>
+            <div class="form-check pl-0 mb-1">
+              <input type="checkbox" class="form-check-input filled-in ebookcheckbox" id="<%= data.subcategory_name %>" subcategory_id="<%= data._id %>" onclick="ebookSubcategoryCheckbox()" <% if(data.slug == slug){%> <%= checked %> <% } %>>
+              <label class="form-check-label small text-uppercase card-link-secondary" for="<%= data.subcategory_name %>"><%= data.subcategory_name %></label>
+            </div>
+          <% }) %>
 
-          </div>
 
-            
         </div>
 
+          
+      </div>
 
-                <div class="listing-aside-filter">
-          <div class="aside-filter-title">
-            <h4>Price</h4>
-            <hr>
-          </div>
-          <div class="">
-        <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="new">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="new">0-500</label>
-  </div>
-  <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="used">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="used">500-1000</label>
-  </div>
-  <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="collectible">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="collectible">1000-1500</label>
-  </div>
-  <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">More than 1500</label>
-  </div>
+
+              <div class="listing-aside-filter">
+        <div class="aside-filter-title">
+          <h4>Price</h4>
+          <hr>
+        </div>
+        <div class="">
+      <div class="form-check pl-0 mb-1">
+  <input type="checkbox" class="form-check-input filled-in" id="new">
+  <label class="form-check-label small text-uppercase card-link-secondary" for="new">0-500</label>
+</div>
+<div class="form-check pl-0 mb-1">
+  <input type="checkbox" class="form-check-input filled-in" id="used">
+  <label class="form-check-label small text-uppercase card-link-secondary" for="used">500-1000</label>
+</div>
+<div class="form-check pl-0 mb-1">
+  <input type="checkbox" class="form-check-input filled-in" id="collectible">
+  <label class="form-check-label small text-uppercase card-link-secondary" for="collectible">1000-1500</label>
+</div>
+<div class="form-check pl-0 mb-1">
+  <input type="checkbox" class="form-check-input filled-in" id="renewed">
+  <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">More than 1500</label>
+</div>
 </div>
 
-            
+          
+      </div>
+
+
+      <div class="listing-aside-filter">
+        <div class="aside-filter-title">
+          <h4>Language</h4>
+          <hr>
+        </div>
+        <div class="">
+      <div class="form-check pl-0 mb-1">
+  <input type="checkbox" class="form-check-input filled-in" id="new">
+  <label class="form-check-label small text-uppercase card-link-secondary" for="new">English</label>
+</div>
+<div class="form-check pl-0 mb-1">
+  <input type="checkbox" class="form-check-input filled-in" id="used">
+  <label class="form-check-label small text-uppercase card-link-secondary" for="used">Nepali</label>
+</div>
+<div class="form-check pl-0 mb-1">
+  <input type="checkbox" class="form-check-input filled-in" id="collectible">
+  <label class="form-check-label small text-uppercase card-link-secondary" for="collectible">Chinese</label>
+</div>
+<div class="form-check pl-0 mb-1">
+  <input type="checkbox" class="form-check-input filled-in" id="renewed">
+  <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Hindi</label>
+</div>
+  <div class="form-check pl-0 mb-1">
+  <input type="checkbox" class="form-check-input filled-in" id="renewed">
+  <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Japanese</label>
+</div>
+  <div class="form-check pl-0 mb-1">
+  <input type="checkbox" class="form-check-input filled-in" id="renewed">
+  <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">French</label>
+</div>
+  <div class="form-check pl-0 mb-1">
+  <input type="checkbox" class="form-check-input filled-in" id="renewed">
+  <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Others</label>
+</div>
         </div>
 
-
-        <div class="listing-aside-filter">
-          <div class="aside-filter-title">
-            <h4>Language</h4>
-            <hr>
-          </div>
-          <div class="">
-        <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="new">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="new">English</label>
-  </div>
-  <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="used">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="used">Nepali</label>
-  </div>
-  <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="collectible">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="collectible">Chinese</label>
-  </div>
-  <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Hindi</label>
-  </div>
-    <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Japanese</label>
-  </div>
-    <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">French</label>
-  </div>
-    <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Others</label>
-  </div>
-          </div>
-
-            
-        </div>
+          
+      </div>
 <!-- Section: Condition -->
-    </div>
+  </div>
     <div class="col-md-9">
-      <div class="row book-listing-page">
+      <div class="col-md-12 text-center mt-5 load" style="display: none;">
+        <img src="../../images/loading.gif" >
+      </div>
+      <div class="row ebook-listing-page">
         <% if(allEbooks.length > 0){ %>
           <% allEbooks.forEach(function(data){ %>
             <div class="col-md-3">
@@ -192,7 +158,7 @@
         
         <% } %> %> %>
       </div>
-      <% if(allEbooks.length > 0){ %>
+      <!-- <% if(allEbooks.length > 0){ %>
         <div class="pagination">
   <ul class="pagination pagination-rounded pagination-3d pagination-lg">
   <li class="page-item disabled"><a class="page-link" href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>
@@ -204,7 +170,7 @@
   <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
   </ul>
   </div>
-  <% } %>
+  <% } %> -->
     </div>
   </div>
 </div>

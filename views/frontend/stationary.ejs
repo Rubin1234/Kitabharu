@@ -46,50 +46,12 @@
             <hr>
           </div>
           <div class="">
-        <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="new">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="new">Calculators</label>
-  </div>
-  <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="used">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="used">Pen/Pencil</label>
-  </div>
-  <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="collectible">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="collectible">Punching Machine</label>
-  </div>
-  <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Stapler</label>
-  </div>
-    <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Copies & Notebooks</label>
-  </div>
-    <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Sharpners</label>
-  </div>
-    <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">File Tray</label>
-  </div>
-     <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Color & Paints</label>
-  </div>
-     <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Glue</label>
-  </div>
-     <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Tapes</label>
-  </div>
-     <div class="form-check pl-0 mb-1">
-    <input type="checkbox" class="form-check-input filled-in" id="renewed">
-    <label class="form-check-label small text-uppercase card-link-secondary" for="renewed">Sketch Books</label>
-  </div>
+            <% stationarySubcategories.forEach(function(data){ %>
+              <div class="form-check pl-0 mb-1">
+                <input type="checkbox" class="form-check-input filled-in stationarycheckbox" id="<%= data.subcategory_name %>" subcategory_id="<%= data._id %>" onclick="stationarySubcategoryCheckbox()" <% if(data.slug == slug){%> <%= checked %> <% } %>>
+                <label class="form-check-label small text-uppercase card-link-secondary" for="<%= data.subcategory_name %>"><%= data.subcategory_name %></label>
+              </div>
+            <% }) %>
 
           </div>
 
@@ -129,7 +91,10 @@
 <!-- Section: Condition -->
     </div>
     <div class="col-md-9">
-      <div class="row book-listing-page">
+       <div class="col-md-12 text-center mt-5 load" style="display: none;">
+        <img src="../../images/loading.gif" >
+      </div>
+      <div class="row stationary-listing-page">
         <% if(stationaryProducts.length > 0){ %>
           <% stationaryProducts.forEach(function(data){ %>
             <div class="col-md-3">
@@ -160,7 +125,7 @@
         
         <% } %> %>
       </div>
-      <% if(stationaryProducts.length > 0){ %>
+      <!-- <% if(stationaryProducts.length > 0){ %>
         <div class="pagination">
   <ul class="pagination pagination-rounded pagination-3d pagination-lg">
   <li class="page-item disabled"><a class="page-link" href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>
@@ -172,7 +137,7 @@
   <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
   </ul>
   </div>
-  <% } %>
+  <% } %> -->
     </div>
   </div>
 </div>
