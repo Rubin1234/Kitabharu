@@ -18,14 +18,74 @@ const util = require('util');
 const ModelProduct = require('../../modules/product');
 const subCategoryModel = require('../../modules/subcategories');
 const { populate, db } = require('../../modules/categories');
+const { rejects } = require('assert');
 
 /* GET home page. */
 
 
-  router.get('/home', function(req, res, next) {
-    res.json({
-        message : 'I am an Home API'
-      })
+
+
+  router.get('/category', function(req, res, next) {
+    
+
+    categoryModel.find({}).exec(function(err,data){
+      
+      var array = [];
+
+
+      const promises = data.map((item) => new Promise((resolve,reject) => {
+
+                      SubCategoryModel.find({category_type_id:item._id},function(err1,data1){
+                   
+                        data1.forEach(function(doc){
+                    
+                          item.subcategories.push(doc);
+                        
+                        });
+                                  
+                        resolve(item);
+                      })
+                      // .exec(function(err1,data1){
+
+                      //   data1.forEach(function(doc){
+                      //     console.log(doc);
+                      //     var a = item.subcategories;
+                      //     a.push(doc);
+                      //   });
+                      // });
+       
+      }));
+
+      Promise.all(promises)
+                    .then(allArray => {
+                        
+                  var records = util.inspect(allArray, false, null, true /* enable colors */);
+                 
+                     
+              res.send(allArray);
+            
+                    })
+
+
+    //  var rubin = data.forEach(function(categories){
+
+    //     SubCategoryModel.find({category_type_id:categories._id}).exec(function(err1,data1){
+
+    //       data1.forEach(function(doc){
+    //         var a = categories.subcategories;
+    //         a.push(doc);
+    //       });
+
+    //     }); 
+      
+    //   });
+
+
+     
+
+    });
+
+
   });
 
           
