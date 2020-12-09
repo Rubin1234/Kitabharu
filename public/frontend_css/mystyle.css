@@ -811,6 +811,34 @@ button{
     font-size: 25px;
 }
 
+
+/* Account Setting */
+
+.dropdown a:hover > .dropdown-content {
+    display: block;
+  }
+
+  .dropdown-content {
+    display: block;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 158px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    top: 45px;
+    left: 21px;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    background-color: #3e8e41;
+  }
+
+ 
+  #top-social .dropdown .dropdown-content a{
+   overflow: visible;  
+   font-size: 13px; 
+  }
+
 /*.publication .card .p{
     margin-bottom: 0px
 }*/

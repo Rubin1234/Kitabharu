@@ -76,7 +76,7 @@ var contactusRouter = require('./routes/frontend/contactus');
 var bookdetailsRouter = require('./routes/frontend/bookdetails');
 var stationarydetailsRouter = require('./routes/frontend/stationarydetails');
 var articledetailsRouter = require('./routes/frontend/articledetails');
-
+var customerLoginRouter = require('./routes/frontend/login');
 
 //API
 var homeApiRouter = require('./routes/api/home');
@@ -122,6 +122,9 @@ app.use('/contactus', contactusRouter);
 app.use('/', bookdetailsRouter);
 app.use('/stationarydetails', stationarydetailsRouter);
 app.use('/articledetails', articledetailsRouter);
+app.use('/customer', customerLoginRouter);
+
+
 
 //API
 app.use('/api', homeApiRouter);

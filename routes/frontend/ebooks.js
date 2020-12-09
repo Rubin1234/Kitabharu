@@ -48,7 +48,7 @@ const { populate, db } = require('../../modules/categories');
           
           var uniqueValueEbook = array.filter(onlyUnique);
           var records = util.inspect(data, false, null, true /* enable colors */);
-          console.log(records);
+  
           res.render('frontend/ebooks',{allEbooks:data,bookSubcategories:data1,stationarySubcategories:data2,ebookSubcategories:uniqueValueEbook,slug,checked}); 
         });
       });

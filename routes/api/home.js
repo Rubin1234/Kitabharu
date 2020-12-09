@@ -54,28 +54,14 @@ const { rejects } = require('assert');
               res.send(allArray);
             
                     })
-
-
-    //  var rubin = data.forEach(function(categories){
-
-    //     SubCategoryModel.find({category_type_id:categories._id}).exec(function(err1,data1){
-
-    //       data1.forEach(function(doc){
-    //         var a = categories.subcategories;
-    //         a.push(doc);
-    //       });
-
-    //     }); 
-      
-    //   });
-
-
-     
-
     });
-
-
   });
 
+  router.get('/productlist', function(req, res, next) {
+     var product = ModelProduct.find({}).populate('book_attribute').populate('stationary_attribute');
+     product.exec(function(err,data){
+      res.send(data);
+     })
+  });
           
 module.exports = router;
