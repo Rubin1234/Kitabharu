@@ -814,29 +814,41 @@ button{
 
 /* Account Setting */
 
-.dropdown a:hover > .dropdown-content {
+#top-social .dropdown:hover .dropdown-content {
     display: block;
   }
 
   .dropdown-content {
-    display: block;
+    display: none;
     position: absolute;
     background-color: #f9f9f9;
     min-width: 158px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 1px 1px 6px 0px lightgrey;
     z-index: 1;
-    top: 45px;
+    top: 43px;
     left: 21px;
   }
   
-  .dropdown:hover .dropdown-content {
-    background-color: #3e8e41;
+  /* .dropdown-content:hover {
+    background-color: #f3cd11;
+  } */
+
+  #top-social .dropdown-content:hover a{
+    color: #666666 !important;
   }
+
+  /* #top-social .dropdown-content:hover i{
+    color: grey !important;
+  } */
+  /* #top-social .dropdown:hover .dropdown-content a{
+   color: white;
+  } */
 
  
   #top-social .dropdown .dropdown-content a{
    overflow: visible;  
    font-size: 13px; 
+   border: 1px solid #e3e3e3;
   }
 
 /*.publication .card .p{

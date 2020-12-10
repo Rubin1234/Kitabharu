@@ -127,7 +127,7 @@ next();
           
 
             var token = jwt.sign({ customerId: getCustomerId }, 'loginToken');
- 
+
             res.cookie('customerToken',token)
             res.cookie('customerName',username);
             res.cookie('customerId',getCustomerId);

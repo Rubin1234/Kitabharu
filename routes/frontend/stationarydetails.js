@@ -23,6 +23,13 @@ const { populate, db } = require('../../modules/categories');
 
 
   router.get('/:slug', function(req, res, next) {
+
+    var cookiesCustomerToken = req.cookies.customerToken;
+    var cookiesCustomerrName = req.cookies.customerName;
+    var cookiesCustomerId = req.cookies.customerId;
+    var cookiesCustomerEmail = req.cookies.customerEmail;
+
+
   // var records = util.inspect(data, false, null, true /* enable colors */);
   var slug = req.params.slug;
   
@@ -47,7 +54,16 @@ const { populate, db } = require('../../modules/categories');
           
           var uniqueValueEbook = array.filter(onlyUnique);
           console.log(data);
-          res.render('frontend/stationarydetails',{stationaryDetails:data,bookSubcategories:data1,stationarySubcategories:data2,ebookSubcategories:uniqueValueEbook});  
+          res.render('frontend/stationarydetails',{
+            stationaryDetails:data,
+            bookSubcategories:data1,
+            stationarySubcategories:data2,
+            ebookSubcategories:uniqueValueEbook,
+            cookiesCustomerToken,
+            cookiesCustomerrName,
+            cookiesCustomerId,
+            cookiesCustomerEmail,
+          });  
         });  
       }); 
     }); 

@@ -23,6 +23,13 @@ const { populate, db } = require('../../modules/categories');
 
 
   router.get('/', function(req, res, next) {
+
+    var cookiesCustomerToken = req.cookies.customerToken;
+    var cookiesCustomerrName = req.cookies.customerName;
+    var cookiesCustomerId = req.cookies.customerId;
+    var cookiesCustomerEmail = req.cookies.customerEmail;
+
+
   // var records = util.inspect(data, false, null, true /* enable colors */);
   var allEbooks = ModelProduct.find({book_type : ['ebook','both']}).populate('book_attribute');
     
@@ -49,7 +56,18 @@ const { populate, db } = require('../../modules/categories');
           var uniqueValueEbook = array.filter(onlyUnique);
           var records = util.inspect(data, false, null, true /* enable colors */);
   
-          res.render('frontend/ebooks',{allEbooks:data,bookSubcategories:data1,stationarySubcategories:data2,ebookSubcategories:uniqueValueEbook,slug,checked}); 
+          res.render('frontend/ebooks',{
+            allEbooks:data,
+            bookSubcategories:data1,
+            stationarySubcategories:data2,
+            ebookSubcategories:uniqueValueEbook,
+            cookiesCustomerToken,
+            cookiesCustomerrName,
+            cookiesCustomerId,
+            cookiesCustomerEmail,
+            slug,
+            checked
+          }); 
         });
       });
     });
@@ -62,6 +80,11 @@ router.get('/:slug',(req,res,next) => {
   var slug = req.params.slug;
   var checked = 'checked';
   var subCategoryName = subCategoryModel.findOne({slug:slug});
+
+  var cookiesCustomerToken = req.cookies.customerToken;
+  var cookiesCustomerrName = req.cookies.customerName;
+  var cookiesCustomerId = req.cookies.customerId;
+  var cookiesCustomerEmail = req.cookies.customerEmail;
 
   //FOr Menu
   var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
@@ -88,7 +111,17 @@ router.get('/:slug',(req,res,next) => {
        
            var uniqueValueEbook = array.filter(onlyUnique);
 
-            res.render('frontend/ebooks',{allEbooks:data1,bookSubcategories:data2,stationarySubcategories:data3,ebookSubcategories:uniqueValueEbook,slug,checked});
+            res.render('frontend/ebooks',{
+              allEbooks:data1,
+              bookSubcategories:data2,
+              stationarySubcategories:data3,
+              ebookSubcategories:uniqueValueEbook,
+              cookiesCustomerToken,
+              cookiesCustomerrName,
+              cookiesCustomerId,
+              cookiesCustomerEmail,
+              slug,
+              checked});
           });
         });
       });

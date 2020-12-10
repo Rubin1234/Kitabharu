@@ -80,7 +80,7 @@ router.post('/login', function(req, res, next) {
     }else{
     res.render('login',{successmsg:'',errormsg:'Invalid credential. Please try again'});
   }
-  })
+  });
 });
 
 

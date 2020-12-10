@@ -30,6 +30,13 @@ const { populate, db } = require('../../modules/categories');
   });
 
   router.get('/bookdetails/:slug',function(req,res,next){
+
+    var cookiesCustomerToken = req.cookies.customerToken;
+    var cookiesCustomerrName = req.cookies.customerName;
+    var cookiesCustomerId = req.cookies.customerId;
+    var cookiesCustomerEmail = req.cookies.customerEmail;
+
+
     var slug = req.params.slug;
 
     var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
@@ -52,7 +59,16 @@ const { populate, db } = require('../../modules/categories');
                 });
                 var uniqueValueEbook = array.filter(onlyUnique);
             console.log(data);
-            res.render('frontend/bookdetails',{bookDetails:data,bookSubcategories:data1,stationarySubcategories:data2,ebookSubcategories:uniqueValueEbook});  
+            res.render('frontend/bookdetails',{
+              bookDetails:data,
+              bookSubcategories:data1,
+              stationarySubcategories:data2,
+              ebookSubcategories:uniqueValueEbook,
+              cookiesCustomerToken,
+              cookiesCustomerrName,
+              cookiesCustomerId,
+              cookiesCustomerEmail,
+            });  
           });
         });
       });

@@ -86,9 +86,43 @@ const { populate, db } = require('../../modules/categories');
   
   });
 
-          
+  
+  
+  router.get('/checklogincookies',function(req,res,next){
+    var productId = req.query.productId;
+
+    console.log(productId);
+
+    var cookiesCustomerToken = req.cookies.customerToken;
+    var cookiesCustomerrName = req.cookies.customerName;
+    var cookiesCustomerId = req.cookies.customerId;
+    var cookiesCustomerEmail = req.cookies.customerEmail;
+
+    if(cookiesCustomerEmail == undefined && cookiesCustomerId == undefined && cookiesCustomerrName == undefined && cookiesCustomerToken == undefined){
+      res.send('nocookies');
+    }else{
+
+      ModelProduct.find({_id : productId}).populate('book_attribute').exec(function(err,data){
+            var records = util.inspect(data, false, null, true /* enable colors */);
+            res.send(records);
+      });
+  
+    
+    }
+   
+
+ 
+  });
+
+
+
+
+
     //Making Unique value for E-book
     function onlyUnique(value, index, self) {
       return self.indexOf(value) === index;
     }
+
+
+
 module.exports = router;

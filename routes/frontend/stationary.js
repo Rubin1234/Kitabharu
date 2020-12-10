@@ -23,6 +23,11 @@ const { populate, db } = require('../../modules/categories');
 
 
   router.get('/', function(req, res, next) {
+
+    var cookiesCustomerToken = req.cookies.customerToken;
+    var cookiesCustomerrName = req.cookies.customerName;
+    var cookiesCustomerId = req.cookies.customerId;
+    var cookiesCustomerEmail = req.cookies.customerEmail;
     
     var stationaryProducts = ModelProduct.find({category_id:['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']}).populate('stationary_attribute').limit(10);
 
@@ -49,7 +54,17 @@ const { populate, db } = require('../../modules/categories');
 
             var records = util.inspect(data, false, null, true /* enable colors */);
             console.log(records);
-            res.render('frontend/stationary',{stationaryProducts:data,bookSubcategories:data1,stationarySubcategories:data2,ebookSubcategories:uniqueValueEbook,slug,checked}); 
+            res.render('frontend/stationary',{
+              stationaryProducts:data,
+              bookSubcategories:data1,
+              stationarySubcategories:data2,
+              ebookSubcategories:uniqueValueEbook,
+              cookiesCustomerToken,
+              cookiesCustomerrName,
+              cookiesCustomerId,
+              cookiesCustomerEmail,
+              slug,
+              checked}); 
           });
         });
       });
@@ -63,10 +78,13 @@ const { populate, db } = require('../../modules/categories');
     
   router.get('/:slug',(req,res,next) => {
 
-    var slug = req.params.slug;
-  
-    
+    var cookiesCustomerToken = req.cookies.customerToken;
+    var cookiesCustomerrName = req.cookies.customerName;
+    var cookiesCustomerId = req.cookies.customerId;
+    var cookiesCustomerEmail = req.cookies.customerEmail;
 
+
+    var slug = req.params.slug;
     var checked = 'checked';
     var subCategoryName = subCategoryModel.findOne({slug:slug});
 
@@ -96,7 +114,17 @@ const { populate, db } = require('../../modules/categories');
          
              var uniqueValueEbook = array.filter(onlyUnique);
 
-              res.render('frontend/stationary',{stationaryProducts:data1,bookSubcategories:data2,stationarySubcategories:data3,ebookSubcategories:uniqueValueEbook,slug:slug,checked});
+              res.render('frontend/stationary',{
+                stationaryProducts:data1,
+                bookSubcategories:data2,
+                stationarySubcategories:data3,
+                ebookSubcategories:uniqueValueEbook,
+                cookiesCustomerToken,
+                cookiesCustomerrName,
+                cookiesCustomerId,
+                cookiesCustomerEmail,
+                slug:slug,
+                checked});
             });
           });
         });
