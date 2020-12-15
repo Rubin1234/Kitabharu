@@ -151,7 +151,7 @@
            </div>
                 <div class="view-book">
                  <a href="/bookdetails/<%= data.slug %>" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-             <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
+             <button type="" class="form-control" productId="<%= data.id %>" onclick="addtocart()"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
            </div>
          </div>
   </div>
@@ -206,7 +206,7 @@
                </div>
                     <div class="view-book">
                      <a href="stationarydetails/<%= data.slug %>" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-                 <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
+                 <button type="" class="form-control"  productId="<%= data.id %>" onclick="addtocart()"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
                </div>
              </div>
       </div>

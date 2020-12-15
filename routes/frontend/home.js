@@ -16,18 +16,17 @@ var bookAttributesModel = require('../../modules/bookAttributes');
 var productImagesModel = require('../../modules/product_images'); 
 const util = require('util');
 var ModelProduct = require('../../modules/product'); 
+var modelCart = require('../../modules/cart'); 
 var stationaryAttributesModel = require('../../modules/stationaryAttributes'); 
 const subCategoryModel = require('../../modules/subcategories');
 const { populate, db } = require('../../modules/categories');
+const cartModel = require('../../modules/cart');
 
 /* GET home page. */
 
 
   router.get('/', function(req, res, next) {
-    console.log(req.cookies.customerToken);
-    console.log(req.cookies.customerName);
-    console.log(req.cookies.customerId);
-    console.log(req.cookies.customerEmail);
+ 
 
     var cookiesCustomerToken = req.cookies.customerToken;
     var cookiesCustomerrName = req.cookies.customerName;
@@ -87,12 +86,14 @@ const { populate, db } = require('../../modules/categories');
   });
 
   
+
+          
+  router.get('/checklogincookies', function(req,res,next){
+
   
-  router.get('/checklogincookies',function(req,res,next){
     var productId = req.query.productId;
 
-    console.log(productId);
-
+ 
     var cookiesCustomerToken = req.cookies.customerToken;
     var cookiesCustomerrName = req.cookies.customerName;
     var cookiesCustomerId = req.cookies.customerId;
@@ -100,22 +101,154 @@ const { populate, db } = require('../../modules/categories');
 
     if(cookiesCustomerEmail == undefined && cookiesCustomerId == undefined && cookiesCustomerrName == undefined && cookiesCustomerToken == undefined){
       res.send('nocookies');
-    }else{
+    }else{  
+            ModelProduct.findById(productId).populate('book_attribute').populate('stationary_attribute').exec(function(err,data){
+              modelCart.findOne({customer_id:cookiesCustomerId}).exec(function(err1,cart){
+           
+                //IF Cart is empty
+                if(cart != null){
+                  const existingProductIndex = cart.products.findIndex(p => p._id == productId);  //to check product is existing in cart
+        
+                  //If Cart has same product
+                  if(existingProductIndex >= 0){
+              
+                    const existingProduct = cart.products[existingProductIndex];
+        
+                    existingProduct.qty += 1;
+                
+                    cart.total_price += parseInt(data.product_price);
 
-      ModelProduct.find({_id : productId}).populate('book_attribute').exec(function(err,data){
-            var records = util.inspect(data, false, null, true /* enable colors */);
-            res.send(records);
-      });
-  
+                    //Udate Product Array in cart
+                    var updateArray = modelCart.updateOne( 
+                      { _id: cart.id, "products._id": existingProduct._id}, 
+                      { $set: { "products.$.qty": existingProduct.qty } }
+                    )
+
+                    var updateCart = modelCart.findOneAndUpdate({customer_id:cookiesCustomerId},{
+                    total_price :  cart.total_price
+                    }); 
+                
+                    //For Number of product item
+                    var productItemNumber = 0;
+
+                    cart.products.forEach(function(doc){
+                      productItemNumber += parseInt(doc.qty);
+                    });
+
+                    console.log(productItemNumber);
+     
+                    updateArray.exec(function(err3,data3){
+                      updateCart.exec(function(err4,data4){
+                        res.send({
+                          'productitem': productItemNumber, 
+                          'cart': cart,
+                        });
+                        });
+                    });
+                  }
+                  else
+                  { 
+
+                    //If card has other different product
+                    var savedata = data.toObject();
+                    savedata.qty = 1;
+        
+                    cart.products.push(savedata);
+                    cart.save();
+
+                    cart.total_price += parseInt(data.product_price);
+
+                    var updateCart = modelCart.findOneAndUpdate({customer_id:cookiesCustomerId},{
+                      total_price :  cart.total_price
+                    });
+
+                    var productItemNumber = 0;
+                    cart.products.forEach(function(doc){
+                      productItemNumber += parseInt(doc.qty);
+                    });
+
+                    console.log(productItemNumber);
+
+                    updateCart.exec(function(err4,data4){
+                      res.send({
+                        'productitem': productItemNumber, 
+                        'cart': cart,
+                      });
+                    });
     
-    }
+                  }
+
+                }
+                else
+                { 
+                  //If Cart is empty
+                  var saveCart = new modelCart({
+                      total_price : parseInt(data.product_price),
+                      customer_id : cookiesCustomerId
+                  });
+
+                  var savedata = data.toObject();
+                  savedata.qty = 1;
+
+                  saveCart.products.push(savedata);
+              
+                  saveCart.save();
+
+            
+                    res.send({
+                      'productitem': savedata.qty, 
+                      'cart': cart,
+                    });
+                }
+              }); 
+            });    
+          }
+    });
+
+
+  
+  router.get('/viewcart',async function(req,res,next){
+    
+    var cookiesCustomerToken = req.cookies.customerToken;
+    var cookiesCustomerrName = req.cookies.customerName;
+    var cookiesCustomerId = req.cookies.customerId;
+    var cookiesCustomerEmail = req.cookies.customerEmail;
+
+    if(cookiesCustomerEmail == undefined && cookiesCustomerId == undefined && cookiesCustomerrName == undefined && cookiesCustomerToken == undefined){
+      res.send({
+        'productitem': 0, 
+       
+      });
+    }else{
+    await modelCart.findOne({customer_id:cookiesCustomerId}).exec(function(err1,cart){
    
+          if(cart == null){
+            var productItemNumber = 0;
+            console.log(productItemNumber);
+            res.send({
+              'productitem': productItemNumber, 
+              'cart': cart,
+            });
 
+          }else{
+
+            var productItemNumber = 0;
+            cart.products.forEach(function(doc){
+              productItemNumber += parseInt(doc.qty);
+            });
+
+         
+           
+            res.send({
+              'productitem': productItemNumber, 
+              'cart': cart,
+            });
+          }
+      });
+    }
  
+   
   });
-
-
-
 
 
     //Making Unique value for E-book

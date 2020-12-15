@@ -16,8 +16,19 @@
 
 <script>
         $(document).ready(function(){
+            setTimeout(function(){
+                $('#customerregistermessage').remove();    
+            }, 5000);
+
+            //Customer Login Without cookies then show below message
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const parameter = urlParams.get('n')
+            if(parameter == 0){
+                $('#customerloginmessage').css('display','block');
                 setTimeout(function(){
-                    $('#customerregistermessage').remove();
+                    $('#customerloginmessage').remove();     
                 }, 5000);
-            })
+            }
+        });
 </script>

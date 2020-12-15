@@ -10,7 +10,6 @@
 
 .bootoast>.glyphicon {
     display: inline-block;
-    /* yeah, this float is a "hack" */
     float: left;
     font-size: 20px;
     margin-right: 14px;
