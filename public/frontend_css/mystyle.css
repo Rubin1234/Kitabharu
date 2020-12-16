@@ -822,11 +822,11 @@ button{
     display: none;
     position: absolute;
     background-color: #f9f9f9;
-    min-width: 158px;
+    min-width: 124px;
     box-shadow: 1px 1px 6px 0px lightgrey;
     z-index: 1;
     top: 43px;
-    left: 21px;
+    left: 13px;
   }
   
   /* .dropdown-content:hover {

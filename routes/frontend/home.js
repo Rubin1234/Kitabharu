@@ -245,9 +245,29 @@ const cartModel = require('../../modules/cart');
             });
           }
       });
+    }  
+  });
+
+
+
+  router.get('/mycart',async function(req,res,next){
+      console.log('mycart');
+      var cookiesCustomerToken = req.cookies.customerToken;
+      var cookiesCustomerrName = req.cookies.customerName;
+      var cookiesCustomerId = req.cookies.customerId;
+      var cookiesCustomerEmail = req.cookies.customerEmail;
+      
+    if(cookiesCustomerEmail == undefined && cookiesCustomerId == undefined && cookiesCustomerrName == undefined && cookiesCustomerToken == undefined){
+      res.send({
+        'productitem': 0, 
+       
+      });
+    }else{
+
+      modelCart.findOne({customer_id:cookiesCustomerId}).exec(function(err1,cart){
+        res.send(cart);
+      });
     }
- 
-   
   });
 
 

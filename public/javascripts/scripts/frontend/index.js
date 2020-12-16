@@ -13,8 +13,6 @@ $(document).ready(function(){
 
 
 
-
-
 function addtocart(){
 
   var productId = $(event.currentTarget).attr('productId');
@@ -45,7 +43,32 @@ function addtocart(){
               });
         
           }
-
-
            });
+}
+
+function mycart(){
+  console.log('my cart');
+
+  axios
+  .get('/mycart',
+  {
+  
+   }).then(function(response){
+    var myCart = response.data.products;
+    
+    var cart = '';
+    var total_price = 0;
+    myCart.forEach(function(data){
+             
+    cart += '<div class="top-cart-item clearfix"><div class="top-cart-item-image"><a href="#"><img src="/images/backend/products/'+data.product_image+'" alt="'+data.product_name+'" /></a></div><div class="top-cart-item-desc"><a href="#">'+data.product_name+'</a><span class="top-cart-item-price">'+data.product_price*data.qty+'</span><span class="top-cart-item-quantity">x '+data.qty+'</span></div></div>';
+    
+    total_price += data.product_price*data.qty;
+  });
+
+  console.log(total_price);
+    $('#cartitemtotal').empty().append('$'+total_price);
+
+    $('.top-cart-items').empty().append(cart);
+ 
+    });
 }

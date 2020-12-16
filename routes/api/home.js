@@ -58,10 +58,13 @@ const { rejects } = require('assert');
   });
 
   router.get('/productlist', function(req, res, next) {
-     var product = ModelProduct.find({}).populate('book_attribute').populate('stationary_attribute');
+     var product = ModelProduct.find({}).populate('book_attribute').populate('stationary_attribute').populate('ebook_id');
      product.exec(function(err,data){
       res.send(data);
      })
   });
+
+  router.get('/productlist/:id', function(req, res, next) {
+  })
           
 module.exports = router;
