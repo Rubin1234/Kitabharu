@@ -85,8 +85,6 @@ router.post('/login', function(req, res, next) {
 
 
 
-
-
 router.get('/logout', function(req, res, next) {
   res.clearCookie('userToken');
   res.clearCookie('userName');
@@ -96,6 +94,8 @@ router.get('/logout', function(req, res, next) {
 });
 
 
+
+ 
   
 
 module.exports = router;

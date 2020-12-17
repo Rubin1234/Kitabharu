@@ -27,35 +27,24 @@ const { rejects } = require('assert');
 
   router.get('/category', function(req, res, next) {
     
-
     categoryModel.find({}).exec(function(err,data){
-    
-
       const promises = data.map((item) => new Promise((resolve,reject) => {
-
-                      SubCategoryModel.find({category_type_id:item._id},function(err1,data1){
-                   
-                        data1.forEach(function(doc){
-                    
-                          item.subcategories.push(doc);
-                        
-                        });
-                                  
-                        resolve(item);
-                      });   
+        SubCategoryModel.find({category_type_id:item._id},function(err1,data1){
+          data1.forEach(function(doc){
+            item.subcategories.push(doc);           
+          });                        
+          resolve(item);
+        });   
       }));
 
       Promise.all(promises)
-                    .then(allArray => {
-                        
-                  var records = util.inspect(allArray, false, null, true /* enable colors */);
-                 
-                     
-              res.send(allArray);
-            
-                    })
+      .then(allArray => {  
+        var records = util.inspect(allArray, false, null, true /* enable colors */);    
+        res.send(allArray);
+      });
     });
   });
+
 
   router.get('/productlist', function(req, res, next) {
      var product = ModelProduct.find({}).populate('book_attribute').populate('stationary_attribute').populate('ebook_id');
@@ -65,6 +54,6 @@ const { rejects } = require('assert');
   });
 
   router.get('/productlist/:id', function(req, res, next) {
-  })
+  });
           
 module.exports = router;

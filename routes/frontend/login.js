@@ -17,9 +17,11 @@ var bookAttributesModel = require('../../modules/bookAttributes');
 var productImagesModel = require('../../modules/product_images'); 
 const util = require('util');
 var ModelProduct = require('../../modules/product'); 
+var modelCart = require('../../modules/cart'); 
 const subCategoryModel = require('../../modules/subcategories');
 const customerModel = require('../../modules/customers');
 const { populate, db } = require('../../modules/categories');
+const cartModel = require('../../modules/cart');
 
 /* GET home page. */
 //Check if there is user session
@@ -45,6 +47,7 @@ next();
     var cookiesCustomerrName = req.cookies.customerName;
     var cookiesCustomerId = req.cookies.customerId;
     var cookiesCustomerEmail = req.cookies.customerEmail;
+    
 
     var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
     var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
@@ -158,7 +161,137 @@ next();
     res.redirect('/');
   });
 
+  router.get('/accountsetting', function(req, res, next) {
+    var cookiesCustomerToken = req.cookies.customerToken;
+    var cookiesCustomerrName = req.cookies.customerName;
+    var cookiesCustomerId = req.cookies.customerId;
+    var cookiesCustomerEmail = req.cookies.customerEmail;
 
+    console.log(cookiesCustomerrName);
+
+
+    var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
+    var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
+    var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
+
+    bookSubcategories.exec(function(err1,data1){
+      stationarySubcategories.exec(function(err2,data2){
+        ebookSubcategories.exec(function(err3,data3){
+
+          //Storing subcategories in array for taking unique value
+          var array = [];
+          data3.forEach(function(data4){
+            var subcategoryEbook = data4.subcategory_id;
+            array.push(subcategoryEbook);
+          });
+          
+          var uniqueValueEbook = array.filter(onlyUnique);
+
+          res.render('frontend/accountsetting',{
+            bookSubcategories:data1,
+            stationarySubcategories:data2,
+            ebookSubcategories:uniqueValueEbook,
+            cookiesCustomerToken,
+            cookiesCustomerrName,
+            cookiesCustomerId,
+            cookiesCustomerEmail,
+          });
+        });
+      });
+    });
+  });
+
+  router.post('/accountsetting', function(req, res, next) {
+
+    var username = req.body.customerusername;
+    var email = req.body.customeremail;
+    var oldpassword = req.body.oldpassword;
+    var newPassword = req.body.newpassword;
+    var confirmPassword = req.body.confirmpassword;
+
+    var cookiesCustomerToken = req.cookies.customerToken;
+    var cookiesCustomerrName = req.cookies.customerName;
+    var cookiesCustomerId = req.cookies.customerId;
+    var cookiesCustomerEmail = req.cookies.customerEmail;
+
+    console.log(cookiesCustomerId);
+
+    //if confirm password is null
+    if(confirmPassword == ''){
+      var checkId = customerModel.findOne({_id:cookiesCustomerId});
+      checkId.exec(function(err,data){
+        if(err) throw err;
+    
+        var getPassword = data.password;
+        
+        //checking password
+        if(bcrypt.compareSync(oldpassword,getPassword)){      
+            var updateCustomer = customerModel.findByIdAndUpdate(cookiesCustomerId,{
+              user_name: username,
+              email: email,
+            });
+        
+          updateCustomer.exec(function(err1,data1){
+            if(err1) throw err1;
+              
+            res.cookie('customerName',username);
+            res.cookie('customerEmail',email);
+
+            req.flash('success','Updated Succesfully. Thank you!!!');
+            res.redirect('/customer/accountsetting');
+          });
+        }
+        else
+        {
+          req.flash('error','You old password does not matched. Please re-enter your password');
+          res.redirect('/customer/accountsetting');
+        }
+      });
+    }
+
+
+          //if confirm password is not null
+
+    if(confirmPassword != ''){
+      
+      var checkId = customerModel.findOne({_id:cookiesCustomerId});
+        
+      checkId.exec(function(err,data){
+       
+
+          if(err) throw err;
+          var getPassword = data.password;
+          
+          if(bcrypt.compareSync(oldpassword,getPassword)){
+          var updatedpassword = bcyrpt.hashSync(confirmPassword,10);
+            console.log(updatedpassword);
+          
+
+          var updatepasswordData = customerModel.findByIdAndUpdate(cookiesCustomerId,{
+            user_name: username,
+            email: email,
+            password:updatedpassword,
+
+          });
+
+          updatepasswordData.exec(function(err2,data2){
+            if(err2) throw err2;
+            res.cookie('customerName',username);
+            res.cookie('customerEmail',email);
+            req.flash('success','Updated Succesfully. Thank you!!!');
+            res.redirect('/customer/accountsetting');
+          });
+        }
+    else{
+        req.flash('error','The password does not matched. Please re-enter your password');
+        res.redirect('/customer/accountsetting');
+      }
+    });
+  }
+
+
+
+  });
 
   //Making Unique value for E-book
   function onlyUnique(value, index, self) {

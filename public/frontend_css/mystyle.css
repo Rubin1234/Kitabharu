@@ -152,7 +152,7 @@
     background-color: #ffffff;
     transition: visibility 3s linear 300ms, opacity 700ms;
     border: 1.5px solid #ebebeb;
-    padding: 18px 0px 13px 0px;
+    padding: 18px 0px 18px 0px;
 }
 
 .new-arrival-books:hover .view-book{

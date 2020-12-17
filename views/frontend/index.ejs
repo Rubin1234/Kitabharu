@@ -78,7 +78,7 @@
          </div>
               <div class="view-book">
                <a href="/bookdetails/<%= data.slug %>" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-           <button productId="<%= data.id %>" onclick="addtocart()" type="" class="form-control addcart"><i class="icon-cart-plus" ></i>&nbsp;&nbsp;Add to Cart</button>
+           <!-- <button productId="<%= data.id %>" onclick="addtocart()" type="" class="form-control addcart"><i class="icon-cart-plus" ></i>&nbsp;&nbsp;Add to Cart</button> -->
          </div>
        </div>
 </div>
@@ -151,7 +151,7 @@
            </div>
                 <div class="view-book">
                  <a href="/bookdetails/<%= data.slug %>" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-             <button type="" class="form-control" productId="<%= data.id %>" onclick="addtocart()"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
+             <button type="" class="form-control" productId="<%= data.id %>" onclick="addtobookcart()"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
            </div>
          </div>
   </div>
@@ -170,6 +170,50 @@
       <a href=""  class="btn btn-default explore-btn">Show Now</a>  
   </div>
     
+</section>
+
+
+<section class="section">
+  <div class="container">
+
+      <div class="section-inner">
+      <div class="section-title">
+        <h3>Our E-Books</h3>
+      </div>
+      <div class="section-viewall">
+            <button class="btn btn-success">View All</button> 
+      </div>
+     
+    </div>
+
+
+ <div id="oc-images" class="owl-carousel image-carousel carousel-widget" data-margin="20" data-nav="true" data-pagi="false" data-items-xs="1" data-items-sm="2" data-items-md="3" data-items-lg="4" data-items-xl="5" data-speed="400">
+  <% ebooks.forEach(function(data){ %>
+    <div class="oc-item">
+      <div class="new-arrival-books">
+           <img src="images/backend/products/<%= data.product_image %>" alt="" style="width: 100%;height: 235px;">
+            <div class="new-arrival-books-desc">
+            
+             <h4><%= data.product_name %></h4>
+              <% if(data.book_attribute.length > 0){  %>
+              <span style="font-size: 14px;color: #8b8b8b"><%= data.book_attribute[0].author_name %></span>
+              <% }else{ %>
+                <span>&nbsp;</span>
+              <% } %>
+             <div class="price-box">
+                  <h4>Rs. <%= data.product_price %></h4>
+             </div>
+           </div>
+                <div class="view-book">
+                 <a href="/bookdetails/<%= data.slug %>" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
+             <button type="" class="form-control" productId="<%= data.id %>"  onclick="addtoEbookcart()"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
+           </div>
+         </div>
+  </div>
+  <% }) %>
+
+</div>
+  </div>
 </section>
 
 
