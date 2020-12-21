@@ -9,7 +9,41 @@ $(document).ready(function(){
             array.push(subcategory_id);
         }
     });
-    console.log(array);
+
+
+    //Disabling
+    booknumberminus
+
+    $('#booknumberminus').on('click',function(){
+        var booknumber = $('#booknumber').val();
+        var max = $('#booknumber').attr('max');
+    
+        if(booknumber < max){
+            $('#booknumberplus').prop("disabled", false);
+        }
+
+        if(booknumber == 1){
+            $('#booknumberminus').prop("disabled", true);
+        }
+       
+    });
+
+$('#booknumberplus').on('click',function(){
+    var booknumber = $('#booknumber').val();
+    var max = $('#booknumber').attr('max');
+
+    if(booknumber > 1){
+        $('#booknumberminus').prop("disabled", false);
+    }
+
+    if(booknumber == max){
+        $('#booknumberplus').attr('disabled','');
+    }else{
+        $('#booknumberplus').prop("disabled", false);
+    }
+
+});
+
 });
 
   function bookSubcategoryCheckbox(){

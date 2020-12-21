@@ -68,7 +68,7 @@ function mycart(){
       total_price = 0;
     }
   
-      $('#cartitemtotal').empty().append('$'+total_price);
+      $('#cartitemtotal').empty().append('Rs '+total_price);
       $('.top-cart-items').empty().append(cart);
     });
 }

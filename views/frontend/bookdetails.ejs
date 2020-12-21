@@ -99,47 +99,47 @@
         <div class="product-addtocart row">
 
       <% if(bookDetails.book_type == 'paperbook' || bookDetails.book_type == 'both'){ %>
-        <div class="col-md-6">
+        <div class="col-md-7">
           <div class="col-md-12">
-            <h4 style="margin-bottom: 5px;font-size: 25px; text-transform: uppercase;">Paperbook</h4>
-  
-              <h3>Price: <span class="text-danger">Rs <%= bookDetails.product_price %></span></h3>
+            <h4 style="margin-bottom: 15px;font-size: 35px; text-transform: uppercase;font-family: sans-serif;">Paperbook</h4>
+              
+              <h3 style="font-family: sans-serif;font-size: 22px;">Price: <span class="text-danger">Rs <%= bookDetails.product_price %></span></h3>
           </div>
               <div  class="col-md-12">
                   <div class="quantity clearfix">
-                    <input type="button" value="-" class="minus">
-                    <input type="text" step="1" min="1" name="quantity" value="1" title="Qty" class="qty" size="4">
-                    <input type="button" value="+" class="plus">
+                    <input type="button" value="-" class="minus" id="booknumberminus">
+                    <input type="text" step="1" min="1" id="booknumber" max="<%= bookDetails.product_stock %>" name="quantity" value="1" title="Qty" class="qty" size="4" disabled>
+                    <input type="button" value="+" class="plus" id="booknumberplus">
                   </div>
-                  <h5>Availability: <span>3 items left.</span></h5>
+                  <h5 style="margin-bottom: 45px;">Availability: <span><%= bookDetails.product_stock %> items left.</span></h5>
     
                 </div>
               <div class="col-md-12">
-                <button type="" class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #145ba2;color: white;border-color:#145ba2;padding: 5px 10px;border-radius:0px; "><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</button>
+                <button type="" class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #145ba2;color: white;border-color:#145ba2;padding: 5px 10px;border-radius:0px;"  productId="<%= bookDetails.id %>" onclick="addtobookcart()"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</button>
               </div>
         </div>
 
 <% } %>
 
 <% if(bookDetails.book_type == 'ebook' || bookDetails.book_type == 'both'){ %>
-  <div class="col-md-6" >
+  <div class="col-md-5" >
 
     <div class="col-md-12">
-    <h4 style="margin-bottom: 5px;font-size: 25px; text-transform: uppercase;">E-Book</h4>
-        <h3>Price: <span class="text-danger">Rs <%= bookDetails.ebook_id.ebook_price %></span></h3>
+    <h4 style="margin-bottom: 15px;font-size: 35px; text-transform: uppercase;font-family: sans-serif;">E-Book</h4>
+        <h3 style="font-family: sans-serif;font-size: 22px;">Price: <span class="text-danger">Rs <%= bookDetails.ebook_id.ebook_price %></span></h3>
     </div>
-        <div  class="col-md-12">
+        <!-- <div  class="col-md-12">
             <div class="quantity clearfix">
               <input type="button" value="-" class="minus">
-              <input type="text" step="1" min="1" name="quantity" value="1" title="Qty" class="qty" size="4">
+              <input type="text" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="qty" size="4">
               <input type="button" value="+" class="plus">
             </div>
-          <h5>Availability: <span>3 items left.</span></h5>
+        
 
-          </div>
+          </div> -->
         <div class="col-md-12">
 
-          <button type="" class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #145ba2;color: white;border-color:#145ba2;padding: 5px 10px;border-radius:0px; "><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</button>
+          <button type=""  class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #145ba2;color: white;border-color:#145ba2;padding: 5px 10px;border-radius:0px;" productId="<%= bookDetails.id %>" onclick="addtoEbookcart()"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</button>
         </div>
   </div>
 
