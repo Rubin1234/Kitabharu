@@ -48,7 +48,7 @@ const cartModel = require('../../modules/cart');
 
     newArrival.exec(function(err,data){
       ebooks.exec(function(err0,data0){
-        console.log(data0);
+
 
         books.exec(function(err1,data1){
           stationaryProducts.exec(function(err2,data2){
@@ -93,6 +93,7 @@ const cartModel = require('../../modules/cart');
 
           
   router.get('/addtocart', function(req,res,next){
+
     var productId = req.query.productId;
     var cookiesCustomerToken = req.cookies.customerToken;
     var cookiesCustomerrName = req.cookies.customerName;
@@ -202,7 +203,6 @@ const cartModel = require('../../modules/cart');
     router.get('/addtobookcart',function(req,res,next){
 
       var productId = req.query.productId;
-
       var cookiesCustomerToken = req.cookies.customerToken;
       var cookiesCustomerrName = req.cookies.customerName;
       var cookiesCustomerId = req.cookies.customerId;
@@ -228,20 +228,40 @@ const cartModel = require('../../modules/cart');
                 total_quantity =  existingProduct.qty + 1;
                 cart.total_price += parseInt(data.product_price);
 
+                console.log(existingProduct._id);
+                console.log('book exist');
                 //Udate Quantity in Product  Array in cart
-                var updateArray = modelCart.updateOne( 
-                  {"products":{ $elemMatch :{ _id: cart.id, "_id": existingProduct._id,book_type: "paperbook"}}},
-                  { $set: { "products.$.qty":  total_quantity } }
+                // var updateArray = modelCart.find( 
+                //   {"products":{ $elemMatch :{ _id: cart._id, "products._id": existingProduct._id,book_type: "paperbook"}}},
+                //   { $set: { "products.$.qty":  total_quantity }}
+                // )
+                  // var updateArray = modelCart.updateOne(
+                  //   {customer_id:cookiesCustomerId,"products._id":existingProduct._id,"products.book_type": "paperbook"},
+                  //      { $set: { "products.$.qty":  total_quantity }}
+                  //   );
+
+                  //Udate Quantity in Product  Array in cart
+                var updateArray = modelCart.update(
+                  {customer_id:cookiesCustomerId, 
+                  products:{ $elemMatch :{"book_type": "paperbook", "_id": existingProduct._id}}},
+                  { $set: { "products.$.qty":  total_quantity }}
+        
                 )
+
 
                 //Update Price
                 var updateCart = modelCart.findOneAndUpdate({customer_id:cookiesCustomerId},{total_price :  cart.total_price}); 
             
                 updateArray.exec(function(err3,data3){
+                  var records = util.inspect(data3, false, null, true /* enable colors */);
+  
+                  console.log(records);
+                  
                   updateCart.exec(function(err4,data4){
+                    
                     //For Count Latest Item Quantity Number
                     modelCart.findOne({customer_id:cookiesCustomerId},function(err5,data5){
-            
+                  
                       // For Latest Number of product item        
                       var productItemNumber = 0;
                       data5.products.forEach(function(doc){
@@ -340,10 +360,6 @@ const cartModel = require('../../modules/cart');
                 console.log('ebook product exist');
                 const existingProduct = cart.products[existingProductIndex];
 
-         
-    
-               
-
                 total_quantity =  existingProduct.qty + 1;
 
          
@@ -351,9 +367,10 @@ const cartModel = require('../../modules/cart');
                 cart.total_price += parseInt(data.product_price);
 
          
-                var updateArray = modelCart.updateOne( 
-                 {"products":{ $elemMatch :{ _id: cart.id, "_id": existingProduct._id,book_type: "ebook"}}},
-                    { $set: { "products.$.qty":  total_quantity } }
+                var updateArray = modelCart.update( 
+                  {customer_id:cookiesCustomerId, 
+                    products:{ $elemMatch :{"book_type": "ebook", "_id": existingProduct._id}}},
+                    { $set: { "products.$.qty":  total_quantity }}
                 )
 
 

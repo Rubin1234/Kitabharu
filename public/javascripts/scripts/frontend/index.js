@@ -73,6 +73,9 @@ function mycart(){
     });
 }
 
+
+
+
 function addtobookcart(){
   var productId = $(event.currentTarget).attr('productId');
 

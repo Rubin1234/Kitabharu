@@ -80,6 +80,8 @@ var customerLoginRouter = require('./routes/frontend/login');
 
 //API
 var homeApiRouter = require('./routes/api/home');
+var signUpApiRouter = require('./routes/api/signup');
+var loginApiRouter = require('./routes/api/login');
 
 // view engine setup
 
@@ -128,6 +130,8 @@ app.use('/customer', customerLoginRouter);
 
 //API
 app.use('/api', homeApiRouter);
+app.use('/api', signUpApiRouter);
+app.use('/api', loginApiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
