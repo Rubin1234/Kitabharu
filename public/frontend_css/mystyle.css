@@ -851,6 +851,19 @@ button{
    border: 1px solid #e3e3e3;
   }
 
+.amountPerProduct{
+    font-size: 19px;
+}
+
+.remove:hover{
+    cursor: pointer;
+}
+
+.amountTotal{
+    font-size: 19px;
+}
+
+
 /*.publication .card .p{
     margin-bottom: 0px
 }*/

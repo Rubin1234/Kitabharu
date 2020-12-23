@@ -95,6 +95,10 @@ const cartModel = require('../../modules/cart');
   router.get('/addtocart', function(req,res,next){
 
     var productId = req.query.productId;
+    var productNumber = req.query.productNumber;
+
+  
+
     var cookiesCustomerToken = req.cookies.customerToken;
     var cookiesCustomerrName = req.cookies.customerName;
     var cookiesCustomerId = req.cookies.customerId;
@@ -106,6 +110,7 @@ const cartModel = require('../../modules/cart');
           ModelProduct.findById(productId).populate('book_attribute').exec(function(err,data){
             modelCart.findOne({customer_id:cookiesCustomerId}).exec(function(err1,cart){
             
+              var total_quantity = 0;
               //IF Cart is empty
               if(cart != null){
                 const existingProductIndex = cart.products.findIndex(p => p._id == productId);  //to check product is existing in cart
@@ -113,19 +118,31 @@ const cartModel = require('../../modules/cart');
                 //If Cart has same product
                 if(existingProductIndex >= 0){
                   const existingProduct = cart.products[existingProductIndex];
-                  existingProduct.qty += 1;
-                  cart.total_price += parseInt(data.product_price);
+
+                  if(productNumber == undefined){
+                    total_quantity =  existingProduct.qty + 1;
+                  }else{
+                    total_quantity =  parseInt(existingProduct.qty) + parseInt(productNumber);
+                  }
+                  
+                  if(productNumber == undefined){
+                    var totalPrice = total_quantity * data.product_price;
+                    cart.total_price += parseInt(totalPrice);
+                   }else{
+                    cart.total_price += parseInt(data.product_price);
+                   }
 
                   //Udate Product Array in cart
                   var updateArray = modelCart.updateOne( 
                     { _id: cart.id, "products._id": existingProduct._id}, 
-                    { $set: { "products.$.qty": existingProduct.qty } }
+                    { $set: { "products.$.qty": total_quantity } }
                   )
 
                   var updateCart = modelCart.findOneAndUpdate({customer_id:cookiesCustomerId},{
                   total_price :  cart.total_price
                   }); 
                     
+                  
                   //For Number of product item
                   var productItemNumber = 0;
 
@@ -135,10 +152,20 @@ const cartModel = require('../../modules/cart');
         
                   updateArray.exec(function(err3,data3){
                     updateCart.exec(function(err4,data4){
-                      res.send({
-                        'productitem': productItemNumber, 
-                        'cart': cart,
-                      });
+                       //For Count Latest Item Quantity Number
+                       modelCart.findOne({customer_id:cookiesCustomerId},function(err5,data5){
+                  
+                        // For Latest Number of product item        
+                        var productItemNumber = 0;
+                        data5.products.forEach(function(doc){
+                          productItemNumber += parseInt(doc.qty);
+                        });
+  
+                        res.send({
+                          'productitem': productItemNumber, 
+                          'cart': cart,
+                        });
+                      });;
                       });
                   });
                 }
@@ -147,29 +174,53 @@ const cartModel = require('../../modules/cart');
 
                   //If card has other different product
                   var savedata = data.toObject();
+                  console.log(productNumber);
+                  
+                if(productNumber == undefined){
+
+               
                   savedata.qty = 1;
+                }else{
+                  savedata.qty = productNumber;
+                }
+                
+              
 
                   cart.products.push(savedata);
                   cart.save();
 
-                  cart.total_price += parseInt(data.product_price);
+                  if(productNumber == undefined){
+                    var totalPrice = total_quantity * data.product_price;
+                    cart.total_price += parseInt(totalPrice);
+                   }else{
+                    cart.total_price += parseInt(data.product_price);
+                   }
 
                   var updateCart = modelCart.findOneAndUpdate({customer_id:cookiesCustomerId},{
                     total_price :  cart.total_price
                   });
 
-                  var productItemNumber = 0;
-                  cart.products.forEach(function(doc){
-                    productItemNumber += parseInt(doc.qty);
-                  });
+                  updateCart.exec(function(err1,data2){
 
-                  updateCart.exec(function(err4,data4){
-                    res.send({
-                      'productitem': productItemNumber, 
-                      'cart': cart,
+                  
+   //For Count Latest Item Quantity Number
+                    modelCart.findOne({customer_id:cookiesCustomerId},function(err5,data5){
+                  
+                      // For Latest Number of product item        
+                      var productItemNumber = 0;
+
+                      data5.products.forEach(function(doc){
+                        productItemNumber += parseInt(doc.qty);
+                      });
+
+                      console.log(productItemNumber);
+                      updateCart
+                      res.send({
+                        'productitem': productItemNumber, 
+                        'cart': cart,
+                      });
                     });
                   });
-        
                 }
               }
               else
@@ -181,7 +232,13 @@ const cartModel = require('../../modules/cart');
                 });
 
                 var savedata = data.toObject();
-                savedata.qty = 1;
+
+                if(productNumber == undefined){
+                  savedata.qty = 1;
+                }else{
+                  savedata.qty = productNumber;
+                }
+           
 
                 saveCart.products.push(savedata);
             
@@ -203,6 +260,8 @@ const cartModel = require('../../modules/cart');
     router.get('/addtobookcart',function(req,res,next){
 
       var productId = req.query.productId;
+      var booknumber = req.query.booknumber;
+ 
       var cookiesCustomerToken = req.cookies.customerToken;
       var cookiesCustomerrName = req.cookies.customerName;
       var cookiesCustomerId = req.cookies.customerId;
@@ -225,21 +284,25 @@ const cartModel = require('../../modules/cart');
               //If Cart has same product
               if(existingProductIndex >= 0){
                 const existingProduct = cart.products[existingProductIndex];
-                total_quantity =  existingProduct.qty + 1;
+
+                if(booknumber == undefined){
+                  total_quantity =  existingProduct.qty + 1;
+                }else{
+                  total_quantity =  parseInt(existingProduct.qty) + parseInt(booknumber);
+                }
+
+               if(booknumber == undefined){
+                var totalPrice = total_quantity * data.product_price;
+                cart.total_price += parseInt(totalPrice);
+               }else{
                 cart.total_price += parseInt(data.product_price);
+               }
+         
 
-                console.log(existingProduct._id);
-                console.log('book exist');
-                //Udate Quantity in Product  Array in cart
-                // var updateArray = modelCart.find( 
-                //   {"products":{ $elemMatch :{ _id: cart._id, "products._id": existingProduct._id,book_type: "paperbook"}}},
-                //   { $set: { "products.$.qty":  total_quantity }}
-                // )
-                  // var updateArray = modelCart.updateOne(
-                  //   {customer_id:cookiesCustomerId,"products._id":existingProduct._id,"products.book_type": "paperbook"},
-                  //      { $set: { "products.$.qty":  total_quantity }}
-                  //   );
+                  
+             
 
+             
                   //Udate Quantity in Product  Array in cart
                 var updateArray = modelCart.update(
                   {customer_id:cookiesCustomerId, 
@@ -282,12 +345,24 @@ const cartModel = require('../../modules/cart');
                 var savedata = data.toObject();
 
                 savedata.book_type = 'paperbook';
-                savedata.qty = 1;
+
+                if(booknumber == undefined){
+                  savedata.qty = 1;
+                }else{
+                  savedata.qty = booknumber;
+                }
+               
 
                 cart.products.push(savedata);
                 cart.save();
 
-                cart.total_price += parseInt(data.product_price);
+                if(booknumber == undefined){
+                  var totalPrice = total_quantity * data.product_price;
+                  cart.total_price += parseInt(totalPrice);
+                 }else{
+                  cart.total_price += parseInt(data.product_price);
+                 }
+           
 
                 var updateCart = modelCart.findOneAndUpdate({customer_id:cookiesCustomerId},{
                   total_price :  cart.total_price
@@ -317,7 +392,12 @@ const cartModel = require('../../modules/cart');
               var savedata = data.toObject();
               savedata.book_type = 'paperbook';
               
-              savedata.qty = 1;
+              if(booknumber == undefined){
+                savedata.qty = 1;
+              }else{
+                savedata.qty = booknumber;
+              }
+           
               saveCart.products.push(savedata);
               saveCart.save();
                 res.send({
@@ -364,7 +444,7 @@ const cartModel = require('../../modules/cart');
 
          
                
-                cart.total_price += parseInt(data.product_price);
+             
 
          
                 var updateArray = modelCart.update( 

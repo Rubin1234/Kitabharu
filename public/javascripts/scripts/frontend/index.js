@@ -16,11 +16,16 @@ $(document).ready(function(){
 function addtocart(){
 
   var productId = $(event.currentTarget).attr('productId');
+  var productNumber = $('#booknumber').val();
+
+  console.log(productNumber);
+
     axios
        .get('/addtocart',
        {
         params:{
-          productId: productId
+          productId: productId,
+          productNumber: productNumber
        }
         }).then(function(response){
           if(response.data == 'nocookies'){
@@ -28,6 +33,7 @@ function addtocart(){
           }else{
             var productLength = response.data.productitem;
             console.log(productLength);
+            console.log(response.data);
 
             $('#cartproductnumber').empty().append(productLength);
               bootoast.toast({
@@ -78,12 +84,16 @@ function mycart(){
 
 function addtobookcart(){
   var productId = $(event.currentTarget).attr('productId');
+  var booknumber = $('#booknumber').val();
+
+  console.log(booknumber);
 
   axios
   .get('/addtobookcart',
   {
    params:{
-     productId: productId
+     productId: productId,
+     booknumber: booknumber
   }
    }).then(function(response){
       console.log(response);

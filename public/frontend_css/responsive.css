@@ -163,6 +163,8 @@ i{font-size:18px}.scw-switcher-wrap.scw-switcher-open i:nth-of-type(1),.scw-swit
 @media(max-width:1199.98px){
 	.header-search .inner-header-search .form-control{width: 77%;}
 	.header-search{margin: 29px 20px 0px 70px;}
+
+	
 }
 
 @media(max-width: 992px){
@@ -175,6 +177,7 @@ i{font-size:18px}.scw-switcher-wrap.scw-switcher-open i:nth-of-type(1),.scw-swit
 	#top-social li a{font-size: 12px;padding: 0px 7px;}
 	#header.sticky-style-2 #header-wrap{    border-top: 1px solid lightgray;background-color: #145ba2;}
 	.section .section-viewall {width: 17%;}
+	
 }
 
 @media(max-width: 767.98px){
@@ -199,5 +202,11 @@ i{font-size:18px}.scw-switcher-wrap.scw-switcher-open i:nth-of-type(1),.scw-swit
 	.section .section-title{width: 100%}
 	.choose_books h4{font-size: 1.7rem}
 	#top-cart .top-cart-content{right: 0px;}
+}
+
+@media (min-width: 992px){
+	#padding-left{
+		padding-left: 40px;
+	}
 }
 
