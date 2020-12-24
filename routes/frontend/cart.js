@@ -54,6 +54,8 @@ const cartModel = require('../../modules/cart');
         
 
         cartProduct.exec(function(err4,data4){
+      
+
             var records = util.inspect(data4, false, null, true /* enable colors */);
           console.log(records);
             res.render('frontend/cart',{

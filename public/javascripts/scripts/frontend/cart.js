@@ -6,6 +6,7 @@ $(document).ready(function(){
         var productQuantity =  $(this).parent().siblings('.cart-product-quantity').children().children('.qty').val();
         var totalPrice = amountPerProduct * productQuantity;
         $(this).parent().siblings().last().children('.amountTotal').html('Rs '+ totalPrice);
+        $(this).parent().siblings().last().children('.amountTotal').attr('totalPrice',totalPrice);
         
         if(productQuantity == 1){
             $(this).parent().siblings().siblings('.cart-product-quantity').children().children('.minus').prop("disabled", true);
@@ -41,11 +42,20 @@ function productNumberAdd(){
    var perPrice = $(event.currentTarget).parent().parent().siblings('.cart-product-price').children().attr('amountperproduct');
    var totalPricePerProduct = totalQuantity * parseInt(perPrice)
    $(event.currentTarget).parent().parent().siblings('.cart-product-subtotal').children().html('Rs '+ totalPricePerProduct);
+   $(event.currentTarget).parent().parent().siblings('.cart-product-subtotal').children().attr('totalPrice',totalPricePerProduct);
+
+   var totalAmount = 0;
+   $('.amountTotal').each(function(){
+    var totalPricePerProduct = $(this).attr('totalPrice');
+    totalAmount += parseInt(totalPricePerProduct); 
+ });
+ console.log(totalAmount);
 }
 
 
 
 function productNumberSub(){
+
     var quantity =  $(event.currentTarget).siblings('.qty').val();
     var max =  $(event.currentTarget).siblings('.qty').attr('max');
     var totalQuantity = parseInt(quantity) - parseInt(1);
@@ -61,4 +71,13 @@ function productNumberSub(){
     var perPrice = $(event.currentTarget).parent().parent().siblings('.cart-product-price').children().attr('amountperproduct');
     var totalPricePerProduct = totalQuantity * parseInt(perPrice);
     $(event.currentTarget).parent().parent().siblings('.cart-product-subtotal').children().html('Rs '+ totalPricePerProduct);
+    $(event.currentTarget).parent().parent().siblings('.cart-product-subtotal').children().attr('totalPrice',totalPricePerProduct);
+    
+    var totalAmount = 0;
+    $('.amountTotal').each(function(){
+     var totalPricePerProduct = $(this).attr('totalPrice');
+     totalAmount += parseInt(totalPricePerProduct); 
+  });
+  console.log(totalAmount);
+
 }

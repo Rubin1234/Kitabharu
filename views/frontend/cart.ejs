@@ -49,32 +49,46 @@
     </thead>
     <tbody>
 
-<% cartProduct.products.forEach(function(data){ %>
 
-      
+<% cartProduct.products.forEach(function(data){ %>
     <tr class="cart_item">
-    <td class="cart-product-remove">
-    <i class="icon-trash2 remove" onclick="removeItem()"></i>
-    </td>
-    <td class="cart-product-thumbnail">
-    <a href="#"><img width="64" height="64" src="images/backend/products/<%= data.product_image %>" alt="<%= data.product_name %>"></a>
-    </td>
-    <td class="cart-product-name">
-    <a href="#"><%= data.product_name %> </a>
-    </td>
-    <td class="cart-product-price">
-     <span class="amountPerProduct" amountPerProduct="<%= data.product_price %>">Rs <%= data.product_price %></span>
-    </td>
-    <td class="cart-product-quantity">
-    <div class="quantity clearfix">
-    <input type="button" value="-" class="minus"  onclick="productNumberSub()">
-    <input type="text" name="quantity"  max="<%= data.product_stock %>" value="<%= data.qty %>" qty="<%= data.qty %>" class="qty" />
-    <input type="button" value="+" class="plus" onclick="productNumberAdd()">
-    </div>
-    </td>
-    <td class="cart-product-subtotal">
-    <span class="amountTotal"></span>
-    </td>
+      <td class="cart-product-remove">
+         <i class="icon-trash2 remove" onclick="removeItem()"></i>
+      </td>
+      <td class="cart-product-thumbnail">
+         <a href="#"><img width="64" height="64" src="images/backend/products/<%= data.product_image %>" alt="<%= data.product_name %>"></a>
+      </td>
+      <td class="cart-product-name">
+         <a href="#"><%= data.product_name %> </a>
+         
+         <% if(data.book_type == 'ebook'){ %>
+         <span style="font-weight: 700;font-size: 14.5px;color: #dd3a3a;font-family: sans-serif;">(E-Book)</span>
+         <% } %>
+         <% if(data.book_type == 'paperbook'){ %>
+            <span style="font-weight: 700;font-size: 14.5px;color: #dd3a3a;font-family: sans-serif;">(Book)</span>
+            <% } %>
+            <% if(data.book_type == null){ %>
+               <span style="font-weight: 700;font-size: 14.5px;color: #dd3a3a;font-family: sans-serif;">(Stationary)</span>
+               <% } %>
+      </td>
+      <td class="cart-product-price">
+         <% if(data.book_type == 'ebook'){ %>
+         <span class="amountPerProduct" amountPerProduct="<%= data.ebook_id.ebook_price %>" >Rs  <%= data.ebook_id.ebook_price %></span>
+            <% }else{ %>
+
+               <span class="amountPerProduct" amountPerProduct="<%= data.product_price %>" >Rs  <%= data.product_price %></span>
+                  <% } %>
+      </td>
+      <td class="cart-product-quantity">
+         <div class="quantity clearfix">
+            <input type="button" value="-" class="minus"  onclick="productNumberSub()">
+            <input type="text" name="quantity"  max="<%= data.product_stock %>" value="<%= data.qty %>" qty="<%= data.qty %>" class="qty" />
+            <input type="button" value="+" class="plus" onclick="productNumberAdd()">
+         </div>
+      </td>
+      <td class="cart-product-subtotal">
+         <span class="amountTotal" style="color: #145ba2;"></span>
+      </td>
     </tr>
 <% }) %>  
 
@@ -108,7 +122,7 @@
     <br>
     <br>
     <div class="row clearfix" style="padding-bottom: 40px;">
-    <div class="col-lg-5 clearfix" style="    padding-top: 19px;">
+    <div class="col-lg-5 clearfix" style="padding-top: 19px;">
     
     <form>
     <div class="col_full">
@@ -141,7 +155,7 @@
     <strong>Cart Subtotal</strong>
     </td>
     <td class="cart-product-name">
-    <span class="amount">Rs <%= cartProduct.total_price %></span>
+    <span class="amount" style="color:#145ba2;">Rs <%= cartProduct.total_price %></span>
     </td>
     </tr>
     <tr class="cart_item">

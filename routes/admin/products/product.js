@@ -3410,7 +3410,7 @@ router.get('/delete/:id',function(req,res,next){
                                         
                                         deleteEbook.exec(function(err1,data1){
 
-                                            //Removing Ebook File
+                                            // //Removing Ebook File
                                             var filePath = './public/images/backend/products/ebook/' + data1.ebook_file;
                                             fs.unlinkSync(filePath);
                                             

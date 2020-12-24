@@ -201,7 +201,9 @@
                 <span>&nbsp;</span>
               <% } %>
              <div class="price-box">
-                  <h4>Rs. <%= data.product_price %></h4>
+               <% if( data.ebook_id != null){ %>
+                  <h4>Rs. <%= data.ebook_id.ebook_price %></h4>
+                  <% } %>
              </div>
            </div>
                 <div class="view-book">
