@@ -21,7 +21,7 @@ function removeItem(){
     var productId =  $(event.currentTarget).attr('productId');
     var bookType =  $(event.currentTarget).attr('bookType');
     var cartProduct = $(event.currentTarget).attr('cartProduct');
-    var removeItem = $(event.currentTarget).parent().parent().remove();
+   $(event.currentTarget).parent().parent().remove();
 
     axios
     .get('/cart/removeitem',
