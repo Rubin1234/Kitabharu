@@ -595,7 +595,6 @@ const cartModel = require('../../modules/cart');
     if(cookiesCustomerEmail == undefined && cookiesCustomerId == undefined && cookiesCustomerrName == undefined && cookiesCustomerToken == undefined){
       
       cart = "No Product Added.";
-      console.log(cart);
       res.send(cart);
     }else{
 
@@ -603,6 +602,132 @@ const cartModel = require('../../modules/cart');
         res.send(cart);
       });
     }
+  });
+
+
+
+  router.get('/autocomplete', function(req,res,next){
+
+    var regex = new RegExp(req.query["term"],'i');
+
+
+    var productFilter = ModelProduct.find({product_name:regex},{'product_name':1}).sort({"updated_at":-1}).sort({"created_at":-1}).limit(20);
+    
+    productFilter.exec(function(err,data){
+
+      var result = [];
+
+      if(!err){
+        if(data && data.length && data.length > 0){
+          data.forEach(products=>{
+            let obj = {
+              id : products._id,
+              label : products.product_name
+            };
+            result.push(obj);
+          });
+        }
+        res.jsonp(result);
+      }
+    });
+  });
+
+
+  router.post('/search', function(req,res,next){
+      
+    var cookiesCustomerToken = req.cookies.customerToken;
+    var cookiesCustomerrName = req.cookies.customerName;
+    var cookiesCustomerId = req.cookies.customerId;
+    var cookiesCustomerEmail = req.cookies.customerEmail;
+
+
+    var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
+    var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
+    var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
+
+    if(req.body.headersearch != ''){
+
+    var regex = new RegExp(req.body.headersearch,'i');
+
+    var productFilter = ModelProduct.find({product_name:regex},{'product_name':1}).sort({"updated_at":-1}).sort({"created_at":-1}).limit(20);
+    
+    productFilter.exec(function(err,data){
+      const promises = data.map((item,index) => new Promise((resolve,reject) => {
+        var productFilter = ModelProduct.findOne({_id:item._id}).populate('book_attribute').populate('stationary_attribute');
+        productFilter.exec(function(err1,data1){
+            resolve(data1);
+        })
+      }));
+
+      Promise.all(promises)
+      .then(allArray => {  
+        // var records = util.inspect(allArray, false, null, true /* enable colors */);  
+
+        bookSubcategories.exec(function(err1,data1){
+          stationarySubcategories.exec(function(err2,data2){
+            ebookSubcategories.exec(function(err3,data3){
+              
+              //Storing subcategories in array for taking unique value
+              var array = [];
+              data3.forEach(function(data4){
+                var subcategoryEbook = data4.subcategory_id;
+                array.push(subcategoryEbook);
+              });
+          
+          var uniqueValueEbook = array.filter(onlyUnique);
+
+              res.render('frontend/searchpage',{
+                bookSubcategories:data1,
+                stationarySubcategories:data2,
+                ebookSubcategories:uniqueValueEbook,
+                cookiesCustomerToken,
+                cookiesCustomerrName,
+                cookiesCustomerId,
+                cookiesCustomerEmail,
+                searchedProducts : allArray,
+                searchValue : req.body.headersearch,
+              }); 
+            });
+          });
+        });
+      });
+    });
+  }else{
+    bookSubcategories.exec(function(err1,data1){
+      stationarySubcategories.exec(function(err2,data2){
+        ebookSubcategories.exec(function(err3,data3){
+          
+
+          //Storing subcategories in array for taking unique value
+          var array = [];
+          data3.forEach(function(data4){
+            var subcategoryEbook = data4.subcategory_id;
+            array.push(subcategoryEbook);
+          });
+      
+      var uniqueValueEbook = array.filter(onlyUnique);
+
+      allArray = [];
+
+          res.render('frontend/searchpage',{
+            bookSubcategories:data1,
+            stationarySubcategories:data2,
+            ebookSubcategories:uniqueValueEbook,
+            cookiesCustomerToken,
+            cookiesCustomerrName,
+            cookiesCustomerId,
+            cookiesCustomerEmail,
+            searchedProducts : allArray,
+            searchValue : req.body.headersearch,
+          
+          }); 
+        });
+      });
+    });
+
+  }
+
+
   });
 
 

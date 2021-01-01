@@ -18,15 +18,33 @@ $(document).ready(function(){
 
 
 function removeItem(){
+    var productId =  $(event.currentTarget).attr('productId');
+    var bookType =  $(event.currentTarget).attr('bookType');
+    var cartProduct = $(event.currentTarget).attr('cartProduct');
     var removeItem = $(event.currentTarget).parent().parent().remove();
-    console.log(removeItem);
+
+    axios
+    .get('/cart/removeitem',
+        {   
+            params:{
+                productId : productId,
+                bookType : bookType,
+                cartProduct : cartProduct,
+            }
+        }).then(function(response){
+            bootoast.toast({
+                message: 'Cart Item Deleted',
+                type: 'success'
+            })
+        
+        });
+    console.log(bookType);
 }
 
 function productNumberAdd(){
    var quantity =  $(event.currentTarget).siblings('.qty').val();
    var max =  $(event.currentTarget).siblings('.qty').attr('max');
    var totalQuantity = parseInt(quantity) + parseInt(1);
-
 
     if(parseInt(totalQuantity) > 1){
         $(event.currentTarget).siblings('.minus').prop("disabled", false);
@@ -40,7 +58,7 @@ function productNumberAdd(){
 
 
    var perPrice = $(event.currentTarget).parent().parent().siblings('.cart-product-price').children().attr('amountperproduct');
-   var totalPricePerProduct = totalQuantity * parseInt(perPrice)
+   var totalPricePerProduct = totalQuantity * parseInt(perPrice);
    $(event.currentTarget).parent().parent().siblings('.cart-product-subtotal').children().html('Rs '+ totalPricePerProduct);
    $(event.currentTarget).parent().parent().siblings('.cart-product-subtotal').children().attr('totalPrice',totalPricePerProduct);
 
@@ -49,7 +67,29 @@ function productNumberAdd(){
     var totalPricePerProduct = $(this).attr('totalPrice');
     totalAmount += parseInt(totalPricePerProduct); 
  });
- console.log(totalAmount);
+
+ $('.amount').empty().html('Rs '+ totalAmount);
+
+//Using Axios to change into database of quantity and totalprice
+var productId =  $(event.currentTarget).attr('productId');
+var bookType =  $(event.currentTarget).attr('bookType');
+
+axios
+.get('/cart/updated/add',
+    {   
+        params:{
+            totalQuantity : totalQuantity,
+            productId : productId,
+            bookType : bookType,
+        }
+    }).then(function(response){
+        bootoast.toast({
+            message: 'Cart Updated',
+            type: 'success'
+          })
+       
+    });
+
 }
 
 
@@ -78,6 +118,29 @@ function productNumberSub(){
      var totalPricePerProduct = $(this).attr('totalPrice');
      totalAmount += parseInt(totalPricePerProduct); 
   });
-  console.log(totalAmount);
+  $('.amount').empty().html('Rs '+ totalAmount);
+
+
+  //Using Axios to change into database of quantity and totalprice
+
+    var productId =  $(event.currentTarget).attr('productId');
+    var bookType =  $(event.currentTarget).attr('bookType');
+
+
+    axios
+    .get('/cart/updated/sub',
+        {   
+            params:{
+                totalQuantity : totalQuantity,
+                productId : productId,
+                bookType : bookType,
+            }
+        }).then(function(response){
+            bootoast.toast({
+                message: 'Cart Updated',
+                type: 'success'
+            })
+        
+        });
 
 }

@@ -1,6 +1,37 @@
 
 
+
+
+
 $(document).ready(function(){
+
+  //For Search
+    $('#searchProduct').autocomplete({
+      source : function(req, res){
+
+        $.ajax({
+          url : "autocomplete/",
+          dataType : "jsonp",
+          type : "GET",
+          data : req,
+          success : function(data){
+            res(data);
+          },
+          error : function(err){
+            console.log(err.status);
+          }
+        });
+      },
+
+      minLength:1,
+      select : function(event,ui){
+        if(ui.item){
+          $('#searchProduct').text(ui.item.label);
+        }
+      }
+    });
+
+  //
   axios
   .get('/viewcart',
   {
@@ -9,6 +40,8 @@ $(document).ready(function(){
         var productLength = response.data.productitem;
         $('#cartproductnumber').append(productLength);
       });
+
+
 });
 
 
@@ -98,7 +131,7 @@ function addtobookcart(){
    }).then(function(response){
       console.log(response);
      if(response.data == 'nocookies'){
-       window.location.href = "customer/login?n=0";
+       window.location.href = "../customer/login?n=0";
      }else{
        var productLength = response.data.productitem;
        console.log(productLength);
@@ -122,13 +155,11 @@ function addtoEbookcart(){
      productId: productId
   }
    }).then(function(response){
-      console.log(response);
+
      if(response.data == 'nocookies'){
        window.location.href = "customer/login?n=0";
      }else{
        var productLength = response.data.productitem;
-       console.log(productLength);
-
        $('#cartproductnumber').empty().append(productLength);
          bootoast.toast({
            message: 'Product Added To Cart',
@@ -136,6 +167,4 @@ function addtoEbookcart(){
          });
      }
       });
-
-  
 }

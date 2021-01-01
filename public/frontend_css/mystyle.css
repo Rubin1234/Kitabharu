@@ -863,6 +863,10 @@ button{
     font-size: 19px;
 }
 
+#ui-id-1{
+    z-index: 200;
+}
+
 
 /*.publication .card .p{
     margin-bottom: 0px
