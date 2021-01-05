@@ -38,7 +38,6 @@ function removeItem(){
             })
         
         });
-    console.log(bookType);
 }
 
 function productNumberAdd(){

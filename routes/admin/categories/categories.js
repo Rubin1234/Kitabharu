@@ -17,9 +17,7 @@ var sessionstorage = require('sessionstorage');
 
 router.get('/index',function(req,res,next){
     var adminType = req.cookies.adminType;
-
     var categories = categoryModel.find({});
-
     categories.exec(function(err,data){
         res.render('backend/categories/index',{adminType,title:"Categories Lists",records:data,dateFormat});
     });

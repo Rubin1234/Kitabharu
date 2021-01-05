@@ -4,13 +4,13 @@
 
 
 $(document).ready(function(){
-
+console.log(123);
   //For Search
     $('#searchProduct').autocomplete({
       source : function(req, res){
 
         $.ajax({
-          url : "autocomplete/",
+          url : "../autocomplete/",
           dataType : "jsonp",
           type : "GET",
           data : req,
