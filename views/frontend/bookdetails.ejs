@@ -223,19 +223,53 @@
       <div class="row">
         <div class="col-md-4 rating-star">
           <div class="score">
-            <span class="score-average">4.2</span>
+            <span class="score-average"><%= average %></span>
             <span class="score-max">/5</span>  
           </div>
           <div class="average">
             <div class="container-star " style="width: 100%;margin-bottom: 9px;">
+
+              <% for(var i=1; i<=5; i++){ %>
+                <% if(i <= average){ %>  
+                  <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 33.25px; height: 33.25px;">
+                  <% var j=i; } %>
+                  <% } %>
+
+            
+            <% if((average - roundOffValue) == 0.5 ){ %> 
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB13svEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 33.25px; height: 33.25px;">
+                <% var j=j+1;  %>
+            <% } %>
+
+            <% if((average - roundOffValue ) < 0.5 && (average - roundOffValue ) != 0 ){ %> 
+              <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB16MwRdOqAXuNjy1XdXXaYcVXa-64-64.png" style="width: 33.25px; height: 33.25px;">
+              <% var j=j+1;  %>
+          <% } %>
+
+          <% if((average - roundOffValue) >  0.5 ){ %> 
+            <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB14IvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 33.25px; height: 33.25px;">
+            <% var j=j+1;  %>
+        <% } %>
+
+      
+              <% for(var k=j; k < 5; k++){ %>
+             
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 33.25px; height: 33.25px;">
+          
+                <% } %>
+
+              <!-- <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 33.25px; height: 33.25px;">
               <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 33.25px; height: 33.25px;">
-              <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 33.25px; height: 33.25px;"><img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 33.25px; height: 33.25px;">
-              <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 33.25px; height: 33.25px;"><img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB17MwRdOqAXuNjy1XdXXaYcVXa-64-64.png" style="width: 33.25px; height: 33.25px;">
+              <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 33.25px; height: 33.25px;">
+              <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB17MwRdOqAXuNjy1XdXXaYcVXa-64-64.png" style="width: 33.25px; height: 33.25px;"> -->
+
             </div>
-            <span style="padding-top: 5px;">26 Ratings</span>
+        
+            <span style="padding-top: 5px;font-weight: bold;"><%= reviews.length %> Ratings</span>
           </div>
+
           <button class="form-control ratenowBtn"  data-toggle="modal" data-target="#ratingModal" onclick="showRatingModal()">Rate Now !!!</button>
-          <span id="productId" value="<%= bookDetails._id %>"></span>
+          <span id="productSlug" value="<%= bookDetails.slug %>"></span>
           <!-- Modal -->
           <div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -275,7 +309,7 @@
                   <div class="bar fg" style="width: 60%;"></div>
                 </div>
               </span>
-              <span class="percent">6</span>
+              <span class="percent"><%= countFiveStar.length %></span>
             </li>
             <li>
               <div class="progress-star" style="display: inline-block;">
@@ -291,7 +325,7 @@
                   <div class="bar fg" style="width: 70%;"></div>
                   </div>
               </span>
-              <span class="percent">10</span>
+              <span class="percent"><%= countFourStar.length %></span>
             </li>
             <li>
               <div class="progress-star" style="display: inline-block;">
@@ -307,7 +341,7 @@
                   <div class="bar fg" style="width: 20%;"></div>
                   </div>
               </span>
-              <span class="percent">2</span>
+              <span class="percent"><%= countThreeStar.length %></span>
             </li>
             <li>
               <div class="progress-star" style="display: inline-block;">
@@ -323,7 +357,7 @@
                   <div class="bar fg" style="width: 30%;"></div>
                   </div>
               </span>
-              <span class="percent">3</span>
+              <span class="percent"><%= countTwoStar.length %></span>
             </li>
             <li>
               <div class="progress-star" style="display: inline-block;">
@@ -339,7 +373,7 @@
                   <div class="bar fg" style="width: 50%;"></div>
                   </div>
               </span>
-              <span class="percent">5</span>
+              <span class="percent"><%= countOneStar.length %></span>
             </li>
           </ul>
       </div>
@@ -353,44 +387,43 @@
       <h3 style="margin-bottom: 0px;">Review & Comments</h3>
       <hr>
       <div class="commentsection">
-        <div class="item">
-            <div class="top">
-              <span style="margin-bottom: 0px;float:right;">4 weeks ago</span>
+        <% if(reviews.length > 0){ %>
+          <% reviews.forEach(function(data,index){ %>
+            <div class="item">
+         
+              <% if(data.customer_id._id == cookiesCustomerId){ %>
+              <div class="commentOption" style="text-align: right;" reviewId = "<%= data._id %>" onclick="deleteComment()"><p >Delete</p> </div>
+              <% } %>
+                <div class="top">
+                  <span style="margin-bottom: 0px;float:right;"><%= dateArray[index] %></span>
+                  <div class="progress-star" style="display: inline-block;margin-bottom: 9px;">
+                    <% for(var i = 1; i<=5; i++ ){ %>
+                      <% if(i <= data.rating_star){ %>
+                        <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.96px; height: 16.96px;">
+                      <% }else{ %>
+                        <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.96px; height: 16.96px;">
+                      <% } %>
+                    
+                   
+                   
+                    <% } %>
+                  </div>
+                  <p style="margin-bottom: 5px;">
+                   <%= data.comment %>
+                  </p>
+                  <span>By: <%= data.customer_id.user_name %></span>
+                </div>
+                <div class="middle"></div>
+                <hr>
+            </div>
+          
+          <% }) %>
+        <% }else{ %>
+          <h5>No Comments Available.</h5>
+        <% } %>
 
-              <div class="progress-star" style="display: inline-block;margin-bottom: 9px;">
-                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.96px; height: 16.96px;">
-                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.96px; height: 16.96px;">
-                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.96px; height: 16.96px;">
-                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.96px; height: 16.96px;">
-                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.96px; height: 16.96px;">
-              </div>
-              <p style="margin-bottom: 5px;">
-                Product delivered is different colour and design than what was ordered in the advertisement. At least it should have been informed.
-              </p>
-              <span>By: rubinawale</span>
-            </div>
-            <div class="middle"></div>
-        </div>
-        <hr>
-        <div class="item">
-          <div class="top">
-            <span style="margin-bottom: 0px;float:right;">3 weeks ago</span>
-            <div class="progress-star" style="display: inline-block;margin-bottom: 9px;">
-              <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.96px; height: 16.96px;">
-              <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.96px; height: 16.96px;">
-              <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.96px; height: 16.96px;">
-              <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.96px; height: 16.96px;">
-              <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.96px; height: 16.96px;">
-            </div>
-            <p style="margin-bottom: 5px;">
-              Product delivered is different colour and design than what was ordered in the advertisement. At least it should have been informed.
-            </p>
-            <span>By: rubinawale</span>
-          </div>
-          <div class="middle"></div>
       </div>
-      </div>
-<hr>
+
    
     </div>
  

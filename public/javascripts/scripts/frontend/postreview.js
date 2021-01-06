@@ -2,11 +2,10 @@
 function postReview(){
     var comment = $('#message-text').val();
     var starCount =  $('#ratedStar').attr('starCount');
-    var productId =  $('#productId').attr('value');
+    var productSlug =  $('#productSlug').attr('value');
 
-    console.log(starCount);
-    console.log(productId);
-    console.log(comment);
+    console.log()
+
 
     axios
     .get('/savereview',
@@ -14,12 +13,13 @@ function postReview(){
         params:{
             comment: comment,
             starCount : starCount,
-            productId : productId
+            productSlug : productSlug
          }
      })  .then(function(response){
                  $('#ratingModal').modal('hide');
                  $('#thankForRating').empty().html('Thank You For Rating Us !!!');
                  $('.ratenowBtn').blur();
+                 window.location.href = "../bookdetails/"+productSlug;
         });
    
 }
@@ -34,14 +34,13 @@ function clickRate(){
 
 
 function showRatingModal(){
-    var productId =  $('#productId').attr('value');
-    console.log(productId);
+    var productSlug =  $('#productSlug').attr('value');
 
     axios
     .get('/ratenow',
     {
         params:{
-            productId : productId
+            productSlug : productSlug
          }
      })  .then(function(response){
             
@@ -71,6 +70,20 @@ function editReview(){
     
     $('#ratingModal .modal-body').empty().append(data);
     $('#postNowBtn').css('display','block');
+}
 
+function deleteComment(){
+  var reviewId = $(event.currentTarget).attr('reviewId');
+   $(event.currentTarget).parent().remove();
    
+  axios
+  .get('/deletereview',
+  {
+      params:{
+        reviewId : reviewId
+       }
+   })  .then(function(response){
+    $(event.currentTarget).parent().remove();
+       
+      });
 }

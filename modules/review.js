@@ -9,11 +9,11 @@ var Schema = mongoose.Schema;
 var reviewSchema = new Schema({
     customer_id: {
         type: Schema.Types.ObjectId,
-        ref: 'customer',
+        ref: 'customers',
     },
-    product_id: {
-        type: Schema.Types.ObjectId,
-        ref: 'product',
+    product_slug: {
+        type: String,
+        required: false,
     },
     comment:{
         type: String,

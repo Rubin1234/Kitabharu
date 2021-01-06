@@ -986,6 +986,7 @@ button{
     background-color: white;
     color: #faca51;
     border: 2px solid #faca51;
+    box-shadow: none;
 }
 
 
@@ -1059,6 +1060,25 @@ button{
 .ratingEdit p:hover{
     cursor: pointer;
     text-decoration: underline;
+}
+
+.commentOption i{
+    font-size: 18px;
+    padding-right: 5px;
+}
+
+.commentOption p{
+    display: inline-block;
+    /* background-color: #e11313; */
+    color: #e11313;
+    border-radius: 5px;
+    padding: 2px 9px;
+    margin-bottom: 2px;
+    font-weight: bold;
+}
+
+.commentOption p:hover{
+    cursor: pointer;
 }
 /*.publication .card .p{
     margin-bottom: 0px

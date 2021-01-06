@@ -24,7 +24,7 @@ app.use(session({
   secret: 'secret123',
   saveUninitialized: true,
   store : new MemoryStore({mongooseConnection : mongoose.connection,
-    checkPeriod: 86400000}),
+  checkPeriod: 86400000}),
   resave: false,
   
 })); 
