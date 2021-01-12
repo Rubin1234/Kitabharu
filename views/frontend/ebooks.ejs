@@ -26,9 +26,9 @@
 
 <div class="listing container mt-4 mb-4">
      <ol class="breadcrumb" >
-            <li class="breadcrumb-item"><a href="">Home</a></li>
-            <li class="breadcrumb-item "><a href="">E-Books</a></li>
-             <li class="breadcrumb-item active"><a href="">Biography</a></li>
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active"><a href="">E-Books</a></li>
+             <!-- <li class="breadcrumb-item active"><a href="">Biography</a></li> -->
           </ol>
 </div>
 
@@ -129,25 +129,60 @@
       </div>
       <div class="row ebook-listing-page">
         <% if(allEbooks.length > 0){ %>
-          <% allEbooks.forEach(function(data){ %>
+          <% allEbooks.forEach(function(data,index){ %>
             <div class="col-md-3">
               <div class="new-arrival-books">
-          <img src="../images/backend/products/<%= data.product_image %>" alt="" style="width: 100%;height: 235px;">
+          <img src="../images/backend/products/<%= data.product_image %>" alt="" style="width: 100%;height: 200px;">
            <div class="new-arrival-books-desc">
            
             <h4><%= data.product_name %></h4>
-            <span style="font-size: 14px;color: #8b8b8b">
+
+            <% for(var i=1; i <= 5; i++){ %>
+
+              <% if(i <= ebooksReviewArray[index][0]){ %> 
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 18.25px; height: 18.25px;display: inline-block;padding: 0px;">
+                <% var j=i; } %>
+                <% } %>
+
+                <% if((ebooksReviewArray[index][1]) == 0.5 ){ %> 
+                  <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB13svEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 18.25px; height: 18.25px;display: inline-block;padding: 0px;">
+                  <% var j=j+1;  %>
+              <% } %>
+
+              <% if((ebooksReviewArray[index][1] ) < 0.5 && (ebooksReviewArray[index][1] ) != 0 ){ %> 
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB16MwRdOqAXuNjy1XdXXaYcVXa-64-64.png" style="width: 18.25px; height: 18.25px;display: inline-block;padding: 0px;">
+                <% var j=j+1;  %>
+            <% } %>
+
+            <% if((ebooksReviewArray[index][1] ) >  0.5 ){ %> 
+              <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB14IvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 18.25px; height: 18.25px;display: inline-block;padding: 0px;">
+              <% var j=j+1;  %>
+          <% } %>
+
+          
+          <% for(var k=j; k < 5; k++){ %>
+           
+            <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 18.25px; height: 18.25px;display: inline-block;padding: 0px;">
+      
+            <% } %>
+             
+            <% if(ebooksReviewArray[index][0] == 0){ %>
+              <% for(var i=1; i <= 5  ; i++){ %>
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 18.25px; height: 18.25px;display: inline-block;padding: 0px;">
+                <% } %> 
+              <% } %> 
+            <!-- <span style="font-size: 14px;color: #8b8b8b">
             <% if(data.book_attribute.length > 0){ %>
               <%= data.book_attribute[0].author_name %>
             <% } %>
-            </span>
+            </span> -->
             <div class="price-box">
                  <h4>Rs. <%= data.product_price %></h4>
             </div>
           </div>
                <div class="view-book">
            <a href="../bookdetails/<%= data.slug%>" ><button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
-            <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
+           <button type="" class="form-control" productId="<%= data.id %>"  onclick="addtoEbookcart()"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button>
           </div>
         </div>
         </div>

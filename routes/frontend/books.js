@@ -19,6 +19,7 @@ var ModelProduct = require('../../modules/product');
 const subCategoryModel = require('../../modules/subcategories');
 const { populate, db } = require('../../modules/categories');
 const productModel = require('../../modules/product');
+const reviewModel = require('../../modules/review');
 
 /* GET home page. */
 
@@ -40,6 +41,51 @@ const productModel = require('../../modules/product');
     var checked = '';
 
     allBooks.exec(function(err,data){
+
+          //For Rating
+          const promises = data.map((item,index) => new Promise((resolve,reject) => {
+            var reviewData = reviewModel.find({product_slug : item.slug});
+            reviewData.exec(function(err1,booksData){
+                resolve(booksData);
+            });
+          }));
+
+          Promise.all(promises)
+          .then(allArray => {
+
+              //FOr NEw Arrival RAting IN Front View
+              var booksReviewArray = [];
+              for(var i=0; i<=allArray.length-1; i++){
+
+                var average = 0;
+                var totalStar = 0;
+                var actualValue = 0;
+                var ratingArray = [];
+        
+                allArray[i].forEach(function(date){
+                  totalStar += parseInt(date.rating_star);
+                });
+        
+                var totalRatingUser =  allArray[i].length;
+        
+                if(totalRatingUser > 0){
+                  average = totalStar/totalRatingUser;
+                  average = average.toFixed(1);
+                }
+          
+                var roundOffValue = parseInt(average);
+                
+                actualValue = average - roundOffValue
+
+                ratingArray.push(average);
+                ratingArray.push(actualValue);
+              
+                
+                booksReviewArray.push(ratingArray);
+              }
+
+          
+
       bookSubcategories.exec(function(err1,data1){
         stationarySubcategories.exec(function(err2,data2){
           ebookSubcategories.exec(function(err3,data3){
@@ -65,7 +111,8 @@ const productModel = require('../../modules/product');
               cookiesCustomerEmail,
               slug,
               checked,
-            
+              bookReviewArray:booksReviewArray
+            });
             }); 
           });
         });
@@ -93,6 +140,10 @@ const productModel = require('../../modules/product');
 
     subCategoryName.exec(function(err,data){
         ModelProduct.find({subcategory_id:data._id,book_type : ['paperbook','both']}).exec(function(err1,data1){
+
+      
+
+
           bookSubcategories.exec(function(err2,data2){
             stationarySubcategories.exec(function(err3,data3){
               ebookSubcategories.exec(function(err4,data4){

@@ -6,6 +6,7 @@ var sharp = require('sharp');
 var dateFormat = require('dateformat');
 var slug = require('slug');       
 var fs = require('fs');
+var moment = require('moment');  
 
 var router = app.Router();
 
@@ -18,6 +19,7 @@ const util = require('util');
 var ModelProduct = require('../../modules/product'); 
 const subCategoryModel = require('../../modules/subcategories');
 const { populate, db } = require('../../modules/categories');
+const reviewModel = require('../../modules/review');
 
 /* GET home page. */
 
@@ -30,45 +32,98 @@ const { populate, db } = require('../../modules/categories');
     var cookiesCustomerEmail = req.cookies.customerEmail;
 
 
-  // var records = util.inspect(data, false, null, true /* enable colors */);
-  var slug = req.params.slug;
-  
-  var stationaryDetails = ModelProduct.findOne({slug:slug}).populate('images').populate('stationary_attribute').populate('subcategory_id').populate('images').populate('ebook_id');
-  var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
-  var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
-  var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
+    // var records = util.inspect(data, false, null, true /* enable colors */);
+    var slug = req.params.slug;
+    
+    var stationaryDetails = ModelProduct.findOne({slug:slug}).populate('images').populate('stationary_attribute').populate('subcategory_id').populate('images').populate('ebook_id');
+    var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
+    var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
+    var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
 
-  
-  
-  stationaryDetails.exec(function(err,data){
-    bookSubcategories.exec(function(err1,data1){
-      stationarySubcategories.exec(function(err2,data2){
-        ebookSubcategories.exec(function(err3,data3){
+    var review = reviewModel.find({product_slug : slug}).populate('customer_id');
+    
+    stationaryDetails.exec(function(err,data){
+      bookSubcategories.exec(function(err1,data1){
+        stationarySubcategories.exec(function(err2,data2){
+          ebookSubcategories.exec(function(err3,data3){
 
-          //Storing subcategories in array for taking unique value
-          var array = [];
-          data3.forEach(function(data4){
-            var subcategoryEbook = data4.subcategory_id;
-            array.push(subcategoryEbook);
-          });
+            //Storing subcategories in array for taking unique value
+            var array = [];
+            data3.forEach(function(data4){
+              var subcategoryEbook = data4.subcategory_id;
+              array.push(subcategoryEbook);
+            });
+            
+            var uniqueValueEbook = array.filter(onlyUnique);
+    
+            review.exec(function(err4,data5){
+              
+              var dateArray = [];
+              var countFiveStar = [];
+              var countFourStar = [];
+              var countThreeStar = [];
+              var countTwoStar = [];
+              var countOneStar = [];
+              var average = 0;
+              var totalStar = 0;
+
+              data5.forEach(function(date){
+                if(date.rating_star == 5){
+                  countFiveStar.push(date.rating_star); 
+                }
+                if(date.rating_star == 4){
+                  countFourStar.push(date.rating_star); 
+                }
+                if(date.rating_star == 3){
+                  countThreeStar.push(date.rating_star); 
+                }
+                if(date.rating_star == 2){
+                  countTwoStar.push(date.rating_star); 
+                }
+                if(date.rating_star == 1){
+                  countOneStar.push(date.rating_star); 
+                }
+
+                totalStar += parseInt(date.rating_star);
+                var date = moment(date.updatedAt).fromNow(); 
+                dateArray.push(date);
+
+              });
+
+              var totalRatingUser = data5.length;
+              
+              if(totalRatingUser > 0){
+                average = totalStar/totalRatingUser;
+                average = parseInt(average.toFixed(1));
+              }
           
-          var uniqueValueEbook = array.filter(onlyUnique);
-          console.log(data);
-          res.render('frontend/stationarydetails',{
-            stationaryDetails:data,
-            bookSubcategories:data1,
-            stationarySubcategories:data2,
-            ebookSubcategories:uniqueValueEbook,
-            cookiesCustomerToken,
-            cookiesCustomerrName,
-            cookiesCustomerId,
-            cookiesCustomerEmail,
+              var roundOffValue = parseInt(average);
+
+              res.render('frontend/stationarydetails',{
+                stationaryDetails:data,
+                bookSubcategories:data1,
+                stationarySubcategories:data2,
+                ebookSubcategories:uniqueValueEbook,
+                cookiesCustomerToken,
+                cookiesCustomerrName,
+                cookiesCustomerId,
+                cookiesCustomerEmail,
+                reviews : data5,
+                dateArray,
+                countFiveStar,
+                countFourStar,
+                countThreeStar,
+                countTwoStar,
+                countOneStar,
+                average,
+                roundOffValue
+              });
+            });  
           });  
-        });  
+        }); 
       }); 
     }); 
-  }); 
-});
+  });
 
 
  //Making Unique value for E-book

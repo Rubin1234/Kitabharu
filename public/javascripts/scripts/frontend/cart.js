@@ -21,7 +21,11 @@ function removeItem(){
     var productId =  $(event.currentTarget).attr('productId');
     var bookType =  $(event.currentTarget).attr('bookType');
     var cartProduct = $(event.currentTarget).attr('cartProduct');
-   $(event.currentTarget).parent().parent().remove();
+
+    $(event.currentTarget).parent().parent().remove();
+    var cartItemCount = $('.cartItem').children().length-1;
+
+   
 
     axios
     .get('/cart/removeitem',
@@ -35,7 +39,12 @@ function removeItem(){
             bootoast.toast({
                 message: 'Cart Item Deleted',
                 type: 'success'
-            })
+            });
+
+            
+            if(cartItemCount == 0){
+                window.location.href = "../cart";
+               }
         
         });
 }

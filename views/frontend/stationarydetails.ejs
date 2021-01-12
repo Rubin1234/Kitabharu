@@ -55,7 +55,7 @@
                 <% if(stationaryDetails.product_image){ %>
                   <div class="oc-item">
                     <div class="new-arrival-books">
-                        <img class="changeImage" src="../images/backend/products/<%= stationaryDetails.product_image %>" alt="" style="width: 100%;height: 150px;">
+                        <img class="changeImage" src="../images/backend/products/<%= stationaryDetails.product_image %>" alt="" style="width: 100%;height: 100px;">
                     </div>
                   </div> 
                 <% } %>
@@ -63,7 +63,7 @@
                 <% stationaryDetails.images.forEach(function(data){ %>
                     <div class="oc-item">
                       <div class="new-arrival-books">
-                          <img class="changeImage" src="../images/backend/products/product_images/<%= data.productImage %>" alt="" style="width: 100%;height: 150px;">
+                          <img class="changeImage" src="../images/backend/products/product_images/<%= data.productImage %>" alt="" style="width: 100%;height: 100px;">
                       </div>
                     </div>
                 <% }) %>
@@ -76,18 +76,39 @@
     <div class="col-md-7">
       <div class="product-details" style="padding-left: 10px;">
         <div class="product-title">
-            <h2 style="margin-bottom: 0px;"><%= stationaryDetails.product_name %></h2>
+            <h3 style="margin-bottom: 0px;"><%= stationaryDetails.product_name %></h3>
         
-            <span style="color: #1b9b49;">
-                <i class="icon-star"></i>
-                <i class="icon-star"></i>
-                <i class="icon-star"></i>
-                <i class="icon-star1"></i>
-                <i class="icon-star1"></i>            
-            </span>
-            <div style="text-align: right;">
-                <button type="" class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #a21476;color: white;border-color:#a21476;padding: 5px 10px;border-radius:0px;" data-toggle="tooltip" title="Add to wishlist"><i class="icon-heart1"></i></button>
-                    </div>
+            <div class="progress-star" style="display: inline-block;margin-bottom: 9px;">
+              <% for(var i=1; i<=5; i++){ %>
+                <% if(i <= average){ %>  
+                  <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.25px; height: 16.25px;">
+                  <% var j=i; } %>
+                  <% } %>
+
+            
+            <% if((average - roundOffValue) == 0.5 ){ %> 
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB13svEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.25px; height: 16.25px;">
+                <% var j=j+1;  %>
+            <% } %>
+
+            <% if((average - roundOffValue ) < 0.5 && (average - roundOffValue ) != 0 ){ %> 
+              <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB16MwRdOqAXuNjy1XdXXaYcVXa-64-64.png" style="width: 16.25px; height: 16.25px;">
+              <% var j=j+1;  %>
+          <% } %>
+
+          <% if((average - roundOffValue) >  0.5 ){ %> 
+            <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB14IvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.25px; height: 16.25px;">
+            <% var j=j+1;  %>
+        <% } %>
+
+      
+              <% for(var k=j; k < 5; k++){ %>
+             
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.25px; height: 16.25px;">
+          
+                <% } %>
+            </div>
+         
             
         <hr>
         </div>
@@ -96,7 +117,7 @@
             <div class="col-md-12">
             <h3>Price: <span class="text-danger">Rs <%= stationaryDetails.product_price %></span></h3>
         </div>
-            <div  class="col-md-6">
+            <div  class="col-md-4">
                 <div class="quantity clearfix">
 <input type="button" value="-" class="minus" id="booknumberminus">
 <input type="text" step="1" min="1" name="quantity" id="booknumber" value="1" title="Qty" class="qty" size="4">
@@ -109,6 +130,7 @@
             </div>
             <div class="col-md-12 mt-3">
                 <button type=""  productId="<%= stationaryDetails.id %>" onclick="addtocart()" class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #145ba2;color: white;border-color:#145ba2;padding: 5px 10px;border-radius:0px; "><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</button>
+                <button type="" class="btn btn-primary" style="margin:auto;font-size:16px;background-color: #dc3545;color: white;border-color:#dc3545;padding: 5px 10px;border-radius:0px;" data-toggle="tooltip" title="Add to wishlist" productId = "<%= stationaryDetails.id %>" onclick="addtostationarywishlist()"><i class="icon-heart1"></i></button>
             </div>
 
 
@@ -147,10 +169,220 @@
    <hr>
    <div class="aboutthebook">
     <h2>Details of <%= stationaryDetails.product_name %></h2>
-
-    <p style="font-size: 16px;color: grey;"><%= stationaryDetails.product_description %></p>
-           
+    <p style="font-size: 16px;color: grey;"><%= stationaryDetails.product_description %></p> 
    </div>
+
+   <div class="rating" style="margin-bottom: 65px;margin-top: 65px;">
+      <h3 style="margin-bottom: 0px;">Rating</h3>
+      <hr>
+
+      <div class="row">
+        <div class="col-md-4 rating-star">
+          <div class="score">
+            <span class="score-average"><%= average %></span>
+            <span class="score-max">/5</span>  
+          </div>
+          <div class="average">
+            <div class="container-star " style="width: 100%;margin-bottom: 9px;">
+
+              <% for(var i=1; i<=5; i++){ %>
+                <% if(i <= average){ %>  
+                  <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 33.25px; height: 33.25px;">
+                  <% var j=i; } %>
+                  <% } %>
+
+            
+            <% if((average - roundOffValue) == 0.5 ){ %> 
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB13svEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 33.25px; height: 33.25px;">
+                <% var j=j+1;  %>
+            <% } %>
+
+            <% if((average - roundOffValue ) < 0.5 && (average - roundOffValue ) != 0 ){ %> 
+              <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB16MwRdOqAXuNjy1XdXXaYcVXa-64-64.png" style="width: 33.25px; height: 33.25px;">
+              <% var j=j+1;  %>
+          <% } %>
+
+          <% if((average - roundOffValue) >  0.5 ){ %> 
+            <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB14IvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 33.25px; height: 33.25px;">
+            <% var j=j+1;  %>
+        <% } %>
+
+      
+              <% for(var k=j; k < 5; k++){ %>
+             
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 33.25px; height: 33.25px;">
+          
+                <% } %>
+
+              <!-- <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 33.25px; height: 33.25px;">
+              <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 33.25px; height: 33.25px;">
+              <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 33.25px; height: 33.25px;">
+              <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB17MwRdOqAXuNjy1XdXXaYcVXa-64-64.png" style="width: 33.25px; height: 33.25px;"> -->
+
+            </div>
+        
+            <span style="padding-top: 5px;font-weight: bold;"><%= reviews.length %> Ratings</span>
+          </div>
+
+          <button class="form-control ratenowBtn"  data-toggle="modal" data-target="#ratingModal" onclick="showRatingModal()">Rate Now !!!</button>
+          <span id="productSlug" value="<%= stationaryDetails.slug %>"></span>
+          <span id="productID" value="<%= stationaryDetails._id %>"></span>
+          <span id="booktype" value="<%= stationaryDetails.book_type %>"></span>
+          <!-- Modal -->
+          <div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="exampleModalLongTitle">Ratings & Comments</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+
+
+                </div>
+
+                <div class="modal-footer">
+                  <!-- <button type="button" class="btn btn-danger" style=" font-size: 16px;color: white;display: inline-block;margin-bottom: 7px;background: #f13b3b;border: 1px solid #f13b3b;" onclick="closeRatingModal()">Close</button> -->
+                  <button type="button" class="btn btn-primary" id="postNowBtn" style="font-size: 16px;color: white;display: inline-block;margin-bottom: 7px;background: #145ba2;border: 1px solid #145ba2;" onclick="postReview()">Post Now</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+
+        <div class="col-md-6 rating-details" style="line-height: 2;">
+          <ul>
+            <li>
+              <div class="progress-star" style="display: inline-block;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+              </div>
+              <span class="progress-wrap">
+                <div class="pdp-review-progress">
+                  <div class="bar bg"></div>
+                  <div class="bar fg" style="width: 60%;"></div>
+                </div>
+              </span>
+              <span class="percent"><%= countFiveStar.length %></span>
+            </li>
+            <li>
+              <div class="progress-star" style="display: inline-block;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+              </div>
+              <span class="progress-wrap">
+                <div class="pdp-review-progress">
+                  <div class="bar bg"></div>
+                  <div class="bar fg" style="width: 70%;"></div>
+                  </div>
+              </span>
+              <span class="percent"><%= countFourStar.length %></span>
+            </li>
+            <li>
+              <div class="progress-star" style="display: inline-block;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+              </div>
+              <span class="progress-wrap">
+                <div class="pdp-review-progress">
+                  <div class="bar bg"></div>
+                  <div class="bar fg" style="width: 20%;"></div>
+                  </div>
+              </span>
+              <span class="percent"><%= countThreeStar.length %></span>
+            </li>
+            <li>
+              <div class="progress-star" style="display: inline-block;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+              </div>
+              <span class="progress-wrap">
+                <div class="pdp-review-progress">
+                  <div class="bar bg"></div>
+                  <div class="bar fg" style="width: 30%;"></div>
+                  </div>
+              </span>
+              <span class="percent"><%= countTwoStar.length %></span>
+            </li>
+            <li>
+              <div class="progress-star" style="display: inline-block;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 15.96px; height: 15.96px;">
+              </div>
+              <span class="progress-wrap">
+                <div class="pdp-review-progress">
+                  <div class="bar bg" ></div>
+                  <div class="bar fg" style="width: 50%;"></div>
+                  </div>
+              </span>
+              <span class="percent"><%= countOneStar.length %></span>
+            </li>
+          </ul>
+      </div>
+      </div>
+    
+      
+    </div>
+
+    <div class="reviewandcomment">
+      <h3 style="margin-bottom: 0px;">Review & Comments</h3>
+      <hr>
+      <div class="commentsection">
+        <% if(reviews.length > 0){ %>
+          <% reviews.forEach(function(data,index){ %>
+            <div class="item">
+         
+              <% if(data.customer_id._id == cookiesCustomerId){ %>
+              <div class="commentOption" style="text-align: right;" reviewId = "<%= data._id %>" onclick="deleteComment()"><p >Delete</p> </div>
+              <% } %>
+                <div class="top">
+                  <span style="margin-bottom: 0px;float:right;"><%= dateArray[index] %></span>
+                  <div class="progress-star" style="display: inline-block;margin-bottom: 9px;">
+                    <% for(var i = 1; i<=5; i++ ){ %>
+                      <% if(i <= data.rating_star){ %>
+                        <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.96px; height: 16.96px;">
+                      <% }else{ %>
+                        <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.96px; height: 16.96px;">
+                      <% } %>
+                    
+                   
+                   
+                    <% } %>
+                  </div>
+                  <p style="margin-bottom: 5px;">
+                   <%= data.comment %>
+                  </p>
+                  <span>By: <%= data.customer_id.user_name %></span>
+                </div>
+                <div class="middle"></div>
+                <hr>
+            </div>
+          
+          <% }) %>
+        <% }else{ %>
+          <h5>No Comments Available.</h5>
+        <% } %>
+
+      </div>
+
+   
+    </div>
 
  </div> 
 </section>

@@ -18,6 +18,7 @@ const util = require('util');
 var ModelProduct = require('../../modules/product'); 
 const subCategoryModel = require('../../modules/subcategories');
 const { populate, db } = require('../../modules/categories');
+const reviewModel = require('../../modules/review');
 
 /* GET home page. */
 
@@ -39,6 +40,51 @@ const { populate, db } = require('../../modules/categories');
     var checked = '';
 
     stationaryProducts.exec(function(err,data){
+
+      //For Rating
+      const promises = data.map((item,index) => new Promise((resolve,reject) => {
+        var reviewData = reviewModel.find({product_slug : item.slug});
+        reviewData.exec(function(err1,stationaryData){
+            resolve(stationaryData);
+        });
+      }));
+
+      
+      Promise.all(promises)
+      .then(allArray => {
+
+              //FOr NEw Arrival RAting IN Front View
+              var stationaryReviewArray = [];
+              for(var i=0; i<=allArray.length-1; i++){
+
+                var average = 0;
+                var totalStar = 0;
+                var actualValue = 0;
+                var ratingArray = [];
+        
+                allArray[i].forEach(function(date){
+                  totalStar += parseInt(date.rating_star);
+                });
+        
+                var totalRatingUser =  allArray[i].length;
+        
+                if(totalRatingUser > 0){
+                  average = totalStar/totalRatingUser;
+                  average = average.toFixed(1);
+                }
+          
+                var roundOffValue = parseInt(average);
+                
+                actualValue = average - roundOffValue
+
+                ratingArray.push(average);
+                ratingArray.push(actualValue);
+              
+                
+                stationaryReviewArray.push(ratingArray);
+              }
+
+
       bookSubcategories.exec(function(err1,data1){
         stationarySubcategories.exec(function(err2,data2){
           ebookSubcategories.exec(function(err3,data3){
@@ -64,7 +110,10 @@ const { populate, db } = require('../../modules/categories');
               cookiesCustomerId,
               cookiesCustomerEmail,
               slug,
-              checked}); 
+              checked,
+              stationaryReviewArray
+            });
+            }); 
           });
         });
       });
@@ -135,13 +184,11 @@ const { populate, db } = require('../../modules/categories');
 
 router.get('/stationarysubcategory/changecheckbox',function(req,res,next){
   var subcategoryId = req.query.subcategoryId;
- console.log(subcategoryId);
 
   if(subcategoryId == undefined){
     var allStationary = ModelProduct.find({category_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']}).populate('stationary_attribute');
     allStationary.exec(function(err,data){
-      console.log('s');
-      console.log(data);
+ 
       res.send(data);
     });
   }else{

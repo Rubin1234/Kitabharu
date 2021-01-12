@@ -51,30 +51,43 @@
       <div class="section-title">
         <h3>New Arrival</h3>
       </div>
-      <div class="section-viewall">
+      <!-- <div class="section-viewall">
             <button class="btn btn-success">View All</button> 
-      </div>
+      </div> -->
      
     </div>
 
 
  <div id="oc-images" class="owl-carousel image-carousel carousel-widget" data-margin="20" data-nav="true" data-pagi="false" data-items-xs="1" data-items-sm="2" data-items-md="3" data-items-lg="4" data-items-xl="5" data-speed="400">
 
-<% newArrival.forEach(function(data){ %>
+<% newArrival.forEach(function(data,index){ %>
   <div class="oc-item">
     <div class="new-arrival-books">
-         <img src="images/backend/products/<%= data.product_image %>" alt="" style="width: 100%;height: 235px;">
+         <img src="images/backend/products/<%= data.product_image %>" alt="" style="width: 100%;height: 215px;">
           <div class="new-arrival-books-desc">
           
            <h4><%= data.product_name %></h4>
-            <% if(data.book_attribute.length > 0){  %>
+            <!-- <% if(data.book_attribute.length > 0){  %>
             <span style="font-size: 14px;color: #8b8b8b"><%= data.book_attribute[0].author_name %></span>
             <% }else{ %>
               <span>&nbsp;</span>
-            <% } %>
+            <% } %> -->
+
+            <div class="progress-star" style="margin-bottom: 9px;margin-top: 9px;">
+           
+          <% if(data.book_attribute.length > 0){  %>
+              <span style="font-size: 14px;color: #8b8b8b"><%= data.book_attribute[0].author_name %></span>
+              <% }else{ %>
+                <span>&nbsp;</span>
+              <% } %>
+
+            
+          
+            </div>
            <div class="price-box">
                 <h4>Rs. <%= data.product_price %></h4>
            </div>
+          
          </div>
               <div class="view-book">
                <a href="/bookdetails/<%= data.slug %>" > <button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
@@ -126,25 +139,55 @@
         <h3>Our Books</h3>
       </div>
       <div class="section-viewall">
-            <button class="btn btn-success">View All</button> 
+        <a href="/books"><button class="btn btn-success">View All</button></a> 
       </div>
      
     </div>
 
 
  <div id="oc-images" class="owl-carousel image-carousel carousel-widget" data-margin="20" data-nav="true" data-pagi="false" data-items-xs="1" data-items-sm="2" data-items-md="3" data-items-lg="4" data-items-xl="5" data-speed="400">
-  <% books.forEach(function(data){ %>
+  <% books.forEach(function(data,index){ %>
+
     <div class="oc-item">
       <div class="new-arrival-books">
-           <img src="images/backend/products/<%= data.product_image %>" alt="" style="width: 100%;height: 235px;">
+           <img src="images/backend/products/<%= data.product_image %>" alt="" style="width: 100%;height: 215px;">
             <div class="new-arrival-books-desc">
             
              <h4><%= data.product_name %></h4>
-              <% if(data.book_attribute.length > 0){  %>
-              <span style="font-size: 14px;color: #8b8b8b"><%= data.book_attribute[0].author_name %></span>
-              <% }else{ %>
-                <span>&nbsp;</span>
+             <% for(var i=1; i <= 5; i++){ %>
+
+              <% if(i <= bookReviewArray[index][0]){ %> 
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 20.25px; height: 20.25px;display: inline-block;padding: 0px;">
+                <% var j=i; } %>
+                <% } %>
+
+                <% if((bookReviewArray[index][1]) == 0.5 ){ %> 
+                  <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB13svEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 20.25px; height: 20.25px;display: inline-block;padding: 0px;">
+                  <% var j=j+1;  %>
               <% } %>
+
+              <% if((bookReviewArray[index][1] ) < 0.5 && (bookReviewArray[index][1] ) != 0 ){ %> 
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB16MwRdOqAXuNjy1XdXXaYcVXa-64-64.png" style="width: 20.25px; height: 20.25px;display: inline-block;padding: 0px;">
+                <% var j=j+1;  %>
+            <% } %>
+
+            <% if((bookReviewArray[index][1] ) >  0.5 ){ %> 
+              <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB14IvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 20.25px; height: 20.25px;display: inline-block;padding: 0px;">
+              <% var j=j+1;  %>
+          <% } %>
+
+          
+          <% for(var k=j; k < 5; k++){ %>
+           
+            <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 20.25px; height: 20.25px;display: inline-block;padding: 0px;">
+      
+            <% } %>
+             
+            <% if(bookReviewArray[index][0] == 0){ %>
+              <% for(var i=1; i <= 5  ; i++){ %>
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 20.25px; height: 20.25px;display: inline-block;padding: 0px;">
+                <% } %> 
+              <% } %> 
              <div class="price-box">
                   <h4>Rs. <%= data.product_price %></h4>
              </div>
@@ -181,25 +224,63 @@
         <h3>Our E-Books</h3>
       </div>
       <div class="section-viewall">
-            <button class="btn btn-success">View All</button> 
+        <a href="/ebooks"><button class="btn btn-success">View All</button></a>
       </div>
      
     </div>
 
 
  <div id="oc-images" class="owl-carousel image-carousel carousel-widget" data-margin="20" data-nav="true" data-pagi="false" data-items-xs="1" data-items-sm="2" data-items-md="3" data-items-lg="4" data-items-xl="5" data-speed="400">
-  <% ebooks.forEach(function(data){ %>
+  <% ebooks.forEach(function(data,index){ %>
     <div class="oc-item">
       <div class="new-arrival-books">
-           <img src="images/backend/products/<%= data.product_image %>" alt="" style="width: 100%;height: 235px;">
+           <img src="images/backend/products/<%= data.product_image %>" alt="" style="width: 100%;height: 215px;">
             <div class="new-arrival-books-desc">
             
              <h4><%= data.product_name %></h4>
-              <% if(data.book_attribute.length > 0){  %>
+
+             <% for(var i=1; i <= 5  ; i++){ %>
+
+              <% if(i <= ebookReviewArray[index][0]){ %> 
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 20.25px; height: 20.25px;display: inline-block;padding: 0px;">
+                <% var j=i; } %>
+                <% } %>
+
+                <% if((ebookReviewArray[index][1]) == 0.5 ){ %> 
+                  <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB13svEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 20.25px; height: 20.25px;display: inline-block;padding: 0px;">
+                  <% var j=j+1;  %>
+              <% } %>
+
+              <% if((ebookReviewArray[index][1] ) < 0.5 && (ebookReviewArray[index][1] ) != 0 ){ %> 
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB16MwRdOqAXuNjy1XdXXaYcVXa-64-64.png" style="width: 20.25px; height: 20.25px;display: inline-block;padding: 0px;">
+                <% var j=j+1;  %>
+            <% } %>
+
+            <% if((ebookReviewArray[index][1] ) >  0.5 ){ %> 
+              <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB14IvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 20.25px; height: 20.25px;display: inline-block;padding: 0px;">
+              <% var j=j+1;  %>
+          <% } %>
+
+          
+          <% for(var k=j; k < 5; k++){ %>
+           
+            <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 20.25px; height: 20.25px;display: inline-block;padding: 0px;">
+      
+            <% } %>
+             
+            <% if(ebookReviewArray[index][0] == 0){ %>
+              <% for(var i=1; i <= 5  ; i++){ %>
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 20.25px; height: 20.25px;display: inline-block;padding: 0px;">
+                <% } %> 
+              <% } %> 
+
+
+
+              <!-- <% if(data.book_attribute.length > 0){  %>
               <span style="font-size: 14px;color: #8b8b8b"><%= data.book_attribute[0].author_name %></span>
               <% }else{ %>
                 <span>&nbsp;</span>
-              <% } %>
+              <% } %> -->
              <div class="price-box">
                <% if( data.ebook_id != null){ %>
                   <h4>Rs. <%= data.ebook_id.ebook_price %></h4>
@@ -228,24 +309,54 @@
         <h3>Our Stationary Products</h3>
       </div>
       <div class="section-viewall">
-            <button class="btn btn-success">View All</button> 
+            <a href="/stationary"><button class="btn btn-success">View All</button> </a>
       </div>
      
     </div>
 
      <div id="oc-images" class="owl-carousel image-carousel carousel-widget" data-margin="20" data-nav="true" data-pagi="false" data-items-xs="1" data-items-sm="2" data-items-md="3" data-items-lg="4" data-items-xl="5" data-speed="400">
-      <% stationary.forEach(function(data){ %>
+      <% stationary.forEach(function(data,index){ %>
         <div class="oc-item">
           <div class="new-arrival-books">
-               <img src="images/backend/products/<%= data.product_image %>" alt="" style="width: 100%;height: 235px;">
+               <img src="images/backend/products/<%= data.product_image %>" alt="" style="width: 100%;height: 215px;">
                 <div class="new-arrival-books-desc">
                 
                  <h4><%= data.product_name %></h4>
-                  <% if(data.stationary_attribute.length > 0){  %>
-                  <span style="font-size: 14px;color: #8b8b8b"><%= data.stationary_attribute[0].manufacturer_name %></span>
-                  <% }else{ %>
-                    <span>&nbsp;</span>
-                  <% } %>
+                  
+             <% for(var i=1; i <= 5  ; i++){ %>
+
+              <% if(i <= stationaryReviewArray[index][0]){ %> 
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 20.25px; height: 20.25px;display: inline-block;padding: 0px;">
+                <% var j=i; } %>
+                <% } %>
+
+                <% if((stationaryReviewArray[index][1]) == 0.5 ){ %> 
+                  <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB13svEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 20.25px; height: 20.25px;display: inline-block;padding: 0px;">
+                  <% var j=j+1;  %>
+              <% } %>
+
+              <% if((stationaryReviewArray[index][1] ) < 0.5 && (stationaryReviewArray[index][1] ) != 0 ){ %> 
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB16MwRdOqAXuNjy1XdXXaYcVXa-64-64.png" style="width: 20.25px; height: 20.25px;display: inline-block;padding: 0px;">
+                <% var j=j+1;  %>
+            <% } %>
+
+            <% if((stationaryReviewArray[index][1] ) >  0.5 ){ %> 
+              <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB14IvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 20.25px; height: 20.25px;display: inline-block;padding: 0px;">
+              <% var j=j+1;  %>
+          <% } %>
+
+          
+          <% for(var k=j; k < 5; k++){ %>
+           
+            <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 20.25px; height: 20.25px;display: inline-block;padding: 0px;">
+      
+            <% } %>
+             
+            <% if(stationaryReviewArray[index][0] == 0){ %>
+              <% for(var i=1; i <= 5  ; i++){ %>
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 20.25px; height: 20.25px;display: inline-block;padding: 0px;">
+                <% } %> 
+              <% } %> 
                  <div class="price-box">
                       <h4>Rs. <%= data.product_price %></h4>
                  </div>

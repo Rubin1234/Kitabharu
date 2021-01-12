@@ -3,30 +3,36 @@ function postReview(){
     var comment = $('#message-text').val();
     var starCount =  $('#ratedStar').attr('starCount');
     var productSlug =  $('#productSlug').attr('value');
+    var productID =  $('#productID').attr('value');
+    var bookType =  $('#booktype').attr('value');
 
-    console.log()
-
-
+       
     axios
     .get('/savereview',
     {
         params:{
             comment: comment,
             starCount : starCount,
-            productSlug : productSlug
+            productSlug : productSlug,
+            productID : productID
          }
      })  .then(function(response){
                  $('#ratingModal').modal('hide');
                  $('#thankForRating').empty().html('Thank You For Rating Us !!!');
                  $('.ratenowBtn').blur();
-                 window.location.href = "../bookdetails/"+productSlug;
+
+                 if(bookType == ''){
+                    window.location.href = "../stationarydetails/"+productSlug;
+                }else{
+                    window.location.href = "../bookdetails/"+productSlug;
+                }
+              
         });
    
 }
 
 function clickRate(){
     var rate = $(event.currentTarget).val();
-    console.log(rate);
 
     $('#ratedStar').attr('starCount',rate);  
 }

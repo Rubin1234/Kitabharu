@@ -11,6 +11,10 @@ var reviewSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'customers',
     },
+    product_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'product',
+    },
     product_slug: {
         type: String,
         required: false,

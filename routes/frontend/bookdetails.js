@@ -51,7 +51,7 @@ const { resolve } = require('path');
 
     var bookDetails = ModelProduct.findOne({slug:slug}).populate('images').populate('book_attribute').populate('subcategory_id').populate('images').populate('ebook_id');
 
-   var review = reviewModel.find({product_slug : slug}).populate('customer_id');
+    var review = reviewModel.find({product_slug : slug}).populate('customer_id');
     
     
     bookDetails.exec(function(err,data){
@@ -61,15 +61,16 @@ const { resolve } = require('path');
 
             //Storing subcategories in array for taking unique value
             var array = [];
+
             data3.forEach(function(data4){
               var subcategoryEbook = data4.subcategory_id;
               array.push(subcategoryEbook);
             });
+            
             var uniqueValueEbook = array.filter(onlyUnique);
 
             review.exec(function(err4,data4){
-
-
+      
               var dateArray = [];
               var countFiveStar = [];
               var countFourStar = [];
@@ -105,15 +106,15 @@ const { resolve } = require('path');
 
               var totalRatingUser = data4.length;
 
-              average = totalStar/totalRatingUser;
+              if(totalRatingUser > 0){
 
-              average = average.toFixed(1);
+                average = totalStar/totalRatingUser;
+
+                average = average.toFixed(1);
+
+              }
          
               var roundOffValue = parseInt(average);
-
-              console.log(average);
-              console.log(totalStar);
-              console.log(totalRatingUser);
 
               res.render('frontend/bookdetails',{
                 bookDetails:data,
@@ -150,18 +151,22 @@ const { resolve } = require('path');
       var comment = req.query.comment;
       var starCount = req.query.starCount;
       var productSlug = req.query.productSlug;
+      var productID = req.query.productID;
 
-      console.log(productSlug);
-
+   
       //From Cookies
       var cookiesCustomerId = req.cookies.customerId;
 
-    reviewModel.findOne({customer_id : cookiesCustomerId, product_slug : productSlug},function(err,data){
+ 
+
+      reviewModel.findOne({customer_id : cookiesCustomerId, product_slug : productSlug},function(err,data){
+      
 
         if(data == null){
 
           var saveReview = new reviewModel({
             customer_id : cookiesCustomerId,
+            product_id : productID,
             product_slug : productSlug,
             comment : comment,
             rating_star : starCount

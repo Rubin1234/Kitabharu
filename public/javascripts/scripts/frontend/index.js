@@ -4,7 +4,7 @@
 
 
 $(document).ready(function(){
-console.log(123);
+
   //For Search
     $('#searchProduct').autocomplete({
       source : function(req, res){
@@ -31,7 +31,7 @@ console.log(123);
       }
     });
 
-  //
+  // for 
   axios
   .get('/viewcart',
   {
@@ -65,9 +65,7 @@ function addtocart(){
             window.location.href = "customer/login?n=0";
           }else{
             var productLength = response.data.productitem;
-            console.log(productLength);
-            console.log(response.data);
-
+      
             $('#cartproductnumber').empty().append(productLength);
               bootoast.toast({
                 message: 'Product Added To Cart',

@@ -113,7 +113,7 @@
 
 .new-arrival-books img{
 	
-	padding: 8px;
+	padding: 6px;
 }
 
 .new-arrival-books-desc{
@@ -129,7 +129,7 @@
 }
 
 .new-arrival-books-desc .price-box{
-	margin-top: 6px;
+	margin-top: 15px;
     padding-top: 5px;
     border: 2px solid #ebebeb;
 }
@@ -150,9 +150,9 @@
     width: 100%;
     text-align: center;
     background-color: #ffffff;
-    transition: visibility 3s linear 300ms, opacity 700ms;
+    transition: visibility 2s linear 300ms, opacity 700ms;
     border: 1.5px solid #ebebeb;
-    padding: 18px 0px 18px 0px;
+    padding: 21px 0px 21px 0px;
 }
 
 .new-arrival-books:hover .view-book{
@@ -450,10 +450,10 @@ label {
 }
 
 .listing-aside-filter{
-	padding: 15px;
-	border: 1px solid #c0c0c0;
-	border-radius: 5px;
-	margin-bottom: 20px;
+    padding: 15px;
+    border: 2px solid #e5e5e5;
+    /* border-radius: 5px; */
+    margin-bottom: 20px;
 }
 
 .listing-aside-filter .form-check-input{
@@ -473,7 +473,7 @@ label {
 }
 
 .book-listing-page .new-arrival-books{
-	margin-bottom: 30px;
+	margin-bottom: 40px;
 }
 
 .pagination{

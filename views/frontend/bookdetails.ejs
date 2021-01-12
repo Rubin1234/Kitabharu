@@ -54,7 +54,7 @@
            <% if(bookDetails.product_image){ %>
              <div class="oc-item">
                <div class="new-arrival-books">
-                   <img class="changeImage" src="../images/backend/products/<%= bookDetails.product_image %>" alt="" style="width: 100%;height: 150px;">
+                   <img class="changeImage" src="../images/backend/products/<%= bookDetails.product_image %>" alt="" style="width: 100%;height: 100px;">
                </div>
              </div> 
            <% } %>
@@ -62,7 +62,7 @@
            <% bookDetails.images.forEach(function(data){ %>
                <div class="oc-item">
                  <div class="new-arrival-books">
-                     <img class="changeImage" src="../images/backend/products/product_images/<%= data.productImage %>" alt="" style="width: 100%;height: 150px;">
+                     <img class="changeImage" src="../images/backend/products/product_images/<%= data.productImage %>" alt="" style="width: 100%;height: 100px;">
                  </div>
                </div>
            <% }) %>
@@ -79,15 +79,38 @@
                - <%= bookDetails.book_attribute[0].author_name %>
                <% } %></h3>
                <div class="progress-star" style="display: inline-block;margin-bottom: 9px;">
-                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.96px; height: 16.96px;">
-                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.96px; height: 16.96px;">
-                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.96px; height: 16.96px;">
-                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.96px; height: 16.96px;">
-                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.96px; height: 16.96px;">
+                <% for(var i=1; i<=5; i++){ %>
+                  <% if(i <= average){ %>  
+                    <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.25px; height: 16.25px;">
+                    <% var j=i; } %>
+                    <% } %>
+  
+              
+              <% if((average - roundOffValue) == 0.5 ){ %> 
+                  <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB13svEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.25px; height: 16.25px;">
+                  <% var j=j+1;  %>
+              <% } %>
+  
+              <% if((average - roundOffValue ) < 0.5 && (average - roundOffValue ) != 0 ){ %> 
+                <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB16MwRdOqAXuNjy1XdXXaYcVXa-64-64.png" style="width: 16.25px; height: 16.25px;">
+                <% var j=j+1;  %>
+            <% } %>
+  
+            <% if((average - roundOffValue) >  0.5 ){ %> 
+              <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB14IvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.25px; height: 16.25px;">
+              <% var j=j+1;  %>
+          <% } %>
+  
+        
+                <% for(var k=j; k < 5; k++){ %>
+               
+                  <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.25px; height: 16.25px;">
+            
+                  <% } %>
               </div>
-             <div style="text-align: right;">
+             <!-- <div style="text-align: right;">
                <button type="" class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #a21476;color: white;border-color:#a21476;padding: 5px 10px;border-radius:0px;" data-toggle="tooltip" title="Add to wishlist"><i class="icon-heart1"></i></button>
-                   </div>
+                   </div> -->
          <hr>
               <!-- <% if(bookDetails.book_attribute.length > 0){ %>  <h5 class="by">By :
                <%= bookDetails.book_attribute[0].author_name %></h5>
@@ -115,7 +138,8 @@
                  </div>
                <div class="col-md-12">
                  <button type="" class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #145ba2;color: white;border-color:#145ba2;padding: 5px 10px;border-radius:0px;"  productId="<%= bookDetails.id %>" onclick="addtobookcart()"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</button>
-               </div>
+                 <button type="" class="btn btn-primary" style="margin:auto;font-size:16px;background-color: #dc3545;color: white;border-color:#dc3545;padding: 5px 10px;border-radius:0px;" data-toggle="tooltip" title="Add to wishlist" productId="<%= bookDetails.id %>" onclick="addtobookwishlist()"><i class="icon-heart1"></i></button>
+                </div>
          </div>
  
  <% } %>
@@ -139,6 +163,7 @@
          <div class="col-md-12">
  
            <button type=""  class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #145ba2;color: white;border-color:#145ba2;padding: 5px 10px;border-radius:0px;" productId="<%= bookDetails.id %>" onclick="addtoEbookcart()"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</button>
+           <button type="" class="btn btn-primary" style="margin:auto;font-size:16px;background-color: #dc3545;color: white;border-color:#dc3545;padding: 5px 10px;border-radius:0px;" data-toggle="tooltip" title="Add to wishlist" productId="<%= bookDetails.id %>" onclick="addtoEbookwishlist()"><i class="icon-heart1"></i></button>
          </div>
    </div>
  
@@ -270,6 +295,8 @@
 
           <button class="form-control ratenowBtn"  data-toggle="modal" data-target="#ratingModal" onclick="showRatingModal()">Rate Now !!!</button>
           <span id="productSlug" value="<%= bookDetails.slug %>"></span>
+          <span id="productID" value="<%= bookDetails._id %>"></span>
+          <span id="booktype" value="<%= bookDetails.book_type %>"></span>
           <!-- Modal -->
           <div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
