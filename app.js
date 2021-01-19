@@ -59,6 +59,7 @@ var categoriesRouter = require('./routes/admin/categories/categories');
 var subcategoriesRouter = require('./routes/admin/categories/subcategories');
 var productRouter = require('./routes/admin/products/product');
 var brandRouter = require('./routes/admin/brands/brand');
+var articlesRouter = require('./routes/admin/articles/articles');
 
 
 //Frontend
@@ -78,6 +79,7 @@ var articledetailsRouter = require('./routes/frontend/articledetails');
 var customerLoginRouter = require('./routes/frontend/login');
 var cartRouter = require('./routes/frontend/cart');
 var wishlistRouter = require('./routes/frontend/wishlists');
+var payment = require('./routes/frontend/payment');
 
 //API
 var homeApiRouter = require('./routes/api/home');
@@ -110,6 +112,7 @@ app.use('/categories', categoriesRouter);
 app.use('/subcategories', subcategoriesRouter);
 app.use('/product', productRouter);
 app.use('/brand', brandRouter);
+app.use('/articles',articlesRouter);
 
 
 // frontend
@@ -128,6 +131,7 @@ app.use('/articledetails', articledetailsRouter);
 app.use('/customer', customerLoginRouter);
 app.use('/cart', cartRouter);
 app.use('/wishlists',wishlistRouter);
+app.use('/payment',payment);
 
 cartRouter
 

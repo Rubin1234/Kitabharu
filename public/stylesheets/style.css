@@ -2,3 +2,8 @@
 /* #attributes .col-lg-1{
   padding-right: 0px !important;
 } */
+
+ 
+ .fileinput-new, .fileinput-preview img {
+   width: 100%;
+  height: 325px !important; }

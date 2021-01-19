@@ -25,7 +25,16 @@ function removeItem(){
     $(event.currentTarget).parent().parent().remove();
     var cartItemCount = $('.cartItem').children().length-1;
 
-   
+    var a = $(event.currentTarget).parent().siblings('.cart-product-price');
+
+    var totalAmount = 0;
+    $('.amountTotal').each(function(){
+     var totalPricePerProduct = $(this).attr('totalPrice');
+     totalAmount += parseInt(totalPricePerProduct); 
+  });
+    
+    $('.amount').empty().html('Rs '+ totalAmount);
+  
 
     axios
     .get('/cart/removeitem',

@@ -116,10 +116,7 @@ router.post('/store',upload,function(req,res,next){
    
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
-
-    console.log(req.body);
    
-
     var category_id = req.body.product_category;
     var subcategory_id = req.body.product_subcategory;
     var productName = req.body.product_name;
@@ -129,7 +126,8 @@ router.post('/store',upload,function(req,res,next){
     var ebook_price = req.body.ebook_price;
     var paperBook = req.body.paperbook;
     var ebook = req.body.ebook;
-    
+
+   
     var booktype;
     if(paperBook && ebook){
        
@@ -145,8 +143,17 @@ router.post('/store',upload,function(req,res,next){
     
     }
 
+  
+    ModelProduct.find({product_name:productName,category_id:category_id}).exec(function(er,doc){
+      
+        if(doc.length > 0){
+         req.flash('error','Sorry, The Product has Already Existed.');
+         res.redirect('/product/create'); 
+        }else{
+
+                
+
     
- 
     // var productBrand = req.body.product_brand;
     // var productPrice = req.body.product_price;
     // var productStock = req.body.product_stock;
@@ -179,14 +186,10 @@ router.post('/store',upload,function(req,res,next){
     var bulkoffer_status = req.body.bulkoffer_status;
 
 
-
     // var productImage = images.product_image[0]; 
-   
-
     var images = req.files;
 
-    console.log(images);
-   
+
     //Checking if  Product Image is present
     if(images.product_image == undefined){
         
@@ -600,6 +603,10 @@ router.post('/store',upload,function(req,res,next){
         req.flash('success','Product Inserted Succesfully. Thank you!!!');
         res.redirect('/product/index'); 
     }
+        }
+     });
+
+
     
 });
 

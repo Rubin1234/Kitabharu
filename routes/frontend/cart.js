@@ -244,10 +244,19 @@ var removeItem = cartModel.findOne({customer_id : cookiesCustomerId, _id : cartP
    
   removeItem.exec(function(err,data){
     const existingProductIndex = data.products.findIndex(p => p._id == productId && p.book_type == bookType);
+    
+    const existingProduct = data.products[existingProductIndex];
+    console.log(existingProduct);
+
+
+    var priceToBeDeduct = existingProduct.qty * existingProduct.product_price;
+    
+    var newTotalPrice = data.total_price - priceToBeDeduct; 
+
     data.products.splice(existingProductIndex, 1); // first element removed
 
     //Removing Previous Object
-    var updateProduct = cartModel.update({'customer_id':cookiesCustomerId},{ $pull : { 'products': {} },}, {multi:true});
+    var updateProduct = cartModel.update({'customer_id':cookiesCustomerId},{ $pull : { 'products': {} },total_price: newTotalPrice}, {multi:true});
       updateProduct.exec(function(err5,data5){
 
         //Adding New Object After Deleting

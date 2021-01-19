@@ -21,6 +21,7 @@
    <script src="/libs/bootstrap-select/js/bootstrap-select.min.js"></script>
    <script src="/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
    <script src="/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+   
 
    <!-- Init js-->
    <!-- <script src="/javascripts/pages/form-advanced.init.js"></script> -->
@@ -66,6 +67,8 @@
    <!-- Init js-->
    <script src="/javascripts/pages/form-masks.init.js"></script>
 
+
+
    <script src="/javascripts/app.min.js"></script>
  
 
@@ -75,60 +78,216 @@
  <script src="/javascripts/scripts/product.js"></script>
  <script src="/javascripts/scripts/productAttributes.js"></script>
  <script src="/javascripts/scripts/subcategories.js"></script>
+ <script src="/javascripts/scripts/articles.js"></script>
 
 
  <script>
-      $('#specialoffer_startdate').flatpickr({
-          enableTime: false,
-          dateFormat: "Y/m/d",
-       });
+   $('#specialoffer_startdate').flatpickr({
+         enableTime: false,
+         dateFormat: "Y/m/d",
+      });
 
-       $('#specialoffer_enddate').flatpickr({
-          enableTime: false,
-          dateFormat: "Y/m/d",
-       });
+      $('#specialoffer_enddate').flatpickr({
+         enableTime: false,
+         dateFormat: "Y/m/d",
+      });
 
-           
-       $('#flashsale-startdate').flatpickr({
-          enableTime: false,
-          dateFormat: "Y/m/d",
-       });
-    
-       $('#flashsale-starttime').flatpickr({
-          enableTime: true,
-          noCalendar: true,
-          dateFormat: "H:i",
-          defaultDate: "12:00"
-       });
+         
+      $('#flashsale-startdate').flatpickr({
+         enableTime: false,
+         dateFormat: "Y/m/d",
+      });
+   
+      $('#flashsale-starttime').flatpickr({
+         enableTime: true,
+         noCalendar: true,
+         dateFormat: "H:i",
+         defaultDate: "12:00"
+      });
 
-       $('#editflashsale-starttime').flatpickr({
-          enableTime: true,
-          noCalendar: true,
-          dateFormat: "H:i",       
-       });
-    
-       $('#flashsale-enddate').flatpickr({
-          enableTime: false,
-          dateFormat: "Y/m/d",
-          minDate: "today",
-       });
-    
-       $('#flashsale-endtime').flatpickr({
-          enableTime: true,
-          noCalendar: true,
-          dateFormat: "H:i",
-          defaultDate: "12:00",
-       });
-       $('#editflashsale-endtime').flatpickr({
-          enableTime: true,
-          noCalendar: true,
-          dateFormat: "H:i",
-        
-       });
-
-       $('#flashsalePicker').selectpicker('refresh');
-        $('#flashsalePicker').selectpicker('render');
-
-     
+      $('#editflashsale-starttime').flatpickr({
+         enableTime: true,
+         noCalendar: true,
+         dateFormat: "H:i",       
+      });
+   
+      $('#flashsale-enddate').flatpickr({
+         enableTime: false,
+         dateFormat: "Y/m/d",
+         minDate: "today",
+      });
+   
+      $('#flashsale-endtime').flatpickr({
+         enableTime: true,
+         noCalendar: true,
+         dateFormat: "H:i",
+         defaultDate: "12:00",
+      });
+      $('#editflashsale-endtime').flatpickr({
+         enableTime: true,
+         noCalendar: true,
+         dateFormat: "H:i",
       
- </script>
+      });
+
+   $('#flashsalePicker').selectpicker('refresh');
+   $('#flashsalePicker').selectpicker('render');
+
+
+   $('#basic-datepicker').flatpickr({
+         enableTime: false,
+         dateFormat: "Y/m/d",
+      });
+
+
+
+
+
+function Validation(){
+
+     //For PDF File Validation
+   if( ($('#booktypeCheckbox2').is(":checked") && $('#booktypeCheckbox1').is(":checked")) ||  ($('#booktypeCheckbox2').is(":checked")) ){
+    
+      var validPDFExt = ["pdf"];
+      var pdfInput = document.forms['parsley-examples']['pdfFile'].value;
+
+      var pos_of_pdf_dot = pdfInput.lastIndexOf('.')+1;
+      var pdf_ext = pdfInput.substring(pos_of_pdf_dot);
+      var pdf_result = validPDFExt.includes(pdf_ext);
+
+      if(pdfInput != ''){
+         if(pdf_result == false){
+            $('#pdfError').empty().append(' <p style="color: #f1556c;margin-bottom: 10px;"><i class="mdi mdi-close-circle"></i>  File is not in PDF Format</p>')
+            event.preventDefault();
+       
+         }else{
+            $('#pdfError').empty();
+         }
+       
+      }else{
+         $('#pdfError').empty().append(' <p style="color: #f1556c;margin-bottom: 10px;"><i class="mdi mdi-close-circle"></i> PDF File is required</p>')
+         event.preventDefault();
+     
+      }
+   }
+
+   //For Image File Validation
+   var validExt = ["jpeg","png","jpg"];   
+   var imageInput = document.forms['parsley-examples']['product_image'].value;
+   var pos_of_dot = imageInput.lastIndexOf('.')+1;
+   var img_ext = imageInput.substring(pos_of_dot);
+   var result = validExt.includes(img_ext);
+
+   if(imageInput != ''){
+      if(result == false){
+         $('#imgError').empty().append(' <p style="color: #f1556c;margin-bottom: 10px;"><i class="mdi mdi-close-circle"></i> Image File is not Image</p>')
+         event.preventDefault();
+  
+       }else{
+          $('#imgError').empty();
+       }
+    
+   }else{
+      $('#imgError').empty().append(' <p style="color: #f1556c;margin-bottom: 10px;"><i class="mdi mdi-close-circle"></i> Image File is required</p>')
+         event.preventDefault();
+    
+    }
+
+
+
+   //For CheckBox Validation
+   var category =  $('option:selected', event.currentTarget).attr('category');
+   
+
+    if(category == 'Book'){
+      if( ($('#booktypeCheckbox1').is(":checked") == false) && ($('#booktypeCheckbox2').is(":checked") == false)){
+         $('#booktypeErr').empty().append('<span style="color: #f1556c;"><i class="mdi mdi-close-circle"></i>&nbsp;Please Select Book Type</span>');
+         event.preventDefault();
+      }
+       
+     
+    }
+
+ 
+}
+
+
+
+            
+function imageValidation(){
+
+   var validExt = ["jpeg","png","jpg"];
+   var imageInput = document.forms['parsley-examples']['product_image'].value;
+   var pos_of_dot = imageInput.lastIndexOf('.')+1;
+   var img_ext = imageInput.substring(pos_of_dot);
+   var result = validExt.includes(img_ext);
+
+   if(imageInput != ''){
+      if(result == false){
+         $('#imgError').empty().append(' <p style="color: #f1556c;margin-bottom: 10px;"><i class="mdi mdi-close-circle"></i> Image File is not Image</p>')
+         event.preventDefault();
+         return false;
+      }else{
+         $('#imgError').empty();
+      }
+      return true;
+   }
+}
+
+
+
+function pdfValidation(){
+
+   var validExt = ["pdf"];
+   var pdfInput = document.forms['parsley-examples']['pdfFile'].value;
+
+
+   var pos_of_dot = pdfInput.lastIndexOf('.')+1;
+   var pdf_ext = pdfInput.substring(pos_of_dot);
+   var result = validExt.includes(pdf_ext);
+
+   if(pdfInput != ''){
+      if(result == false){
+         $('#pdfError').empty().append(' <p style="color: #f1556c;margin-bottom: 10px;"><i class="mdi mdi-close-circle"></i>  File is not in PDF Format</p>')
+         event.preventDefault();
+         return false;
+      }else{
+         $('#pdfError').empty();
+      }
+      return true;
+   }
+}
+
+            
+function multipleImageFormValidation(){
+   var validExt = ["jpeg","png","jpg"];
+
+   var files = document.forms['multipleImageForm']['product_images'].files;
+
+   if (files.length > 0) {
+   for (var i = 0; i < files.length; i++)
+      {
+         var file = file = files[i];
+         var filename = file.name;
+
+         var pos_of_dot = filename.lastIndexOf('.')+1;
+         var image_extension = filename.substring(pos_of_dot);
+         var result = validExt.includes(image_extension);
+
+         if(result == false){
+            $('#imgError').append(' <p style="color: #f1556c;margin-bottom: 10px;"><i class="mdi mdi-close-circle"></i>'+filename+'   File is not in image format</p>')
+                
+         }
+      }
+}
+event.preventDefault();   
+}
+
+
+
+</script>
+
+   
+   
+         
+

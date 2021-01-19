@@ -166,3 +166,66 @@ function addtoEbookcart(){
      }
       });
 }
+
+function proceedPayment(){
+  var fullname = $('#fullname').val();
+  var phoneNumber = $('#phoneNumber').val();
+  var city = $('#city').val();
+  var streetAddress = $('#streetAdd').val();
+
+
+  //Fullname
+  if(fullname == ''){
+   var fullnameErr = "Please enter your full name."
+   $('#fullNameErr').empty().html(fullnameErr);
+   event.preventDefault();
+  }else{
+    $('#fullNameErr').empty();
+  }
+
+  // if(phoneNumber == ''){
+  //   var phoneNumberErr = "Please enter your Phone Number"
+  //   $('#phoneNumberErr').empty().html(phoneNumberErr);
+  //  }
+
+  //For Phone Number
+   var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+   if(phoneNumber.match(phoneno)){
+    $('#phoneNumberErr').empty();
+   }else{
+    var phoneNumberErr = "Please enter Valid Phone Number"
+    $('#phoneNumberErr').empty().html(phoneNumberErr);
+    event.preventDefault();
+   }
+
+   //For City
+   if(city == ''){
+    var cityErr = "Please select your city."
+    $('#cityErr').empty().html(cityErr);
+    event.preventDefault();
+   }else{
+    $('#cityErr').empty();
+   }
+
+ 
+   //For Street Address
+   if(streetAddress == ''){
+    var streetErr = "Please enter you street Address."
+    $('#streetAddressErr').empty().html(streetErr);
+    event.preventDefault();
+   }else{
+    $('#streetAddressErr').empty();
+   }
+
+   //Payment Method
+   if($('#esewa').is(":checked") || $('#esewa').is(":checked")){
+    $('#choosePaymentErr').empty();
+
+   }else{
+     var choosePaymentErr = "Please choose one of the payment method."
+     $('#choosePaymentErr').empty().html(choosePaymentErr);
+     event.preventDefault();
+   }
+  
+
+}
