@@ -590,8 +590,8 @@ label {
 }
 
 .videos iframe{
-	border: 3px solid #f3cd11 !important;
-	margin-bottom: 50px;
+	/* border: 3px solid #f3cd11 !important; */
+	margin-bottom: 75px;
 }
 
 

@@ -5,19 +5,12 @@ mongoose.connect('mongodb+srv://rubin123123:rubin123123@cluster0.mcxac.mongodb.n
 var conn = mongoose.connection;
 var Schema = mongoose.Schema; 
 
-var  articlesSchema = new Schema({
-    article_title: {
+var videosSchema = new Schema({
+    video_title: {
         type: String,
-        required: true,
+        default: null,
     },
-    article_date: {
-        type: String,
-        required: true,
-    },
-    article_image:{
-        type: String,
-    },
-    article_description:{
+    youtube_link:{
         type: String,
     },
     slug:{
@@ -30,7 +23,7 @@ var  articlesSchema = new Schema({
 });
 
 
-articlesSchema.plugin(timestamps);
-var articleModel = mongoose.model('articles', articlesSchema);
+videosSchema.plugin(timestamps);
+var videosModel = mongoose.model('videos', videosSchema);
 
-module.exports = articleModel;
+module.exports = videosModel;

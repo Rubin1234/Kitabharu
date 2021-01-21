@@ -20,6 +20,7 @@ const subCategoryModel = require('../../modules/subcategories');
 const { populate, db } = require('../../modules/categories');
 const cartModel = require('../../modules/cart');
 const wishlistModel = require('../../modules/wishlist');
+var settingModel = require('../../modules/setting'); 
 
 /* GET home page. */
   router.get('/', function(req, res, next) {
@@ -28,6 +29,7 @@ const wishlistModel = require('../../modules/wishlist');
     var cookiesCustomerId = req.cookies.customerId;
     var cookiesCustomerEmail = req.cookies.customerEmail;
 
+    
     if(cookiesCustomerEmail == undefined && cookiesCustomerId == undefined && cookiesCustomerrName == undefined && cookiesCustomerToken == undefined){
         req.flash('error','  Please login to proceed to add product to wishlist.');
         res.redirect('customer/login');
@@ -39,6 +41,9 @@ const wishlistModel = require('../../modules/wishlist');
     
       var wishlistProduct = wishlistModel.findOne({'customer_id':cookiesCustomerId}).populate('ebook_id');
     
+
+      var settingData = settingModel.findOne({});
+      settingData.exec(function(errr,dataa){
         bookSubcategories.exec(function(err1,data1){
           stationarySubcategories.exec(function(err2,data2){
             ebookSubcategories.exec(function(err3,data3){
@@ -64,12 +69,14 @@ const wishlistModel = require('../../modules/wishlist');
                   cookiesCustomerrName,
                   cookiesCustomerId,
                   cookiesCustomerEmail,
-                  wishlistProduct : data4
+                  wishlistProduct : data4,
+                  setting : dataa
                 });
               }); 
             });
           });
         }); 
+      });
       }
 
   });

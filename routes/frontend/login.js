@@ -22,6 +22,7 @@ const subCategoryModel = require('../../modules/subcategories');
 const customerModel = require('../../modules/customers');
 const { populate, db } = require('../../modules/categories');
 const cartModel = require('../../modules/cart');
+var settingModel = require('../../modules/setting'); 
 
 /* GET home page. */
 //Check if there is user session
@@ -53,6 +54,9 @@ next();
     var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
     var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
 
+
+    var settingData = settingModel.findOne({});
+    settingData.exec(function(errr,dataa){
     bookSubcategories.exec(function(err1,data1){
       stationarySubcategories.exec(function(err2,data2){
         ebookSubcategories.exec(function(err3,data3){
@@ -75,7 +79,9 @@ next();
             cookiesCustomerrName,
             cookiesCustomerId,
             cookiesCustomerEmail,
+            setting : dataa
           });
+        });
         });
       });
     });

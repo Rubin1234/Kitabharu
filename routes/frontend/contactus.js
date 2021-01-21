@@ -4,7 +4,11 @@ var multer = require('multer');
 var bcrypt = require('bcryptjs');
 var sharp = require('sharp');
 var dateFormat = require('dateformat');
-var slug = require('slug');       
+var slug = require('slug');    
+
+require('dotenv').config();
+var nodemailer = require('nodemailer'); 
+
 var fs = require('fs');
 
 var router = app.Router();
@@ -18,6 +22,7 @@ const util = require('util');
 const ModelProduct = require('../../modules/product');
 const subCategoryModel = require('../../modules/subcategories');
 const { populate, db } = require('../../modules/categories');
+var settingModel = require('../../modules/setting'); 
 
 /* GET home page. */
 
@@ -34,7 +39,8 @@ const { populate, db } = require('../../modules/categories');
     var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
     var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
      // var records = util.inspect(data, false, null, true /* enable colors */);
-
+     var settingData = settingModel.findOne({});
+     settingData.exec(function(errr,dataa){
     bookSubcategories.exec(function(err1,data1){
       stationarySubcategories.exec(function(err2,data2){
         ebookSubcategories.exec(function(err3,data3){
@@ -57,6 +63,8 @@ const { populate, db } = require('../../modules/categories');
             cookiesCustomerrName,
             cookiesCustomerId,
             cookiesCustomerEmail,
+            setting : dataa
+          }); 
           }); 
         });
       });
@@ -65,11 +73,43 @@ const { populate, db } = require('../../modules/categories');
   });
 
 
+  router.post('/sendmail', function(req, res, next) {
+
+    //Step 1
+    let transporter = nodemailer.createTransport({
+      service : 'gmail',
+      auth : {
+        user: process.env.Email,
+        pass: process.env.Password
+      }
+    });
+
+  //Step 2
+  let mailOptions = {
+    from : 'kitabharu@gmail.com',
+    to : 'rubinawale10@gmail.com',
+    subject : 'Kitabharu',
+    text : "I am Kitabharu",
+  }
+
+  transporter.sendMail(mailOptions, function(err,data){
+    console.log(data);
+    if(err){
+      console.log('Error Occurs');
+    }else{
+      console.log('Email Send');
+    }
+
+  });
+
+
+  req.flash('success','Email Sent Succesfully. We will contact you later.Thank you!!!');
+  res.redirect('/contactus');
+  });
+
  //Making Unique value for E-book
  function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
  } 
         
-
-
 module.exports = router;

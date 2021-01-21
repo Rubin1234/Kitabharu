@@ -19,6 +19,7 @@ const ModelProduct = require('../../modules/product');
 const subCategoryModel = require('../../modules/subcategories');
 const { populate, db } = require('../../modules/categories');
 const cartModel = require('../../modules/cart');
+var settingModel = require('../../modules/setting'); 
 
 
 
@@ -38,7 +39,8 @@ router.get('/', function(req, res, next) {
     var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
      // var records = util.inspect(data, false, null, true /* enable colors */);
 
-
+     var settingData = settingModel.findOne({});
+     settingData.exec(function(errr,dataa){
     bookSubcategories.exec(function(err1,data1){
       stationarySubcategories.exec(function(err2,data2){
         ebookSubcategories.exec(function(err3,data3){
@@ -54,8 +56,6 @@ router.get('/', function(req, res, next) {
           
           
           var uniqueValueEbook = array.filter(onlyUnique);
-        
-
   
             // var records = util.inspect(data4, false, null, true /* enable colors */);
             res.render('frontend/payment',{
@@ -66,9 +66,9 @@ router.get('/', function(req, res, next) {
               cookiesCustomerrName,
               cookiesCustomerId,
               cookiesCustomerEmail,
-          
+              setting : dataa
             });
-    
+          });
         });
       });
     });     

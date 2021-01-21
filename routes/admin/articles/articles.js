@@ -53,6 +53,8 @@ router.post('/store',upload,function(req,res,next){
     var articleDescription = req.body. product_description;
     var status = req.body.status;
 
+    var slugname = slug(articleTitle);
+
 
 
     articleModel.find({article_title:articleTitle}).exec(function(er,doc){
@@ -69,8 +71,8 @@ router.post('/store',upload,function(req,res,next){
                 image = req.file.filename;
         
                 
-                let width = 865;
-                let height = 577;
+                let width = 750;
+                let height = 400;
         
                 let width1 = 570;
                 let height1 = 350;
@@ -85,6 +87,7 @@ router.post('/store',upload,function(req,res,next){
                 article_image : image,
                 article_description : articleDescription,
                 status : status,
+                slug : slugname
             });
         
             saveArticle.save(function(err,data){
@@ -111,47 +114,85 @@ router.get('/edit/:id',function(req,res,next){
 
 
 router.post('/update',upload,function(req,res,next){
-    var brandId = req.body.id;
-    console.log(req.body);
-return;
-
-    var brandName = req.body.brandname;
-    var previousBrandImage = req.body.previousBrandImage;
+    var articleId = req.body.id;
+    var articleName = req.body.articlename;
+    var articleDate = req.body.articledate;
+    var previousArticleImage = req.body.previousArticleImage;
+    var description = req.body.product_description;
     var status = req.body.status;
 
-    // var image;
-    // if(req.file == null){
-    //     image = previousBrandImage;
-    // }else{
+    var slugname = slug(articleName);
 
-    //     image = req.file.filename;
+
+    articleModel.find({_id:{$ne:articleId},article_title:articleName}).exec(function(er,doc){
+        if(doc.length > 0){
+            req.flash('error','Sorry, The Article Title has Already Existed.');
+            res.redirect('/articles/edit/'+articleId); 
+           }else{
+                var image;
+                if(req.file == null){
+                    image = previousArticleImage;
+                }else{
+                    image = req.file.filename;
         
-    //     let width = 300;
-    //     let height = 300;
+                    let width = 750;
+                    let height = 425;
+
+                    let width1 = 570;
+                    let height1 = 350;
         
-    //     sharp(req.file.path).resize(width,height).toFile('./public/images/backend/brands/'+ req.file.filename);
+                    sharp(req.file.path).resize(width,height).toFile('./public/images/backend/articles/'+ req.file.filename);
+                    sharp(req.file.path).resize(width1,height1).toFile('./public/images/backend/articles/frontview/'+ req.file.filename);
 
-      
-    //     if(previousBrandImage != ''){
-    //         console.log(1)
-    //     var filePath = './public/images/backend/brands/'+previousBrandImage;
-    //     fs.unlinkSync(filePath);
-    //     }
-    // }
+                    if(previousArticleImage != ''){
+                        console.log(1)
+                    var filePath = './public/images/backend/articles/'+previousArticleImage;
+                    var filePath1 = './public/images/backend/articles/frontview/'+previousArticleImage;
+                    fs.unlinkSync(filePath);
+                    fs.unlinkSync(filePath1);
+                    }
+                }
 
-    // var updateBrand = brandModel.findByIdAndUpdate(brandId,{
-    //     brand_name : brandName,
-    //     brand_image : image,
-    //     status : status,
-    // })
+                var updateArticle = articleModel.findByIdAndUpdate(articleId,{
+                    article_title : articleName,
+                    article_date :articleDate,
+                    article_image : image,
+                    article_description : description,
+                    status : status,
+                    slug : slugname
+                });
 
-    // updateBrand.exec(function(err,data){
-    //     req.flash('success','Data Updated Succesfully. Thank you!!!');
-    //     return res.redirect('/brand/index');
-    // });
+                updateArticle.exec(function(err,data){
+                    req.flash('success','Article Updated Succesfully. Thank you!!!');
+                    return res.redirect('/articles/index');
+                });
 
-    // console.log(image);
-   
+
+            }
+    });
+});
+
+
+router.get('/delete/:id',function(req,res,next){
+    var Id = req.params.id;
+   var deleteArticle =  articleModel.findByIdAndDelete(Id);
+
+   deleteArticle.exec(function(err,data){
+        if(err) throw err;
+
+            // If category image is not null
+            if(data.article_image != null){       
+                var filePath = './public/images/backend/articles/'+data.article_image;
+                var filePath1 = './public/images/backend/articles/frontview/'+data.article_image;
+                fs.unlinkSync(filePath);
+                fs.unlinkSync(filePath1);
+            }
+
+
+        req.flash('success','Article Deleted Succesfully. Thank you!!!');
+        return res.redirect('/articles/index');
+    
+      }); 
 
 });
 

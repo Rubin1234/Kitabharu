@@ -22,6 +22,7 @@ const subCategoryModel = require('../../modules/subcategories');
 const { populate, db } = require('../../modules/categories');
 const cartModel = require('../../modules/cart');
 const reviewModel = require('../../modules/review');
+var settingModel = require('../../modules/setting'); 
 
 /* GET home page. */
 
@@ -218,7 +219,8 @@ const reviewModel = require('../../modules/review');
               stationaryReviewArray.push(ratingArray3);
             }
 
-
+            var settingData = settingModel.findOne({});
+            settingData.exec(function(errr,dataa){
                 bookSubcategories.exec(function(err3,data3){
                   stationarySubcategories.exec(function(err4,data4){
                     ebookSubcategories.exec(function(err5,data5){
@@ -248,10 +250,12 @@ const reviewModel = require('../../modules/review');
                         newArrivalReviewArray,
                         ebookReviewArray,
                         bookReviewArray,
-                        stationaryReviewArray
+                        stationaryReviewArray,
+                        setting : dataa
                       }); 
                     });
                   });
+                })
                 });
               }); 
             }); 
@@ -840,7 +844,8 @@ const reviewModel = require('../../modules/review');
       Promise.all(promises)
       .then(allArray => {  
         // var records = util.inspect(allArray, false, null, true /* enable colors */);  
-
+        var settingData = settingModel.findOne({});
+        settingData.exec(function(errr,dataa){
         bookSubcategories.exec(function(err1,data1){
           stationarySubcategories.exec(function(err2,data2){
             ebookSubcategories.exec(function(err3,data3){
@@ -864,13 +869,17 @@ const reviewModel = require('../../modules/review');
                 cookiesCustomerEmail,
                 searchedProducts : allArray,
                 searchValue : req.body.headersearch,
+                setting : dataa
               }); 
+            }); 
             });
           });
         });
       });
     });
   }else{
+    var settingData = settingModel.findOne({});
+    settingData.exec(function(errr,dataa){
     bookSubcategories.exec(function(err1,data1){
       stationarySubcategories.exec(function(err2,data2){
         ebookSubcategories.exec(function(err3,data3){
@@ -897,7 +906,8 @@ const reviewModel = require('../../modules/review');
             cookiesCustomerEmail,
             searchedProducts : allArray,
             searchValue : req.body.headersearch,
-          
+            setting: dataa
+          }); 
           }); 
         });
       });

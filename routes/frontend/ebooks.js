@@ -19,6 +19,7 @@ var ModelProduct = require('../../modules/product');
 const subCategoryModel = require('../../modules/subcategories');
 const { populate, db } = require('../../modules/categories');
 const reviewModel = require('../../modules/review');
+var settingModel = require('../../modules/setting'); 
 
 /* GET home page. */
 
@@ -86,35 +87,38 @@ const reviewModel = require('../../modules/review');
             ebooksReviewArray.push(ratingArray);
           }
 
+          var settingData = settingModel.findOne({});
+          settingData.exec(function(errr,dataa){
+          bookSubcategories.exec(function(err1,data1){
+            stationarySubcategories.exec(function(err2,data2){
+              ebookSubcategories.exec(function(err3,data3){
 
-    bookSubcategories.exec(function(err1,data1){
-      stationarySubcategories.exec(function(err2,data2){
-        ebookSubcategories.exec(function(err3,data3){
-
-          //Storing subcategories in array for taking unique value
-          var array = [];
-          data3.forEach(function(data4){
-            var subcategoryEbook = data4.subcategory_id;
-            array.push(subcategoryEbook);
-          });
-          
-          var uniqueValueEbook = array.filter(onlyUnique);
-          var records = util.inspect(data, false, null, true /* enable colors */);
-  
-          res.render('frontend/ebooks',{
-            allEbooks:data,
-            bookSubcategories:data1,
-            stationarySubcategories:data2,
-            ebookSubcategories:uniqueValueEbook,
-            cookiesCustomerToken,
-            cookiesCustomerrName,
-            cookiesCustomerId,
-            cookiesCustomerEmail,
-            slug,
-            checked,
-            ebooksReviewArray
-          }); 
-        });
+                //Storing subcategories in array for taking unique value
+                var array = [];
+                data3.forEach(function(data4){
+                  var subcategoryEbook = data4.subcategory_id;
+                  array.push(subcategoryEbook);
+                });
+                
+                var uniqueValueEbook = array.filter(onlyUnique);
+                var records = util.inspect(data, false, null, true /* enable colors */);
+        
+                res.render('frontend/ebooks',{
+                  allEbooks:data,
+                  bookSubcategories:data1,
+                  stationarySubcategories:data2,
+                  ebookSubcategories:uniqueValueEbook,
+                  cookiesCustomerToken,
+                  cookiesCustomerrName,
+                  cookiesCustomerId,
+                  cookiesCustomerEmail,
+                  slug,
+                  checked,
+                  ebooksReviewArray,
+                  setting : dataa
+                }); 
+              }); 
+              });
         });
       });
     });
@@ -145,6 +149,53 @@ router.get('/:slug',(req,res,next) => {
     var subcategoryId = data._id;
 
     ModelProduct.find({subcategory_id:subcategoryId,book_type : ['ebook','both']}).exec(function(err1,data1){
+
+        //For Rating
+        const promises = data1.map((item,index) => new Promise((resolve,reject) => {
+          var reviewData = reviewModel.find({product_slug : item.slug});
+          reviewData.exec(function(err1,stationaryData){
+              resolve(stationaryData);
+          });
+        }));
+  
+        
+        Promise.all(promises)
+        .then(allArray => {
+  
+                //FOr NEw Arrival RAting IN Front View
+                var ebooksReviewArray = [];
+                for(var i=0; i<=allArray.length-1; i++){
+  
+                  var average = 0;
+                  var totalStar = 0;
+                  var actualValue = 0;
+                  var ratingArray = [];
+          
+                  allArray[i].forEach(function(date){
+                    totalStar += parseInt(date.rating_star);
+                  });
+          
+                  var totalRatingUser =  allArray[i].length;
+          
+                  if(totalRatingUser > 0){
+                    average = totalStar/totalRatingUser;
+                    average = average.toFixed(1);
+                  }
+            
+                  var roundOffValue = parseInt(average);
+                  
+                  actualValue = average - roundOffValue
+  
+                  ratingArray.push(average);
+                  ratingArray.push(actualValue);
+                
+                  
+                  ebooksReviewArray.push(ratingArray);
+                }
+  
+  
+
+
       bookSubcategories.exec(function(err2,data2){
         stationarySubcategories.exec(function(err3,data3){
           ebookSubcategories.exec(function(err4,data4){
@@ -158,6 +209,8 @@ router.get('/:slug',(req,res,next) => {
        
            var uniqueValueEbook = array.filter(onlyUnique);
 
+           var settingData = settingModel.findOne({});
+           settingData.exec(function(errr,dataa){
             res.render('frontend/ebooks',{
               allEbooks:data1,
               bookSubcategories:data2,
@@ -168,7 +221,12 @@ router.get('/:slug',(req,res,next) => {
               cookiesCustomerId,
               cookiesCustomerEmail,
               slug,
-              checked});
+              checked,
+              setting : dataa,
+              ebooksReviewArray
+              });
+            });
+            });
           });
         });
       });

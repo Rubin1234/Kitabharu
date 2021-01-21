@@ -22,6 +22,7 @@ const reviewModel = require('../../modules/review');
 const { populate, db, findByIdAndDelete } = require('../../modules/categories');
 const { rejects } = require('assert');
 const { resolve } = require('path');
+var settingModel = require('../../modules/setting'); 
 
 /* GET home page. */
 
@@ -116,6 +117,8 @@ const { resolve } = require('path');
          
               var roundOffValue = parseInt(average);
 
+              var settingData = settingModel.findOne({});
+              settingData.exec(function(errr,dataa){
               res.render('frontend/bookdetails',{
                 bookDetails:data,
                 bookSubcategories:data1,
@@ -133,7 +136,9 @@ const { resolve } = require('path');
                 countTwoStar,
                 countOneStar,
                 average,
-                roundOffValue
+                roundOffValue,
+                setting : dataa
+              });  
               });  
             }); 
           });

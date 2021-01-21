@@ -19,6 +19,7 @@ var ModelProduct = require('../../modules/product');
 const subCategoryModel = require('../../modules/subcategories');
 const { populate, db } = require('../../modules/categories');
 const reviewModel = require('../../modules/review');
+var settingModel = require('../../modules/setting'); 
 
 /* GET home page. */
 
@@ -85,6 +86,8 @@ const reviewModel = require('../../modules/review');
               }
 
 
+    var settingData = settingModel.findOne({});
+    settingData.exec(function(errr,dataa){
       bookSubcategories.exec(function(err1,data1){
         stationarySubcategories.exec(function(err2,data2){
           ebookSubcategories.exec(function(err3,data3){
@@ -111,7 +114,9 @@ const reviewModel = require('../../modules/review');
               cookiesCustomerEmail,
               slug,
               checked,
-              stationaryReviewArray
+              stationaryReviewArray,
+              setting : dataa
+            });
             });
             }); 
           });
@@ -142,38 +147,82 @@ const reviewModel = require('../../modules/review');
     var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
     var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
 
-
-
-    subCategoryName.exec(function(err,data){
-     
+    subCategoryName.exec(function(err,data){     
       var subcategoryId = data._id;
 
       ModelProduct.find({subcategory_id:subcategoryId}).exec(function(err1,data1){
+        //For Rating
+        const promises = data1.map((item,index) => new Promise((resolve,reject) => {
+          var reviewData = reviewModel.find({product_slug : item.slug});
+          reviewData.exec(function(err1,booksData){
+            resolve(booksData);
+          });
+        }));
+            
+        Promise.all(promises)
+        .then(allArray => {
+
+            //FOr NEw Arrival RAting IN Front View
+            var booksReviewArray = [];
+            for(var i=0; i<=allArray.length-1; i++){
+
+              var average = 0;
+              var totalStar = 0;
+              var actualValue = 0;
+              var ratingArray = [];
       
-        bookSubcategories.exec(function(err2,data2){
-          stationarySubcategories.exec(function(err3,data3){
-            ebookSubcategories.exec(function(err4,data4){
+              allArray[i].forEach(function(date){
+                totalStar += parseInt(date.rating_star);
+              });
+      
+              var totalRatingUser =  allArray[i].length;
+      
+              if(totalRatingUser > 0){
+                average = totalStar/totalRatingUser;
+                average = average.toFixed(1);
+              }
+        
+              var roundOffValue = parseInt(average);
+              
+              actualValue = average - roundOffValue
 
-                  //Storing subcategories in array for taking unique value
-             var array = [];
-             data4.forEach(function(data5){
-               var subcategoryEbook = data5.subcategory_id;
-               array.push(subcategoryEbook);
-             });
-         
-             var uniqueValueEbook = array.filter(onlyUnique);
+              ratingArray.push(average);
+              ratingArray.push(actualValue);
+              booksReviewArray.push(ratingArray);
+            }
+  
+          bookSubcategories.exec(function(err2,data2){
+            stationarySubcategories.exec(function(err3,data3){
+              ebookSubcategories.exec(function(err4,data4){
 
-              res.render('frontend/stationary',{
-                stationaryProducts:data1,
-                bookSubcategories:data2,
-                stationarySubcategories:data3,
-                ebookSubcategories:uniqueValueEbook,
-                cookiesCustomerToken,
-                cookiesCustomerrName,
-                cookiesCustomerId,
-                cookiesCustomerEmail,
-                slug:slug,
-                checked});
+                    //Storing subcategories in array for taking unique value
+              var array = [];
+              data4.forEach(function(data5){
+                var subcategoryEbook = data5.subcategory_id;
+                array.push(subcategoryEbook);
+              });
+          
+              var uniqueValueEbook = array.filter(onlyUnique);
+
+
+                var settingData = settingModel.findOne({});
+                settingData.exec(function(errr,dataa){
+                  res.render('frontend/stationary',{
+                    stationaryProducts:data1,
+                    bookSubcategories:data2,
+                    stationarySubcategories:data3,
+                    ebookSubcategories:uniqueValueEbook,
+                    cookiesCustomerToken,
+                    cookiesCustomerrName,
+                    cookiesCustomerId,
+                    cookiesCustomerEmail,
+                    slug:slug,
+                    checked,
+                    setting : dataa,
+                    stationaryReviewArray : booksReviewArray
+                  });
+                });
+              });
             });
           });
         });
