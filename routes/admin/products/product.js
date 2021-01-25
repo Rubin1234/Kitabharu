@@ -3893,8 +3893,6 @@ router.get('/:id/attributes/edit/:attributeId',function(req,res,next){
     var language = req.body.language;
     var status = req.body.status;
 
-
-
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
 
