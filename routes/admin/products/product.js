@@ -23,6 +23,7 @@ var ModelFlashSale = require('../../../modules/flashsale');
 var SpecialOfferModel = require('../../../modules/specialoffer');
 var BulkOfferModel = require('../../../modules/bulkoffer');
 var ebookModel = require('../../../modules/ebook');    
+var publicationModel = require('../../../modules/publication');   
 
 //Const
 const { route } = require('../dashboard');
@@ -3674,11 +3675,14 @@ router.get('/:id/attributes/index',function(req,res,next){
     var productDetails = productModel.findOne({ _id : productId }).populate('category_id');
     var bookattributes = bookAttributesModel.find({product_id:productId});
     var stationaryattributes = stationaryAttributesModel.find({product_id:productId});
+    var publication = publicationModel.find({status: "Active"});
 
     bookattributes.exec(function(err,data){
         productDetails.exec(function(err1,data1){
             stationaryattributes.exec(function(err2,data2){
-                res.render('backend/products/attributes/index',{adminType,productId,records:data,productDetails:data1,records1:data2,title:"Product Attribute Lists"});
+                publication.exec(function(err3,data3){
+                    res.render('backend/products/attributes/index',{adminType,productId,records:data,productDetails:data1,records1:data2,records3:data3,title:"Product Attribute Lists"});
+                });
             })
         })
     });
@@ -3712,8 +3716,6 @@ var attributeImages = multer({
 router.post('/:id/attributes/store',attributeImages,function(req,res,next){
 
     var data = req.body;
-  
-
     var productId = req.params.id;
     var category_name = req.body.category_name;
 
@@ -3729,45 +3731,67 @@ router.post('/:id/attributes/store',attributeImages,function(req,res,next){
    var images = req.files;
 
     if(category_name == 'Stationary'){
-        var  saveStationaryAttributes = new stationaryAttributesModel({
-            product_id : productId,
-            product_code : product_code,
-            manufacturer_name : manufacturer_name,
-            status : status,
+
+        stationaryAttributesModel.find({product_code:product_code}).exec(function(er,doc){
+            bookAttributesModel.find({product_code:product_code}).exec(function(er1,doc1){
+                if(doc.length > 0|| doc1.length > 0){
+                    req.flash('error','Sorry, The Product Code has Already Existed.');
+                    res.redirect('/product/' + productId + '/attributes/index'); 
+                }else{
+
+                    var  saveStationaryAttributes = new stationaryAttributesModel({
+                        product_id : productId,
+                        product_code : product_code,
+                        manufacturer_name : manufacturer_name,
+                        status : status,
+                    });
+
+                    saveStationaryAttributes.save();
+
+                    ModelProduct.findOne({_id:productId},function(error,productData){
+                        if(productData){
+                            productData.stationary_attribute.push(saveStationaryAttributes);
+                            productData.save();
+                        }
+                    });
+                    req.flash('success','Product Attributes Updated Succesfully. Thank you!!!');
+                    res.redirect('/product/'+  productId +'/attributes/index');
+                }
         });
+    });
 
-        saveStationaryAttributes.save();
+    }else{  
+        bookAttributesModel.find({product_code:product_code}).exec(function(er,doc){
+            stationaryAttributesModel.find({product_code:product_code}).exec(function(er1,doc1){
+                if(doc.length > 0|| doc1.length > 0){
+                    req.flash('error','Sorry, The Product Code has Already Existed.');
+                    res.redirect('/product/' + productId + '/attributes/index'); 
+                }else{
+                    var  saveBookAttributes = new bookAttributesModel({
+                        product_id : productId,
+                        product_code : product_code,
+                        author_name : author_name,
+                        publication : publication_name,
+                        total_pages : total_pages,
+                        published_year : published_year,
+                        language : language,
+                        status : status,
+                    });
 
-        ModelProduct.findOne({_id:productId},function(error,productData){
-            if(productData){
-                productData.stationary_attribute.push(saveStationaryAttributes);
-                productData.save();
-            }
+                    saveBookAttributes.save();
+
+                    ModelProduct.findOne({_id:productId},function(error,productData){
+                        if(productData){
+                            productData.book_attribute.push(saveBookAttributes);
+                            productData.save();
+                        }
+                    });
+    
+                    req.flash('success','Product Attributes Updated Succesfully. Thank you!!!');
+                    res.redirect('/product/'+  productId +'/attributes/index');
+                }
+            });
         });
-
-        
-    }else{
-
-        var  saveBookAttributes = new bookAttributesModel({
-            product_id : productId,
-            product_code : product_code,
-            author_name : author_name,
-            publication : publication_name,
-            total_pages : total_pages,
-            published_year : published_year,
-            language : language,
-            status : status,
-        });
-  
-        saveBookAttributes.save();
-
-        ModelProduct.findOne({_id:productId},function(error,productData){
-            if(productData){
-                productData.book_attribute.push(saveBookAttributes);
-                productData.save();
-            }
-        });
-
     }
 
    
@@ -3850,8 +3874,6 @@ router.post('/:id/attributes/store',attributeImages,function(req,res,next){
     // });
 
 
-        req.flash('success','Product Attributes Updated Succesfully. Thank you!!!');
-        res.redirect('/product/'+  productId +'/attributes/index');
 
 });
 
@@ -3879,17 +3901,16 @@ router.get('/:id/attributes/edit/:attributeId',function(req,res,next){
     var editAttribute = bookAttributesModel.findOne({_id:attributeId,product_id:productId});
     var stationaryAttribute = stationaryAttributesModel.findOne({_id:attributeId,product_id:productId});
     var productDetails = productModel.findOne({ _id : productId }).populate('category_id');
+    var publication = publicationModel.find({status: "Active"});
 
     var selected = 'selected';
-
-
-
   
         editAttribute.exec(function(err,data){
             productDetails.exec(function(err1,data1){
                 stationaryAttribute.exec(function(err2,data2){
-                 console.log(data2);
-                    res.render('backend/products/attributes/edit',{adminType,selected,productId,records:data,records1:data2,productDetails:data1,title:"Product Attribute Lists"});
+                    publication.exec(function(err3,data3){
+                        res.render('backend/products/attributes/edit',{adminType,selected,productId,records:data,records1:data2,records3:data3,productDetails:data1,title:"Product Attribute Lists"});
+                    });
                 })
             })
         })
@@ -3900,7 +3921,6 @@ router.get('/:id/attributes/edit/:attributeId',function(req,res,next){
 router.post('/:id/attributes/update/:attributeId',function(req,res,next){
     var productId = req.params.id;
     var attributeId = req.params.attributeId;
-
     var product_code = req.body.product_code;
     
     //For Book
@@ -3918,33 +3938,59 @@ router.post('/:id/attributes/update/:attributeId',function(req,res,next){
 
 
 
-if(category_name == 'Stationary'){
-    updateAttributes =  stationaryAttributesModel.findByIdAndUpdate(attributeId,{
-        product_code : product_code,
-        manufacturer_name : manufacturer_name,
-        publication : publication_name,
-        status: status
+    if(category_name == 'Stationary'){
+        stationaryAttributesModel.find({_id:{$ne:attributeId},product_code:product_code}).exec(function(er,doc){
+            bookAttributesModel.find({_id:{$ne:attributeId},product_code:product_code}).exec(function(er1,doc1){
+            if(doc.length > 0|| doc1.length > 0){
+                    req.flash('error','Sorry, The Product Code has Already Existed.');
+                    res.redirect('/product/'+  productId +'/attributes/edit/'+attributeId);
+            }else{
 
-    });
-}else if(category_name == 'Book'){
-    updateAttributes =  bookAttributesModel.findByIdAndUpdate(attributeId,{
-        product_code : product_code,
-        author_name : author_name,
-        publication : publication_name,
-        total_pages : total_pages,
-        published_year : published_year,
-        language : language,
-        status: status
+                updateAttributes =  stationaryAttributesModel.findByIdAndUpdate(attributeId,{
+                    product_code : product_code,
+                    manufacturer_name : manufacturer_name,
+                    publication : publication_name,
+                    status: status
+                });
 
-    });
-}
+                updateAttributes.exec(function(err,data){
+                    req.flash('success','Product Attributes Updated Succesfully. Thank you!!!');
+                    res.redirect('/product/'+  productId +'/attributes/edit/'+attributeId);
+                });
 
-    updateAttributes.exec(function(err,data){
-        req.flash('success','Product Attributes Updated Succesfully. Thank you!!!');
-        res.redirect('/product/'+  productId +'/attributes/index');
+            }
+        });
     });
 
+    }else if(category_name == 'Book'){
+        bookAttributesModel.find({_id:{$ne:attributeId},product_code:product_code}).exec(function(er,doc){
+            stationaryAttributesModel.find({_id:{$ne:attributeId},product_code:product_code}).exec(function(er1,doc1){
+            if(doc.length > 0 || doc1.length > 0){
+                req.flash('error','Sorry, The Product Code has Already Existed.');
+                res.redirect('/product/'+  productId +'/attributes/edit/'+attributeId);
+            }else{   
+        
+                updateAttributes =  bookAttributesModel.findByIdAndUpdate(attributeId,{
+                    product_code : product_code,
+                    author_name : author_name,
+                    publication : publication_name,
+                    total_pages : total_pages,
+                    published_year : published_year,
+                    language : language,
+                    status: status
+                });
+
+                updateAttributes.exec(function(err,data){
+                    req.flash('success','Product Attributes Updated Succesfully. Thank you!!!');
+                    res.redirect('/product/'+  productId +'/attributes/index');
+                });
+            }
+        
+        });
+    });
+    }
 });
+
 
 router.get('/:id/attributes/delete/:attributeId',function(req,res,next){
     var productId = req.params.id;

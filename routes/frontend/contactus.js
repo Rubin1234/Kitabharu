@@ -74,6 +74,17 @@ var settingModel = require('../../modules/setting');
 
 
   router.post('/sendmail', function(req, res, next) {
+    var email = req.body.email;
+    var fullname = req.body.fullname;
+    var message = req.body.message;
+    var phonenumber = req.body.phonenumber;
+
+    console.log(email);
+    console.log(fullname);
+    console.log(message);
+    console.log(phonenumber);
+  
+  
 
     //Step 1
     let transporter = nodemailer.createTransport({
@@ -84,12 +95,13 @@ var settingModel = require('../../modules/setting');
       }
     });
 
+    
   //Step 2
   let mailOptions = {
-    from : 'kitabharu@gmail.com',
-    to : 'rubinawale10@gmail.com',
-    subject : 'Kitabharu',
-    text : "I am Kitabharu",
+    from : email,
+    to : 'rojen.maharjan89@gmail.com',
+    subject : 'Kitabharu Contact Us',
+    html : '<div style="font-size:16px"><strong>Name: </strong>'+fullname+'<br><strong>Phonenumber: </strong>'+phonenumber+'<br><strong>Email Address: </strong>'+email+'<br><strong>Message: </strong>'+message+'</div>',
   }
 
   transporter.sendMail(mailOptions, function(err,data){

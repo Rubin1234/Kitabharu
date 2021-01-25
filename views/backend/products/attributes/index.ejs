@@ -98,7 +98,21 @@
                                                         Please enter a product code. </span>
                                                 </div>
                                             </div>
-                                        
+                                            
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label for="inputEmail3" class="form-label">Publication<span class="text-danger">*</span></label>
+                                                    <select  name="publication_name" class="selectpicker show-tick" data-style="btn-light" style="border: 1px solid lightgrey;" onchange="changeCategory()" required="">
+                                                        <option value="">Please select publication </option>
+                                                        <% if(records3.length > 0){ %>
+                                                            <% records3.forEach(function(data){ %>
+                                                                <option value="<%= data.publication_name %>" category="<%= data.publication_name %>"><%= data.publication_name %></option>
+                                                        <%  })
+                                                        } %>
+                                                    </select>
+                                                </div>
+                                            </div>
+
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label for="inputEmail3" class="form-label">Author Name<span class="text-danger">*</span></label>
@@ -108,19 +122,12 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-4">
-                                                <div class="form-group">
-                                                    <label for="inputEmail3" class="form-label">Publication<span class="text-danger">*</span></label>
-                                                    <input type="text" name="publication_name"  parsley-type="text" class="form-control"  placeholder="Enter a publisher name" autocomplete="off" required>
-                                                    <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
-                                                        Please enter a total number of pages. </span>
-                                                </div>
-                                            </div>
+                                    
 
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label for="inputEmail3" class="form-label">No. of Pages<span class="text-danger">*</span></label>
-                                                    <input type="text" name="total_pages"  parsley-type="text" class="form-control"  placeholder="Enter total number of pages" autocomplete="off" >
+                                                    <input type="number" name="total_pages" min="1" parsley-type="text" class="form-control"  placeholder="Enter total number of pages" autocomplete="off" >
                                                     <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                         Please enter a published year. </span>    
                                                 </div>
@@ -129,7 +136,7 @@
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label for="inputEmail3" class="form-label">Published Year<span class="text-danger">*</span></label>
-                                                    <input type="text" name="published_year"  parsley-type="text" class="form-control"  placeholder="Enter a published year" autocomplete="off" >
+                                                    <input type="number" name="published_year" min="1"  parsley-type="text" class="form-control"  placeholder="Enter a published year" autocomplete="off" >
                                                     <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                         Please enter a published year. </span>    
                                                 </div>
@@ -138,7 +145,7 @@
                                             <div class="col-lg-4">
                                                 <div class="form-group">
                                                     <label for="inputEmail3" class="form-label">Language<span class="text-danger">*</span></label>
-                                                    <input type="text" name="language"  parsley-type="text" class="form-control"  placeholder="Enter a language name" autocomplete="off" required>
+                                                    <input type="text" name="language"  parsley-type="text" class="form-control"  placeholder="Enter a language name" autocomplete="off" >
                                                     <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                         Please enter a language. </span>    
                                                 </div>

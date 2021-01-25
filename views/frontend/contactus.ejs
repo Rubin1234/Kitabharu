@@ -49,14 +49,16 @@
                   <h6 class="text-dark"><i class="icon-world"></i> Website :</h6>
                   <p>www.kitabharu.com</p>
                </div>
-               <form class="col-lg-8 col-md-8" name="sentMessage" id="contactForm" method="POST" action="/contactus/sendmail">
+
+
+               <form class="col-lg-8 col-md-8" action="/contactus/sendmail"  method="POST" name="sentMessage" id="contactForm" >
                   <div class="section-title" style="border-bottom: none;">
                      <h2 class="mt-1 mb-5">Contact Us</h2>
                   </div>
                   <div class="control-group form-group">
                      <div class="controls">
                         <label>Full Name <span class="text-danger">*</span></label>
-                        <input type="text" placeholder="Full Name" class="form-control" id="name" required data-validation-required-message="Please enter your name." autocomplete="off">
+                        <input type="text" placeholder="Full Name" name="fullname" class="form-control" id="name"  autocomplete="off" required>
                         <p class="help-block"></p>
                      </div>
                   </div>
@@ -64,20 +66,20 @@
                      <div class="control-group form-group col-md-6">
                         <label>Phone Number <span class="text-danger">*</span></label>
                         <div class="controls">
-                           <input type="tel" placeholder="Phone Number" class="form-control" id="phone" required data-validation-required-message="Please enter your phone number.">
+                           <input type="tel" placeholder="Phone Number" name="phonenumber" class="form-control" id="phone"  >
                         </div>
                      </div>
                      <div class="control-group form-group col-md-6">
                         <div class="controls">
                            <label>Email Address <span class="text-danger">*</span></label>
-                           <input type="email" placeholder="Email Address"  class="form-control" id="email" required data-validation-required-message="Please enter your email address.">
+                           <input type="email" placeholder="Email Address" name="email"  class="form-control" id="email" required >
                         </div>
                      </div>
                   </div>
                   <div class="control-group form-group">
                      <div class="controls">
                         <label>Message <span class="text-danger">*</span></label>
-                        <textarea rows="4" cols="100" placeholder="Message"  class="form-control" id="message" required data-validation-required-message="Please enter your message" maxlength="999"></textarea>
+                        <textarea rows="4" cols="100" placeholder="Message" name="message"  class="form-control" id="message"  maxlength="999"></textarea>
                      </div>
                   </div>
                   <div id="success"></div>
