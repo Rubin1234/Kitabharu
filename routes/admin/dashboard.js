@@ -43,7 +43,11 @@ checkUserLogin = function(req,res,next){
 router.get('/dashboard', checkUserLogin,function(req, res, next) {
 
   var adminType = req.cookies.adminType;
-  res.render('dashboard',{adminType});
+  var userId = req.cookies.userId;
+
+  userModel.findOne({_id:userId},function(admindataErr,admindata){
+    res.render('dashboard',{adminType,admindata});
+  });
 });
 
 

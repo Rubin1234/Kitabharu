@@ -15,22 +15,32 @@ var sessionstorage = require('sessionstorage');
 router.get('/index',function(req,res,next){
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
+    var userId = req.cookies.userId;
 
     //accessing all data
     allData = admin.find({}).populate('admin_type');
+    var userData = admin.findOne({_id:userId});
+    
     allData.exec(function(err,data){ 
-        res.render('manageadmin/admin/index',{adminType,title:"Role Lists",records:data});
+        userData.exec(function(admindataErr,admindata){
+            res.render('manageadmin/admin/index',{adminType,title:"Role Lists",records:data,admindata});
+        });
     });
 });
 
 
 router.get('/create',function(req,res,next){
     var userName = req.cookies.userName;
+    var userId = req.cookies.userId;
+
     var adminType = req.cookies.adminType;
     var dataAdminType = adminTypeModel.find({});
+    var userData = admin.findOne({_id:userId});
 
     dataAdminType.exec(function(err,data){
-        res.render('manageadmin/admin/create',{adminType,title:"Add Admins",admintype:data});
+        userData.exec(function(admindataErr,admindata){
+            res.render('manageadmin/admin/create',{adminType,title:"Add Admins",admintype:data,admindata});
+        });
     });
 });
 
@@ -108,17 +118,21 @@ router.post('/store',upload,function(req,res,next){
 
 router.get('/edit/:id',function(req,res,next){
     var userName = req.cookies.userName;
+    var userId = req.cookies.userId;
     var adminType = req.cookies.adminType;
     var id = req.params.id;
 
     //For All Admin Type
     var dataAdminType = adminTypeModel.find({});
     var adminData = admin.findById(id).populate('admin_type');
-    var selected = 'selected'
+    var selected = 'selected';
+    var userData = admin.findOne({_id:userId});
 
     dataAdminType.exec(function(err,data){
         adminData.exec(function(err1,data1){
-            res.render('manageadmin/admin/edit',{adminType,title:"Edit Admins",admintype:data,admin:data1,selected});
+            userData.exec(function(admindataErr,admindata){
+                res.render('manageadmin/admin/edit',{adminType,title:"Edit Admins",admintype:data,admin:data1,selected,admindata});
+            });   
         });    
     });    
 });
