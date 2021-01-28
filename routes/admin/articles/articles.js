@@ -8,6 +8,7 @@ var slug = require('slug');
 var fs = require('fs');
 var router = app.Router();
 var articleModel = require('../../../modules/articles'); 
+var admin = require('../../../modules/admin');
 var sessionstorage = require('sessionstorage');
 
 //storage for Image Upload
@@ -29,18 +30,28 @@ var upload = multer({
 
 router.get('/index',function(req,res,next){
     var adminType = req.cookies.adminType;
+    var userId = req.cookies.userId;
+
     var article = articleModel.find({});
+    var userData = admin.findOne({_id:userId});
 
     article.exec(function(err,data){
-      
-        res.render('backend/articles/index',{adminType,title:"Articles List",records:data,dateFormat});
-    })
+        userData.exec(function(admindataErr,admindata){
+            res.render('backend/articles/index',{adminType,title:"Articles List",records:data,dateFormat,admindata});
+        });
+    });
 
 });
 
 router.get('/create',function(req,res,next){
     var adminType = req.cookies.adminType;
-    res.render('backend/articles/create',{adminType,title:"Articles List"});
+    var userId = req.cookies.userId;
+
+    var userData = admin.findOne({_id:userId});
+
+    userData.exec(function(admindataErr,admindata){
+        res.render('backend/articles/create',{adminType,title:"Articles List",admindata});
+    });
 });
 
 
@@ -103,12 +114,16 @@ router.post('/store',upload,function(req,res,next){
 router.get('/edit/:id',function(req,res,next){
     var adminType = req.cookies.adminType;
     var Id = req.params.id;
+    var userId = req.cookies.userId;
     var selected = 'selected';
+
     var edit_article = articleModel.findById(Id);
+    var userData = admin.findOne({_id:userId});
 
     edit_article.exec(function(err,data){
-    
-        res.render('backend/articles/edit',{adminType,title:'Edit Article',data,selected});
+        userData.exec(function(admindataErr,admindata){
+            res.render('backend/articles/edit',{adminType,title:'Edit Article',data,selected,admindata});
+        });
     });
 });
 

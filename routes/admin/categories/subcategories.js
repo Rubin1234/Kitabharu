@@ -12,22 +12,26 @@ var router = express.Router();
 var categoryModel = require('../../../modules/categories');
 var SubCategoryModel = require('../../../modules/subcategories');
 const subCategoryModel = require('../../../modules/subcategories');
+var admin = require('../../../modules/admin');
 var sessionstorage = require('sessionstorage');
 
 
 router.get('/index',function(req,res,next){
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
+    var userId = req.cookies.userId;
+
 
     var subCategories = SubCategoryModel.find({}).populate('category_type_id');
     var categories = categoryModel.find({});
+    var userData = admin.findOne({_id:userId});
   
     subCategories.exec(function(err,data){
         categories.exec(function(err1,data1){
-            console.log(data1);
-        res.render('backend/subcategories/index',{adminType,title:"Sub-Categories Lists",records:data,dateFormat,categories:data1});
-   
-        })
+            userData.exec(function(admindataErr,admindata){
+                res.render('backend/subcategories/index',{adminType,title:"Sub-Categories Lists",records:data,dateFormat,categories:data1,admindata});
+            });
+        });
     });
 });
 
@@ -35,12 +39,16 @@ router.get('/index',function(req,res,next){
 router.get('/create',function(req,res,next){
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
+    var userId = req.cookies.userId;
 
     var category = categoryModel.find({});
+    var userData = admin.findOne({_id:userId});
     
     category.exec(function(err,data){
-        var adminType = sessionstorage.getItem('adminType');
-        res.render('backend/subcategories/create',{adminType,title:"Add Sub-Category",records:data});
+        userData.exec(function(admindataErr,admindata){
+            var adminType = sessionstorage.getItem('adminType');
+            res.render('backend/subcategories/create',{adminType,title:"Add Sub-Category",records:data,admindata});
+        });
     });
 });
 
@@ -205,21 +213,24 @@ router.post('/store',image,function(req,res,next){
 router.get('/edit/:id',function(req,res,next){
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
+    var userId = req.cookies.userId;
     var id = req.params.id;
 
 
     var mainCategories = categoryModel.find({});    
     var subcategoryDetails = SubCategoryModel.findById(id).populate('category_type_id');
+    var userData = admin.findOne({_id:userId});
    
     mainCategories.exec(function(err,data){
         if(err) throw err;
         subcategoryDetails.exec(function(err1,data1){
             if(err1) throw err1;
-          
-            var selected = "selected"
-            res.render('backend/subcategories/edit',{adminType,title:"Edit SubCategories",subCategoriesDetails:data1,selected,mainCategories:data});
-        })     
-    })
+            userData.exec(function(admindataErr,admindata){
+                var selected = "selected"
+                res.render('backend/subcategories/edit',{adminType,title:"Edit SubCategories",subCategoriesDetails:data1,selected,mainCategories:data,admindata});
+            });  
+        });     
+    });
 });
 
 

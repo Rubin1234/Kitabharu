@@ -55,7 +55,7 @@
                         </div>     
                         <!-- end page title --> 
 
-                        <form role="form" enctype="multipart/form-data" action="/admin/update" method="POST" class="parsley-examples" > 
+                        <form role="form" enctype="multipart/form-data" action="/admin/update" method="POST" class="parsley-examples" id="parsley-examples"  onsubmit="manageadminFormValidation()"> 
                             <input type="hidden" name="id" value="<%= admin._id%>">
                         <div class="row">
                             <div class="col-lg-8">
@@ -119,16 +119,18 @@
                                         <div class="col-7">
                                             <% 
                                        
-                                            if(admin.image == null){%>
+                                            if(admin.image != '' && admin.image != null){%>
                                             <img src="../../../images/backend/admins/<%= admin.image %>" width="40%" style="margin-bottom: 15px;">
                                             <br>
                                             <p><%= admin.image %></p>
+                                          
                                             <% } %>
-                                           
-                                         
-                                            <input type="hidden" name="previousprofilePic" value="<%=admin.image %>" >
-                                            <input type="file" id="example-fileinput" class="form-control-file" name="profilePic" >
-                                           
+                                            <input type="hidden" name="previousprofilePic" value="<%= admin.image %>" > 
+                                            <span id="imgError"></span>
+                                            <input type="file" id="example-fileinput" class="form-control-file" name="profilePic" onchange="manageadminImageValidation()">
+                                            <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
+                                                Upload brand logo. you can also leave blank if u dont have any.</span>
+                                            <span style="font-weight: normal;font-size: 11px;margin-bottom: 0;" >Recommended Size: 500 * 500</span>
                                         </div>
                                     </div>
                     

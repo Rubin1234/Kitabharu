@@ -110,8 +110,10 @@
                                                 <tr>
                                                     <td><%= i %></td>
                                                     <td>
-                                                        <% if(data.image != ''){%>
+                                                        <% if(data.image != '' && data.image != null ){%>
                                                         <img src="../../images/backend/admins/<%= data.image %>" alt="image" style="width:50%;margin:5px auto;">
+                                                        <% }else{ %>
+                                                            <img src="../../images/backend/no-image.jpg %>" alt="image" style="width:50%;margin:5px auto;">
                                                         <% } %>
                                                     </td>
                                                     <td>

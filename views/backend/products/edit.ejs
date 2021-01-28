@@ -55,7 +55,7 @@
                         </div>     
                         <!-- end page title --> 
 
-                        <form role="form" action="/product/update" method="POST" class="parsley-examples" enctype="multipart/form-data"> 
+                        <form role="form" action="/product/update" method="POST" class="parsley-examples" id="parsley-examples" enctype="multipart/form-data" onsubmit="Validation()"> 
                             <input type="hidden" value="<%= products._id %>" name ="id">
                         <div class="row">
                             <div class="col-lg-8">
@@ -130,8 +130,8 @@
                                                     <div class="col-7">
                                                         <iframe src="../../../images/backend/products/ebook/<%= products.ebook_id.ebook_file %>" width="100%" height="400px" style="margin-bottom: 25px;"></iframe>
                                                         <input type="hidden" name="previousPdfFile" value="<%= products.ebook_id.ebook_file %>" > 
-        
-                                                        <input type="file" id="example-fileinput" class="form-control-file" name="ebook_file" >
+                                                        <span id="pdfError"></span>
+                                                        <input type="file" id="pdfFile" class="form-control-file" name="ebook_file" onchange="pdfValidation()">
                                                         <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">Upload PDF File</span>
                                                     </div>
                                                 </div> 
@@ -150,9 +150,8 @@
                                                     <div class="form-group row">
                                                         <label for="hori-pass3" class="col-3 col-form-label">E-Book PDF</label>
                                                         <div class="col-7">
-    
-                                             
-                                                            <input type="file" id="example-fileinput" class="form-control-file" name="ebook_file" >
+                                                            <span id="pdfError"></span>
+                                                            <input type="file" id="pdfFile" class="form-control-file" name="ebook_file" onchange="pdfValidation()">
                                                             <input type="hidden" name="previousPdfFile" value="" > 
                                                             <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">Upload PDF File</span>
                                                         </div>
@@ -199,16 +198,18 @@
                                         <label for="hori-pass3" class="col-3 col-form-label">Product Image
                                             </label>
                                         <div class="col-7">
-                                            <% if(products.product_image != null){%>
-                                                <img src="../../../images/backend/products/<%= products.product_image %>" width="40%" style="margin-bottom: 15px;">
+                                      
+                                            <% if(products.product_image != null && products.product_image != ''){%>
+                                                <img src="../../../images/backend/products/<%= products.product_image %>" width="40%" style="margin-bottom: 15px;"  >
                                                 <br>
                                                 <p><%= products.product_image %></p>
                                                 <% }else{%>
                                                     <h5>No Image Choosen</h5>
                                                 <% } %>
                                             
+                                                <span id="imgError"></span>
                                             <input type="hidden" name="previousproductImage" value="<%= products.product_image %>" >        
-                                            <input type="file" id="example-fileinput1" class="form-control-file" name="product_image" >
+                                            <input type="file" id="example-fileinput1" class="form-control-file" name="product_image" onchange="imageValidation()">
                                             <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                 Upload product Image</span>
                                         </div>
@@ -256,7 +257,7 @@
                                     <div class="form-group row" style="margin-top: 30px;">
                                         <div class="col-8 offset-3">
                                             
-                                            <button type="submit" id="addAdminBtn" dir="ltr" data-style="slide-up" class="btn btn-blue waves-effect waves-light ladda-button">
+                                            <button type="submit"  dir="ltr" data-style="slide-up" class="btn btn-blue waves-effect waves-light ladda-button">
                                                 Submit
                                             </button>
                                             <button type="reset"

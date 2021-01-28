@@ -111,10 +111,10 @@
                                                             <td><%= i %></td>
                                                             <td><%= data.brand_name %></td>
                                                             <td>
-                                                            <% if(data.brand_image != ''){ %>
+                                                            <% if(data.brand_image != '' && data.brand_image != null){ %>
                                                                 <img src="../../../images/backend/brands/<%= data.brand_image %>" style="width: 70%;">
                                                                 <% }else{ %>
-                                                                    <img src="" style="width: 75%;">
+                                                                    <i class="mdi mdi-close-thick" style="color: white;background: #e70000;padding: 1px 3px;font-size:12px;border-radius: 5px;"></i>&nbsp;&nbsp;<span style="font-size: 12px;">Image not found</span>
                                                                 <% } %>
                                                             </td>
                                                             <td>

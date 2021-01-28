@@ -10,22 +10,32 @@ var router = app.Router();
 
 
 var brandModel = require('../../../modules/brand');
+var admin = require('../../../modules/admin');
 var sessionstorage = require('sessionstorage');
 
 router.get('/index', function (req, res, next) {
     var adminType = req.cookies.adminType;
+    var userId = req.cookies.userId;
 
     var brand = brandModel.find({});
+    var userData = admin.findOne({_id:userId});
 
     brand.exec(function (err, data) {
-        res.render('backend/brands/index', { adminType, title: "Brand Lists", records: data, dateFormat });
-    })
-
+        userData.exec(function(admindataErr,admindata){
+            res.render('backend/brands/index', { adminType, title: "Brand Lists", records: data, dateFormat,admindata });
+        });
+    });
 });
 
 router.get('/create', function (req, res, next) {
     var adminType = req.cookies.adminType;
-    res.render('backend/brands/create', { adminType, title: "Add Brand" });
+    var userId = req.cookies.userId;
+
+    var userData = admin.findOne({_id:userId});
+
+    userData.exec(function(admindataErr,admindata){
+        res.render('backend/brands/create', { adminType, title: "Add Brand",admindata });
+    });
 });
 
 
@@ -85,12 +95,17 @@ router.post('/store', upload, function (req, res, next) {
 router.get('/edit/:id', function (req, res, next) {
     var adminType = req.cookies.adminType;
     var Id = req.params.id;
+    var userId = req.cookies.userId;
+    
     var edit_brand = brandModel.findById(Id);
+    var userData = admin.findOne({_id:userId});
+    
     var selected = 'selected';
 
     edit_brand.exec(function (err, data) {
-        console.log(data);
-        res.render('backend/brands/edit', { adminType, title: 'Edit Brand', data, selected });
+        userData.exec(function(admindataErr,admindata){
+            res.render('backend/brands/edit', { adminType, title: 'Edit Brand', data, selected,admindata });
+        });
     });
 
 });

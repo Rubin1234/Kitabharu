@@ -10,6 +10,7 @@ var router = app.Router();
 var videosModel = require('../../../modules/videos'); 
 var settingModel = require('../../../modules/setting'); 
 var sessionstorage = require('sessionstorage');
+var admin = require('../../../modules/admin');
 
 //storage for Image Upload
 var Storage = multer.diskStorage({
@@ -29,15 +30,21 @@ var upload = multer({
 
 router.get('/',function(req,res,next){
     var adminType = req.cookies.adminType;
+    var userId = req.cookies.userId;
+
+
     var setting = settingModel.findOne({_id :'6009273977c64140bcc9fe12'});
+    var userData = admin.findOne({_id:userId});
 
     setting.exec(function(err,data){
-    
-        res.render('backend/setting/index',{
-            adminType,
-            title:"Videos List",
-            data,
-            dateFormat
+        userData.exec(function(admindataErr,admindata){
+            res.render('backend/setting/index',{
+                adminType,
+                title:"Videos List",
+                data,
+                dateFormat,
+                admindata
+            });
         });
     })
 });

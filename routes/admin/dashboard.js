@@ -62,13 +62,13 @@ router.get('/setting',function(req, res, next) {
   var userId = req.cookies.userId;
   var adminType = req.cookies.adminType;
   var userData = userModel.findOne({_id:userId});
+  var userData1 = userModel.findOne({_id:userId});
 
   userData.exec(function(err,data){
     if(err) throw err;
-    if(data){
-      res.render('setting',{adminType,data,title:'Setting'});
-    }
- 
+    userData.exec(function(admindataErr,admindata){
+      res.render('setting',{adminType,data,title:'Setting',admindata});
+    });
   });
 });
 

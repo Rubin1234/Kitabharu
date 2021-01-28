@@ -3,18 +3,23 @@ var dateFormat = require('dateformat');
 var router = express.Router();
 
 var adminTypeModel = require('../../../modules/admintype');
+var admin = require('../../../modules/admin');
 var sessionstorage = require('sessionstorage');
 
 router.get('/index',function(req,res,next){
   var userName = req.cookies.userName;
   var adminType = req.cookies.adminType;
+  var userId = req.cookies.userId;
 
     var dataAdminType = adminTypeModel.find({});
+    var userData = admin.findOne({_id:userId});
+    
    
     dataAdminType.exec(function(err,data){
       if(err) throw err;
-  
-    res.render('manageadmin/admintype/index',{adminType,title:"Add Admin Type",records:data,dateFormat});
+        userData.exec(function(admindataErr,admindata){
+          res.render('manageadmin/admintype/index',{adminType,title:"Add Admin Type",records:data,dateFormat,admindata});
+      });
     });
 });
 
@@ -23,8 +28,12 @@ router.get('/index',function(req,res,next){
 router.get('/create',function(req,res,next){
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
+    var userId = req.cookies.userId;
 
-    res.render('manageadmin/admintype/create',{adminType,title:"Add Admin Type"});
+    var userData = admin.findOne({_id:userId});
+    userData.exec(function(admindataErr,admindata){
+      res.render('manageadmin/admintype/create',{adminType,title:"Add Admin Type",admindata});
+    });
 });
 
 
@@ -46,16 +55,21 @@ router.post('/store',function(req,res,next){
 
 
 router.get('/edit/:id',function(req,res,next){
-   var userName = req.cookies.userName;
-    var adminType = req.cookies.adminType;
+  var userName = req.cookies.userName;
+  var adminType = req.cookies.adminType;
+  var userId = req.cookies.userId;
   var id = req.params.id;
 
   var editData = adminTypeModel.findOne({_id:id});
+  var userData = admin.findOne({_id:userId});
 
   editData.exec(function(err,data){
     if(err) throw err;
-    var selected = 'selected'
-    res.render('manageadmin/admintype/edit',{adminType,title:"Edit Admin Type",records:data,selected});
+    var selected = 'selected';
+    
+    userData.exec(function(admindataErr,admindata){
+      res.render('manageadmin/admintype/edit',{adminType,title:"Edit Admin Type",records:data,selected,admindata});
+    });
   });
 });
 

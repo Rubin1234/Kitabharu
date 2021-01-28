@@ -11,15 +11,22 @@ var router = express.Router();
 var categoryModel = require('../../../modules/categories');
 const { isNull } = require('util');
 const subCategoryModel = require('../../../modules/subcategories');
+var admin = require('../../../modules/admin');
 var sessionstorage = require('sessionstorage');
 
 
 
 router.get('/index',function(req,res,next){
     var adminType = req.cookies.adminType;
+    var userId = req.cookies.userId;
+
     var categories = categoryModel.find({});
-    categories.exec(function(err,data){
-        res.render('backend/categories/index',{adminType,title:"Categories Lists",records:data,dateFormat});
+    var userData = admin.findOne({_id:userId});
+    
+    userData.exec(function(admindataErr,admindata){
+        categories.exec(function(err,data){
+            res.render('backend/categories/index',{adminType,title:"Categories Lists",records:data,dateFormat,admindata});
+        });
     });
      
 });
@@ -28,7 +35,12 @@ router.get('/index',function(req,res,next){
 router.get('/create',function(req,res,next){
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
-        res.render('backend/categories/create',{adminType,title:"Add Category"});
+    var userId = req.cookies.userId;
+
+    var userData = admin.findOne({_id:userId});
+    userData.exec(function(admindataErr,admindata){
+        res.render('backend/categories/create',{adminType,title:"Add Category",admindata});
+    });
 });
 
 
@@ -162,9 +174,22 @@ router.post('/store',image,function(req,res,next){
 });
 
 
+router.get('/edit/:id',function(req,res,next){
+    var userName = req.cookies.userName;
+    var adminType = req.cookies.adminType;
+    var id = req.params.id;
+    var userId = req.cookies.userId;
 
+    var userData = admin.findOne({_id:userId});
+    var categoryDetails = categoryModel.findById(id);
 
-
+    categoryDetails.exec(function(err,data){
+        userData.exec(function(admindataErr,admindata){
+            var selected = "selected"
+            res.render('backend/categories/edit',{adminType,title:"Edit Categories",data,selected,admindata});
+        });
+    });     
+});
 
 
 
@@ -308,18 +333,7 @@ router.post('/update',image1,function(req,res,next){
 
 
 
-router.get('/edit/:id',function(req,res,next){
-    var userName = req.cookies.userName;
-    var adminType = req.cookies.adminType;
-    var id = req.params.id;
 
-    var categoryDetails = categoryModel.findById(id);
-
-    categoryDetails.exec(function(err,data){
-        var selected = "selected"
-        res.render('backend/categories/edit',{adminType,title:"Edit Categories",data,selected});
-    })     
-});
 
 
 

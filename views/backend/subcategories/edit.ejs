@@ -55,7 +55,7 @@
                         </div>     
                         <!-- end page title --> 
 
-                        <form role="form" action="/subcategories/update" method="POST" class="parsley-examples" enctype="multipart/form-data"> 
+                        <form role="form" action="/subcategories/update" method="POST" class="parsley-examples" id="parsley-examples" enctype="multipart/form-data" onsubmit="subcategoryFormValidation()"> 
                             <input type="hidden" value="<%= subCategoriesDetails._id %>" name ="id">
                         <div class="row">
                             <div class="col-lg-8">
@@ -94,9 +94,9 @@
                                                 <% }else{%>
                                                     <img src="" width="40%" >
                                                 <% } %>
-
+                                            <span id="imgError"></span>
                                             <input type="hidden" name="previousSubCategoryImage" value="<%= subCategoriesDetails.subcategory_image %>" >        
-                                            <input type="file" id="example-fileinput1" class="form-control-file" name="subcategory_image" >
+                                            <input type="file" id="example-fileinput1" class="form-control-file" name="subcategory_image" onchange="imageSubCategoryValidation()">
                                             <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                 Upload category Image</span>
                                         </div>
@@ -112,9 +112,9 @@
                                                 <% }else{%>
                                                     <img src="" width="40%" >
                                                 <% } %>
-                                            
+                                                <span id="iconimgError"></span>
                                             <input type="hidden" name="previousIconImage" value="<%= subCategoriesDetails.subcategory_icon %>" >
-                                            <input type="file" id="example-fileinput2" class="form-control-file" name="subcategory_icon">
+                                            <input type="file" id="example-fileinput2" class="form-control-file" name="subcategory_icon" onchange="imageSubCategoryIconValidation()">
                                             <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                 Upload icon image</span>
                                         </div>

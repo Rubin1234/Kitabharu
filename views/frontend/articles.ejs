@@ -25,7 +25,7 @@
           </div>
         </div>
 
-        <section class="section">
+        <section class="section" style="padding: 100px 0px;">
           <div class="container articles">
             <div class="row">
               <% if(records.length > 0){ %>
@@ -46,7 +46,7 @@
                               <%= data.article_title %></h4>
                           </div>
                           <div class="articles-date">
-                            <h4><%= date %></h4>
+                            <h4><%= moment(data.createdAt).fromNow() %></h4>
                           </div>
                         </div>
                       </div>

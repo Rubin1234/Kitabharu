@@ -8,6 +8,7 @@ var slug = require('slug');
 var fs = require('fs');
 var router = app.Router();
 var publicationModel = require('../../../modules/publication'); 
+var admin = require('../../../modules/admin');
 var sessionstorage = require('sessionstorage');
 
 //storage for Image Upload
@@ -29,18 +30,28 @@ var upload = multer({
 
 router.get('/index',function(req,res,next){
     var adminType = req.cookies.adminType;
-    var publication = publicationModel.find({});
+    var userId = req.cookies.userId;
 
+    var publication = publicationModel.find({});
+    var userData = admin.findOne({_id:userId});
+    
     publication.exec(function(err,data){
-      
-        res.render('backend/publication/index',{adminType,title:"Publication List",records:data,dateFormat});
-    })
+        userData.exec(function(admindataErr,admindata){
+            res.render('backend/publication/index',{adminType,title:"Publication List",records:data,dateFormat,admindata});
+        });
+    });
 
 });
 
 router.get('/create',function(req,res,next){
     var adminType = req.cookies.adminType;
-    res.render('backend/publication/create',{adminType,title:"Publication List"});
+    var userId = req.cookies.userId;
+
+    var userData = admin.findOne({_id:userId});
+
+    userData.exec(function(admindataErr,admindata){
+        res.render('backend/publication/create',{adminType,title:"Publication List",admindata});
+    });
 });
 
 
@@ -100,11 +111,17 @@ router.post('/store',upload,function(req,res,next){
 router.get('/edit/:id',function(req,res,next){
     var adminType = req.cookies.adminType;
     var Id = req.params.id;
+    var userId = req.cookies.userId;
     var selected = 'selected';
+
+
     var edit_publication = publicationModel.findById(Id);
+    var userData = admin.findOne({_id:userId});
 
     edit_publication.exec(function(err,data){
-        res.render('backend/publication/edit',{adminType,title:'Edit Publication',data,selected});
+        userData.exec(function(admindataErr,admindata){
+        res.render('backend/publication/edit',{adminType,title:'Edit Publication',data,selected,admindata});
+        });
     });
 });
 

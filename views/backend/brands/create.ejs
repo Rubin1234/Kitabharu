@@ -55,7 +55,7 @@
                         </div>     
                         <!-- end page title --> 
 
-                        <form role="form" action="/brand/store" method="POST" class="parsley-examples" enctype="multipart/form-data"> 
+                        <form role="form" action="/brand/store" method="POST" class="parsley-examples" id="parsley-examples" enctype="multipart/form-data" onsubmit="brandFormValidation()"> 
                         <div class="row">
                             
                             <div class="col-lg-8">
@@ -76,7 +76,8 @@
                                         <label for="hori-pass3" class="col-4 col-form-label">Brand Logo
                                             </label>
                                         <div class="col-7">
-                                            <input type="file" id="example-fileinput" class="form-control-file" name="brandimage" >
+                                            <span id="imgError"></span>
+                                            <input type="file" id="example-fileinput" class="form-control-file" name="brandimage" onchange="brandImageValidation()">
                                             <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                 Upload brand logo. you can also leave blank if u dont have any.</span>
                                         </div>

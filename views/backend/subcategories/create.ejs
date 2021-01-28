@@ -55,7 +55,8 @@
                         </div>     
                         <!-- end page title --> 
 
-                        <form role="form" action="/subcategories/store" method="POST" class="parsley-examples" enctype="multipart/form-data"> 
+                        <form role="form" action="/subcategories/store" method="POST" class="parsley-examples" id="parsley-examples"
+                        enctype="multipart/form-data" onsubmit="subcategoryFormValidation()"> 
                         <div class="row">
                             <div class="col-lg-8">
                                 <div class="card-box">
@@ -86,7 +87,8 @@
                                         <label for="hori-pass3" class="col-4 col-form-label">Image
                                             </label>
                                         <div class="col-7">
-                                            <input type="file" id="example-fileinput1" class="form-control-file" name="subcategory_image" >
+                                            <span id="imgError"></span>
+                                            <input type="file" id="example-fileinput1" class="form-control-file" name="subcategory_image" onchange="imageSubCategoryValidation()">
                                             <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                 Upload category Image</span>
                                         </div>
@@ -95,7 +97,8 @@
                                         <label for="hori-pass3" class="col-4 col-form-label">Icon Image
                                             </label>
                                         <div class="col-7">
-                                            <input type="file" id="example-fileinput2" class="form-control-file" name="subcategory_icon">
+                                            <span id="iconimgError"></span>
+                                            <input type="file" id="example-fileinput2" class="form-control-file" name="subcategory_icon" onchange="imageSubCategoryIconValidation()">
                                             <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                 Upload icon image</span>
                                         </div>
@@ -103,7 +106,7 @@
                                     <div class="form-group row">
                                         <div class="col-8 offset-4">
                                             
-                                            <button type="submit" id="addAdminBtn" dir="ltr" data-style="slide-up" class="btn btn-blue waves-effect waves-light ladda-button">
+                                            <button type="submit"  dir="ltr" data-style="slide-up" class="btn btn-blue waves-effect waves-light ladda-button">
                                                 Submit
                                             </button>
                                             <button type="reset"

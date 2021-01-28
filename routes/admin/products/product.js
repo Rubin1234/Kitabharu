@@ -23,7 +23,8 @@ var ModelFlashSale = require('../../../modules/flashsale');
 var SpecialOfferModel = require('../../../modules/specialoffer');
 var BulkOfferModel = require('../../../modules/bulkoffer');
 var ebookModel = require('../../../modules/ebook');    
-var publicationModel = require('../../../modules/publication');   
+var publicationModel = require('../../../modules/publication');  
+var admin = require('../../../modules/admin'); 
 
 //Const
 const { route } = require('../dashboard');
@@ -52,15 +53,16 @@ router.get('/index',function(req,res,next){
  
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
+    var userId = req.cookies.userId;
 
     var productDetails = ModelProduct.find({}).sort({_id:-1}).populate('category_id').populate('subcategory_id');
+    var userData = admin.findOne({_id:userId});
 
     productDetails.exec(function(err,data){
-        
-        res.render('backend/products/index',{adminType,title:"Product Lists",records:data,dateFormat});
-    
+        userData.exec(function(admindataErr,admindata){
+            res.render('backend/products/index',{adminType,title:"Product Lists",records:data,dateFormat,admindata});
+        });
     });
-
 });
 
 
@@ -69,12 +71,16 @@ router.get('/create',function(req,res,next){
     
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
+    var userId = req.cookies.userId;
+
     var brands = brandModel.find({});
+    var userData = admin.findOne({_id:userId});
 
     category.exec(function(err,data){
         brands.exec(function(err1,data1){
-      
-        res.render('backend/products/create',{adminType,title:"Add Products",categories:data,brands:data1});
+            userData.exec(function(admindataErr,admindata){
+                res.render('backend/products/create',{adminType,title:"Add Products",categories:data,brands:data1,admindata});
+            });
         });
     });
  
@@ -615,20 +621,14 @@ router.post('/store',upload,function(req,res,next){
 router.get('/edit/:id',function(req,res,next){
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
+    var userId = req.cookies.userId;
     var id = req.params.id;
 
     var category = categoryModel.find({});
-   
+    var userData = admin.findOne({_id:userId});
     var subcategory = subcategoryModel.find({});
-
     var product = productModel.findById(id).populate('subcategory_id').populate('category_id').populate('brand_id').populate('flash_sale').populate('bulk_offer').populate('special_offer').populate('ebook_id');
-  
     var brands = brandModel.find({});
-    
-  
-
-
-  
 
     var selected = "selected";
     var checked = "checked";
@@ -646,21 +646,21 @@ router.get('/edit/:id',function(req,res,next){
                 var selectedSubcategory = subcategoryModel.find({category_type_id:data1.category_id._id});
                
                 selectedSubcategory.exec(function(err2,data2){
-                   
-
                     subcategory.exec(function(err3,data3){
                         if(err2) throw err2;
                         brands.exec(function(err4,data4){
                             console.log(data4);
-
-                            res.render('backend/products/edit',{adminType,title:"Edit Products",
-                                categories:data,
-                                products:data1,
-                                selectedSubcategory:data2,
-                                subcategory:data3,
-                                brands:data4,
-                                selected,
-                                checked
+                            userData.exec(function(admindataErr,admindata){
+                                res.render('backend/products/edit',{adminType,title:"Edit Products",
+                                    categories:data,
+                                    products:data1,
+                                    selectedSubcategory:data2,
+                                    subcategory:data3,
+                                    brands:data4,
+                                    selected,
+                                    checked,
+                                    admindata
+                                });
                             });
                         });
                     });
@@ -707,17 +707,6 @@ router.post('/update',edit_upload,function(req,res,next){
     var productDescription = req.body.product_description;
  
     var previousProductImage = req.body.previousproductImage;
-
-        
-    console.log(productId);
-    console.log(category_id);
-    console.log(subcategory_id);
-    console.log(productName); 
-    console.log(productPrice);
-    console.log(productStock);
-    console.log(productDescription);
-    console.log(previousProductImage);
-
 
     var status = req.body.status;
     var slugname = slug(productName);
@@ -3670,18 +3659,22 @@ router.get('/:id/attributes/index',function(req,res,next){
     var productId = req.params.id;
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
+    var userId = req.cookies.userId;
 
 
     var productDetails = productModel.findOne({ _id : productId }).populate('category_id');
     var bookattributes = bookAttributesModel.find({product_id:productId});
     var stationaryattributes = stationaryAttributesModel.find({product_id:productId});
     var publication = publicationModel.find({status: "Active"});
+    var userData = admin.findOne({_id:userId});
 
     bookattributes.exec(function(err,data){
         productDetails.exec(function(err1,data1){
             stationaryattributes.exec(function(err2,data2){
                 publication.exec(function(err3,data3){
-                    res.render('backend/products/attributes/index',{adminType,productId,records:data,productDetails:data1,records1:data2,records3:data3,title:"Product Attribute Lists"});
+                    userData.exec(function(admindataErr,admindata){
+                        res.render('backend/products/attributes/index',{adminType,productId,records:data,productDetails:data1,records1:data2,records3:data3,title:"Product Attribute Lists",admindata});
+                    });
                 });
             })
         })
@@ -3884,6 +3877,7 @@ router.post('/:id/attributes/store',attributeImages,function(req,res,next){
 router.get('/:id/attributes/edit/:attributeId',function(req,res,next){
     var productId = req.params.id;
     var attributeId = req.params.attributeId;
+    var userId = req.cookies.userId;
 
     var product_code = req.body.product_code;
     var author_name = req.body.author_name;
@@ -3900,6 +3894,7 @@ router.get('/:id/attributes/edit/:attributeId',function(req,res,next){
     var stationaryAttribute = stationaryAttributesModel.findOne({_id:attributeId,product_id:productId});
     var productDetails = productModel.findOne({ _id : productId }).populate('category_id');
     var publication = publicationModel.find({status: "Active"});
+    var userData = admin.findOne({_id:userId});
 
     var selected = 'selected';
   
@@ -3907,7 +3902,9 @@ router.get('/:id/attributes/edit/:attributeId',function(req,res,next){
             productDetails.exec(function(err1,data1){
                 stationaryAttribute.exec(function(err2,data2){
                     publication.exec(function(err3,data3){
-                        res.render('backend/products/attributes/edit',{adminType,selected,productId,records:data,records1:data2,records3:data3,productDetails:data1,title:"Product Attribute Lists"});
+                        userData.exec(function(admindataErr,admindata){
+                            res.render('backend/products/attributes/edit',{adminType,selected,productId,records:data,records1:data2,records3:data3,productDetails:data1,title:"Product Attribute Lists",admindata});
+                        });
                     });
                 })
             })
@@ -4030,12 +4027,15 @@ router.get('/:id/productimages/index',function(req,res,next){
     var productId = req.params.id;
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
+    var userId = req.cookies.userId;
 
     var productImage = productImagesModel.find({product_id:productId});
+    var userData = admin.findOne({_id:userId});
 
         productImage.exec(function(err,data){
-         
-            res.render('backend/products/productimages/index',{adminType,productId,title:"Product Image Lists",records:data,productId});
+            userData.exec(function(admindataErr,admindata){
+                res.render('backend/products/productimages/index',{admindata,adminType,productId,title:"Product Image Lists",records:data,productId});
+            });   
         });   
 });
 
@@ -4044,8 +4044,13 @@ router.get('/:id/productimages/create',function(req,res,next){
     var productId = req.params.id;
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
+    var userId = req.cookies.userId;
 
-    res.render('backend/products/productimages/create',{adminType,productId,title:"Create Product Image "}); 
+    var userData = admin.findOne({_id:userId});
+
+    userData.exec(function(admindataErr,admindata){
+        res.render('backend/products/productimages/create',{adminType,productId,title:"Create Product Image ",admindata}); 
+    });
 });
 
 
@@ -4102,17 +4107,19 @@ router.post('/:id/productimages/store',product,function(req,res,next){
 router.get('/:id/productimages/edit/:productImageId',function(req,res,next){
     var productId = req.params.id;
     var productImageId = req.params.productImageId;
-      var userName = req.cookies.userName;
+    var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
+    var userId = req.cookies.userId;
 
-   var productImageDetails =  productImagesModel.findById(productImageId);
+    var userData = admin.findOne({_id:userId});
+    var productImageDetails =  productImagesModel.findById(productImageId);
   
 
-   productImageDetails.exec(function(err,data){
-       console.log(data);
-    res.render('backend/products/productimages/edit',{adminType,productId,title:"Edit Product Image ",records:data}); 
-   });
-     
+    productImageDetails.exec(function(err,data){
+        userData.exec(function(admindataErr,admindata){
+            res.render('backend/products/productimages/edit',{adminType,productId,title:"Edit Product Image ",records:data,admindata}); 
+        });
+    });    
 });
 
 

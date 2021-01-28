@@ -55,7 +55,7 @@
                         </div>     
                         <!-- end page title --> 
 
-                        <form role="form" action="/brand/update" method="POST" class="parsley-examples" enctype="multipart/form-data"> 
+                        <form role="form" action="/brand/update" method="POST" class="parsley-examples"  id="parsley-examples" enctype="multipart/form-data"  onsubmit="brandFormValidation()"> 
                               <input type="hidden" name="id" value="<%= data._id %>" >
                         <div class="row">
                             
@@ -84,9 +84,9 @@
                                                 <% }else{%>
                                                     <img src="" width="40%" >
                                                 <% } %>
-    
-                                                <input type="hidden" name="previousBrandImage" value="<%= data.brand_image %>" >
-                                            <input type="file" id="example-fileinput" class="form-control-file" name="brandimage" >
+                                                <span id="imgError"></span>
+                                            <input type="hidden" name="previousBrandImage" value="<%= data.brand_image %>" >
+                                            <input type="file" id="example-fileinput" class="form-control-file" name="brandimage" onchange="brandImageValidation()">
                                             <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                 Upload brand logo. you can also leave blank if u dont have any.</span>
                                         </div>

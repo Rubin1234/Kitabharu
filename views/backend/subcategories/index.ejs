@@ -131,20 +131,21 @@
                                                           <td><%= i %></td>
                                                           <td><%= data.subcategory_name %></td>
                                                           <td>
-                                                              <% if(data.subcategory_image != null){ %>
-                                                              <img src="../../../images/backend/subcategories/<%= data.subcategory_image%>" style="width: 75%;">
+                                                              <% if(data.subcategory_image != null  && data.subcategory_icon != ''){ %>
+                                                              <img src="../../../images/backend/subcategories/<%= data.subcategory_image%>" style="width: 60%;">
                                                               <% }else{ %>
-                                                                  <img src="" style="width: 75%;">
-                                                              <% } %>
+                                                                <i class="mdi mdi-close-thick" style="color: white;background: #e70000;padding: 1px 3px;font-size:12px;border-radius: 5px;"></i>&nbsp;&nbsp;Image not found
+                                                            <% } %>
                                                           </td>
                                                           <td>
-                                                              <% if(data.subcategory_icon != null){ %>
-                                                              <img src="../../../images/backend/subcategories/icons/<%= data.subcategory_icon%>" style="width: 70%;">
+                                                              <% if(data.subcategory_icon != null && data.subcategory_icon != ''){ %>
+                                                              <img src="../../../images/backend/subcategories/icons/<%= data.subcategory_icon%>" style="width: 60%;">
                                                               <% }else{ %>
-                                                                  <img src="" style="width: 50%;">
-                                                              <% } %>
+                                                                <i class="mdi mdi-close-thick" style="color: white;background: #e70000;padding: 1px 3px;font-size:12px;border-radius: 5px;"></i>&nbsp;&nbsp;<span style="font-size: 12px;">Image not found</span>
+                                                            <% } %>
                                                           </td>
                                                           <td>
+
                                                               <% if(data.category_type_id.category_name == 'Book'){ %>
                                                             <span style="padding: 5px 11px;background-color: #37a1cf;color: white;border-radius: 6px;font-size: 12px;"><%= data.category_type_id.category_name %></span>
                                                             <% }else if(data.category_type_id.category_name == 'Stationary'){ %>

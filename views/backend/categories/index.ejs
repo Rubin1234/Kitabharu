@@ -113,17 +113,17 @@
                                                     <td><%= i %></td>
                                                     <td><%= data.category_name %></td>
                                                     <td>
-                                                        <% if(data.category_image != null){ %>
+                                                        <% if(data.category_image != null && data.category_icon != ''){ %>
                                                         <img src="../../../images/backend/categories/<%= data.category_image%>" style="width: 75%;">
                                                         <% }else{ %>
-                                                            <img src="" style="width: 75%;">
+                                                            <i class="mdi mdi-close-thick" style="color: white;background: #ff2323;padding: 2px 4px;border-radius: 5px;"></i>&nbsp;&nbsp;Image not found
                                                         <% } %>
                                                     </td>
                                                     <td>
-                                                        <% if(data.category_icon != null){ %>
+                                                        <% if(data.category_icon != null && data.category_icon != ''){ %>
                                                         <img src="../../../images/backend/categories/icons/<%= data.category_icon%>" style="width: 70%;">
                                                         <% }else{ %>
-                                                            <img src="" style="width: 50%;">
+                                                            <i class="mdi mdi-close-thick" style="color: white;background: #ff2323;padding: 2px 4px;border-radius: 5px;"></i>&nbsp;&nbsp;Image not found
                                                         <% } %>
                                                     </td>
                                                     <td>

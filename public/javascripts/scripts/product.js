@@ -408,11 +408,12 @@ function changePaperbook(){
 
 function changeEbook(){
 
-  var data = '<div style="padding: 25px 0; border: 2px solid lightgrey;margin-bottom: 2.5rem;border-radius: 5px;" ><div class="form-group row"><label for="hori-pass3" class="col-3 col-form-label">E-Book PDF</label><div class="col-7"><span id="pdfError"></span><input type="file" id="pdfFile" class="form-control-file" name="ebook_file" onchange="pdfValidation()" ><span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">Upload PDF File</span></div></div> <div class="form-group row" style="margin-bottom: 0px;"><label for="inputEmail3" class="col-3 col-form-label">E-Book Price<span class="text-danger">*</span></label><div class="col-7"><input type="text" required parsley-type="text" class="form-control"id="inputEmail4" placeholder="Enter a E-book price" value="" name="ebook_price" required><span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">Please enter a e-book price. </span></div></div></div>';
+  var data = '<div style="padding: 25px 0; border: 2px solid lightgrey;margin-bottom: 2.5rem;border-radius: 5px;" ><div class="form-group row"><label for="hori-pass3" class="col-3 col-form-label">E-Book PDF</label><div class="col-7"><span id="pdfError"></span>   <input type="hidden" name="previousPdfFile" value="" > <input type="file" id="pdfFile" class="form-control-file" name="ebook_file" onchange="pdfValidation()" ><span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">Upload PDF File</span></div></div> <div class="form-group row" style="margin-bottom: 0px;"><label for="inputEmail3" class="col-3 col-form-label">E-Book Price<span class="text-danger">*</span></label><div class="col-7"><input type="text" required parsley-type="text" class="form-control"id="inputEmail4" placeholder="Enter a E-book price" value="" name="ebook_price" required><span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">Please enter a e-book price. </span></div></div></div>';
 
  if($(event.currentTarget).is(":checked")){
     $('#booktype-error').empty();
     $('#e-book').append(data);
+    $('#e-book').css('display','block');
     $('#booktypeErr').empty();
   }else{
     $('#e-book').empty();

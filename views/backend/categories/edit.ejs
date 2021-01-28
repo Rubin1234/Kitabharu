@@ -55,7 +55,7 @@
                         </div>     
                         <!-- end page title --> 
 
-                        <form role="form" action="/categories/update" method="POST" class="parsley-examples" enctype="multipart/form-data"> 
+                        <form role="form" action="/categories/update" method="POST" class="parsley-examples" id="parsley-examples" enctype="multipart/form-data" onsubmit="categoryFormValidation()"> 
                             <input type="hidden" value="<%= data._id %>" name ="id">
                         <div class="row">
                             <div class="col-lg-8">
@@ -79,11 +79,11 @@
                                             <br>
                                             <p><%= data.category_image %></p>
                                             <% }else{%>
-                                                <img src="" width="40%" style="">
+                                                <img src="" width="40%">
                                             <% } %>
-
+                                            <span id="imgError"></span>
                                             <input type="hidden" name="previousCategoryImage" value="<%= data.category_image %>" >
-                                            <input type="file" id="example-fileinput" class="form-control-file" name="categoryimage" >
+                                            <input type="file" id="example-fileinput" class="form-control-file" name="categoryimage" onchange="imageCategoryValidation()">
                                             <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                 Upload category Image</span>
                                         </div>
@@ -99,9 +99,9 @@
                                             <% }else{%>
                                                 <img src="" width="40%" >
                                             <% } %>
-
+                                            <span id="iconimgError"></span>
                                             <input type="hidden" name="previousIconImage" value="<%= data.category_icon %>" >
-                                            <input type="file" id="example-fileinput" class="form-control-file" name="categoryicon">
+                                            <input type="file" id="example-fileinput" class="form-control-file" name="categoryicon" onchange="imageCategoryIconValidation()"> 
                                             <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                 Upload icon image</span>
                                         </div>
@@ -110,7 +110,7 @@
                                     <div class="form-group row">
                                         <div class="col-8 offset-4">
                                             
-                                            <button type="submit" id="addAdminBtn" dir="ltr" data-style="slide-up" class="btn btn-blue waves-effect waves-light ladda-button">
+                                            <button type="submit"  dir="ltr" data-style="slide-up" class="btn btn-blue waves-effect waves-light ladda-button">
                                                 Submit
                                             </button>
                                             <button type="reset"

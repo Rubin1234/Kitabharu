@@ -80,6 +80,9 @@
  <script src="/javascripts/scripts/subcategories.js"></script>
  <script src="/javascripts/scripts/articles.js"></script>
  <script src="/javascripts/scripts/publication.js"></script>
+ <script src="/javascripts/scripts/manageadmin.js"></script>
+ <script src="/javascripts/scripts/category.js"></script>
+ <script src="/javascripts/scripts/brand.js"></script>
 
  
 
@@ -152,7 +155,16 @@ function Validation(){
    if( ($('#booktypeCheckbox2').is(":checked") && $('#booktypeCheckbox1').is(":checked")) ||  ($('#booktypeCheckbox2').is(":checked")) ){
     
       var validPDFExt = ["pdf"];
-      var pdfInput = document.forms['parsley-examples']['pdfFile'].value;
+      var newPdfInput = document.forms['parsley-examples']['pdfFile'].value;
+  
+
+      if(newPdfInput == ''){
+         pdfInput = document.forms['parsley-examples']['previousPdfFile'].value;
+        }else{
+         pdfInput = newPdfInput;
+        }
+
+  
 
       var pos_of_pdf_dot = pdfInput.lastIndexOf('.')+1;
       var pdf_ext = pdfInput.substring(pos_of_pdf_dot);
@@ -174,13 +186,25 @@ function Validation(){
       }
    }
 
+
+
    //For Image File Validation
    var validExt = ["jpeg","png","jpg"];   
-   var imageInput = document.forms['parsley-examples']['product_image'].value;
+   var newImage = document.forms['parsley-examples']['product_image'].value;
+
+   if(newImage == ''){
+            imageInput = document.forms['parsley-examples']['previousproductImage'].value;
+        }else{
+            imageInput = newImage;
+        }
+
+  
    var pos_of_dot = imageInput.lastIndexOf('.')+1;
    var img_ext = imageInput.substring(pos_of_dot);
    var result = validExt.includes(img_ext);
 
+   
+ 
    if(imageInput != ''){
       if(result == false){
          $('#imgError').empty().append(' <p style="color: #f1556c;margin-bottom: 10px;"><i class="mdi mdi-close-circle"></i> Image File is not Image</p>')
@@ -207,11 +231,7 @@ function Validation(){
          $('#booktypeErr').empty().append('<span style="color: #f1556c;"><i class="mdi mdi-close-circle"></i>&nbsp;Please Select Book Type</span>');
          event.preventDefault();
       }
-       
-     
     }
-
- 
 }
 
 
@@ -220,7 +240,9 @@ function Validation(){
 function imageValidation(){
 
    var validExt = ["jpeg","png","jpg"];
-   var imageInput = document.forms['parsley-examples']['product_image'].value;
+   var imageInput = $(event.currentTarget).val();
+
+
    var pos_of_dot = imageInput.lastIndexOf('.')+1;
    var img_ext = imageInput.substring(pos_of_dot);
    var result = validExt.includes(img_ext);
@@ -242,7 +264,7 @@ function imageValidation(){
 function pdfValidation(){
 
    var validExt = ["pdf"];
-   var pdfInput = document.forms['parsley-examples']['pdfFile'].value;
+   var pdfInput = $(event.currentTarget).val();
 
 
    var pos_of_dot = pdfInput.lastIndexOf('.')+1;
@@ -264,6 +286,7 @@ function pdfValidation(){
             
 function multipleImageFormValidation(){
    var validExt = ["jpeg","png","jpg"];
+   $('#imgError').empty();
 
    var files = document.forms['multipleImageForm']['product_images'].files;
 
@@ -279,11 +302,12 @@ function multipleImageFormValidation(){
 
          if(result == false){
             $('#imgError').append(' <p style="color: #f1556c;margin-bottom: 10px;"><i class="mdi mdi-close-circle"></i>'+filename+'   File is not in image format</p>')
-                
+            event.preventDefault(); 
          }
       }
+ 
 }
-event.preventDefault();   
+
 }
 
 

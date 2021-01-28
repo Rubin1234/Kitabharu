@@ -286,7 +286,7 @@ ul, ol {
 }
 
 .choose_books{
-	background: url('../frontend_images/banner/choosebooks.jpg');
+	background: url('../frontend_images/banner/1.jpg');
 	background-size: cover;
 	position: relative;
     margin-top: 50px;
@@ -323,7 +323,7 @@ ul, ol {
 }
 
 .banner{
-	background: url('../frontend_images/banner/library-banner-img.jpg');
+	background: url('../frontend_images/banner/1.jpg');
 	background-size: cover;
 	position: relative;
 
@@ -1080,6 +1080,33 @@ button{
 .commentOption p:hover{
     cursor: pointer;
 }
+
+.publication .publication-item .publication-item-desc{
+    text-align: center;
+    padding: 15px 0px;
+}
+
+.publication .publication-item .publication-item-desc h5{
+    font-size: 20px;
+}
+
+.frontend-publication .new-arrival-books img{
+    transition: all 0.5s ease; ;
+  
+} 
+
+.frontend-publication .new-arrival-books:hover img{
+ 
+    transform: scale(1.18)
+} 
+
+.frontend-publication .new-arrival-books{
+    box-shadow: 0px 1px 7px 0px #6e6e6e;
+    border-radius: 50%;
+    overflow: hidden;
+    padding: 20px;
+  
+} 
 
 
 /*.publication .card .p{

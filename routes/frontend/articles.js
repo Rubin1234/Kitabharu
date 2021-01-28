@@ -42,7 +42,11 @@ var settingModel = require('../../modules/setting');
     var settingData = settingModel.findOne({});
     settingData.exec(function(errr,dataa){
     articles.exec(function(err,data){
-      var date = moment(data.createdAt).fromNow(); 
+      console.log(data);
+
+     
+
+
       bookSubcategories.exec(function(err1,data1){
         stationarySubcategories.exec(function(err2,data2){
           ebookSubcategories.exec(function(err3,data3){
@@ -66,7 +70,8 @@ var settingModel = require('../../modules/setting');
               cookiesCustomerId,
               cookiesCustomerEmail,
               records : data,
-              date,
+          
+              moment: moment,
               setting : dataa
           });
         });
