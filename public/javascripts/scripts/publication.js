@@ -1,5 +1,8 @@
 $(function () {
     CKEDITOR.replace('publicationeditor',{
+        toolbar: 'Full',
+        enterMode : CKEDITOR.ENTER_BR,
+        shiftEnterMode: CKEDITOR.ENTER_P,
         on:{
             change: function() {
               var val = CKEDITOR.instances['publicationeditor'].getData();

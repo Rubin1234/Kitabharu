@@ -70,7 +70,6 @@ var settingModel = require('../../modules/setting');
               cookiesCustomerId,
               cookiesCustomerEmail,
               records : data,
-          
               moment: moment,
               setting : dataa
           });

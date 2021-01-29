@@ -125,7 +125,7 @@
 .new-arrival-books-desc h4{
 	font-weight: bold;
 	margin-bottom: 5px;
-	font-size: 14px;
+	font-size: 18px;
 }
 
 .new-arrival-books-desc .price-box{
@@ -152,8 +152,11 @@
     background-color: #ffffff;
     transition: visibility 2s linear 300ms, opacity 700ms;
     border: 1.5px solid #ebebeb;
-    padding: 21px 0px 21px 0px;
+    padding: 22px 0px 22px 0px;
 }
+
+
+
 
 .new-arrival-books:hover .view-book{
 	visibility: visible;
@@ -1106,8 +1109,59 @@ button{
     overflow: hidden;
     padding: 20px;
   
-} 
+}
 
+.frontend-publicationDetails .publication-image img{
+    width: 489px;
+    height: 380px;
+    box-shadow: 0px 0px 5px 2px #a9a9a9;
+}
+
+.frontend-publicationDetails .publication-image{
+    border: 1px solid darkgrey;
+}
+
+.frontend-publicationDetails p{
+    font-size: 16px;
+    color: #616161;
+    line-height: 1.8;
+    text-align: justify;
+}
+.frontend-publicationDetails .col-lg-8{
+  padding-left: 30px;
+}
+
+.frontend-publicationDetails .publication-details-header{
+    background-color: #145ba2;
+    padding: 7px 25px;
+    margin-bottom: 25px;
+}
+
+.frontend-publicationDetails .publication-details-header{
+    font-size: 23px;
+    color: white;
+}
+
+.frontend-publicationDetails .publication-details-header:after{
+ 
+    content: '';
+    position: absolute;
+    height: 0;
+    /* background: red; */
+    /* width: 16px; */
+    right: 0;
+    top: 0;
+    border-right: 31px solid #ffffff;
+    border-bottom: 48px solid #145ba2;
+}
+
+.frontend-publicationDetails .section .section-inner .section-title{
+    width: 100% !important;
+}
+
+.publication-books .oc-item{
+    margin-bottom: 50px;
+}
 
 /*.publication .card .p{
     margin-bottom: 0px

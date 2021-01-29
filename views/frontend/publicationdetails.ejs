@@ -14,10 +14,11 @@
   <div class="inner-banner container">
      
       <div class="inner-banner-title">
-           <h4>Our Publication</h4>
+           <h4>Our Publication Details</h4>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="">Home</a></li>
-            <li class="breadcrumb-item active"><a href="">Publication</a></li>
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/publications">Publication</a></li>
+            <li class="breadcrumb-item active"><a href="#"><%= publicationDetail.publication_name %></a></li>
           </ol>
       </div>
      
@@ -25,30 +26,75 @@
 </div>
 
 <section class="section" style="padding: 80px 0px;">
- <div class="container frontend-publication">
+ <div class="container frontend-publicationDetails">
 
-     <div class="row" >
-      <div id="oc-images" class="owl-carousel image-carousel carousel-widget" data-margin="35" data-loop="true" data-nav="true"  data-pagi="false"  data-items-xs="1" data-items-sm="3" data-items-lg="4" data-items-xl="5" data-speed="500">
-         
-         
-         <% publicationData.forEach(function(data){ %>
- 
-    
-         <div class="oc-item" style="padding: 5px;">
-            <a href="/publications/<%= data.slug %>">
-               <div class="new-arrival-books">
-                  <img src="../images/backend/publication/<%= data.publication_image %>" alt="" style="width: 100%;">
-               </div>
-         </a>
-         </div>
-         <% }) %>
-  
-         </div>
+     <div class="row " >
+        <div class="col-lg-4">
+            <div class="publication-image">
+                <img src="../images/backend/publication/<%= publicationDetail.publication_image %>" alt="" style="width: 100%;padding: 15px;">
+            </div>
 
+        </div>
+        <div class="col-lg-8">
+            <div class="publication-details">
+                <div class="publication-details-header">
+                    <span><%= publicationDetail.publication_name %> Publication</span>
+                </div>
+                <p><%- publicationDetail.publication_description %></p>
+            
+            </div>
+        </div>
      </div>  
 
    </div>
- </div> 
+</section>
+
+<section class="section" style="padding-top: 0px;">
+    <div class="container">
+  
+        <div class="section-inner">
+        <div class="section-title">
+          <h3>Books From Our Publication</h3>
+        </div>
+      </div>
+
+    
+      <div class="publication-books">
+        <div class="row">
+
+           <% if(publicationBooks.length > 0){ %>
+            <% publicationBooks.forEach(function(data){ %>
+            <div class="col-lg-3" style="max-width: 20%;">
+                <div class="oc-item">
+                    <div class="new-arrival-books">
+                         <img src="../images/backend/products/<%= data.product_id.product_image %>" alt="" style="width: 100%;height: 235px;">
+                          <div class="new-arrival-books-desc">
+                          
+                           <h4><%= data.product_id.product_name %></h4>
+                            <span style="font-size: 14px;color: #8b8b8b"><%= data.author_name %></span>
+                           <div class="price-box">
+                                <h4>Rs. <%= data.product_id.product_price %></h4>
+                           </div>
+                         </div>
+                              <div class="view-book">
+                                <a href="/bookdetails/<%= data.slug %>" ><button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>
+                         
+                         </div>
+                       </div>
+               </div>
+            </div>
+            <% }) %>
+            <% }else{ %>
+                <div class="col-md-12">
+                    <h4>Sorry, No Book From This Publication</h4>
+                </div>
+             
+                <% } %>
+    
+     
+        </div>
+      </div>
+      </div>
 </section>
 
     <section class="section-padding footer" style="padding: 70px 0px">
@@ -57,7 +103,7 @@
                <div class="col-lg-3 col-md-3">
                   <h4 class="mb-5 mt-0" style="margin-bottom: 2rem !important;"><a class="logo" href="index.html">
                      <div>
-                         <img src="frontend_images/logo.jpg" alt="gharjaggasansar logo" style="background-color: white;padding: 12px 22px;">
+                         <img src="../frontend_images/logo.jpg" alt="gharjaggasansar logo" style="background-color: white;padding: 12px 22px;">
                      </div>
                   
                 </a></h4>
@@ -122,11 +168,11 @@
                   </div>
                   <div class="footer-payment-icon">
                      <h6 class="mb-4">We Accept</h6>
-                     <img src="frontend_images/footer/esewa.jpg" alt="" width="80px" height="50px">
-                       <img src="frontend_images/footer/cod.jpg" alt="" width="80px" height="50px">
-                        <img src="frontend_images/footer/visa.png" alt="" width="80px" height="50px">
-                         <img src="frontend_images/footer/khalti.png" alt="" width="80px" height="50px">
-                         <img src="frontend_images/footer/phonepay.jpg" alt="" width="80px" height="50px">
+                     <img src="../frontend_images/footer/esewa.jpg" alt="" width="80px" height="50px">
+                       <img src="../frontend_images/footer/cod.jpg" alt="" width="80px" height="50px">
+                        <img src="../frontend_images/footer/visa.png" alt="" width="80px" height="50px">
+                         <img src="../frontend_images/footer/khalti.png" alt="" width="80px" height="50px">
+                         <img src="../frontend_images/footer/phonepay.jpg" alt="" width="80px" height="50px">
                   </div>
                </div>
             </div>

@@ -80,11 +80,11 @@ router.post('/store',upload,function(req,res,next){
                 image = req.file.filename;
         
                 
-                let width = 750;
-                let height = 400;
+                let width = 300;
+                let height = 300;
         
-                let width1 = 570;
-                let height1 = 350;
+                let width1 = 300;
+                let height1 = 300;
                 
                 sharp(req.file.path).resize(width,height).toFile('./public/images/backend/publication/'+ req.file.filename);
                 sharp(req.file.path).resize(width1,height1).toFile('./public/images/backend/publication/frontview/'+ req.file.filename);
@@ -147,11 +147,11 @@ router.post('/update',upload,function(req,res,next){
                 }else{
                     image = req.file.filename;
         
-                    let width = 750;
-                    let height = 425;
+                    let width = 300;
+                    let height = 300;
 
-                    let width1 = 570;
-                    let height1 = 350;
+                    let width1 = 300;
+                    let height1 = 300;
         
                     sharp(req.file.path).resize(width,height).toFile('./public/images/backend/publication/'+ req.file.filename);
                     sharp(req.file.path).resize(width1,height1).toFile('./public/images/backend/publication/frontview/'+ req.file.filename);
