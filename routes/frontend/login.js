@@ -141,7 +141,7 @@ next();
             res.cookie('customerName',username);
             res.cookie('customerId',getCustomerId);
             res.cookie('customerEmail',getemail);
-
+            req.flash('loggedin','Logged In Successfully.');
             res.redirect('/');
           }else{
             req.flash('error','Invalid Credentials. Please Re-enter username and password.!!!');
@@ -164,7 +164,8 @@ next();
     res.clearCookie('customerName');
     res.clearCookie('customerId');
     res.clearCookie('customerEmail');
-    res.redirect('/');
+    req.flash('success','You have successfully logged out.');
+    res.redirect('/customer/login');
   });
 
   router.get('/accountsetting', function(req, res, next) {

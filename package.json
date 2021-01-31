@@ -40,6 +40,7 @@
     "redis-server": "^1.2.2",
     "sessionstorage": "^0.1.0",
     "sharp": "^0.25.4",
-    "slug": "^3.3.2"
+    "slug": "^3.3.2",
+    "uniqid": "^5.2.0"
   }
 }

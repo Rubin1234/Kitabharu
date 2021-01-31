@@ -40,7 +40,25 @@
         <div class="col-lg-6 clearfix" >
             <h3 style="margin-bottom: 15px;color: #145ba2;">Delivery Information</h3>
             <hr style="margin-bottom: 2rem;">
-        <form onsubmit="proceedPayment()">
+
+
+         <form action="https://uat.esewa.com.np/epay/main" method="POST" onsubmit="proceedPayment()">
+            <input value="100" name="tAmt" type="hidden">
+            <input value="90" name="amt" type="hidden">
+            <input value="5" name="txAmt" type="hidden">
+            <input value="2" name="psc" type="hidden">
+            <input value="3" name="pdc" type="hidden">
+            <input value="EPAYTEST" name="scd" type="hidden">
+            <input value="<%= esewa_orderID %>" name="pid" type="hidden">
+            <!-- <input value="http://127.0.0.1:3000/?q=su" type="hidden" name="su">
+            <input value="http://127.0.0.1:3000/payment/?q=fu" type="hidden" name="fu"> -->
+
+            <input value=" https://kitabharu.herokuapp.com/?q=su" type="hidden" name="su">
+            <input value=" https://kitabharu.herokuapp.com/?q=fu" type="hidden" name="fu">
+       
+      
+
+
             <div class="col_full">
                 <h5 style="margin-bottom: 7px;">Full Name</h5>
                 <input type="text" class="sm-form-control" placeholder="Enter You Full Name" id="fullname" />

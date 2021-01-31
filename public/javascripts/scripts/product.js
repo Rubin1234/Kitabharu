@@ -1,6 +1,6 @@
 $(function () {
     CKEDITOR.replace('producteditor');
-    });
+});
 
 
 
