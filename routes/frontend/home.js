@@ -37,8 +37,6 @@ var settingModel = require('../../modules/setting');
 
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
 
-
-
     if(fullUrl.includes('q=su') || fullUrl.includes('q=fu')){
       var object_url = url.parse(fullUrl, true);
 
