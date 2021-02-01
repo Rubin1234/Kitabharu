@@ -41,10 +41,7 @@ function removeItem(){
     
     $('.amount').empty().html('Rs '+ totalAmount);
   
-    bootoast.toast({
-        message: 'Cart Item Deleted',
-        type: 'success'
-    });
+   
 
     axios
     .get('/cart/removeitem',
@@ -55,7 +52,10 @@ function removeItem(){
                 cartProduct : cartProduct,
             }
         }).then(function(response){
-         
+            bootoast.toast({
+                message: 'Cart Item Deleted',
+                type: 'success'
+            });
 
             if(cartItemCount == 0){
                 window.location.href = "../cart";
