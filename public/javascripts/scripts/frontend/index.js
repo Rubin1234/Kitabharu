@@ -114,10 +114,10 @@ function mycart(){
 
 
 function addtobookcart(){
-  var productId = $(event.currentTarget).attr('productId');
-  var booknumber = $('#booknumber').val();
 
-  console.log(booknumber);
+  var productId = $(event.currentTarget).attr('productId');
+ 
+  var booknumber = $('#booknumber').val();
 
   axios
   .get('/addtobookcart',

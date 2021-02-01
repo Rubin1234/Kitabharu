@@ -31,10 +31,7 @@ var settingModel = require('../../modules/setting');
 
 
   router.get('/', function(req, res, next) {
-
-
-
-
+   
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
 
     if(fullUrl.includes('q=su') || fullUrl.includes('q=fu')){
@@ -74,10 +71,15 @@ var settingModel = require('../../modules/setting');
       })
    
     }else{
+
+  
+
       var cookiesCustomerToken = req.cookies.customerToken;
       var cookiesCustomerrName = req.cookies.customerName;
       var cookiesCustomerId = req.cookies.customerId;
       var cookiesCustomerEmail = req.cookies.customerEmail;
+
+   
   
       var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
       var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
@@ -90,6 +92,7 @@ var settingModel = require('../../modules/setting');
       var stationaryProducts = ModelProduct.find({category_id: ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']}).populate('book_attribute').populate('stationary_attribute').limit(10);
   
       newArrival.exec(function(err,data){
+      
         const promises = data.map((item,index) => new Promise((resolve,reject) => {
           var reviewData = reviewModel.find({product_slug : item.slug});
           reviewData.exec(function(err1,newArrivalData){
@@ -280,6 +283,9 @@ var settingModel = require('../../modules/setting');
                     
                         var uniqueValueEbook = array.filter(onlyUnique);
                   
+                     
+
+
                         res.render('frontend/index',{
                           newArrival:data,
                           ebooks:data0,
@@ -656,8 +662,7 @@ var settingModel = require('../../modules/setting');
     router.get('/addtoebookcart',function(req,res,next){
 
       var productId = req.query.productId;
-
-
+ 
       var cookiesCustomerToken = req.cookies.customerToken;
       var cookiesCustomerrName = req.cookies.customerName;
       var cookiesCustomerId = req.cookies.customerId;
@@ -670,6 +675,7 @@ var settingModel = require('../../modules/setting');
           modelCart.findOne({customer_id:cookiesCustomerId}).exec(function(err1,cart){
          
             var total_quantity = 0;
+            var total_amount = 0;
             //IF Cart is empty
             if(cart != null){
               const existingProductIndex = cart.products.findIndex(p => p._id == productId &&  p.book_type == 'ebook');  //to check product is existing in cart
@@ -688,11 +694,13 @@ var settingModel = require('../../modules/setting');
                     products:{ $elemMatch :{"book_type": "ebook", "_id": existingProduct._id}}},
                     { $set: { "products.$.qty":  total_quantity }}
                 )
+          
+                var total_amount  = parseInt(cart.total_price) + parseInt(data.ebook_id.ebook_price);
+                 
 
-                cart.total_price += parseInt(data.ebook_id.ebook_price);
 
                 var updateCart = modelCart.findOneAndUpdate({customer_id:cookiesCustomerId},{
-                total_price :  cart.total_price
+                total_price : total_amount
                 }); 
             
                 updateArray.exec(function(err3,data3){
@@ -720,19 +728,17 @@ var settingModel = require('../../modules/setting');
 
                 //If card has other different product
                 var savedata = data.toObject();
-
+             
                 savedata.book_type = 'ebook';
                 savedata.qty = 1;
-
-                console.log('No existing ebook product');
     
                 cart.products.push(savedata);
                 cart.save();
 
-                cart.total_price += parseInt(data.ebook_id.ebook_price);
-
+                var total_amount = parseInt(cart.total_price) + parseInt(data.ebook_id.ebook_price);
+               
                 var updateCart = modelCart.findOneAndUpdate({customer_id:cookiesCustomerId},{
-                  total_price :  cart.total_price
+                  total_price :  total_amount
                 });
 
                 var productItemNumber = 0;
@@ -752,7 +758,7 @@ var settingModel = require('../../modules/setting');
             }
             else
             { 
-      
+
               //If Cart is empty
               var saveCart = new modelCart({
                   total_price : parseInt(data.ebook_id.ebook_price),

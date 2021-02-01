@@ -18,11 +18,17 @@ $(document).ready(function(){
 
 
 function removeItem(){
+
     var productId =  $(event.currentTarget).attr('productId');
+
+
     var bookType =  $(event.currentTarget).attr('bookType');
+
     var cartProduct = $(event.currentTarget).attr('cartProduct');
 
     $(event.currentTarget).parent().parent().remove();
+
+
     var cartItemCount = $('.cartItem').children().length-1;
 
     var a = $(event.currentTarget).parent().siblings('.cart-product-price');
@@ -35,6 +41,10 @@ function removeItem(){
     
     $('.amount').empty().html('Rs '+ totalAmount);
   
+    bootoast.toast({
+        message: 'Cart Item Deleted',
+        type: 'success'
+    });
 
     axios
     .get('/cart/removeitem',
@@ -45,12 +55,8 @@ function removeItem(){
                 cartProduct : cartProduct,
             }
         }).then(function(response){
-            bootoast.toast({
-                message: 'Cart Item Deleted',
-                type: 'success'
-            });
+         
 
-            
             if(cartItemCount == 0){
                 window.location.href = "../cart";
                }

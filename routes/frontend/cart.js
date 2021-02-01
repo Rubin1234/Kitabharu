@@ -240,42 +240,57 @@ var settingModel = require('../../modules/setting');
 
 
 router.get('/removeitem',function(req, res, next){
+  
   var productId = req.query.productId;
   var cookiesCustomerId = req.cookies.customerId;
   var bookType = req.query.bookType;
   var cartProduct = req.query.cartProduct;
 
-
-
-var removeItem = cartModel.findOne({customer_id : cookiesCustomerId, _id : cartProduct});
+  var removeItem = cartModel.findOne({customer_id : cookiesCustomerId, _id : cartProduct});
    
   removeItem.exec(function(err,data){
-    const existingProductIndex = data.products.findIndex(p => p._id == productId && p.book_type == bookType);
-    
-    const existingProduct = data.products[existingProductIndex];
-    console.log(existingProduct);
+
+    // If book type is paperbook or ebook
+    if(bookType == 'paperbook' || bookType == 'ebook'){
+      var existingProductIndex = data.products.findIndex(p => p._id == productId && p.book_type == bookType);
+    }else{ // if book type is null (Stationary)
+      var existingProductIndex = data.products.findIndex(p => p._id == productId && p.book_type == null);
+    }
 
 
-    var priceToBeDeduct = existingProduct.qty * existingProduct.product_price;
-    
-    var newTotalPrice = data.total_price - priceToBeDeduct; 
+    var existingProduct = data.products[existingProductIndex];
+    var priceToBeDeduct= 0;
 
-    data.products.splice(existingProductIndex, 1); // first element removed
+    //Price to be deducted
+    if(bookType == 'paperbook' || bookType == ''){
+       priceToBeDeduct = parseInt(existingProduct.qty) * parseInt(existingProduct.product_price);
+    }else{
+       priceToBeDeduct = parseInt(existingProduct.qty) * parseInt(existingProduct.ebook_id.ebook_price);
+    }
+   
+    //Price Deducted
+    var newTotalPrice = parseInt(data.total_price) - priceToBeDeduct; 
+
+    // first element removed
+    data.products.splice(existingProductIndex, 1); 
 
     //Removing Previous Object
-    var updateProduct = cartModel.update({'customer_id':cookiesCustomerId},{ $pull : { 'products': {} },total_price: newTotalPrice}, {multi:true});
+    var updateProduct = cartModel.updateOne({'customer_id':cookiesCustomerId},{ $pull : { 'products': {} },total_price: newTotalPrice}, {multi:true});
       updateProduct.exec(function(err5,data5){
+    
+        cartModel.updateOne({customer_id:cookiesCustomerId},{products:data.products}).exec(function(err1,data1){
+          res.send(data1);
+        })
 
         //Adding New Object After Deleting
-        cartModel.findOne({customer_id:cookiesCustomerId}).exec(function(err1,data1){
-          data.products.forEach(function(data2){
-            data1.products.push(data2);
-          });
-    
-          data1.save(); 
-          res.send(data1);
-      
-        });
+        // cartModel.findOne({customer_id:cookiesCustomerId}).exec(function(err1,data1){
+        //   data.products.forEach(function(data2){
+        //     data1.products.push(data2);
+        //   });
+        //   data1.save(); 
+        //   res.send(data1);
+           
+        // });
       });
     })
   });

@@ -1,5 +1,15 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
+  <style>
+    .bootoast-container {
+      width: 400px;
+    }
+
+    .bootoast-container .alert-success {
+      font-size: 16px;
+    }
+  </style>
+
 <%- include('../layouts/frontend/head') %>
 
   <body class="stretched">
@@ -39,23 +49,9 @@
           </div>
         </section>
 
-        <style>
-          .bootoast-container {
-            width: 400px;
-          }
-
-          .bootoast-container .alert-success {
-            font-size: 16px;
-          }
-        </style>
-
         <script src="../frontend_js/jquery.js"></script>
-        <script src="../frontend_js/plugins.js"></script>
-
-
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script src="../frontend_js/bootoast.min.js"></script>
-
 
         <% if(messages.success){ %>
           <script>
