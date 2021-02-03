@@ -140,7 +140,7 @@ app.use('/cart', cartRouter);
 app.use('/wishlists',wishlistRouter);
 app.use('/payment',payment);
 
-cartRouter
+// cartRouter
 
 //API
 app.use('/api', homeApiRouter);

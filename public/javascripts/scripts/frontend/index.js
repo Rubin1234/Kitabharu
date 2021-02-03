@@ -40,8 +40,6 @@ $(document).ready(function(){
         var productLength = response.data.productitem;
         $('#cartproductnumber').append(productLength);
       });
-
-
 });
 
 
@@ -51,7 +49,8 @@ function addtocart(){
   var productId = $(event.currentTarget).attr('productId');
   var productNumber = $('#booknumber').val();
 
-  console.log(productNumber);
+  //FOr Showing loader
+  $('#loader').show();
 
     axios
        .get('/addtocart',
@@ -64,9 +63,13 @@ function addtocart(){
           if(response.data == 'nocookies'){
             window.location.href = "customer/login?n=0";
           }else{
+
             var productLength = response.data.productitem;
-      
             $('#cartproductnumber').empty().append(productLength);
+
+            //FOr hiding Loader
+            $('#loader').hide();
+            
               bootoast.toast({
                 message: 'Product Added To Cart',
                 type: 'success'
@@ -116,8 +119,10 @@ function mycart(){
 function addtobookcart(){
 
   var productId = $(event.currentTarget).attr('productId');
- 
   var booknumber = $('#booknumber').val();
+
+  //For Showing Loader
+  $('#loader').show();
 
   axios
   .get('/addtobookcart',
@@ -127,25 +132,30 @@ function addtobookcart(){
      booknumber: booknumber
   }
    }).then(function(response){
-      console.log(response);
      if(response.data == 'nocookies'){
        window.location.href = "../customer/login?n=0";
      }else{
-       var productLength = response.data.productitem;
-       console.log(productLength);
-
-       $('#cartproductnumber').empty().append(productLength);
-         bootoast.toast({
-           message: 'Product Added To Cart',
-           type: 'success'
-         });
+        
+      var productLength = response.data.productitem;
+        $('#cartproductnumber').empty().append(productLength);
+        
+        //For Showing Loader
+        $('#loader').hide();
+        
+        bootoast.toast({
+          message: 'Product Added To Cart',
+          type: 'success'
+        });
      }
       });
 }
 
 function addtoEbookcart(){
   var productId = $(event.currentTarget).attr('productId');
-  
+
+  //For Showing Loader
+  $('#loader').show();
+
   axios
   .get('/addtoebookcart',
   {
@@ -159,6 +169,8 @@ function addtoEbookcart(){
      }else{
        var productLength = response.data.productitem;
        $('#cartproductnumber').empty().append(productLength);
+
+       $('#loader').hide();
          bootoast.toast({
            message: 'Product Added To Cart',
            type: 'success'

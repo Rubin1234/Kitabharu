@@ -20,19 +20,13 @@ $(document).ready(function(){
 function removeItem(){
 
     var productId =  $(event.currentTarget).attr('productId');
-
-
     var bookType =  $(event.currentTarget).attr('bookType');
-
     var cartProduct = $(event.currentTarget).attr('cartProduct');
-
+    
     $(event.currentTarget).parent().parent().remove();
-
-
     var cartItemCount = $('.cartItem').children().length-1;
-
+    
     var a = $(event.currentTarget).parent().siblings('.cart-product-price');
-
     var totalAmount = 0;
     $('.amountTotal').each(function(){
      var totalPricePerProduct = $(this).attr('totalPrice');
@@ -40,9 +34,8 @@ function removeItem(){
   });
     
     $('.amount').empty().html('Rs '+ totalAmount);
-  
-   
 
+    $('#loader').show();
     axios
     .get('/cart/removeitem',
         {   
@@ -52,6 +45,8 @@ function removeItem(){
                 cartProduct : cartProduct,
             }
         }).then(function(response){
+            $('#loader').hide();
+
             bootoast.toast({
                 message: 'Cart Item Deleted',
                 type: 'success'

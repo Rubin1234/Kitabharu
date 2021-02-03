@@ -1163,6 +1163,13 @@ button{
     margin-bottom: 50px;
 }
 
+#loader{
+    width: 100%;position: fixed;z-index: 2;text-align: center;display: none;height: 100%;background-color: #ffffffd6;
+}
+#loader img{
+    top: 50%;transform: translateY(-50%);width: 450px;position: relative;
+}
+
 /*.publication .card .p{
     margin-bottom: 0px
 }*/

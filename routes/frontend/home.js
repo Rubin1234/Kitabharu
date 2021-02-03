@@ -34,15 +34,18 @@ var settingModel = require('../../modules/setting');
    
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
 
-    if(fullUrl.includes('q=su') || fullUrl.includes('q=fu')){
+    if(fullUrl.includes('q=su')){
       var object_url = url.parse(fullUrl, true);
 
       var orderID = object_url.query.oid;
       var amount = object_url.query.amt;
       var refId = object_url.query.refId;
+    
+      var fullname = object_url.query.fullname;
   
-  
+
       $url = "https://uat.esewa.com.np/epay/transrec";
+      
       data = {
         'amt': amount,
         'scd': 'EPAYTEST',

@@ -23,6 +23,7 @@
     "express-flash": "0.0.2",
     "express-flash-messages": "^0.1.1",
     "express-session": "^1.17.1",
+    "form-data": "^3.0.0",
     "http-errors": "~1.6.3",
     "image-size": "^0.8.3",
     "jsonwebtoken": "^8.5.1",

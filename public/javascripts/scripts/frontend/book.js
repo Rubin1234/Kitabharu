@@ -1,4 +1,4 @@
-var loader  = $('.load');
+
 var array = [];
 
 
@@ -10,10 +10,7 @@ $(document).ready(function(){
         }
     });
 
-
     //Disabling
-    booknumberminus
-
     $('#booknumberminus').on('click',function(){
         var booknumber = $('#booknumber').val();
         var max = $('#booknumber').attr('max');
@@ -28,46 +25,45 @@ $(document).ready(function(){
        
     });
 
-$('#booknumberplus').on('click',function(){
-    var booknumber = $('#booknumber').val();
-    var max = $('#booknumber').attr('max');
+    $('#booknumberplus').on('click',function(){
+        var booknumber = $('#booknumber').val();
+        var max = $('#booknumber').attr('max');
 
-    if(booknumber > 1){
-        $('#booknumberminus').prop("disabled", false);
-    }
+        if(booknumber > 1){
+            $('#booknumberminus').prop("disabled", false);
+        }
 
-    if(booknumber == max){
-        $('#booknumberplus').attr('disabled','');
-    }else{
-        $('#booknumberplus').prop("disabled", false);
-    }
-
+        if(booknumber == max){
+            $('#booknumberplus').attr('disabled','');
+        }else{
+            $('#booknumberplus').prop("disabled", false);
+        }
+    });
 });
 
-});
 
   function bookSubcategoryCheckbox(){
-
     if($(event.currentTarget).is(":checked")){
 
         $('.book-listing-page').empty();
-       
-        loader.show();
-       var subcategory_id =  $(event.currentTarget).attr('subcategory_id');
-        array.push(subcategory_id);
+        $('#loader').show();
 
-        console.log(array);
+        var subcategory_id =  $(event.currentTarget).attr('subcategory_id');
+        array.push(subcategory_id);
 
        axios
        .get('/books/booksubcategory/changecheckbox',
        {
+           
            params:{
                subcategoryId: array
             }
-        })  .then(function(response){
-            loader.hide();
-            var data = response.data;
 
+        }).then(function(response){
+
+            $('#loader').hide();
+
+            var data = response.data;
             var doc = '';
 
             if(data.length > 0){
@@ -79,24 +75,25 @@ $('#booknumberplus').on('click',function(){
                     }
 
                     doc += '</span>';
-
                     doc += ' <div class="price-box"><h4>'+data1.product_price+'</h4></div></div> <div class="view-book"><a href="../bookdetails/'+data1.slug+'" ><button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a> <button type="" class="form-control"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to Cart</button> </div></div></div>';
                 });
-            
-               
+
             }else{
+
                 doc += ' <h4 style="margin: auto;">Sorry, No Books Available</h4>';
                 $('.pagination').remove();
+            
             }
+
                 $('.book-listing-page').empty().append(doc);
               
            });
-        }else{
+    }else{
             
             
         $('.book-listing-page').empty();
       
-        loader.show();
+        $('#loader').show();
             var subcategory_id =  $(event.currentTarget).attr('subcategory_id');
             const index = array.indexOf(subcategory_id);
 
@@ -113,7 +110,7 @@ $('#booknumberplus').on('click',function(){
         })  .then(function(response){
             
             
-        loader.hide();
+            $('#loader').hide();
             var data = response.data;
 
             var doc = '';

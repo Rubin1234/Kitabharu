@@ -42,36 +42,34 @@
             <hr style="margin-bottom: 2rem;">
 
 
-         <form action="https://uat.esewa.com.np/epay/main" method="POST" onsubmit="proceedPayment()">
-            <input value="100" name="tAmt" type="hidden">
-            <input value="90" name="amt" type="hidden">
-            <input value="5" name="txAmt" type="hidden">
-            <input value="2" name="psc" type="hidden">
-            <input value="3" name="pdc" type="hidden">
+            <form action="/payment/store" method="POST" onsubmit="proceedPayment()">
+         <!-- <form action="https://uat.esewa.com.np/epay/main" method="POST" onsubmit="proceedPayment()"> -->
+            <input value="<%= totalAmount %>" name="tAmt" type="hidden">
+            <input value="<%= productAmount %>" name="amt" type="hidden">
+            <input value="<%= taxAmount %>" name="txAmt" type="hidden">
+            <input value="<%= serviceCharge %>" name="psc" type="hidden">
+            <input value="<%= deliveryCharge %>" name="pdc" type="hidden">
             <input value="EPAYTEST" name="scd" type="hidden">
             <input value="<%= esewa_orderID %>" name="pid" type="hidden">
-            <!-- <input value="http://127.0.0.1:3000/?q=su" type="hidden" name="su">
-            <input value="http://127.0.0.1:3000/payment/?q=fu" type="hidden" name="fu"> -->
+            <input value="http://127.0.0.1:3000/?q=su" type="hidden" name="su">
+            <input value="http://127.0.0.1:3000/payment/?q=fu" type="hidden" name="fu">
 
-            <input value="https://kitabharu.herokuapp.com/?q=su" type="hidden" name="su">
-            <input value="https://kitabharu.herokuapp.com/?q=fu" type="hidden" name="fu">
+            <!-- <input value="https://kitabharu.herokuapp.com/?q=su" type="hidden" name="su">
+            <input value="https://kitabharu.herokuapp.com/?q=fu" type="hidden" name="fu"> -->
        
-      
-
-
             <div class="col_full">
                 <h5 style="margin-bottom: 7px;">Full Name</h5>
-                <input type="text" class="sm-form-control" placeholder="Enter You Full Name" id="fullname" />
+                <input type="text" name="fullname" class="sm-form-control" placeholder="Enter You Full Name" id="fullname" />
                 <span id="fullNameErr" style="color: #d14031;"></span>
             </div>
             <div class="col_full">
                 <h5 style="margin-bottom: 7px;">Phone Number</h5>
-              <input type="text" class="sm-form-control" placeholder="Enter Your Phone Number" id="phoneNumber"/>
+              <input type="text" name="phonenumber" class="sm-form-control" placeholder="Enter Your Phone Number" id="phoneNumber"/>
               <span id="phoneNumberErr" style="color: #d14031;"></span>
             </div>
         <div class="col_full">
             <h5 style="margin-bottom: 7px;">City</h5>
-        <select class="sm-form-control" id="city">
+        <select class="sm-form-control" name="city" id="city">
         <option value="">Select Your City</option>
         <option value="kathmandu">Kathmandu</option>
         <option value="bhaktapur">Bhaktapur</option>
@@ -82,7 +80,7 @@
     
         <div class="col_full  col_last" style="margin-bottom:40px;">
           <h5 style="margin-bottom: 7px;">Street Address</h5>
-        <input type="text" class="sm-form-control" placeholder="Street Address" id="streetAdd"/>
+        <input type="text" name="street_address" class="sm-form-control" placeholder="Street Address" id="streetAdd"/>
         <span id="streetAddressErr" style="color: #d14031;"></span>
         </div>
 
@@ -90,12 +88,12 @@
         <h5 style="margin-bottom: 10px;margin-top: 10px;font-size: 17px;">Choose Your Payment Method</h5>
         <div class="col_half">
             <!-- <h5 style="margin-bottom: 7px;">Street Address</h5> -->
-          <input type="radio" class="sm-form-control" placeholder="Street Address"  name="paymentmethod" style="width: 12%;height: 15px;display: inline-block;" id="esewa"/>
+          <input type="radio" class="sm-form-control" value="esewa" placeholder="Street Address"  name="paymentmethod" style="width: 12%;height: 15px;display: inline-block;" id="esewa"/>
           <img src="frontend_images/footer/esewa.jpg" alt="" width="100px" height="80px" style="margin-right: 25px;">
           </div>
           <div class="col_half col_last">
             <!-- <h5 style="margin-bottom: 7px;">Street Address</h5> -->
-          <input type="radio" class="sm-form-control" value="" name="paymentmethod" placeholder="Street Address" style="width: 12%;height: 15px;display: inline-block;" id="cod"/>
+          <input type="radio" class="sm-form-control" value="cod" name="paymentmethod" placeholder="Street Address" style="width: 12%;height: 15px;display: inline-block;" id="cod"/>
           <img src="frontend_images/footer/cod.jpg" alt="" width="100px" height="70px">
           </div>
           <div  class="col_full">
@@ -125,23 +123,39 @@
         <strong>Cart Subtotal</strong>
         </td>
         <td class="cart-product-name" style="border-top: none;">
-        <span class="amount" style="color:#145ba2;font-weight: bold;">Rs 100</span>
+        <span class="amount" style="color:#145ba2;font-weight: bold;">Rs <%= productAmount %></span>
         </td>
         </tr>
         <tr class="cart_item">
         <td class="cart-product-name">
-        <strong>Shipping Cost</strong>
+        <strong>Delivery Charge</strong>
         </td>
         <td class="cart-product-name">
-        <span class="amount" style="color:#145ba2;font-weight: bold;">Free Delivery</span>
+        <span class="amount" style="color:#145ba2;font-weight: bold;">Rs <%= deliveryCharge %></span>
         </td>
         </tr>
         <tr class="cart_item">
+          <td class="cart-product-name">
+          <strong>Service Charge</strong>
+          </td>
+          <td class="cart-product-name">
+          <span class="amount" style="color:#145ba2;font-weight: bold;">Rs <%= serviceCharge %></span>
+          </td>
+          </tr>
+        <tr class="cart_item">
+          <td class="cart-product-name">
+          <strong>Tax</strong>
+          </td>
+          <td class="cart-product-name">
+          <span class="amount" style="color:#145ba2;font-weight: bold;">Rs <%= taxAmount %></span>
+          </td>
+          </tr>
+        <tr class="cart_item">
         <td class="cart-product-name">
-        <strong  style="font-size: 1.25rem;">Total</strong>
+        <strong  style="font-size: 1.25rem;">Total Amount</strong>
         </td>
         <td class="cart-product-name">
-        <span class="amount color lead"><strong>Rs 200</strong></span>
+        <span class="amount color lead" style="font-size: 27px;"><strong>Rs  <%= totalAmount %></strong></span>
         </td>
         </tr>
         </tbody>
