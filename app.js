@@ -83,6 +83,7 @@ var customerLoginRouter = require('./routes/frontend/login');
 var cartRouter = require('./routes/frontend/cart');
 var wishlistRouter = require('./routes/frontend/wishlists');
 var payment = require('./routes/frontend/payment');
+var order = require('./routes/frontend/order');
 
 
 //API
@@ -122,6 +123,7 @@ app.use('/settings',settingRouter);
 app.use('/publication',publicationsRouter);
 
 
+
 // frontend
 app.use('/', homeRouter);
 app.use('/books', bookRouter);
@@ -139,6 +141,8 @@ app.use('/customer', customerLoginRouter);
 app.use('/cart', cartRouter);
 app.use('/wishlists',wishlistRouter);
 app.use('/payment',payment);
+app.use('/orders',order);
+
 
 // cartRouter
 

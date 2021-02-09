@@ -12,6 +12,7 @@ var jwt = require('jsonwebtoken');
 
 //Models
 var userModel = require('../../modules/admin');
+var orderModel = require('../../modules/orders');
 
 var sessionstorage = require('sessionstorage');
 
@@ -30,7 +31,6 @@ checkUserLogin = function(req,res,next){
   
   try {
     var decoded = jwt.verify(myToken, 'loginToken');
-    console.log(decoded);
 
   } catch(err) {
     res.redirect('/login');
@@ -196,6 +196,20 @@ router.post('/setting',upload,function(req,res,next){
   
 
 });
+
+
+router.get('/dashboard/admin/orders',function(req, res, next) {
+  orderModel.find({status: {$ne: 'completed'}}, null , {sort : {'createdAt' : -1}}).
+  populate('customerId','-password').exec((err, orders) => {
+      if(req.xhr){
+         return res.json(orders)
+      }else{
+          res.render('/dashboard')
+        
+      }
+  })
+ 
+})
 
 module.exports = router;
 

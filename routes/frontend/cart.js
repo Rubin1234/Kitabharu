@@ -58,6 +58,9 @@ var settingModel = require('../../modules/setting');
         
 
         cartProduct.exec(function(err4,data4){
+        
+
+
             // var records = util.inspect(data4, false, null, true /* enable colors */);
             res.render('frontend/cart',{
               bookSubcategories:data1,

@@ -36,7 +36,8 @@
 <section id="content">
     <div class="">
     <div class="container clearfix">
-      <% if(cartProduct.products.length > 0){ %>
+       <% if(cartProduct != null){ %>
+      <% if(cartProduct.products.length > 0 && cartProduct.products != null){ %>
     <div class="table-responsive">
       <form action="cart/update" method="POST" >
 
@@ -200,7 +201,11 @@
             <img width="25%" src="images/no-products-found.png" alt="" style="margin-bottom: 25px;">
          </div>
    
-   <% } %>
+   <% }}else{ %>
+      <div style="text-align: center;">
+         <img width="25%" src="images/no-products-found.png" alt="" style="margin-bottom: 25px;">
+      </div>
+    <% } %>
     </div>
     </div>
     </section>

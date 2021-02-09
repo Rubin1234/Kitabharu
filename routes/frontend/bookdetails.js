@@ -117,6 +117,8 @@ var settingModel = require('../../modules/setting');
          
               var roundOffValue = parseInt(average);
 
+              console.log(data4);
+
               var settingData = settingModel.findOne({});
               settingData.exec(function(errr,dataa){
               res.render('frontend/bookdetails',{
@@ -158,15 +160,11 @@ var settingModel = require('../../modules/setting');
       var productSlug = req.query.productSlug;
       var productID = req.query.productID;
 
-   
       //From Cookies
       var cookiesCustomerId = req.cookies.customerId;
-
- 
-
+   
       reviewModel.findOne({customer_id : cookiesCustomerId, product_slug : productSlug},function(err,data){
-      
-
+    
         if(data == null){
 
           var saveReview = new reviewModel({

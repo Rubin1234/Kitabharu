@@ -12,17 +12,18 @@ var FormData = require('form-data');
 
 var router = app.Router();
 
-var categoryModel = require('../../modules/categories');
-var SubCategoryModel = require('../../modules/subcategories');
-var brandModel = require('../../modules/brand');
-var bookAttributesModel = require('../../modules/bookAttributes'); 
-var productImagesModel = require('../../modules/product_images'); 
+const categoryModel = require('../../modules/categories');
+const SubCategoryModel = require('../../modules/subcategories');
+const brandModel = require('../../modules/brand');
+const bookAttributesModel = require('../../modules/bookAttributes'); 
+const productImagesModel = require('../../modules/product_images'); 
 const util = require('util');
 const ModelProduct = require('../../modules/product');
 const subCategoryModel = require('../../modules/subcategories');
 const { populate, db } = require('../../modules/categories');
 const cartModel = require('../../modules/cart');
-var settingModel = require('../../modules/setting'); 
+const settingModel = require('../../modules/setting');
+const orderModel = require('../../modules/orders') 
 
 
 
@@ -120,7 +121,38 @@ router.get('/', function(req, res, next) {
     var phoneNumber = req.body.phonenumber;
     var city = req.body.city;
     var streetAddress = req.body.street_address;
-    var paymentMethod = req.body.paymentmethod;
+    var paymentType = req.body.paymentmethod;
+
+    var cookiesCustomerId = req.cookies.customerId;
+    var customerProducts = await cartModel.findOne({customer_id : cookiesCustomerId})
+    var products = customerProducts.products;
+
+    var saveOrder = new orderModel({
+      customerId : cookiesCustomerId,
+      fullName : fullName,
+      phoneNumber : phoneNumber,
+      city : city,
+      streetAddress: streetAddress,
+      products : products,
+      paymentType : paymentType,
+      totalAmount : totalAmount
+    })
+
+
+
+    saveOrder.save().then(async result => {
+      await cartModel.findOneAndDelete({customer_id : cookiesCustomerId})
+      return res.redirect('/orders')
+    });
+
+    
+    // console.log(phoneNumber);
+    // console.log(city);
+    // console.log(streetAddress);
+    // console.log(paymentMethod);
+    return;
+
+
 
     var data = {
       'tAmt' : totalAmount,
