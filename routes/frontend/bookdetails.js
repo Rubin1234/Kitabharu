@@ -117,8 +117,6 @@ var settingModel = require('../../modules/setting');
          
               var roundOffValue = parseInt(average);
 
-              console.log(data4);
-
               var settingData = settingModel.findOne({});
               settingData.exec(function(errr,dataa){
               res.render('frontend/bookdetails',{

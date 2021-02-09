@@ -31,7 +31,7 @@
                 <h3 class="font-weight-bold">Track delivery status</h3>
                 <p class="ml-auto bg-white py-1 px-4 text-success" style="border-radius: 5px;font-size: 16px;color: #145ba2 !important;font-weight: bold;"><%= orderData._id %></p>
             
-            <input id="hiddenInput" type="hidden" value="60222193ddac94407c64f329">
+            <input id="hiddenInput" type="hidden" value="<%= JSON.stringify(orderData) %>">
             </div>
             <ul>
                 <li class="status_line display-5" style="padding-bottom: 4.5rem!important;" data-status="order_placed"><span>Order Placed</span></li>

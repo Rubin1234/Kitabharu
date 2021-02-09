@@ -211,6 +211,21 @@ router.get('/dashboard/admin/orders',function(req, res, next) {
  
 })
 
+
+router.post('/dashboard/admin/order/status',function(req, res, next) {
+  orderModel.updateOne({_id: req.body.orderId}, {status: req.body.status}, (err, data) => {
+    if(err){
+     return   res.redirect('/dashboard')  
+    }
+
+    //Emit Event
+    // const eventEmitter = req.app.get('eventEmitter');
+    // eventEmitter.emit('orderUpdated',{id: req.body.orderId, status: req.body.status})
+
+    return  res.redirect('/dashboard')
+})
+})
+
 module.exports = router;
 
 

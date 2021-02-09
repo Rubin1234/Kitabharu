@@ -89,7 +89,7 @@ router.get('/', async function(req, res, next) {
     var cookiesCustomerEmail = req.cookies.customerEmail;
 
 
-    var customerCart = cartModel.findOne({customer_id : cookiesCustomerId});
+
     var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
     var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
     var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
@@ -114,18 +114,7 @@ router.get('/', async function(req, res, next) {
 
             var uniqueValueEbook = array.filter(onlyUnique);
   
-            customerCart.exec(function(err4,data4){
 
-              var taxPercent = 10;
-              var serviceCharge = 100;
-              var deliveryCharge = 100;
-              var taxAmount = 0;
-
-              var productAmount = data4.total_price;
-              
-              taxAmount = taxPercent/100 * productAmount;
-        
-              var totalAmount = parseInt(productAmount) + serviceCharge + deliveryCharge + taxAmount;
          
           
             // var records = util.inspect(data4, false, null, true /* enable colors */);
@@ -138,15 +127,10 @@ router.get('/', async function(req, res, next) {
               cookiesCustomerId,
               cookiesCustomerEmail,
               setting : dataa,
-              productAmount,
-              totalAmount,
-              serviceCharge,
-              deliveryCharge,
-              taxAmount,
               orderData,
               moment
             });
-            });
+          
           });
         });
       });
