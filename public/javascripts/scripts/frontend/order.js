@@ -6,6 +6,10 @@ order = JSON.parse(order);
 
 let time = document.createElement('small');
 
+
+
+
+
 updateStatus(order);
 
 function updateStatus(order){
@@ -13,8 +17,6 @@ function updateStatus(order){
         status.classList.remove('step-completed');
         status.classList.remove('current');
     })
-
-
 
     let stepComplete = true;
 
@@ -34,7 +36,6 @@ function updateStatus(order){
             if(status.nextElementSibling){
             status.nextElementSibling.classList.add('current')  }
         }
-
-    })
+    });
 
 }
