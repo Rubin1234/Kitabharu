@@ -142,8 +142,15 @@ router.get('/', function(req, res, next) {
 
     saveOrder.save().then(async result => {
       await cartModel.findOneAndDelete({customer_id : cookiesCustomerId})
+      
+      orderModel.populate(result,{path : 'customerId'},(err, placeOrder) => {
+      
+          //Emit Event
+          const eventEmitter = req.app.get('eventEmitter');
+          eventEmitter.emit('orderPlaced',placeOrder)
       return res.redirect('/orders')
     });
+  });
 
     
     // console.log(phoneNumber);

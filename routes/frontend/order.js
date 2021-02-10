@@ -32,17 +32,13 @@ router.get('/', async function(req, res, next) {
     var cookiesCustomerrName = req.cookies.customerName;
     var cookiesCustomerId = req.cookies.customerId;
     var cookiesCustomerEmail = req.cookies.customerEmail;
-
-
-
     var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
     var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
     var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
      // var records = util.inspect(data, false, null, true /* enable colors */);
 
      var settingData = settingModel.findOne({});
-     var orderData = await orderModel.find({customerId : cookiesCustomerId});
-   
+     var orderData = await orderModel.find({customerId : cookiesCustomerId}, null , {sort : {'createdAt' : -1}})
   
 
      settingData.exec(function(errr,dataa){

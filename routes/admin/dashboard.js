@@ -217,10 +217,11 @@ router.post('/dashboard/admin/order/status',function(req, res, next) {
     if(err){
      return   res.redirect('/dashboard')  
     }
+  
 
-    //Emit Event
-    // const eventEmitter = req.app.get('eventEmitter');
-    // eventEmitter.emit('orderUpdated',{id: req.body.orderId, status: req.body.status})
+    // Emit Event
+    const eventEmitter = req.app.get('eventEmitter');
+    eventEmitter.emit('orderUpdated',{id: req.body.orderId, status: req.body.status})
 
     return  res.redirect('/dashboard')
 })

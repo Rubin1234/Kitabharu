@@ -42,6 +42,7 @@
     "sessionstorage": "^0.1.0",
     "sharp": "^0.25.4",
     "slug": "^3.3.2",
+    "socket.io": "^3.1.1",
     "uniqid": "^5.2.0"
   }
 }

@@ -1,5 +1,9 @@
 //For Admin
-initAdmin();
+let socket = io();
+
+socket.emit('join','adminRoom');
+// initAdmin(socket);
+initAdmin(socket);
 
 function initAdmin(){
     const orderTableBody = document.querySelector('#orderTableBody');
@@ -84,20 +88,24 @@ function initAdmin(){
 
     //Socket
 
-    // socket.on('orderPlaced',(order) => {
-    //     new Noty({
-    //         text: 'New Order',
-    //         type:'success',
-    //         layout: 'topRight',
-    //         timeout: 2000
-    //     }).show(); 
+    socket.on('orderPlaced',(order) => {
+   
+        new Noty({
+            text: 'New Order',
+            type:'success',
+            layout: 'bottomRight',
+            timeout: 8000
+        }).show(); 
 
 
-    //     orders.unshift(order);
-    //     orderTableBody.innerHTML = ''
-    //     orderTableBody.innerHTML = generateMarkup(orders)    
-    // })
+        orders.unshift(order);
+        orderTableBody.innerHTML = ''
+        orderTableBody.innerHTML = generateMarkup(orders)    
+    })
  
 }
+
+
+
 
 

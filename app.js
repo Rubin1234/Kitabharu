@@ -1,13 +1,23 @@
 var createError = require('http-errors');
 var express = require('express');
+var app = express();
 var path = require('path');
+// const PORT = process.env.PORT || 3000;
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser');
 var mongoose = require('mongoose');
 var logger = require('morgan');
 var session = require('express-session');
-var app = express();
 
+// var server = require('http').createServer(app);
+
+
+// const Emitter = require('events')
+
+
+// //Event Emitter
+// const eventEmitter = new Emitter()
+// app.set('eventEmitter',eventEmitter)
 
 
 //For Flash Message
@@ -166,5 +176,28 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+
+//Emitter
+
+
+// const server = app.listen(PORT , () => {
+//   console.log('listening on port 3000');
+// })
+
+//Socket
+// const io = require('socket.io')(server)
+
+// io.on('connection', (socket) => {
+//     // Join 
+
+//     socket.on('join',(roomName) => {
+     
+//         socket.join(roomName)
+//     })
+// })
+
+
 
 module.exports = app;
