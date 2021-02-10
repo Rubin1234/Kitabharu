@@ -38,7 +38,7 @@ router.get('/', async function(req, res, next) {
      // var records = util.inspect(data, false, null, true /* enable colors */);
 
      var settingData = settingModel.findOne({});
-     var orderData = await orderModel.find({customerId : cookiesCustomerId}, null , {sort : {'createdAt' : -1}})
+     var orderData = await orderModel.find({customerId : cookiesCustomerId}, null , { sort : {'createdAt' : -1}})
   
 
      settingData.exec(function(errr,dataa){
