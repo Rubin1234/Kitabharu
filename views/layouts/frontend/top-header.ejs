@@ -23,7 +23,7 @@
     <ul>
     <li><a href="/wishlists" class="si" ><i class="icon-line-heart" style="color: #145ba2"></i>&nbsp;&nbsp;My Wishlist <span style="color: #f13c2a;">(<span style="color: #f13c2a;" id="wishlistproductnumber">0</span>)</span></a></li>
     <% if(cookiesCustomerToken){ %>
-   
+  
     <li class="dropdown">
         <a href="#" class="si"><i class="icon-user-alt" style="color: #145ba2"></i>&nbsp;&nbsp;<%= cookiesCustomerEmail %></a>
         <ul class="dropdown-content">
@@ -37,8 +37,8 @@
       
     
      
-    
-    <li><a href="/customer/logout" class="si"><i class="icon-key1" style="color: #145ba2"></i>&nbsp;&nbsp;logout</a></li>
+    <li><a href="/orders" class="si"><i class="icon-long-arrow-down" style="color: #145ba2"></i>&nbsp;&nbsp;orders</a></li>
+    <li><a href="/customer/logout" class="si"><i class="icon-key1" style="color: #145ba2"></i>&nbsp;&nbsp;&nbsp;logout</a></li>
    <% }else{ %>
     <li><a href="/customer/login" class="si"><i class="icon-user-alt" style="color: #145ba2"></i>&nbsp;&nbsp;Login</a></li>
     <li><a href="/customer/login" class="si"><i class="icon-key1" style="color: #145ba2"></i>&nbsp;&nbsp;Register</a></li>

@@ -1,3 +1,4 @@
+
 //For Admin
 let socket = io();
 
@@ -31,7 +32,8 @@ function initAdmin(){
 
         return parsedItems.map((product) => {    
             return `
-                <p>${product.product_name} = ${product.qty} pcs </p>
+                <p style="    font-size: 13.5px;
+                font-weight: bold;margin-bottom:0px;">${product.product_name} = ${product.qty} pcs </p>
             `
         }).join('')
     }
@@ -39,17 +41,33 @@ function initAdmin(){
 
   
     function generateMarkup(orders) {
-      
+   
+
 
         return orders.map(order => {
+                var id = order._id
+                var orderId = id.substr(length - 5); 
+
+                if( order.paymentType == 'esewa'){
+                    var paymentType = '<td class="border px-2 py-3"><span style="background: #41a124;color: white;padding: 3px 12px;font-size: 18px;font-weight: bold; border-radius: 8px;">'+order.paymentType+'</td>';
+                }else{
+                    var paymentType = '<td class="border px-2 py-3"><span <span style="background: crimson;color: white;padding: 3px 12px;font-size: 18px;font-weight: bold; border-radius: 8px;">'+order.paymentType+'</span></td>';
+                }
+
             return `
                 <tr>
                 <td class="border px-4 py-3 text-green-900">
-                    <p style="font-weight: bold;background: #6b5ddeeb;color: white;padding: 7px 9px;border-radius: 5px;font-size:15px">${ order._id }</p>
-                    <div>${ renderItems(order.products) }</div>
+                    <p style="font-weight: bold;background: #6ad600eb;color: white;font-style: italic;padding: 9px 8px;border-radius: 2px;width: 85px;font-size: 15px;
+                    margin-left: auto;
+                    margin-right: auto;">${ orderId }</p>
+                    <h5 style="margin-top: 30px;font-size: 16px;color: #0d74b1;font-weight: bold;">Products</h5>
+                  
+                    <div style="background-color: whitesmoke;padding: 10px 11px;color: #4d4d4d;box-shadow: 0px 0px 4px -1px #ababab;margin-top: 15px;">${ renderItems(order.products) }</div>
                 </td>
-                <td class="border px-4 py-3">${ order.customerId.user_name }</td>
-                <td class="border px-4 py-3">${ order.city }, ${ order.streetAddress }</td>
+                <td class="border px-2 py-3" style="font-weight: bold;font-size: 14px;">${ order.fullName }</td>
+                <td class="border px-2 py-3" style="font-weight: bold;font-size: 14px;">${ order.city },<br> ${ order.streetAddress }</td>
+                <td class="border px-2 py-3" style="font-weight: bold;font-size: 14px;">${ order.phoneNumber }</td>
+                ${ paymentType }
                 <td class="border px-4 py-3">
                     <div class="inline-block relative w-64">
                         <form action="dashboard/admin/order/status" method="POST">
@@ -74,21 +92,24 @@ function initAdmin(){
                
                     </div>
                 </td>
-                <td class="border px-4 py-3">
-                    ${ moment(order.createdAt).format('hh:mm A') }
+                <td class="border px-2 py-3"  style="font-weight: bold;font-size: 14px;">
+                    <span style="background-color: #776ae1;padding: 5px 7px;color: white;">${ moment(order.createdAt).format('MMM Do hh:mm A') }</span>
                 </td>
-                <td class="border px-4 py-3">
-                    ${ order.paymentStatus ? 'paid' : 'Not paid' }
-                </td>
+        
             </tr>
         `
         }).join('')
     }
 
+//     <td class="border px-4 py-3">
+//     ${ order.paymentStatus ? 'paid' : 'Not paid' }
+// </td>
+
 
     //Socket
 
     socket.on('orderPlaced',(order) => {
+        console.log(order);
    
         new Noty({
             text: 'New Order',

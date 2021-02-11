@@ -73,6 +73,7 @@ var articlesRouter = require('./routes/admin/articles/articles');
 var myvideosRouter = require('./routes/admin/videos/videos');
 var settingRouter = require('./routes/admin/setting/setting')
 var publicationsRouter = require('./routes/admin/publication/publication')
+var ordersRouter = require('./routes/admin/orders/orders')
 
 
 //Frontend
@@ -131,6 +132,7 @@ app.use('/articles',articlesRouter);
 app.use('/myvideos',myvideosRouter);
 app.use('/settings',settingRouter);
 app.use('/publication',publicationsRouter);
+app.use('/order',ordersRouter);
 
 
 

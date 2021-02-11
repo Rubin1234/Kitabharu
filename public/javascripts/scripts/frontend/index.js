@@ -230,7 +230,7 @@ function proceedPayment(){
    }
 
    //Payment Method
-   if($('#esewa').is(":checked") || $('#esewa').is(":checked")){
+   if($('#esewa').is(":checked") || $('#cod').is(":checked")){
     $('#choosePaymentErr').empty();
 
    }else{

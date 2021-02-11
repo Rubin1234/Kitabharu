@@ -1180,6 +1180,7 @@ button{
 .status-box ul li span{
     position: relative;
     padding-left: 20px;
+    font-weight: bold;
 }
 
 .status-box ul li span:after{
@@ -1273,12 +1274,12 @@ button{
 /* Current Status */
 
 .status-box ul li.current span{
-    color: #fe5f1e;
+    color: #f3cd11;
 }
 
 
 .status-box ul li.current span:after{
-    background-color: #fe5f1e;
+    background-color: #f3cd11;
 }
 
 .status-box ul li small{

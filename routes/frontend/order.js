@@ -39,6 +39,14 @@ router.get('/', async function(req, res, next) {
 
      var settingData = settingModel.findOne({});
      var orderData = await orderModel.find({customerId : cookiesCustomerId}, null , { sort : {'createdAt' : -1}})
+
+     var orderIdArray = [];
+     orderData.forEach(function(dat){
+        var id = dat._id.toString()
+        var orderId = id.substr(id.length - 5); 
+        orderIdArray.push(orderId);
+     });
+   
   
 
      settingData.exec(function(errr,dataa){
@@ -54,7 +62,7 @@ router.get('/', async function(req, res, next) {
             });
 
             var uniqueValueEbook = array.filter(onlyUnique);
-  
+          
             // var records = util.inspect(data4, false, null, true /* enable colors */);
             res.render('frontend/order',{
               bookSubcategories:data1,
@@ -66,7 +74,8 @@ router.get('/', async function(req, res, next) {
               cookiesCustomerEmail,
               setting : dataa,
               orderData,
-              moment
+              moment,
+              orderIdArray
             });
          
           });
