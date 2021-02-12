@@ -39,6 +39,12 @@ $(document).ready(function(){
    }).then(function(response){
         var productLength = response.data.productitem;
         var totalAmount = response.data.totalAmount;
+   if(totalAmount == undefined){
+    totalAmount = 0
+   }
+   console.log(totalAmount);
+
+
         $('#cartproductnumber').append(productLength);
         $('#cartproductnumber2').append(productLength);
         $('#cartProductPrice').empty().append(totalAmount);
