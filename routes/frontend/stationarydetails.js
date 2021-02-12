@@ -20,6 +20,7 @@ var ModelProduct = require('../../modules/product');
 const subCategoryModel = require('../../modules/subcategories');
 const { populate, db } = require('../../modules/categories');
 const reviewModel = require('../../modules/review');
+const settingModel = require('../../modules/setting'); 
 
 /* GET home page. */
 
@@ -99,6 +100,8 @@ const reviewModel = require('../../modules/review');
           
               var roundOffValue = parseInt(average);
 
+              var settingData = settingModel.findOne({});
+              settingData.exec(function(errr,dataa){
               res.render('frontend/stationarydetails',{
                 stationaryDetails:data,
                 bookSubcategories:data1,
@@ -116,7 +119,9 @@ const reviewModel = require('../../modules/review');
                 countTwoStar,
                 countOneStar,
                 average,
-                roundOffValue
+                roundOffValue,
+                setting : dataa
+              });
               });
             });  
           });  

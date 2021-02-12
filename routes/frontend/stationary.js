@@ -131,6 +131,7 @@ var settingModel = require('../../modules/setting');
   } 
     
   router.get('/:slug',(req,res,next) => {
+ 
 
     var cookiesCustomerToken = req.cookies.customerToken;
     var cookiesCustomerrName = req.cookies.customerName;

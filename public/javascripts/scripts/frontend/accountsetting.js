@@ -1,7 +1,6 @@
    
       $('#customeraccountupdate').on('click',function(){
-          console.log('hello');
-          
+  
         if($('#newpassword').val() != ''){
              $('#conpassword').prop('required',true);
                 if($('#newpassword').val() != $('#conpassword').val()){

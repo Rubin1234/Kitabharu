@@ -28,6 +28,8 @@ function removeItem(){
     
     var a = $(event.currentTarget).parent().siblings('.cart-product-price');
     var totalAmount = 0;
+
+
     $('.amountTotal').each(function(){
      var totalPricePerProduct = $(this).attr('totalPrice');
      totalAmount += parseInt(totalPricePerProduct); 
@@ -45,6 +47,12 @@ function removeItem(){
                 cartProduct : cartProduct,
             }
         }).then(function(response){
+            var productLength = response.data.productitem;
+            var totalAmount = response.data.totalAmount;  
+       
+            $('#cartproductnumber').empty().append(productLength);
+            $('#cartproductnumber2').empty().append(productLength);
+            $('#cartProductPrice').empty().append(totalAmount);
             $('#loader').hide();
 
             bootoast.toast({
@@ -91,7 +99,7 @@ function productNumberAdd(){
 //Using Axios to change into database of quantity and totalprice
 var productId =  $(event.currentTarget).attr('productId');
 var bookType =  $(event.currentTarget).attr('bookType');
-
+$('#loader').show();
 axios
 .get('/cart/updated/add',
     {   
@@ -101,6 +109,14 @@ axios
             bookType : bookType,
         }
     }).then(function(response){
+        var productLength = response.data.productitem;
+        var totalAmount = response.data.totalAmount;  
+   
+        $('#cartproductnumber').empty().append(productLength);
+        $('#cartproductnumber2').empty().append(productLength);
+        $('#cartProductPrice').empty().append(totalAmount);
+        $('#loader').hide();
+
         bootoast.toast({
             message: 'Cart Updated',
             type: 'success'
@@ -154,6 +170,13 @@ function productNumberSub(){
                 bookType : bookType,
             }
         }).then(function(response){
+            var productLength = response.data.productitem;
+            var totalAmount = response.data.totalAmount;  
+       
+            $('#cartproductnumber').empty().append(productLength);
+            $('#cartproductnumber2').empty().append(productLength);
+            $('#cartProductPrice').empty().append(totalAmount);
+            $('#loader').hide();
             bootoast.toast({
                 message: 'Cart Updated',
                 type: 'success'

@@ -155,36 +155,75 @@ var settingModel = require('../../modules/setting');
   router.get('/updated/add',function(req, res, next){
       var totalQuantity = req.query.totalQuantity;
       var productId = req.query.productId;
+   
+
       var cookiesCustomerId = req.cookies.customerId;
+      console.log(cookiesCustomerId);
       var bookType = req.query.bookType;
 
+
       cartModel.findOne({customer_id:cookiesCustomerId}).exec(function(err1,cart){
-
+     
         var total_quantity = 0;
+        
+     
+      
+          // If book type is paperbook or ebook
+    if(bookType == 'paperbook' || bookType == 'ebook'){
+      var existingProductIndex = cart.products.findIndex(p => p._id == productId && p.book_type == bookType);
+    }else{ // if book type is null (Stationary)
+      var existingProductIndex = cart.products.findIndex(p => p._id == productId && p.book_type == null);
+    }
+      
+   
 
-        const existingProductIndex = cart.products.findIndex(p => p._id == productId && p.book_type == bookType);  //to check product is existing in cart
         const existingProduct = cart.products[existingProductIndex];
+
         total_quantity =  parseInt(existingProduct.qty) + 1;
+
 
         var totalPrice =  existingProduct.product_price;
                 
         // total =  parseInt(cart.total_price) + parseInt(totalPrice);
         cart.total_price += parseInt(totalPrice);
 
+            var updateArray = cartModel.updateOne( 
+              { _id: cart.id, "products._id": existingProduct._id}, 
+              { $set: { "products.$.qty": total_quantity } }
+            )
 
-               //Udate Quantity in Product  Array in cart
-               var updateArray = cartModel.update(
-                {customer_id:cookiesCustomerId, 
-                products:{ $elemMatch :{"book_type":bookType, "_id": existingProduct._id}}},
-                { $set: { "products.$.qty":  total_quantity }}
-              )
+              //  //Udate Quantity in Product  Array in cart
+              //  var updateArray = cartModel.update(
+              //   {customer_id:cookiesCustomerId, 
+              //   products:{ $elemMatch :{"book_type":bookType, "_id": existingProduct._id}}},
+              //   { $set: { "products.$.qty":  total_quantity }}
+              // )
 
               //Update Price
               var updateTotalPrice = cartModel.findOneAndUpdate({customer_id:cookiesCustomerId},{total_price : cart.total_price}); 
 
               updateArray.exec(function(err,data){
+            
+
                 updateTotalPrice.exec(function(err1,data1){
-                  res.send(data1);
+
+                  cartModel.findOne({customer_id:cookiesCustomerId},function(err5,data5){
+  
+          
+                    // For Latest Number of product item        
+                    var productItemNumber = 0;
+        
+                    data5.products.forEach(function(doc){
+                      productItemNumber += parseInt(doc.qty);
+                    });
+        
+                    var totalPrice = data5.total_price;
+
+                    res.send({
+                      'productitem': productItemNumber, 
+                      'totalAmount' : totalPrice
+                    });
+                  });
               });
             });
       });
@@ -202,7 +241,17 @@ var settingModel = require('../../modules/setting');
 
       var total_quantity = 0;
 
-      const existingProductIndex = cart.products.findIndex(p => p._id == productId && p.book_type == bookType);  //to check product is existing in cart
+      
+          // If book type is paperbook or ebook
+    if(bookType == 'paperbook' || bookType == 'ebook'){
+      var existingProductIndex = cart.products.findIndex(p => p._id == productId && p.book_type == bookType);
+    }else{ // if book type is null (Stationary)
+      var existingProductIndex = cart.products.findIndex(p => p._id == productId && p.book_type == null);
+    }
+      
+      
+      
+      
       const existingProduct = cart.products[existingProductIndex];
       total_quantity =  parseInt(existingProduct.qty) - 1;
 
@@ -212,18 +261,39 @@ var settingModel = require('../../modules/setting');
       cart.total_price -= parseInt(totalPrice);
 
         //Udate Quantity in Product  Array in cart
-        var updateArray = cartModel.updateOne(
-          {customer_id:cookiesCustomerId, 
-          products:{ $elemMatch :{"book_type":bookType, "_id": existingProduct._id}}},
-          { $set: { "products.$.qty":  total_quantity }}
+
+        var updateArray = cartModel.updateOne( 
+          { _id: cart.id, "products._id": existingProduct._id}, 
+          { $set: { "products.$.qty": total_quantity } }
         )
+        // var updateArray = cartModel.updateOne(
+        //   {customer_id:cookiesCustomerId, 
+        //   products:{ $elemMatch :{"book_type":bookType, "_id": existingProduct._id}}},
+        //   { $set: { "products.$.qty":  total_quantity }}
+        // )
 
         //Update Price
         var updateTotalPrice = cartModel.findOneAndUpdate({customer_id:cookiesCustomerId},{total_price : cart.total_price}); 
 
         updateArray.exec(function(err,data){
           updateTotalPrice.exec(function(err1,data1){
-            res.send(data1);
+            cartModel.findOne({customer_id:cookiesCustomerId},function(err5,data5){
+  
+                  
+              // For Latest Number of product item        
+              var productItemNumber = 0;
+  
+              data5.products.forEach(function(doc){
+                productItemNumber += parseInt(doc.qty);
+              });
+  
+              var totalPrice = data5.total_price;
+      
+              res.send({
+                'productitem': productItemNumber, 
+                'totalAmount' : totalPrice
+              });
+            });
           });
         });
     });
@@ -244,10 +314,14 @@ var settingModel = require('../../modules/setting');
 
 router.get('/removeitem',function(req, res, next){
   
+  //From Axios
   var productId = req.query.productId;
-  var cookiesCustomerId = req.cookies.customerId;
   var bookType = req.query.bookType;
   var cartProduct = req.query.cartProduct;
+
+  //From Cookies
+  var cookiesCustomerId = req.cookies.customerId;
+
 
   var removeItem = cartModel.findOne({customer_id : cookiesCustomerId, _id : cartProduct});
    
@@ -282,7 +356,25 @@ router.get('/removeitem',function(req, res, next){
       updateProduct.exec(function(err5,data5){
     
         cartModel.updateOne({customer_id:cookiesCustomerId},{products:data.products}).exec(function(err1,data1){
-          res.send(data1);
+           //For Count Latest Item Quantity Number
+           cartModel.findOne({customer_id:cookiesCustomerId},function(err5,data5){
+  
+                  
+            // For Latest Number of product item        
+            var productItemNumber = 0;
+
+            data5.products.forEach(function(doc){
+              productItemNumber += parseInt(doc.qty);
+            });
+
+            var totalPrice = data5.total_price;
+    
+            res.send({
+              'productitem': productItemNumber, 
+              'totalAmount' : totalPrice
+            });
+          });
+       
         })
 
         //Adding New Object After Deleting

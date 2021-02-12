@@ -38,7 +38,10 @@ $(document).ready(function(){
  
    }).then(function(response){
         var productLength = response.data.productitem;
+        var totalAmount = response.data.totalAmount;
         $('#cartproductnumber').append(productLength);
+        $('#cartproductnumber2').append(productLength);
+        $('#cartProductPrice').empty().append(totalAmount);
       });
 });
 
@@ -65,7 +68,11 @@ function addtocart(){
           }else{
 
             var productLength = response.data.productitem;
+            var totalAmount = response.data.totalAmount;  
+       
             $('#cartproductnumber').empty().append(productLength);
+            $('#cartproductnumber2').empty().append(productLength);
+            $('#cartProductPrice').empty().append(totalAmount);
 
             //FOr hiding Loader
             $('#loader').hide();
@@ -117,6 +124,7 @@ function mycart(){
 
 
 function addtobookcart(){
+  console.log('bookcart');
 
   var productId = $(event.currentTarget).attr('productId');
   var booknumber = $('#booknumber').val();
@@ -137,7 +145,12 @@ function addtobookcart(){
      }else{
         
       var productLength = response.data.productitem;
+      var totalAmount = response.data.totalAmount;  
+ 
+
         $('#cartproductnumber').empty().append(productLength);
+        $('#cartproductnumber2').empty().append(productLength);
+        $('#cartProductPrice').empty().append(totalAmount);
         
         //For Showing Loader
         $('#loader').hide();
@@ -168,7 +181,11 @@ function addtoEbookcart(){
        window.location.href = "customer/login?n=0";
      }else{
        var productLength = response.data.productitem;
+       var totalAmount = response.data.totalAmount;  
+   
        $('#cartproductnumber').empty().append(productLength);
+       $('#cartproductnumber2').empty().append(productLength);
+       $('#cartProductPrice').empty().append(totalAmount);
 
        $('#loader').hide();
          bootoast.toast({

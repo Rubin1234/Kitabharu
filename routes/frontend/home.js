@@ -403,7 +403,8 @@ var settingModel = require('../../modules/setting');
                     updateCart.exec(function(err4,data4){
                        //For Count Latest Item Quantity Number
                        modelCart.findOne({customer_id:cookiesCustomerId},function(err5,data5){
-                  
+                        var totalPrice = data5.total_price;
+
                         // For Latest Number of product item        
                         var productItemNumber = 0;
                         data5.products.forEach(function(doc){
@@ -413,6 +414,7 @@ var settingModel = require('../../modules/setting');
                         res.send({
                           'productitem': productItemNumber, 
                           'cart': cart,
+                          'totalAmount': totalPrice
                         });
                       });;
                       });
@@ -456,6 +458,7 @@ var settingModel = require('../../modules/setting');
                   
    //For Count Latest Item Quantity Number
                     modelCart.findOne({customer_id:cookiesCustomerId},function(err5,data5){
+                 
                   
                       // For Latest Number of product item        
                       var productItemNumber = 0;
@@ -464,11 +467,12 @@ var settingModel = require('../../modules/setting');
                         productItemNumber += parseInt(doc.qty);
                       });
 
-                      console.log(productItemNumber);
-                      updateCart
+                      var totalPrice = data5.total_price;
+              
                       res.send({
                         'productitem': productItemNumber, 
                         'cart': cart,
+                        'totalAmount' : totalPrice
                       });
                     });
                   });
@@ -499,6 +503,7 @@ var settingModel = require('../../modules/setting');
                   res.send({
                     'productitem': savedata.qty, 
                     'cart': cart,
+                    'totalAmount' : saveCart.total_price
                   });
               }
             }); 
@@ -575,16 +580,20 @@ var settingModel = require('../../modules/setting');
                     
                     //For Count Latest Item Quantity Number
                     modelCart.findOne({customer_id:cookiesCustomerId},function(err5,data5){
-                  
+                      console.log(data5);
                       // For Latest Number of product item        
                       var productItemNumber = 0;
                       data5.products.forEach(function(doc){
                         productItemNumber += parseInt(doc.qty);
                       });
 
+                      var totalPrice = data5.total_price;
+                     
+
                       res.send({
                         'productitem': productItemNumber, 
                         'cart': cart,
+                        'totalAmount' : totalPrice
                       });
                     });
                   });
@@ -624,10 +633,26 @@ var settingModel = require('../../modules/setting');
                 });
 
                 updateCart.exec(function(err4,data4){
-                  res.send({
-                    'productitem': productItemNumber, 
-                    'cart': cart,
-                  });
+                                                
+                    //For Count Latest Item Quantity Number
+                    modelCart.findOne({customer_id:cookiesCustomerId},function(err5,data5){
+                                  
+                                    
+                      // For Latest Number of product item        
+                      var productItemNumber = 0;
+
+                      data5.products.forEach(function(doc){
+                        productItemNumber += parseInt(doc.qty);
+                      });
+
+                      var totalPrice = data5.total_price;
+
+                      res.send({
+                        'productitem': productItemNumber, 
+                        'cart': cart,
+                        'totalAmount' : totalPrice
+                      });
+                    });
                 });
               }
             }
@@ -650,9 +675,13 @@ var settingModel = require('../../modules/setting');
            
               saveCart.products.push(savedata);
               saveCart.save();
+
+              console.log('saveCart');
+
                 res.send({
                   'productitem': savedata.qty, 
                   'cart': cart,
+                  'totalAmount' : saveCart.total_price
                 });
             }
           }); 
@@ -682,7 +711,7 @@ var settingModel = require('../../modules/setting');
             //IF Cart is empty
             if(cart != null){
               const existingProductIndex = cart.products.findIndex(p => p._id == productId &&  p.book_type == 'ebook');  //to check product is existing in cart
-              console.log('ebook cart not null');
+     
        
 
               //If Cart has same product
@@ -712,16 +741,19 @@ var settingModel = require('../../modules/setting');
                     //For Count Latest Item Quantity Number
                     modelCart.findOne({customer_id:cookiesCustomerId},function(err5,data5){
             
-                       // For Number of product item        
-                        var productItemNumber = 0;
-                        data5.products.forEach(function(doc){
-                          productItemNumber += parseInt(doc.qty);
-                        });
+                      // For Number of product item        
+                      var productItemNumber = 0;
+                      data5.products.forEach(function(doc){
+                        productItemNumber += parseInt(doc.qty);
+                      });
                       
-                    res.send({
-                      'productitem': productItemNumber, 
-                      'cart': cart,
-                    });
+                      var totalPrice = data5.total_price;
+
+                      res.send({
+                        'productitem': productItemNumber, 
+                        'cart': cart,
+                        'totalAmount' : totalPrice
+                      });
                     });
                     });
                 });
@@ -744,15 +776,28 @@ var settingModel = require('../../modules/setting');
                   total_price :  total_amount
                 });
 
-                var productItemNumber = 0;
-                cart.products.forEach(function(doc){
-                  productItemNumber += parseInt(doc.qty);
-                });
+          
 
                 updateCart.exec(function(err4,data4){
-                  res.send({
-                    'productitem': productItemNumber, 
-                    'cart': cart,
+
+                  //For Count Latest Item Quantity Number
+                  modelCart.findOne({customer_id:cookiesCustomerId},function(err5,data5){
+
+                    // For Latest Number of product item        
+                    var productItemNumber = 0;
+
+                    data5.products.forEach(function(doc){
+                      productItemNumber += parseInt(doc.qty);
+                    });
+
+                    var totalPrice = data5.total_price;
+                   
+
+                    res.send({
+                      'productitem': productItemNumber, 
+                      'cart': cart,
+                      'totalAmount' : totalPrice
+                      });
                   });
                 });
 
@@ -778,6 +823,7 @@ var settingModel = require('../../modules/setting');
                 res.send({
                   'productitem': savedata.qty, 
                   'cart': cart,
+                  'totalAmount' : saveCart.total_price
                 });
             }
           }); 
@@ -803,11 +849,13 @@ var settingModel = require('../../modules/setting');
      modelCart.findOne({customer_id:cookiesCustomerId}).exec(function(err1,cart){
    
           if(cart == null){
+
             var productItemNumber = 0;
-            console.log(productItemNumber);
+            
             res.send({
               'productitem': productItemNumber, 
               'cart': cart,
+              'totalAmount': 0,
             });
 
           }else{
@@ -822,6 +870,7 @@ var settingModel = require('../../modules/setting');
             res.send({
               'productitem': productItemNumber, 
               'cart': cart,
+              'totalAmount': cart.total_price,
             });
           }
       });

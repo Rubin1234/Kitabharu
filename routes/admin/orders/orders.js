@@ -21,6 +21,7 @@ router.get('/index', async function (req, res, next) {
     var userId = req.cookies.userId;
 
     var orderData = await orderModel.find({}, null , { sort : {'createdAt' : -1}}).populate('customerId');
+    console.log(orderData);
 
     var orderIdArray = [];
     orderData.forEach(function(dat){

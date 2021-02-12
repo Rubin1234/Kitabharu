@@ -7,6 +7,8 @@ var dateFormat = require('dateformat');
 var slug = require('slug');       
 var fs = require('fs'); 
 var jwt = require('jsonwebtoken');
+require('dotenv').config();
+var nodemailer = require('nodemailer'); 
 
 var router = app.Router();
 
@@ -23,6 +25,7 @@ const customerModel = require('../../modules/customers');
 const { populate, db } = require('../../modules/categories');
 const cartModel = require('../../modules/cart');
 var settingModel = require('../../modules/setting'); 
+const e = require('express');
 
 /* GET home page. */
 //Check if there is user session
@@ -40,6 +43,12 @@ try {
 }
 next();
 }
+
+
+
+
+
+
 
 
   router.get('/login', checkLogin, function(req, res, next) {
@@ -174,34 +183,36 @@ next();
     var cookiesCustomerId = req.cookies.customerId;
     var cookiesCustomerEmail = req.cookies.customerEmail;
 
-    console.log(cookiesCustomerrName);
-
-
     var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
     var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
     var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
+    var settingData = settingModel.findOne({});
 
-    bookSubcategories.exec(function(err1,data1){
-      stationarySubcategories.exec(function(err2,data2){
-        ebookSubcategories.exec(function(err3,data3){
 
-          //Storing subcategories in array for taking unique value
-          var array = [];
-          data3.forEach(function(data4){
-            var subcategoryEbook = data4.subcategory_id;
-            array.push(subcategoryEbook);
-          });
-          
-          var uniqueValueEbook = array.filter(onlyUnique);
+    settingData.exec(function(errr,dataa){
+      bookSubcategories.exec(function(err1,data1){
+        stationarySubcategories.exec(function(err2,data2){
+          ebookSubcategories.exec(function(err3,data3){
 
-          res.render('frontend/accountsetting',{
-            bookSubcategories:data1,
-            stationarySubcategories:data2,
-            ebookSubcategories:uniqueValueEbook,
-            cookiesCustomerToken,
-            cookiesCustomerrName,
-            cookiesCustomerId,
-            cookiesCustomerEmail,
+            //Storing subcategories in array for taking unique value
+            var array = [];
+            data3.forEach(function(data4){
+              var subcategoryEbook = data4.subcategory_id;
+              array.push(subcategoryEbook);
+            });
+            
+            var uniqueValueEbook = array.filter(onlyUnique);
+
+            res.render('frontend/accountsetting',{
+              bookSubcategories:data1,
+              stationarySubcategories:data2,
+              ebookSubcategories:uniqueValueEbook,
+              cookiesCustomerToken,
+              cookiesCustomerrName,
+              cookiesCustomerId,
+              cookiesCustomerEmail,
+              setting : dataa
+            });
           });
         });
       });
@@ -295,10 +306,185 @@ next();
       }
     });
   }
+  });
 
 
+  router.get('/forgot-password', function(req, res, next) {
+  
+    var cookiesCustomerToken = req.cookies.customerToken;
+    var cookiesCustomerrName = req.cookies.customerName;
+    var cookiesCustomerId = req.cookies.customerId;
+    var cookiesCustomerEmail = req.cookies.customerEmail;
+    
+
+    var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
+    var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
+    var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
+
+
+    var settingData = settingModel.findOne({});
+    settingData.exec(function(errr,dataa){
+    bookSubcategories.exec(function(err1,data1){
+      stationarySubcategories.exec(function(err2,data2){
+        ebookSubcategories.exec(function(err3,data3){
+
+          //Storing subcategories in array for taking unique value
+          var array = [];
+          data3.forEach(function(data4){
+            var subcategoryEbook = data4.subcategory_id;
+            array.push(subcategoryEbook);
+          });
+          
+          var uniqueValueEbook = array.filter(onlyUnique);
+       
+          
+          res.render('frontend/forgotPassword',{
+            bookSubcategories:data1,
+            stationarySubcategories:data2,
+            ebookSubcategories:uniqueValueEbook,
+            cookiesCustomerToken,
+            cookiesCustomerrName,
+            cookiesCustomerId,
+            cookiesCustomerEmail,
+            setting : dataa
+          });
+        });
+        });
+      });
+    });
+  });
+
+
+  router.post('/forgot-password', function(req, res, next) {
+    var email = req.body.resetemail;
+
+    customerModel.findOne({email},function(errr,customer){
+      var customerId = customer._id;
+      const token =  jwt.sign({customerId},'login_email', {expiresIn: '10m'})
+ 
+      res.cookie('resetPasswordToken',token)
+
+        //Step 1
+        let transporter = nodemailer.createTransport({
+          service : 'gmail',
+          auth : {
+            user: process.env.Email,
+            pass: process.env.Password
+          }
+        });
+    
+        
+      //Step 2
+      let mailOptions = {
+        from : email,
+        to : 'rubinawale10@gmail.com',
+        subject : 'Kitabharu Contact Us',
+        html : '<div><h2 style="color:#145ba2">Click on the link below to reset your password</h2><br><a href="http://127.0.0.1:3000/customer/reset-password/'+token+'/'+email+'">Click Here</a> to reset your password.Thank you !!!</div>',
+      }
+    
+      transporter.sendMail(mailOptions, function(err,data){
+  
+        if(err){
+          console.log('Error Occurs');
+        }else{
+          console.log('Email Send');
+        }
+    
+      });
+
+      req.flash('success','Reset password link has been sent to you email address succesfully. Please go throught that link to reset your password. Thank You !!!');
+      res.redirect('forgot-password');
 
   });
+});
+
+router.get('/reset-password/:token/:email', function(req, res, next) {
+  var token = req.params.token;
+  var email = req.params.email;
+ 
+
+  var resetPasswordToken = req.cookies.resetPasswordToken;
+
+  var decoded = jwt.verify(resetPasswordToken, 'login_email',function(err,decodedData){
+
+      if(err){
+      req.flash('error','Token expired. Please reset you password again. Thank you !!!');
+      res.redirect('/customer/forgot-password');
+      }else{
+
+
+        var cookiesCustomerToken = req.cookies.customerToken;
+        var cookiesCustomerrName = req.cookies.customerName;
+        var cookiesCustomerId = req.cookies.customerId;
+        var cookiesCustomerEmail = req.cookies.customerEmail;
+        
+    
+        var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
+        var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
+        var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
+    
+    
+        var settingData = settingModel.findOne({});
+        settingData.exec(function(errr,dataa){
+        bookSubcategories.exec(function(err1,data1){
+          stationarySubcategories.exec(function(err2,data2){
+            ebookSubcategories.exec(function(err3,data3){
+    
+              //Storing subcategories in array for taking unique value
+              var array = [];
+              data3.forEach(function(data4){
+                var subcategoryEbook = data4.subcategory_id;
+                array.push(subcategoryEbook);
+              });
+              
+              var uniqueValueEbook = array.filter(onlyUnique);
+           
+              
+              res.render('frontend/resetPassword',{
+                bookSubcategories:data1,
+                stationarySubcategories:data2,
+                ebookSubcategories:uniqueValueEbook,
+                cookiesCustomerToken,
+                cookiesCustomerrName,
+                cookiesCustomerId,
+                cookiesCustomerEmail,
+                setting : dataa,
+                email,
+                token
+              });
+            });
+            });
+          });
+        });
+      }
+  });
+})
+
+
+router.post('/reset-password/:token/:email', function(req, res, next) {
+  var conPassword = req.body.conpassword;
+  var token = req.params.token;
+
+  var email = req.params.email;
+
+  var hashpassword = bcyrpt.hashSync(conPassword,10);
+  var resetPasswordToken = req.cookies.resetPasswordToken;
+
+  var decoded = jwt.verify(resetPasswordToken, 'login_email',function(err,decodedData){
+
+      if(err){
+        req.flash('error','Token expired. Please reset you password again. Thank you !!!');
+        res.redirect('/customer/forgot-password');
+      }else{
+      customerModel.findOneAndUpdate({email:email},{password : hashpassword}).exec(function(err,data){
+        req.flash('success','Password Changed. Please login to proceed');
+        res.redirect('/customer/login');
+       })
+      }
+  })
+})
+
+
 
   //Making Unique value for E-book
   function onlyUnique(value, index, self) {

@@ -108,9 +108,9 @@
                                                     var i = 1;
                                                 %>
                                                 <% records.forEach(function(data,index){ %>
-                                                <tr>
-                                                    <td><%= i %></td>
-                                                    <td>
+                                                <tr >
+                                                    <td class="py-3"><%= i %></td>
+                                                    <td class="py-3">
                                                         <p style="font-weight: bold;background: #6ad600eb;color: white;font-style: italic;padding: 9px 8px;border-radius: 2px;width: 85px;font-size: 15px;
                                                         margin-left: auto;
                                                         margin-right: auto;"> <%= orderIdArray[index] %></p>
@@ -139,10 +139,133 @@
                                                     </td>
                                                     <td> <%= moment(data.createdAt).format('MMM Do hh:mm A') %></td>
                                                     <td>
-                                                        <a href="/brand/edit/<%= data._id %>"><button type="button" class="btn btn-info waves-effect waves-light" style="padding:0px;"> <i class="fe-eye" style="color: white;padding: 7px 10px;font-size: 17px;"></i></button></a>
+                                                       <button type="button" class="btn btn-info waves-effect waves-light" style="padding:0px;" data-toggle="modal" data-target="#centermodal<%= i %>"> <i class="fe-eye" style="color: white;padding: 7px 10px;font-size: 17px;"></i></button>
                                                          &nbsp;
-                                                         <a href="/brand/delete/<%= data._id %>"><button type="button" class="btn btn-danger waves-effect waves-light" style="padding:0px;" onclick="if(confirm('Are you sure you want to delete?'))commentDelete(1);return false;"> <i class="fe-trash-2" style="color: white;padding: 7px 10px;font-size: 17px;"></i></button</a>
-                                                     </td
+                                                         <!-- <a href="/brand/delete/<%= data._id %>"><button type="button" class="btn btn-danger waves-effect waves-light" style="padding:0px;" onclick="if(confirm('Are you sure you want to delete?'))commentDelete(1);return false;"> <i class="fe-trash-2" style="color: white;padding: 7px 10px;font-size: 17px;"></i></button</a> -->
+                                                         </td>
+
+
+
+
+                                                         <!-- Modal -->
+
+                                                      <div class="modal fade" id="centermodal<%= i %>" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                <div class="modal-content" style="padding:20px">
+                                                    <div class="modal-header" style="    border-bottom: 1px solid lightgrey;">
+                                                        <h3 class="modal-title font-weight-bold" id="myCenterModalLabel">Order Details</h3>
+                                                     
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-md-12 mb-3">
+                                                            
+                                                                <h5> <span style="font-weight: bold;">Order Id: </span> <span style="background-color: #4FC6E5;
+                                                                    color: white;
+                                                                    padding: 5px 29px;
+                                                                    margin-left: 15px;
+                                                                    font-size: 17px;
+                                                                    border-radius: 0px;
+                                                                    font-weight: bold;"><%= orderIdArray[index] %></span></h5>
+                                                            </div>
+                                                            <br>
+                                                            <div class="col-md-6 mb-2">
+                                                                <h5> <span style="font-weight: bold;">Full Name: </span><%= data.fullName %></h5>
+                                                            </div>
+                                                            <div class="col-md-6 mb-2">
+                                                                <h5><span style="font-weight: bold;">Address: </span><%= data.city  %>, <%= data.streetAddress %></h5> 
+                                                            </div>
+                                                            <div class="col-md-6 mb-2">
+                                                                <h5><span style="font-weight: bold;">Contact: </span> <%= data.phoneNumber %></h5> 
+                                                            </div>
+                                                            <% if(data.paymentType == 'esewa'){ %>
+                                                            <div class="col-md-6 mb-2">
+                                                                <h5><span style="font-weight: bold;">Payment Type: </span> <span style="    background: #6ad600eb;
+                                                                    color: white;
+                                                                    padding: 5px 12px;
+                                                                    margin-left: 9px;
+                                                                    border-radius: 15px;
+                                                                    font-size: 17px;"><%= data.paymentType %></span></h5> 
+                                                            </div>
+                                                            <% }else{ %>
+                                                                    <div class="col-md-6 mb-2">
+                                                                        <h5><span style="font-weight: bold;">Payment Type: </span> <span style="    background: #6ad600eb;
+                                                                            color: white;
+                                                                            padding: 5px 12px;
+                                                                            margin-left: 9px;
+                                                                            border-radius: 15px;
+                                                                            font-size: 17px;"><%= data.paymentType %></span></h5> 
+                                                                    </div>
+                                                                    <% } %>
+
+
+
+                                                            <!-- Status -->
+                                                            <div class="col-md-6 mb-2">
+                                                              <%  if( data.status == 'order_placed'){ %>
+                                                                    <h5><span style="font-weight: bold;">Status: </span><span style="    background: #776ae1;
+                                                                        color: white;
+                                                                        padding: 5px 12px;
+                                                                        margin-left: 9px;
+                                                                        border-radius: 15px;
+                                                                        font-size: 15px;">Order Placed</span></h5> 
+                                                               <% } %>
+                                                               <%  if( data.status == 'confirmed'){ %>
+                                                                <h5><span style="font-weight: bold;">Status: </span><span style="    background: #6ad600eb;
+                                                                    color: white;
+                                                                    padding: 5px 12px;
+                                                                    margin-left: 9px;
+                                                                    border-radius: 15px;
+                                                                    font-size: 15px;">Order Confirmed</span></h5> 
+                                                           <% } %>
+                                                           <%  if( data.status == 'prepared'){ %>
+                                                            <h5><span style="font-weight: bold;">Status: </span><span style="    background: #6ad600eb;
+                                                                color: white;
+                                                                padding: 5px 12px;
+                                                                margin-left: 9px;
+                                                                border-radius: 15px;
+                                                                font-size: 15px;">Order Prepared</span></h5> 
+                                                       <% } %>
+                                                       <%  if( data.status == 'delivered'){ %>
+                                                        <h5><span style="font-weight: bold;">Status: </span><span style="    background: #6ad600eb;
+                                                            color: white;
+                                                            padding: 5px 12px;
+                                                            margin-left: 9px;
+                                                            border-radius: 15px;
+                                                            font-size: 15px;">Order Delivered</span></h5> 
+                                                        <% } %>
+                                                        <%  if( data.status == 'completed'){ %>
+                                                            <h5><span style="font-weight: bold;">Status: </span><span style="    background: #d60000eb;
+                                                                color: white;
+                                                                padding: 5px 12px;
+                                                                margin-left: 9px;
+                                                                border-radius: 15px;
+                                                                font-size: 15px;">Order Completed</span></h5> 
+                                                            <% } %>   
+                                                            </div>
+
+
+                                                            <div class="col-md-6 mb-2">
+                                                                <h5><span style="font-weight: bold;">Placed At: </span> <span style="    background: #fff;
+                                                                    color: #004bb5;font-weight: bold;
+                                                                    padding: 5px 12px;
+                                                                    margin-left: 9px;
+                                                                    border-radius: 15px;
+                                                                    font-size: 15px;"><%= moment(data.createdAt).format('MMM Do hh:mm A') %></span></h5> 
+                                                            </div>
+                                                            <div class="col-md-12 my-3">
+                                                            
+                                                                <h4 class="mb-3"> <span style="font-weight: bold;">Ordered Products: </span><br> </h4>
+                                                                <% data.products.forEach(function(data,index){ %>
+                                                                        <h5><%= index + 1 %>) <%= data.product_name %> (<%= data.qty %>pcs)</h5>
+                                                               <% }) %>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div><!-- /.modal -->
                                                 </tr>
                                                 <% i++; }) %>
                                              <% }else{ %>

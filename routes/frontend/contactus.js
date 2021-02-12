@@ -79,13 +79,6 @@ var settingModel = require('../../modules/setting');
     var message = req.body.message;
     var phonenumber = req.body.phonenumber;
 
-    console.log(email);
-    console.log(fullname);
-    console.log(message);
-    console.log(phonenumber);
-  
-  
-
     //Step 1
     let transporter = nodemailer.createTransport({
       service : 'gmail',
