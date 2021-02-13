@@ -84,6 +84,7 @@ function productNumberAdd(){
 
 
    var perPrice = $(event.currentTarget).parent().parent().siblings('.cart-product-price').children().attr('amountperproduct');
+
    var totalPricePerProduct = totalQuantity * parseInt(perPrice);
    $(event.currentTarget).parent().parent().siblings('.cart-product-subtotal').children().html('Rs '+ totalPricePerProduct);
    $(event.currentTarget).parent().parent().siblings('.cart-product-subtotal').children().attr('totalPrice',totalPricePerProduct);
@@ -144,6 +145,8 @@ function productNumberSub(){
    
     var perPrice = $(event.currentTarget).parent().parent().siblings('.cart-product-price').children().attr('amountperproduct');
     var totalPricePerProduct = totalQuantity * parseInt(perPrice);
+  
+
     $(event.currentTarget).parent().parent().siblings('.cart-product-subtotal').children().html('Rs '+ totalPricePerProduct);
     $(event.currentTarget).parent().parent().siblings('.cart-product-subtotal').children().attr('totalPrice',totalPricePerProduct);
     

@@ -363,22 +363,39 @@ var settingModel = require('../../modules/setting');
                   const existingProduct = cart.products[existingProductIndex];
 
                   if(productNumber == undefined){
-                    total_quantity =  existingProduct.qty + 1;
+                    total_quantity =  parseInt(existingProduct.qty) + 1;
                   }else{
                     total_quantity =  parseInt(existingProduct.qty) + parseInt(productNumber);
                   }
+
                   
-
-
+                  //If Order Item is 0
                   if(productNumber == undefined){
                     var totalPrice =  data.product_price;
                     
-                    // total =  parseInt(cart.total_price) + parseInt(totalPrice);
-                    cart.total_price += parseInt(totalPrice);
+                    //For Discounted Products
+                    if(data.discount_percent > 0){
+                      var discount_price = 0;
+                      var discount_price = data.discount_percent/100 * totalPrice;
+                      var discountedAmount = totalPrice - discount_price;
+            
+                      cart.total_price += parseInt(discountedAmount);
+
+                    }else{
+                      cart.total_price += parseInt(totalPrice);
+                    }
                    }else{
                     var totalPrice = productNumber * data.product_price;
-                    // total =  parseInt(cart.total_price) + parseInt(data.product_price);
-                    cart.total_price += parseInt(totalPrice);
+                    if(data.discount_percent > 0){
+                      var discount_price = 0;
+                      var discount_price = data.discount_percent/100 * totalPrice;
+                      var discountedAmount = totalPrice - discount_price;
+             
+                      cart.total_price += parseInt(discountedAmount);
+    
+                    }else{
+                      cart.total_price += parseInt(totalPrice);
+                    }
                    }
 
                   //Udate Product Array in cart
@@ -390,26 +407,24 @@ var settingModel = require('../../modules/setting');
                   var updateCart = modelCart.findOneAndUpdate({customer_id:cookiesCustomerId},{
                   total_price :  cart.total_price
                   }); 
-                    
                   
-                  //For Number of product item
-                  var productItemNumber = 0;
-
-                  cart.products.forEach(function(doc){
-                    productItemNumber += parseInt(doc.qty);
-                  });
         
                   updateArray.exec(function(err3,data3){
                     updateCart.exec(function(err4,data4){
                        //For Count Latest Item Quantity Number
                        modelCart.findOne({customer_id:cookiesCustomerId},function(err5,data5){
+                        console.log(data5);
+
                         var totalPrice = data5.total_price;
 
                         // For Latest Number of product item        
                         var productItemNumber = 0;
                         data5.products.forEach(function(doc){
-                          productItemNumber += parseInt(doc.qty);
+                          productItemNumber = parseInt(productItemNumber) + parseInt(doc.qty);
                         });
+
+                        console.log(productItemNumber); 
+                        console.log('productItemNumber'); 
   
                         res.send({
                           'productitem': productItemNumber, 
@@ -428,24 +443,47 @@ var settingModel = require('../../modules/setting');
                   console.log(productNumber);
                   
                 if(productNumber == undefined){
-
-               
                   savedata.qty = 1;
                 }else{
                   savedata.qty = productNumber;
                 }
                 
-              
-
                   cart.products.push(savedata);
                   cart.save();
 
+
+
+                //If Order item is 1
                 if(productNumber == undefined){
+
                   var totalPrice = savedata.qty * data.product_price;
-                  cart.total_price += parseInt(totalPrice);
+                  
+                  if(data.discount_percent > 0){
+                    var discount_price = 0;
+                    var discount_price = data.discount_percent/100 * totalPrice;
+                    var discountedAmount = totalPrice - discount_price;
+           
+                    cart.total_price += parseInt(discountedAmount);
+
+                  }else{
+                    cart.total_price += parseInt(totalPrice);
+                  }
+
                  }else{
+
+                    //If Order item is greater than 1
                   var totalPrice = savedata.qty * data.product_price;
-                  cart.total_price += parseInt(totalPrice);
+
+                  if(data.discount_percent > 0){
+                    var discount_price = 0;
+                    var discount_price = data.discount_percent/100 * totalPrice;
+                    var discountedAmount = totalPrice - discount_price;
+           
+                    cart.total_price += parseInt(discountedAmount);
+
+                  }else{
+                    cart.total_price += parseInt(totalPrice);
+                  }
                   // cart.total_price += parseInt(data.product_price);
                  }
 
@@ -464,6 +502,7 @@ var settingModel = require('../../modules/setting');
                       var productItemNumber = 0;
 
                       data5.products.forEach(function(doc){
+                        console.log(doc)
                         productItemNumber += parseInt(doc.qty);
                       });
 
@@ -481,17 +520,34 @@ var settingModel = require('../../modules/setting');
               else
               { 
                 //If Cart is empty
-                var saveCart = new modelCart({
-                    total_price : parseInt(data.product_price),
-                    customer_id : cookiesCustomerId
-                });
-
+        
                 var savedata = data.toObject();
 
                 if(productNumber == undefined){
                   savedata.qty = 1;
                 }else{
                   savedata.qty = productNumber;
+                }
+
+                var totalPrice = savedata.qty * data.product_price;
+
+                if(data.discount_percent > 0){
+                  var discount_price = 0;
+                  var discount_price = data.discount_percent/100 * totalPrice;
+                  var discountedAmount = totalPrice - discount_price;
+          
+                  var saveCart = new modelCart({
+                    total_price : parseInt(discountedAmount),
+                    customer_id : cookiesCustomerId
+                  });
+  
+                }else{
+                      
+                  var saveCart = new modelCart({
+                    total_price :  parseInt(data.product_price),
+                    customer_id : cookiesCustomerId
+                  });
+  
                 }
            
 
@@ -528,7 +584,8 @@ var settingModel = require('../../modules/setting');
       }else{ 
 
         //If signed In
-        ModelProduct.findById(productId).populate('book_attribute').exec(function(err,data){
+        ModelProduct.findById(productId).populate('book_attribute').exec(function(err,data)
+        {
           modelCart.findOne({customer_id:cookiesCustomerId}).exec(function(err1,cart){
 
             var total_quantity = 0;
@@ -539,28 +596,47 @@ var settingModel = require('../../modules/setting');
               //If Cart has same product
               if(existingProductIndex >= 0){
                 const existingProduct = cart.products[existingProductIndex];
-
+          
                 if(booknumber == undefined){
-                  total_quantity =  existingProduct.qty + 1;
+                  total_quantity =  parseInt(existingProduct.qty) + 1;
                 }else{
                   total_quantity =  parseInt(existingProduct.qty) + parseInt(booknumber);
                 }
 
-           
                if(booknumber == undefined){
-                var totalPrice =  data.product_price;
-                
+
+                  var totalPrice =  data.product_price;
+
+                  //For Discounted Products
+                    if(data.discount_percent > 0){
+                      var discount_price = 0;
+                      var discount_price = data.discount_percent/100 * totalPrice;
+                      var discountedAmount = totalPrice - discount_price;
+            
+                      cart.total_price += parseInt(discountedAmount);
+
+                    }else{
+                      cart.total_price += parseInt(totalPrice);
+                    }
+                    
                 // total =  parseInt(cart.total_price) + parseInt(totalPrice);
-                cart.total_price += parseInt(totalPrice);
+              
                }else{
                 var totalPrice = booknumber * data.product_price;
-                // total =  parseInt(cart.total_price) + parseInt(data.product_price);
-                cart.total_price += parseInt(totalPrice);
+
+                if(data.discount_percent > 0){
+                  var discount_price = 0;
+                  var discount_price = data.discount_percent/100 * totalPrice;
+                  var discountedAmount = totalPrice - discount_price;
+         
+                  cart.total_price += parseInt(discountedAmount);
+
+                }else{
+                  cart.total_price += parseInt(totalPrice);
+                }
                }
 
-  
-         
-                  //Udate Quantity in Product  Array in cart
+                //Udate Quantity in Product  Array in cart
                 var updateArray = modelCart.update(
                   {customer_id:cookiesCustomerId, 
                   products:{ $elemMatch :{"book_type": "paperbook", "_id": existingProduct._id}}},
@@ -580,7 +656,7 @@ var settingModel = require('../../modules/setting');
                     
                     //For Count Latest Item Quantity Number
                     modelCart.findOne({customer_id:cookiesCustomerId},function(err5,data5){
-                      console.log(data5);
+                  
                       // For Latest Number of product item        
                       var productItemNumber = 0;
                       data5.products.forEach(function(doc){
@@ -613,13 +689,37 @@ var settingModel = require('../../modules/setting');
                
                 cart.products.push(savedata);
                 cart.save();
+          
+                  //If book order is 0
+                if(booknumber == undefined){    
+                  var totalPrice = savedata.qty * data.product_price;
+          
+                  if(data.discount_percent > 0){
+                    var discount_price = 0;
+                    var discount_price = data.discount_percent/100 * totalPrice;
+                    var discountedAmount = totalPrice - discount_price;
+           
+                    cart.total_price += parseInt(discountedAmount);
 
-                if(booknumber == undefined){
-                  var totalPrice = savedata.qty * data.product_price;
-                  cart.total_price += parseInt(totalPrice);
+                  }else{
+                    cart.total_price += parseInt(totalPrice);
+                  }
+                  
                  }else{
+
+                  //If book order greater than 0
                   var totalPrice = savedata.qty * data.product_price;
-                  cart.total_price += parseInt(totalPrice);
+                  if(data.discount_percent > 0){
+                    var discount_price = 0;
+                    var discount_price = data.discount_percent/100 * totalPrice;
+                    var discountedAmount = totalPrice - discount_price;
+           
+                    cart.total_price += parseInt(discountedAmount);
+
+                  }else{
+                    cart.total_price += parseInt(totalPrice);
+                  }
+
                   // cart.total_price += parseInt(data.product_price);
                  }
           
@@ -633,7 +733,7 @@ var settingModel = require('../../modules/setting');
                 });
 
                 updateCart.exec(function(err4,data4){
-                                                
+
                     //For Count Latest Item Quantity Number
                     modelCart.findOne({customer_id:cookiesCustomerId},function(err5,data5){
                                   
@@ -658,11 +758,6 @@ var settingModel = require('../../modules/setting');
             }
             else
             { 
-              //If Cart is empty
-              var saveCart = new modelCart({
-                  total_price : parseInt(data.product_price),
-                  customer_id : cookiesCustomerId
-              });
 
               var savedata = data.toObject();
               savedata.book_type = 'paperbook';
@@ -672,11 +767,31 @@ var settingModel = require('../../modules/setting');
               }else{
                 savedata.qty = booknumber;
               }
-           
+
+              //If book order is 0
+              var totalPrice = savedata.qty * data.product_price;
+              
+              if(data.discount_percent > 0){
+                var discount_price = 0;
+                var discount_price = data.discount_percent/100 * totalPrice;
+                var discountedAmount = totalPrice - discount_price;
+        
+                var saveCart = new modelCart({
+                  total_price : parseInt(discountedAmount),
+                  customer_id : cookiesCustomerId
+                });
+
+              }else{
+                    
+                var saveCart = new modelCart({
+                  total_price :  parseInt(data.product_price),
+                  customer_id : cookiesCustomerId
+                });
+
+              }
+                
               saveCart.products.push(savedata);
               saveCart.save();
-
-              console.log('saveCart');
 
                 res.send({
                   'productitem': savedata.qty, 
@@ -718,7 +833,7 @@ var settingModel = require('../../modules/setting');
               if(existingProductIndex >= 0){
                
                 const existingProduct = cart.products[existingProductIndex];
-                total_quantity =  existingProduct.qty + 1;
+                total_quantity =  parseInt(existingProduct.qty) + 1;
                 
                 
                 var updateArray = modelCart.update( 
@@ -727,10 +842,20 @@ var settingModel = require('../../modules/setting');
                     { $set: { "products.$.qty":  total_quantity }}
                 )
           
-                var total_amount  = parseInt(cart.total_price) + parseInt(data.ebook_id.ebook_price);
-                 
+                var totalPrice = data.ebook_id.ebook_price;
+          
+                //If Product has discount
+                if(data.discount_percent > 0){
+                  var discount_price = 0;
+                  var discount_price = data.discount_percent/100 * totalPrice;
+                  var discountedAmount = totalPrice - discount_price;
+         
+                  var total_amount = parseInt(cart.total_price) + parseInt(discountedAmount);
 
-
+                }else{
+                  var total_amount = parseInt(cart.total_price) + parseInt(data.ebook_id.ebook_price);
+                }
+                
                 var updateCart = modelCart.findOneAndUpdate({customer_id:cookiesCustomerId},{
                 total_price : total_amount
                 }); 
@@ -770,13 +895,25 @@ var settingModel = require('../../modules/setting');
                 cart.products.push(savedata);
                 cart.save();
 
-                var total_amount = parseInt(cart.total_price) + parseInt(data.ebook_id.ebook_price);
-               
+                var totalPrice = data.ebook_id.ebook_price;
+          
+                //If Product has discount
+                if(data.discount_percent > 0){
+                  var discount_price = 0;
+                  var discount_price = data.discount_percent/100 * totalPrice;
+                  var discountedAmount = totalPrice - discount_price;
+         
+                  var total_amount = parseInt(cart.total_price) + parseInt(discountedAmount);
+
+                }else{
+                  var total_amount = parseInt(cart.total_price) + parseInt(data.ebook_id.ebook_price);
+                }
+
+                 
                 var updateCart = modelCart.findOneAndUpdate({customer_id:cookiesCustomerId},{
                   total_price :  total_amount
                 });
 
-          
 
                 updateCart.exec(function(err4,data4){
 
@@ -807,18 +944,33 @@ var settingModel = require('../../modules/setting');
             else
             { 
 
-              //If Cart is empty
-              var saveCart = new modelCart({
-                  total_price : parseInt(data.ebook_id.ebook_price),
-                  customer_id : cookiesCustomerId
-              });
-
               var savedata = data.toObject();
               savedata.book_type = 'ebook';
-              
-              savedata.qty = 1;          
+              savedata.qty = 1;
+
+              //If book order is 0
+              var totalPrice = data.ebook_id.ebook_price;
+    
+              if(data.discount_percent > 0){
+                var discount_price = 0;
+                var discount_price = data.discount_percent/100 * totalPrice;
+                var discountedAmount = totalPrice - discount_price;
+        
+                var saveCart = new modelCart({
+                  total_price : parseInt(discountedAmount),
+                  customer_id : cookiesCustomerId
+                });
+
+              }else{
+                    
+                var saveCart = new modelCart({
+                  total_price :  parseInt(data.ebook_id.ebook_price),
+                  customer_id : cookiesCustomerId
+                });
+
+              }
+
               saveCart.products.push(savedata);
-          
               saveCart.save();     
                 res.send({
                   'productitem': savedata.qty, 

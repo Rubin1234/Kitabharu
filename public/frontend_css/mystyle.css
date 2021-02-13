@@ -129,9 +129,29 @@
 }
 
 .new-arrival-books-desc .price-box{
-	margin-top: 15px;
+    margin-top: 15px;
     padding-top: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
     border: 2px solid #ebebeb;
+}
+
+.new-arrival-books-desc .book-price-box{
+    margin-top: 15px;
+    padding-top: 5px;
+    padding-left: 13px;
+    padding-right: 13px;
+    border: 2px solid #ebebeb;
+ 
+}
+
+.new-arrival-books-desc .stationary-price-box{
+    margin-top: 15px;
+    padding-top: 5px;
+    padding-left: 13px;
+    padding-right: 13px;
+    border: 2px solid #ebebeb;
+ 
 }
 
 
@@ -1286,6 +1306,40 @@ button{
     float: right;
     font-weight: bold;
     font-size: 15px;
+}
+
+.showdiscountpercent{
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    background: #f3cd11;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 4px;
+}
+
+
+.showdiscountpercentBookDetail{
+    margin-left: 20px;
+    background: #f3cd11;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+}
+
+.showdiscountpercentCart{
+    background: #f3cd11;
+    color: white;
+    padding: 4px 15px;
+    border-radius: 4px;
+    margin-top: 6px;
+    width: 85px;
+    font-size: 13.5px;
+    text-align: center;
+}
+
+.small{
+    font-size: 13px;
 }
 /*.publication .card .p{
     margin-bottom: 0px

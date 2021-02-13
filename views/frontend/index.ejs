@@ -130,6 +130,10 @@
                       <div class="new-arrival-books">
                         <img src="images/backend/products/<%= data.product_image %>" alt=""
                           style="width: 100%;height: 215px;">
+                          <% if(data.discount_percent > 0){ %>
+                            <div class="showdiscountpercent"><%= data.discount_percent %>% off</div>
+                            <% } %>
+                        
                         <div class="new-arrival-books-desc">
 
                           <h4>
@@ -154,9 +158,20 @@
 
 
                           </div>
-                          <div class="price-box">
-                            <h4>Rs. <%= data.product_price %>
-                            </h4>
+                          <div class="price-box d-flex">
+                          <% if(data.discount_percent > 0){
+                            var discount_price = 0;
+                            var discount_price = data.discount_percent/100* data.product_price
+                            var discountedAmount = data.product_price - discount_price
+                            %>
+                            <s style="color: #848484;font-family:auto;font-size: 18px;padding-left: 10px;margin-left: auto;
+                            margin-right: auto;padding-top: 2px;">Rs <%= data.product_price %></s> 
+                               <h4 style="margin-left: auto;
+                               margin-right: auto;">Rs. <%= discountedAmount %>
+                             </h4>
+                            <% }else{ %>
+                              <h4 style="margin-left: auto;margin-right: auto;">Rs. <%=  data.product_price %></h4>
+                              <% } %>
                           </div>
 
                         </div>
@@ -230,8 +245,11 @@
                       <div class="new-arrival-books">
                         <img src="images/backend/products/<%= data.product_image %>" alt=""
                           style="width: 100%;height: 215px;">
+                            <% if(data.discount_percent > 0){ %>
+                            <div class="showdiscountpercent"><%= data.discount_percent %>% off</div>
+                            <% } %>
+                      
                         <div class="new-arrival-books-desc">
-
                           <h4>
                             <%= data.product_name %>
                           </h4>
@@ -281,9 +299,20 @@
                                                               style="width: 20.25px; height: 20.25px;display: inline-block;padding: 0px;">
                                                             <% } %>
                                                               <% } %>
-                                                                <div class="price-box">
-                                                                  <h4>Rs. <%= data.product_price %>
-                                                                  </h4>
+                                                              <div class="price-box d-flex">
+                                                                <% if(data.discount_percent > 0){
+                                                                  var discount_price = 0;
+                                                                  var discount_price = data.discount_percent/100* data.product_price
+                                                                  var discountedAmount = data.product_price - discount_price
+                                                                  %>
+                                                                  <s style="color: #848484;font-family:auto;font-size: 18px;padding-left: 10px;margin-left: auto;
+                                                                  margin-right: auto;padding-top: 2px;">Rs <%= data.product_price %></s> 
+                                                                     <h4 style="margin-left: auto;
+                                                                     margin-right: auto;">Rs. <%= discountedAmount %>
+                                                                   </h4>
+                                                                  <% }else{ %>
+                                                                    <h4 style="margin-left: auto;margin-right: auto;">Rs. <%=  data.product_price %></h4>
+                                                                    <% } %>
                                                                 </div>
                         </div>
                         <div class="view-book">
@@ -334,6 +363,9 @@
                       <div class="new-arrival-books">
                         <img src="images/backend/products/<%= data.product_image %>" alt=""
                           style="width: 100%;height: 215px;">
+                          <% if(data.discount_percent > 0){ %>
+                            <div class="showdiscountpercent"><%= data.discount_percent %>% off</div>
+                            <% } %>
                         <div class="new-arrival-books-desc">
 
                           <h4>
@@ -394,12 +426,26 @@
               <% }else{ %>
                 <span>&nbsp;</span>
               <% } %> -->
-                                                                <div class="price-box">
-                                                                  <% if( data.ebook_id !=null){ %>
-                                                                    <h4>Rs. <%= data.ebook_id.ebook_price %>
-                                                                    </h4>
-                                                                    <% } %>
-                                                                </div>
+              <div class="price-box d-flex">
+                <% if(data.discount_percent > 0){
+                  var discount_price = 0;
+                  var discount_price = data.discount_percent/100 * data.ebook_id.ebook_price
+                  var discountedAmount = data.ebook_id.ebook_price - discount_price
+                  %>
+                  <% if( data.ebook_id !=null){ %>
+                  <s style="color: #848484;font-family:auto;font-size: 18px;padding-left: 10px;margin-left: auto;
+                  margin-right: auto;padding-top: 2px;">Rs <%= data.ebook_id.ebook_price %></s> 
+                     <h4 style="margin-left: auto;
+                     margin-right: auto;">Rs. <%= discountedAmount %>
+                   </h4>
+                   <% } %>
+                  <% }else{ %>
+                    <h4 style="margin-left: auto;margin-right: auto;">Rs. <%=  data.ebook_id.ebook_price %></h4>
+                    <% } %>
+
+              
+              </div>
+                                                      
                         </div>
                         <div class="view-book">
                           <a href="/bookdetails/<%= data.slug %>"> <button type="" class="form-control"><i
@@ -438,6 +484,9 @@
                       <div class="new-arrival-books">
                         <img src="images/backend/products/<%= data.product_image %>" alt=""
                           style="width: 100%;height: 215px;">
+                          <% if(data.discount_percent > 0){ %>
+                            <div class="showdiscountpercent"><%= data.discount_percent %>% off</div>
+                            <% } %>
                         <div class="new-arrival-books-desc">
 
                           <h4>
@@ -490,9 +539,20 @@
                                                               style="width: 20.25px; height: 20.25px;display: inline-block;padding: 0px;">
                                                             <% } %>
                                                               <% } %>
-                                                                <div class="price-box">
-                                                                  <h4>Rs. <%= data.product_price %>
-                                                                  </h4>
+                                                              <div class="price-box d-flex">
+                                                                <% if(data.discount_percent > 0){
+                                                                  var discount_price = 0;
+                                                                  var discount_price = data.discount_percent/100* data.product_price
+                                                                  var discountedAmount = data.product_price - discount_price
+                                                                  %>
+                                                                  <s style="color: #848484;font-family:auto;font-size: 18px;padding-left: 10px;margin-left: auto;
+                                                                  margin-right: auto;padding-top: 2px;">Rs <%= data.product_price %></s> 
+                                                                     <h4 style="margin-left: auto;
+                                                                     margin-right: auto;">Rs. <%= discountedAmount %>
+                                                                   </h4>
+                                                                  <% }else{ %>
+                                                                    <h4 style="margin-left: auto;margin-right: auto;">Rs. <%=  data.product_price %></h4>
+                                                                    <% } %>
                                                                 </div>
                         </div>
                         <div class="view-book">

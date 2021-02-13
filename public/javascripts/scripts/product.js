@@ -433,6 +433,35 @@ function editchangeEbook(){
  
 }
 
+function discountPercentByPercent(){
+  var productPrice = $('#productPrice').val();
+  var discountPercent = $(event.currentTarget).val();
+  var discountedPrice = 0;
+  
+  if(productPrice){
+   discountedPrice = discountPercent/100 * productPrice;
+   $('#discountedPrice').val('Rs '+ discountedPrice);
+  }else{
+    $('#discountedPrice').val('Rs '+ '0'); 
+  }
+}
+
+function discountPercentByPrice(){
+  var productPrice = $(event.currentTarget).val();
+  var discountPercent = $('#discountPercent').val();
+
+  if(productPrice){
+    discountedPrice = discountPercent/100 * productPrice;
+    $('#discountedPrice').val('Rs '+ discountedPrice);
+   }else{
+     $('#discountedPrice').val('Rs '+ '0'); 
+   }
+  
+}
+
+
+
+
 
 
 

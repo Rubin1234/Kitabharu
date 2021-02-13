@@ -180,9 +180,29 @@
                                         <label for="inputEmail2" class="col-3 col-form-label">Price<span class="text-danger">*</span></label>
                                         <div class="col-7">
                                             <input type="text" required parsley-type="text" class="form-control"
-                                                id="inputEmail2" placeholder="Enter a product price" value="<%=  products.product_price %>" name="product_price" required>
+                                            id="productPrice" placeholder="Enter a product price" value="<%=  products.product_price %>" name="product_price" required onkeyup="discountPercentByPrice()">
                                                 <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                     Please enter a product price. </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-3 col-form-label">Discount( in %)<span class="text-danger">*</span></label>
+                                        <div class="col-4">
+                                                <% 
+                                                var discountPrice = 0
+                                                discountPrice = products.discount_percent/100 *  products.product_price %>
+                                                %>
+
+                                            <input type="number"  parsley-type="text" class="form-control"
+                                                id="discountPercent" placeholder="Enter a discount %" value="<%=  products.discount_percent %>" name="discount_percent"  onkeyup="discountPercentByPercent()">
+                                                <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
+                                                    Please enter a product price. </span>
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="text"  parsley-type="text" class="form-control"
+                                                id="discountedPrice" placeholder="Discount in price" value="<%= discountPrice %>" name="discount_price" disabled>
+                                                <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
+                                                    Discount Price. </span>
                                         </div>
                                     </div>
                                     <div class="form-group row">

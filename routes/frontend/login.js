@@ -379,7 +379,7 @@ next();
         from : email,
         to : 'rubinawale10@gmail.com',
         subject : 'Kitabharu Contact Us',
-        html : '<div><h2 style="color:#145ba2">Click on the link below to reset your password</h2><br><a href="https://kitabharu.herokuapp.com/customer/reset-password/'+token+'/'+email+'">Click Here</a> to reset your password.Thank you !!!</div>',
+        html : '<div><h2 style="color:#145ba2">Click on the link below to reset your password</h2><br><a href="http://127.0.0.1:3000/customer/reset-password/'+token+'/'+email+'">Click Here</a> to reset your password.Thank you !!!</div>',
       }
     
       transporter.sendMail(mailOptions, function(err,data){

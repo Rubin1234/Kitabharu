@@ -238,14 +238,120 @@ router.get('/stationarysubcategory/changecheckbox',function(req,res,next){
   if(subcategoryId == undefined){
     var allStationary = ModelProduct.find({category_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']}).populate('stationary_attribute');
     allStationary.exec(function(err,data){
- 
-      res.send(data);
+    
+               //For Rating
+               const promises = data.map((item,index) => new Promise((resolve,reject) => {
+    
+                var reviewData = reviewModel.find({product_slug : item.slug});
+                reviewData.exec(function(err1,booksData){
+                 
+                  resolve(booksData);
+                });
+              }));
+
+          
+              Promise.all(promises)
+              .then(allArray => {
+        
+                  //FOr NEw Arrival RAting IN Front View
+                  var booksReviewArray = [];
+                  for(var i=0; i<=allArray.length-1; i++){
+        
+                    var average = 0;
+                    var totalStar = 0;
+                    var actualValue = 0;
+                    var ratingArray = [];
+            
+                    allArray[i].forEach(function(date){
+                      totalStar += parseInt(date.rating_star);
+                    });
+            
+                    var totalRatingUser =  allArray[i].length;
+            
+                    if(totalRatingUser > 0){
+                      average = totalStar/totalRatingUser;
+                      average = average.toFixed(1);
+                    }
+              
+                    var roundOffValue = parseInt(average);
+                    
+                    actualValue = average - roundOffValue
+        
+                    ratingArray.push(average);
+                    ratingArray.push(actualValue);
+                  
+                    
+                    booksReviewArray.push(ratingArray);
+                  }
+                  
+                  res.send({
+                    'data': data, 
+                    'bookReviewArray': booksReviewArray,
+                 
+                  });
+               
+         
+              });
     });
   }else{
     var productDetails = ModelProduct.find({subcategory_id:subcategoryId}).populate('stationary_attribute');
     
     productDetails.exec(function(err,data){
-      res.send(data);   
+   
+               //For Rating
+               const promises = data.map((item,index) => new Promise((resolve,reject) => {
+    
+                var reviewData = reviewModel.find({product_slug : item.slug});
+                reviewData.exec(function(err1,booksData){
+                 
+                  resolve(booksData);
+                });
+              }));
+
+          
+              Promise.all(promises)
+              .then(allArray => {
+        
+                  //FOr NEw Arrival RAting IN Front View
+                  var booksReviewArray = [];
+                  for(var i=0; i<=allArray.length-1; i++){
+        
+                    var average = 0;
+                    var totalStar = 0;
+                    var actualValue = 0;
+                    var ratingArray = [];
+            
+                    allArray[i].forEach(function(date){
+                      totalStar += parseInt(date.rating_star);
+                    });
+            
+                    var totalRatingUser =  allArray[i].length;
+            
+                    if(totalRatingUser > 0){
+                      average = totalStar/totalRatingUser;
+                      average = average.toFixed(1);
+                    }
+              
+                    var roundOffValue = parseInt(average);
+                    
+                    actualValue = average - roundOffValue
+        
+                    ratingArray.push(average);
+                    ratingArray.push(actualValue);
+                  
+                    
+                    booksReviewArray.push(ratingArray);
+                  }
+                  
+                  res.send({
+                    'data': data, 
+                    'bookReviewArray': booksReviewArray,
+                 
+                  });
+               
+         
+              });
+  
     });
   }
 

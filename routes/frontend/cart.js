@@ -152,16 +152,18 @@ var settingModel = require('../../modules/setting');
   });
 
 
-  router.get('/updated/add',function(req, res, next){
+
+
+
+
+  router.get('/updated/add',async function(req, res, next){
       var totalQuantity = req.query.totalQuantity;
       var productId = req.query.productId;
-   
-
       var cookiesCustomerId = req.cookies.customerId;
-      console.log(cookiesCustomerId);
       var bookType = req.query.bookType;
 
-
+      var productData = await ModelProduct.findById(productId);
+    
       cartModel.findOne({customer_id:cookiesCustomerId}).exec(function(err1,cart){
      
         var total_quantity = 0;
@@ -175,17 +177,28 @@ var settingModel = require('../../modules/setting');
       var existingProductIndex = cart.products.findIndex(p => p._id == productId && p.book_type == null);
     }
       
-   
-
         const existingProduct = cart.products[existingProductIndex];
 
         total_quantity =  parseInt(existingProduct.qty) + 1;
 
+        var totalPrice =  productData.product_price;
 
-        var totalPrice =  existingProduct.product_price;
+               //If Product has discount
+               if(productData.discount_percent > 0){
+                var discount_price = 0;
+                var discount_price = productData.discount_percent/100 * totalPrice;
+                var discountedAmount = totalPrice - discount_price;
+                
+                cart.total_price += parseInt(discountedAmount);
+      
+              }else{
+                cart.total_price += parseInt(totalPrice);
+              }
+
+
                 
         // total =  parseInt(cart.total_price) + parseInt(totalPrice);
-        cart.total_price += parseInt(totalPrice);
+       
 
             var updateArray = cartModel.updateOne( 
               { _id: cart.id, "products._id": existingProduct._id}, 
@@ -231,17 +244,19 @@ var settingModel = require('../../modules/setting');
 
 
 
-  router.get('/updated/sub',function(req, res, next){
+  router.get('/updated/sub',async function(req, res, next){
+
     var totalQuantity = req.query.totalQuantity;
     var productId = req.query.productId;
     var cookiesCustomerId = req.cookies.customerId;
     var bookType = req.query.bookType;
 
+    var productData = await ModelProduct.findById(productId);
+
     cartModel.findOne({customer_id:cookiesCustomerId}).exec(function(err1,cart){
 
       var total_quantity = 0;
 
-      
           // If book type is paperbook or ebook
     if(bookType == 'paperbook' || bookType == 'ebook'){
       var existingProductIndex = cart.products.findIndex(p => p._id == productId && p.book_type == bookType);
@@ -250,15 +265,23 @@ var settingModel = require('../../modules/setting');
     }
       
       
-      
-      
       const existingProduct = cart.products[existingProductIndex];
       total_quantity =  parseInt(existingProduct.qty) - 1;
 
-      var totalPrice =  existingProduct.product_price;
-              
-      // total =  parseInt(cart.total_price) + parseInt(totalPrice);
-      cart.total_price -= parseInt(totalPrice);
+      var totalPrice =  productData.product_price;
+
+      //If Product has discount
+      if(productData.discount_percent > 0){
+       var discount_price = 0;
+       var discount_price = productData.discount_percent/100 * totalPrice;
+       var discountedAmount = totalPrice - discount_price;
+       
+       cart.total_price -= parseInt(discountedAmount);
+
+     }else{
+       cart.total_price -= parseInt(totalPrice);
+     }
+
 
         //Udate Quantity in Product  Array in cart
 
@@ -312,7 +335,7 @@ var settingModel = require('../../modules/setting');
 });
 
 
-router.get('/removeitem',function(req, res, next){
+router.get('/removeitem',async function(req, res, next){
   
   //From Axios
   var productId = req.query.productId;
@@ -321,7 +344,8 @@ router.get('/removeitem',function(req, res, next){
 
   //From Cookies
   var cookiesCustomerId = req.cookies.customerId;
-
+  var productData = await ModelProduct.findById(productId).populate('ebook_id');
+ 
 
   var removeItem = cartModel.findOne({customer_id : cookiesCustomerId, _id : cartProduct});
    
@@ -338,11 +362,43 @@ router.get('/removeitem',function(req, res, next){
     var existingProduct = data.products[existingProductIndex];
     var priceToBeDeduct= 0;
 
+   
+
     //Price to be deducted
     if(bookType == 'paperbook' || bookType == ''){
-       priceToBeDeduct = parseInt(existingProduct.qty) * parseInt(existingProduct.product_price);
+
+      var totalPrice =  productData.product_price;
+      
+          //If Product has discount
+          if(productData.discount_percent > 0){
+            var discount_price = 0;
+            var discount_price = productData.discount_percent/100 * totalPrice;
+            var discountedAmount = totalPrice - discount_price;
+            priceToBeDeduct = parseInt(existingProduct.qty) * parseInt(discountedAmount);
+           
+          }else{
+            priceToBeDeduct = parseInt(existingProduct.qty) * parseInt(totalPrice);
+           
+          }
+      
+   
     }else{
-       priceToBeDeduct = parseInt(existingProduct.qty) * parseInt(existingProduct.ebook_id.ebook_price);
+
+      var totalPrice =  productData.ebook_id.ebook_price;
+
+          //If Product has discount
+          if(productData.discount_percent > 0){
+            var discount_price = 0;
+            var discount_price = productData.discount_percent/100 * totalPrice;
+            var discountedAmount = totalPrice - discount_price;
+
+            priceToBeDeduct = parseInt(existingProduct.qty) * parseInt(discountedAmount);
+           
+          }else{
+            priceToBeDeduct = parseInt(existingProduct.qty) * parseInt(totalPrice);
+           
+          }
+
     }
    
     //Price Deducted

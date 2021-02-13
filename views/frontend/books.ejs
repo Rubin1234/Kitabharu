@@ -25,15 +25,15 @@
   </div>
 </div>
 
-<div class="listing container mt-4 mb-4">
+<div class="listing container mt-4 mb-4" style="margin-top: 50px !important;">
      <ol class="breadcrumb" >
-            <li class="breadcrumb-item"><a href="">Home</a></li>
-            <li class="breadcrumb-item active"><a href="">Books</a></li>
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active"><a href="#">Books</a></li>
              <!-- <li class="breadcrumb-item "><a href="">Mind, Body & Spirit</a></li> -->
           </ol>
 </div>
 
-<div class="container" style="margin-bottom: 35px;">
+<div class="container" style="margin-bottom: 65px;">
   <div class="row">
     <div class="col-md-3">
         <div class="listing-aside-filter">
@@ -43,7 +43,7 @@
           </div>
           <div class="">
             <% bookSubcategories.forEach(function(data){ %>
-              <div class="form-check pl-0 mb-1">
+              <div class="form-check pl-0 mb-2">
                 <input type="checkbox" class="form-check-input filled-in bookcheckbox" id="<%= data.subcategory_name %>" subcategory_id="<%= data._id %>" onclick="bookSubcategoryCheckbox()" <% if(data.slug == slug){%> <%= checked %> <% } %>> 
                 <label class="form-check-label small text-uppercase card-link-secondary" for="<%= data.subcategory_name %>"><%= data.subcategory_name %></label>
               </div>
@@ -136,9 +136,14 @@
               <div class="col-md-3">
                 <div class="new-arrival-books">
             <img src="../images/backend/products/<%= data.product_image %>" alt="" style="width: 100%;height: 200px;">
+            <% if(data.discount_percent > 0){ %>
+              <div class="showdiscountpercent"><%= data.discount_percent %>% off</div>
+              <% } %>
              <div class="new-arrival-books-desc">
              
               <h4><%= data.product_name %></h4>
+
+              
               <div>
               <% for(var i=1; i <= 5; i++){ %>
 
@@ -176,9 +181,24 @@
                 <% } %> 
 
               </div>
-              <div class="price-box">
-                   <h4>Rs. <%= data.product_price %></h4>
-              </div>
+
+
+
+              <div class="book-price-box d-flex">
+                <% if(data.discount_percent > 0){
+                  var discount_price = 0;
+                  var discount_price = data.discount_percent/100* data.product_price
+                  var discountedAmount = data.product_price - discount_price
+                  %>
+                  <s style="color: #848484;font-family:auto;font-size: 18px;margin-left: auto;
+                  margin-right: auto;padding-top: 2px;">Rs <%= data.product_price %></s> 
+                     <h4 style="margin-left: auto;
+                     margin-right: auto;">Rs. <%= discountedAmount %>
+                   </h4>
+                  <% }else{ %>
+                    <h4 style="margin-left: auto;margin-right: auto;">Rs. <%=  data.product_price %></h4>
+                    <% } %>
+                </div>
             </div>
                  <div class="view-book">
              <a href="../bookdetails/<%= data.slug%>" ><button type="" class="form-control"><i class="icon-line-eye"></i>&nbsp;&nbsp;View Details</button></a>

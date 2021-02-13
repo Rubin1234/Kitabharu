@@ -78,7 +78,9 @@
              <h3><%= bookDetails.product_name %> <% if(bookDetails.book_attribute.length > 0){ %> 
                - <%= bookDetails.book_attribute[0].author_name %>
                <% } %></h3>
-               <div class="progress-star" style="display: inline-block;margin-bottom: 9px;">
+
+               <div class="progress-star" style="display: flex;margin-bottom: 9px;">
+             
                 <% for(var i=1; i<=5; i++){ %>
                   <% if(i <= average){ %>  
                     <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB19ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.25px; height: 16.25px;">
@@ -107,6 +109,19 @@
                   <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 16.25px; height: 16.25px;">
             
                   <% } %>
+
+                  <!-- If Empty Star -->
+                  <% if(average == 0){ %>
+                    <% for(var i=1; i <= 5  ; i++){ %>
+                      <img class="star" src="//laz-img-cdn.alicdn.com/tfs/TB18ZvEgfDH8KJjy1XcXXcpdXXa-64-64.png" style="width: 18.25px; height: 18.25px;display: inline-block;padding: 0px;">
+                      <% } %> 
+                    <% } %> 
+                
+                  <% if(bookDetails.discount_percent > 0){ %>
+                    <div class="showdiscountpercentBookDetail"><%= bookDetails.discount_percent %>% off</div>
+                    <% } %>
+
+               
               </div>
              <!-- <div style="text-align: right;">
                <button type="" class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #a21476;color: white;border-color:#a21476;padding: 5px 10px;border-radius:0px;" data-toggle="tooltip" title="Add to wishlist"><i class="icon-heart1"></i></button>
@@ -125,7 +140,26 @@
            <div class="col-md-12">
              <h4 style="margin-bottom: 15px;font-size: 35px; text-transform: uppercase;font-family: sans-serif;">Paperbook</h4>
                
-               <h3 style="font-family: sans-serif;font-size: 22px;">Price: <span class="text-danger">Rs <%= bookDetails.product_price %></span></h3>
+
+             <% if(bookDetails.discount_percent > 0){
+              var discount_price = 0;
+              var discount_price = bookDetails.discount_percent/100* bookDetails.product_price
+              var discountedAmount = bookDetails.product_price - discount_price
+              %>
+              <h3 style="font-family: sans-serif;font-size: 22px;">Price: 
+               
+                
+                <s style="color: #848484;font-family:auto;font-size: 20px;padding-left: 10px;margin-left: auto;
+                 margin-right: auto;padding-top: 2px;">Rs <%= bookDetails.product_price %></s> 
+                 &nbsp;<span class="text-danger">Rs <%= discountedAmount %></span></h3>
+              <% }else{ %>
+                    
+               <h3 style="font-family: sans-serif;font-size: 22px;">Price: 
+               
+              
+                &nbsp;<span class="text-danger">Rs <%= bookDetails.product_price %></span></h3>
+                <% } %>
+
            </div>
                <div  class="col-md-12">
                    <div class="quantity clearfix">
@@ -149,7 +183,27 @@
  
      <div class="col-md-12">
      <h4 style="margin-bottom: 15px;font-size: 35px; text-transform: uppercase;font-family: sans-serif;">E-Book</h4>
-         <h3 style="font-family: sans-serif;font-size: 22px;">Price: <span class="text-danger">Rs <%= bookDetails.ebook_id.ebook_price %></span></h3>
+
+     <% if(bookDetails.discount_percent > 0){
+      var discount_price = 0;
+      var discount_price = bookDetails.discount_percent/100* bookDetails.ebook_id.ebook_price
+      var discountedAmount = bookDetails.ebook_id.ebook_price - discount_price
+      %>
+      <h3 style="font-family: sans-serif;font-size: 22px;">Price: 
+       
+        
+        <s style="color: #848484;font-family:auto;font-size: 20px;padding-left: 10px;margin-left: auto;
+         margin-right: auto;padding-top: 2px;">Rs <%= bookDetails.ebook_id.ebook_price %></s> 
+         &nbsp;<span class="text-danger">Rs <%= discountedAmount %></span></h3>
+      <% }else{ %>
+        <h3 style="font-family: sans-serif;font-size: 22px;">Price:
+          <span class="text-danger">Rs <%= bookDetails.ebook_id.ebook_price %></span>
+         </h3>
+        <% } %>
+
+
+
+       
      </div>
          <!-- <div  class="col-md-12">
              <div class="quantity clearfix">

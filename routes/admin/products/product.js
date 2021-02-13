@@ -129,10 +129,13 @@ router.post('/store',upload,function(req,res,next){
     var productName = req.body.product_name;
     var productDescription = req.body.product_description;
     var product_price = req.body.product_price;
+    var discountPercent = req.body.discount_percent;
     var product_stock = req.body.stock_number;
     var ebook_price = req.body.ebook_price;
     var paperBook = req.body.paperbook;
     var ebook = req.body.ebook;
+
+
 
    
     var booktype;
@@ -223,6 +226,7 @@ router.post('/store',upload,function(req,res,next){
         product_name : productName,
         product_description : productDescription,
         product_price : product_price,
+        discount_percent : discountPercent,
         product_stock : product_stock,
         book_type : booktype,
         product_image : image,
@@ -703,6 +707,7 @@ router.post('/update',edit_upload,function(req,res,next){
 
     var productName = req.body.product_name;
     var productPrice = req.body.product_price;
+    var discountPercent = req.body.discount_percent;
     var productStock = req.body.stock_number;
     var productDescription = req.body.product_description;
  
@@ -714,8 +719,6 @@ router.post('/update',edit_upload,function(req,res,next){
     //For BookType
     var booktype;
     var eBookID;
-
-    console.log(eBookID);
 
     if(paperBook && ebook){
        
@@ -731,9 +734,6 @@ router.post('/update',edit_upload,function(req,res,next){
         booktype = ebook;
     
     }
-
-    console.log(booktype);
-
 
     //For Flash Sale 
     var flash_sale = req.body.flash_sale;
@@ -764,7 +764,6 @@ router.post('/update',edit_upload,function(req,res,next){
     var images = req.files;
     var productImage;
 
-    console.log(images);
 
     if(images.product_image == undefined){
        
@@ -2736,6 +2735,7 @@ router.post('/update',edit_upload,function(req,res,next){
                 subcategory_id : subcategory_id,
                 product_name : productName,
                 product_price : productPrice,
+                discount_percent : discountPercent,
                 product_stock : productStock,
                 ebook_id : null,
                 slug : slugname,
@@ -2765,7 +2765,7 @@ router.post('/update',edit_upload,function(req,res,next){
              });
 
                 deleteEBook.exec(function(err,doc){
-                console.log('not null');
+          
 
             removeArray.exec(function(err1,doc1){
                  updateFlashSale.exec(function(err2,doc2){
@@ -2794,6 +2794,7 @@ router.post('/update',edit_upload,function(req,res,next){
                 subcategory_id : subcategory_id,
                 product_name : productName,
                 product_price : productPrice,
+                discount_percent : discountPercent,
                 product_stock : productStock,
                 ebook_id : null,
                 slug : slugname,
@@ -2861,6 +2862,7 @@ router.post('/update',edit_upload,function(req,res,next){
                 subcategory_id : subcategory_id,
                 product_name : productName,
                 product_price : productPrice,
+                discount_percent : discountPercent,
                 product_stock : productStock,
                 ebook_id : saveEbook._id,
                 slug : slugname,
@@ -2929,6 +2931,7 @@ router.post('/update',edit_upload,function(req,res,next){
                 subcategory_id : subcategory_id,
                 product_name : productName,
                 product_price : productPrice,
+                discount_percent : discountPercent,
                 product_stock : productStock,
                 ebook_id : saveEbook._id,
                 slug : slugname,
@@ -2970,6 +2973,7 @@ router.post('/update',edit_upload,function(req,res,next){
                 subcategory_id : subcategory_id,
                 product_name : productName,
                 product_price : productPrice,
+                discount_percent : discountPercent,
                 product_stock : productStock,
                 slug : slugname,
                 status : status, 
@@ -3046,6 +3050,7 @@ router.post('/update',edit_upload,function(req,res,next){
                 subcategory_id : subcategory_id,
                 product_name : productName,
                 product_price : productPrice,
+                discount_percent : discountPercent,
                 product_stock : productStock,
                 slug : slugname,
                 status : status, 
@@ -3122,6 +3127,7 @@ router.post('/update',edit_upload,function(req,res,next){
                 subcategory_id : subcategory_id,
                 product_name : productName,
                 product_price : productPrice,
+                discount_percent : discountPercent,
                 product_stock : productStock,
                 ebook_id : null,
                 slug : slugname,

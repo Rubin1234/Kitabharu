@@ -37,6 +37,11 @@ var productSchema = new Schema({
        required: true,
     },
 
+    discount_percent:{
+        type: String,
+        default : 0
+    },
+
     product_stock:{
         type: String,
        required: true,

@@ -74,7 +74,9 @@ function addtocart(){
           }else{
 
             var productLength = response.data.productitem;
-            var totalAmount = response.data.totalAmount;  
+            var totalAmount = response.data.totalAmount;
+            console.log(productLength);
+            console.log(totalAmount);  
        
             $('#cartproductnumber').empty().append(productLength);
             $('#cartproductnumber2').empty().append(productLength);

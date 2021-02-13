@@ -237,19 +237,125 @@ var settingModel = require('../../modules/setting');
         
   router.get('/booksubcategory/changecheckbox',function(req,res,next){
     var subcategoryId = req.query.subcategoryId;
-   console.log(subcategoryId);
-
+ 
+    
     if(subcategoryId == undefined){
       var allBooks = ModelProduct.find({book_type : ['paperbook','both']}).populate('book_attribute');
       allBooks.exec(function(err,data){
-        res.send(data);
+  
+      //For Rating
+      const promises = data.map((item,index) => new Promise((resolve,reject) => {
+    
+        var reviewData = reviewModel.find({product_slug : item.slug});
+        reviewData.exec(function(err1,booksData){
+          console.log(booksData)
+          resolve(booksData);
+        });
+      }));
+
+      
+      Promise.all(promises)
+      .then(allArray => {
+
+          //FOr NEw Arrival RAting IN Front View
+          var booksReviewArray = [];
+          for(var i=0; i<=allArray.length-1; i++){
+
+            var average = 0;
+            var totalStar = 0;
+            var actualValue = 0;
+            var ratingArray = [];
+    
+            allArray[i].forEach(function(date){
+              totalStar += parseInt(date.rating_star);
+            });
+    
+            var totalRatingUser =  allArray[i].length;
+    
+            if(totalRatingUser > 0){
+              average = totalStar/totalRatingUser;
+              average = average.toFixed(1);
+            }
+      
+            var roundOffValue = parseInt(average);
+            
+            actualValue = average - roundOffValue
+
+            ratingArray.push(average);
+            ratingArray.push(actualValue);
+          
+            
+            booksReviewArray.push(ratingArray);
+          }
+          
+          res.send({
+            'data': data, 
+            'bookReviewArray': booksReviewArray,
+         
+          });
+
+ 
+      });
       });
     }else{
       var productDetails = productModel.find({subcategory_id:subcategoryId,book_type:['paperbook','both']}).populate('book_attribute');
       
       productDetails.exec(function(err,data){
-        res.send(data);
+        
+      //For Rating
+      const promises = data.map((item,index) => new Promise((resolve,reject) => {
+    
+        var reviewData = reviewModel.find({product_slug : item.slug});
+        reviewData.exec(function(err1,booksData){
+          console.log(booksData)
+          resolve(booksData);
+        });
+      }));
+
+      
+      Promise.all(promises)
+      .then(allArray => {
+
+          //FOr NEw Arrival RAting IN Front View
+          var booksReviewArray = [];
+          for(var i=0; i<=allArray.length-1; i++){
+
+            var average = 0;
+            var totalStar = 0;
+            var actualValue = 0;
+            var ratingArray = [];
+    
+            allArray[i].forEach(function(date){
+              totalStar += parseInt(date.rating_star);
+            });
+    
+            var totalRatingUser =  allArray[i].length;
+    
+            if(totalRatingUser > 0){
+              average = totalStar/totalRatingUser;
+              average = average.toFixed(1);
+            }
+      
+            var roundOffValue = parseInt(average);
+            
+            actualValue = average - roundOffValue
+
+            ratingArray.push(average);
+            ratingArray.push(actualValue);
+          
+            
+            booksReviewArray.push(ratingArray);
+          }
+          
+          res.send({
+            'data': data, 
+            'bookReviewArray': booksReviewArray,
+         
+          });
+
+ 
       });
+    });
     }
  
   
