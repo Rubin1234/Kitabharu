@@ -13,6 +13,7 @@ var jwt = require('jsonwebtoken');
 //Models
 var userModel = require('../../modules/admin');
 var orderModel = require('../../modules/orders');
+var ModelProduct = require('../../modules/product'); 
 
 var sessionstorage = require('sessionstorage');
 
@@ -26,9 +27,6 @@ var sessionstorage = require('sessionstorage');
 checkUserLogin = function(req,res,next){
   var myToken = req.cookies.userToken;
 
-
-
-  
   try {
     var decoded = jwt.verify(myToken, 'loginToken');
 
@@ -40,12 +38,15 @@ checkUserLogin = function(req,res,next){
 
 
 /* GET home page. */
-router.get('/dashboard', checkUserLogin,function(req, res, next) {
+router.get('/dashboard', checkUserLogin,async function(req, res, next) {
 
   var adminType = req.cookies.adminType;
   var userId = req.cookies.userId;
 
+
+
   userModel.findOne({_id:userId},function(admindataErr,admindata){
+    console.log(admindata);
     res.render('dashboard',{adminType,admindata});
   });
 });

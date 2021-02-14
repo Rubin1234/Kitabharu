@@ -151,13 +151,13 @@
                 
                 <s style="color: #848484;font-family:auto;font-size: 20px;padding-left: 10px;margin-left: auto;
                  margin-right: auto;padding-top: 2px;">Rs <%= bookDetails.product_price %></s> 
-                 &nbsp;<span class="text-danger">Rs <%= discountedAmount %></span></h3>
+                 &nbsp;<span class="text-danger"  style="color:#f3cd11 !important;">Rs <%= discountedAmount %></span></h3>
               <% }else{ %>
                     
                <h3 style="font-family: sans-serif;font-size: 22px;">Price: 
                
               
-                &nbsp;<span class="text-danger">Rs <%= bookDetails.product_price %></span></h3>
+                &nbsp;<span class="text-danger"  style="color:#f3cd11 !important;">Rs <%= bookDetails.product_price %></span></h3>
                 <% } %>
 
            </div>
@@ -172,7 +172,7 @@
                  </div>
                <div class="col-md-12">
                  <button type="" class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #145ba2;color: white;border-color:#145ba2;padding: 5px 10px;border-radius:0px;"  productId="<%= bookDetails.id %>" onclick="addtobookcart()"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</button>
-                 <button type="" class="btn btn-primary" style="margin:auto;font-size:16px;background-color: #dc3545;color: white;border-color:#dc3545;padding: 5px 10px;border-radius:0px;" data-toggle="tooltip" title="Add to wishlist" productId="<%= bookDetails.id %>" onclick="addtobookwishlist()"><i class="icon-heart1"></i></button>
+                 <button type="" class="btn btn-primary" style="margin:auto;font-size:16px;background-color: #f3cd11;color: white;border-color:#f3cd11;padding: 5px 10px;border-radius:0px;" data-toggle="tooltip" title="Add to wishlist" productId="<%= bookDetails.id %>" onclick="addtobookwishlist()"><i class="icon-heart1"></i></button>
                 </div>
          </div>
  
@@ -194,10 +194,10 @@
         
         <s style="color: #848484;font-family:auto;font-size: 20px;padding-left: 10px;margin-left: auto;
          margin-right: auto;padding-top: 2px;">Rs <%= bookDetails.ebook_id.ebook_price %></s> 
-         &nbsp;<span class="text-danger">Rs <%= discountedAmount %></span></h3>
+         &nbsp;<span  style="color: #f3cd11 !important;">Rs <%= discountedAmount %></span></h3>
       <% }else{ %>
         <h3 style="font-family: sans-serif;font-size: 22px;">Price:
-          <span class="text-danger">Rs <%= bookDetails.ebook_id.ebook_price %></span>
+          <span  style="color:#f3cd11 !important;">Rs <%= bookDetails.ebook_id.ebook_price %></span>
          </h3>
         <% } %>
 
@@ -217,7 +217,7 @@
          <div class="col-md-12">
  
            <button type=""  class="btn btn-primary" style="margin:auto;font-size:15px;background-color: #145ba2;color: white;border-color:#145ba2;padding: 5px 10px;border-radius:0px;" productId="<%= bookDetails.id %>" onclick="addtoEbookcart()"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</button>
-           <button type="" class="btn btn-primary" style="margin:auto;font-size:16px;background-color: #dc3545;color: white;border-color:#dc3545;padding: 5px 10px;border-radius:0px;" data-toggle="tooltip" title="Add to wishlist" productId="<%= bookDetails.id %>" onclick="addtoEbookwishlist()"><i class="icon-heart1"></i></button>
+           <button type="" class="btn btn-primary" style="margin:auto;font-size:16px;background-color: #f3cd11;color: white;border-color:#f3cd11;padding: 5px 10px;border-radius:0px;" data-toggle="tooltip" title="Add to wishlist" productId="<%= bookDetails.id %>" onclick="addtoEbookwishlist()"><i class="icon-heart1"></i></button>
          </div>
    </div>
  

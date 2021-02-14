@@ -10,6 +10,7 @@ var router = express.Router();
 //Model
 var admin = require('../../../modules/admin');
 var adminTypeModel = require('../../../modules/admintype');
+var publicationModel = require('../../../modules/publication');
 var sessionstorage = require('sessionstorage');
 
 router.get('/index',function(req,res,next){
@@ -29,17 +30,19 @@ router.get('/index',function(req,res,next){
 });
 
 
-router.get('/create',function(req,res,next){
+router.get('/create',async function(req,res,next){
     var userName = req.cookies.userName;
     var userId = req.cookies.userId;
 
     var adminType = req.cookies.adminType;
     var dataAdminType = adminTypeModel.find({});
     var userData = admin.findOne({_id:userId});
+    var publication = await publicationModel.find({});
+
 
     dataAdminType.exec(function(err,data){
         userData.exec(function(admindataErr,admindata){
-            res.render('manageadmin/admin/create',{adminType,title:"Add Admins",admintype:data,admindata});
+            res.render('manageadmin/admin/create',{adminType,title:"Add Admins",admintype:data,admindata,publication});
         });
     });
 });
@@ -61,6 +64,8 @@ var upload = multer({
   
 
 router.post('/store',upload,function(req,res,next){
+ 
+
 
     var status = req.body.status;
     var adminType = req.body.admintype;
@@ -68,12 +73,21 @@ router.post('/store',upload,function(req,res,next){
 
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
+    var publicationName = req.body.publicationName;
     var address = req.body.address;
     var phonenumber = req.body.phonenumber;
     var email = req.body.email;
     var confirmpassword = req.body.confirmpassword;
 
     var password = bcrypt.hashSync(confirmpassword,10);
+
+    if(publicationName){
+        var publicationName = req.body.publicationName;
+    }else{
+        var publicationName = null;
+    }
+
+
 
     //File  
     var image
@@ -87,6 +101,8 @@ router.post('/store',upload,function(req,res,next){
         sharp(req.file.path).resize(width,height).toFile('./public/images/backend/admins/'+ req.file.filename);
     }
 
+
+
    
     var saveAdmin = new admin({
         firstname:firstname,
@@ -96,6 +112,7 @@ router.post('/store',upload,function(req,res,next){
         email:email,
         image:image,
         password:password,
+        publication : publicationName,
         admin_type:adminType,
         status:status,
     });
@@ -116,7 +133,7 @@ router.post('/store',upload,function(req,res,next){
 
 
 
-router.get('/edit/:id',function(req,res,next){
+router.get('/edit/:id',async function(req,res,next){
     var userName = req.cookies.userName;
     var userId = req.cookies.userId;
     var adminType = req.cookies.adminType;
@@ -127,11 +144,12 @@ router.get('/edit/:id',function(req,res,next){
     var adminData = admin.findById(id).populate('admin_type');
     var selected = 'selected';
     var userData = admin.findOne({_id:userId});
+    var publication = await publicationModel.find({});
 
     dataAdminType.exec(function(err,data){
         adminData.exec(function(err1,data1){
             userData.exec(function(admindataErr,admindata){
-                res.render('manageadmin/admin/edit',{adminType,title:"Edit Admins",admintype:data,admin:data1,selected,admindata});
+                res.render('manageadmin/admin/edit',{adminType,title:"Edit Admins",admintype:data,admin:data1,selected,admindata,publication});
             });   
         });    
     });    
@@ -174,7 +192,7 @@ var update = multer({
     storage:Storage
   }).single('profilePic');
   
-router.post('/update',update,function(req,res,next){
+router.post('/update',update,async function(req,res,next){
   
     var id = req.body.id;
     var adminType = req.body.admintype;
@@ -186,11 +204,21 @@ router.post('/update',update,function(req,res,next){
     var email = req.body.email;
     var confirmPassword = req.body.confirmpassword;
     var status = req.body.status;
+    var publicationName = req.body.publicationName
+
+   var adminTypeData = await adminTypeModel.findById(adminType);
+
+   //If Admin type is publication
+   if(adminTypeData.admin_type == 'Publication'){
+      var savePublication = publicationName
+   }else{
+    var savePublication = null
+   }
+
+
    
     //hashing password
     var password = bcrypt.hashSync(confirmPassword,10);
-
-    console.log(adminType);
 
     var image;
     if(req.file == null){
@@ -219,6 +247,7 @@ router.post('/update',update,function(req,res,next){
                     var oldpwd = data1.password;
                 
                     var update = admin.findByIdAndUpdate(id,{
+                        publication : savePublication,
                         status: status,
                         firstname : firstName,
                         lastname : lastName,
@@ -251,6 +280,7 @@ router.post('/update',update,function(req,res,next){
         }else{
             //if password is changed
             var update1 = admin.findByIdAndUpdate(id,{
+                publication : savePublication,
                 status: status,
                 firstname : firstName,
                 lastname : lastName,

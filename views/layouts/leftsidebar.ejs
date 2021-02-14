@@ -56,8 +56,7 @@
                 
                 </li>
 
-             
-            
+             <% if(adminType == "Super Admin"){ %>
                 <li>
                     <a href="#sidebarContacts" data-toggle="collapse" class="collapsed">
                         <i class="fe-users"></i>
@@ -76,6 +75,7 @@
                         </ul>
                     </div>
                 </li>
+
                 <li>
                     <a href="#sidebarProjects" data-toggle="collapse">
                         <i class="fe-database"></i>
@@ -94,6 +94,8 @@
                         </ul>
                     </div>
                 </li>
+                  
+       
                 <li class="menuitem-inactive">
                     <a href="/product/index">
                         <i class="fe-package"></i>
@@ -136,6 +138,72 @@
                         <span>Setting </span>
                     </a>
                 </li>
+            <% } %>
+
+            <% if(adminType == "Sub Admin"){ %>
+
+                <li>
+                    <a href="#sidebarProjects" data-toggle="collapse">
+                        <i class="fe-database"></i>
+                        <span>SubCategories</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarProjects">
+                        <ul class="nav-second-level">
+                       
+                            <li>
+                                <a href="/subcategories/index"><i class="far fa-circle" style="margin-right: 8px;font-size: 10px;"></i>Sub-Categories</a>
+                            </li>
+                          
+                        </ul>
+                    </div>
+                </li>
+                      
+                <li class="menuitem-inactive">
+                    <a href="/product/index">
+                        <i class="fe-package"></i>
+                        <span> Products </span>
+                    </a>
+                </li>
+                <li class="menuitem-inactive">
+                    <a href="/brand/index">
+                        <i class="far fa-bookmark"></i>
+                        <span>Brands </span>
+                    </a>
+                </li>
+                <li class="menuitem-inactive">
+                    <a href="/articles/index">
+                        <i class="fe-book-open"></i>
+                        <span>Articles </span>
+                    </a>
+                </li>
+                <li class="menuitem-inactive">
+                    <a href="/publication/index">
+                        <i class="fe-book"></i>     
+                        <span>Publication </span>
+                    </a>
+                </li>
+                <li class="menuitem-inactive">
+                    <a href="/myvideos/index">
+                        <i class="fe-video"></i>
+                        <span>Videos </span>
+                    </a>
+                </li>
+                <li class="menuitem-inactive">
+                    <a href="/order/index">
+                        <i class="fe-download"></i>
+                        <span>Orders </span>
+                    </a>
+                </li>
+                <li class="menuitem-inactive">
+                    <a href="/settings">
+                        <i class="fe-settings"></i>
+                        <span>Setting </span>
+                    </a>
+                </li>
+                <% } %>
+    
+   
                 <!-- <li class="menu-title mt-2">Product Categories</li>
 
                 <li class="menu-title mt-2">Products</li> -->

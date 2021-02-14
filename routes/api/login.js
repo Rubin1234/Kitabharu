@@ -21,10 +21,52 @@ const ModelProduct = require('../../modules/product');
 const subCategoryModel = require('../../modules/subcategories');
 const { populate, db } = require('../../modules/categories');
 const { rejects } = require('assert');
+const e = require('express');
 
 /* GET home page. */
 
+  const checkToken = (req, res, next) => {
+
+     let token = req.headers['x-access-token'] || req.headers['authorization'];
+
+       if(token == undefined){
+         return res.status(401).send({"error":"Token is not presend"})
+       }
+       if(token.startsWith('Bearer ')){
+         token = token.slice(7, token.length);
+         
+     }
+
+     if(token){
+       jwt.verify(token, 'loginToken', (err,decoded) => {
+         if(err){
+           return res.json({
+             success : false,
+             message : "Token is not right"
+           })
+         }else{
+           req.decoded = decoded;
+       
+           next()
+         }
+       })
+     }else{
+      return res.json({
+        success : false,
+        message : "Token is not right"
+      })
+     }   
+  }
+
+
+  router.get('/mysecurepoint',function(req, res, next){
+    checkToken(req,res,() =>{
+        return res.status(200).send({data:'success'});
+    })
+  })
+
     router.post('/login',function(req, res, next){
+
         
     var email = req.body.login_email;
     var password = req.body.login_password;
@@ -43,15 +85,20 @@ const { rejects } = require('assert');
        
         if(data.status == "Active"){
           if(bcrypt.compareSync(password,getPassword)){
-          
+            
+            
             var token = jwt.sign({ customerId: getCustomerId }, 'loginToken');
+            res.setHeader('Authorization', 'Bearer '+ token);
+
+
             res.cookie('customerToken',token)
             res.cookie('customerName',username);
             res.cookie('customerId',getCustomerId);
             res.cookie('customerEmail',getemail);
 
             res.send({
-                'token' : token,
+               
+                'token' :  token,
                 'name' : username,
                 'email' : email,
                 'customer_id' : getCustomerId,

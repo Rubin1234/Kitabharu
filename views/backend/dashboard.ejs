@@ -124,7 +124,43 @@
                         </div> -->
 
                         <!-- Orders -->
+                        <% if(adminType == "Publication"){ %>
+                        <section class="orders light-section">
+                            <div class="mx-auto pt-4">
+                                <h3 class="font-weight-bold mb-3">Book Sold History (<%= admindata.firstname %> <%= admindata.lastname %>)</h3>
+                        
+                          
+                                <table class="" style="width: 100%;background-color: white;text-align: center !important;">
+                                    <thead>
+                                        <tr>
+                                            <th class="px-4 py-3 text-center">S.N</th>
+                                            <th class="px-4 py-3 text-center">Book Name</th>
+                                            <th class="px-4 py-3 text-center">Book Sold (Quantity)</th>
+                                
+                                            <!-- <th class="px-4 py-3 text-center">Status</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody >
+                                        <tr>
+                                            <td class="border px-2 py-2">1</td>
+                                            <td class="border px-2 py-2">The Love Life</td>
+                                            <td class="border px-2 py-2">3pcs</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border px-2 py-2">2</td>
+                                            <td class="border px-2 py-2">Binod Chaudhary</td>
+                                            <td class="border px-2 py-2">2pcs</td>
 
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                        <% } %>
+
+
+
+                        <% if(adminType == "Sub Admin" || adminType == "Super Admin"){ %>
                         <section class="orders light-section">
                             <div class="mx-auto pt-4">
                                 <h3 class="font-weight-bold mb-3">All Orders</h3>
@@ -149,6 +185,7 @@
                                 </table>
                             </div>
                         </section>
+                        <% } %>
                         
                         
                     </div> <!-- container -->

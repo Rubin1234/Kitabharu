@@ -67,14 +67,32 @@
                                         <div class="form-group row">
                                             <label for="inputEmail3" class="col-4 col-form-label">Admin Type<span class="text-danger">*</span></label>
                                             <div class="col-7">
-                                                <select name="admintype" class="selectpicker show-tick" data-style="btn-light" style="border: 1px solid lightgrey;">
+                                                <select name="admintype" class="selectpicker show-tick" data-style="btn-light" style="border: 1px solid lightgrey;" onchange="changeAdminType()">
                                                     <% 
                                                     if(admintype.length > 0){ %>
                                                         <% admintype.forEach(function(data){ %>
-                                                            <option value="<%= data._id %>"><%= data.admin_type %></option>
+                                                            <option value="<%= data._id %>" adminType="<%= data.admin_type %>"><%= data.admin_type %></option>
                                                        <% }) %>
                                                     <%}%>   
                                                 </select>
+                                            </div>
+                                        </div>
+                                        <div id="publicationName" style="display: none;">
+                                            <div class="form-group row">
+                                                <label for="inputEmail3" class="col-4 col-form-label">Publication Type<span class="text-danger">*</span></label>
+                                                <div class="col-7">
+                                                    <select id="flashsalePicker2" name="publicationName" class="selectpicker show-tick" data-style="btn-light" style="border: 1px solid lightgrey;" >
+                                                        <option value="" adminType="Samikchya"> Choose your publication</option>
+
+                                                        <% if(publication.length > 0){ %>
+                                                            <% publication.forEach(function(data){ %>
+                                                                <option value="<%= data.publication_name %>"><%= data.publication_name %></option>
+                                                           <% }) %>
+                                                       
+                                                        <% } %>
+                                                      
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                 </div> <!-- end card-box -->

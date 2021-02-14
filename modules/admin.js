@@ -35,6 +35,7 @@ var  adminSchema = new Schema({
         required:true,
     },
     admin_type:{type: Schema.Types.ObjectId, ref: 'admin_types'},
+    publication : {type: String, default:null},
     status: {
         type: String,
         default:'Active',
