@@ -127,55 +127,56 @@ router.get('/', function(req, res, next) {
     var customerProducts = await cartModel.findOne({customer_id : cookiesCustomerId})
     var products = customerProducts.products;
 
-    var saveOrder = new orderModel({
-      customerId : cookiesCustomerId,
-      fullName : fullName,
-      phoneNumber : phoneNumber,
-      city : city,
-      streetAddress: streetAddress,
-      products : products,
-      paymentType : paymentType,
-      totalAmount : totalAmount
-    })
+    res.cookie('customerFullName',fullName)
+    res.cookie('customerPhoneNumber',phoneNumber)
+    res.cookie('customerCity',city)
+    res.cookie('customerStreetAddress',streetAddress)
+    res.cookie('customerPaymentType',paymentType)
+    res.cookie('customerTotalAmount',totalAmount)
+
+    // var saveOrder = new orderModel({
+    //   customerId : cookiesCustomerId,
+    //   fullName : fullName,
+    //   phoneNumber : phoneNumber,
+    //   city : city,
+    //   streetAddress: streetAddress,
+    //   products : products,
+    //   paymentType : paymentType,
+    //   totalAmount : totalAmount
+    // })
 
 
 
-    saveOrder.save().then(async result => {
-      await cartModel.findOneAndDelete({customer_id : cookiesCustomerId})
+    // saveOrder.save().then(async result => {
+    //   // await cartModel.findOneAndDelete({customer_id : cookiesCustomerId})
       
-      orderModel.populate(result,{path : 'customerId'},(err, placeOrder) => {
-      
-          //Emit Event
-          const eventEmitter = req.app.get('eventEmitter');
-          eventEmitter.emit('orderPlaced',placeOrder)
-      return res.redirect('/orders')
-    });
-  });
+    //   orderModel.populate(result,{path : 'customerId'},(err, placeOrder) => {
+
+
+        
+    // var data = {
+    //   'tAmt' : totalAmount,
+    //   'amt' : amount,
+    //   'txAmt' : taxAmount,
+    //   'psc' : serviceCharge,
+    //   'pdc' : DeliveryCharge,
+    //   'scd' : Merchantcode,
+    //   'pid' : orderId,
+    //   'su' : successLink,
+    //   'fu' : failureLink,
+    // }
+
+
+    res.redirect('https://uat.esewa.com.np/epay/main?tAmt='+totalAmount+'&amt='+amount+'&txAmt='+taxAmount+'&psc='+serviceCharge+'&pdc='+DeliveryCharge+'&scd=EPAYTEST&pid='+orderId+'&su=http://127.0.0.1:3000/orders/?q=su&fu=http://127.0.0.1:3000/payment/?q=fu');
+          
+  //         //Emit Event
+  //         const eventEmitter = req.app.get('eventEmitter');
+  //         eventEmitter.emit('orderPlaced',placeOrder)
+
+  //   });
+  // });
 
     
-    // console.log(phoneNumber);
-    // console.log(city);
-    // console.log(streetAddress);
-    // console.log(paymentMethod);
-    return;
-
-
-
-    var data = {
-      'tAmt' : totalAmount,
-      'amt' : amount,
-      'txAmt' : taxAmount,
-      'psc' : serviceCharge,
-      'pdc' : DeliveryCharge,
-      'scd' : Merchantcode,
-      'pid' : orderId,
-      'su' : successLink,
-      'fu' : failureLink,
-    }
-
-
-
-    res.redirect('https://uat.esewa.com.np/epay/main?tAmt='+totalAmount+'&amt='+amount+'&txAmt='+taxAmount+'&psc='+serviceCharge+'&pdc='+DeliveryCharge+'&scd=EPAYTEST&pid='+orderId+'&su=http://127.0.0.1:3000/?q=su&fu=http://127.0.0.1:3000/payment/?q=fu');
 
   });
 

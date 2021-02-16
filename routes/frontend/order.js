@@ -6,7 +6,9 @@ var sharp = require('sharp');
 var dateFormat = require('dateformat');
 var slug = require('slug');       
 var fs = require('fs');
+var url = require('url');
 const moment = require('moment')
+const axios = require('axios');   
 
 var router = app.Router();
 
@@ -28,6 +30,94 @@ const orderModel = require('../../modules/orders')
 
 router.get('/', async function(req, res, next) {
 
+     
+  var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+
+  //After E-sewa success Payment 
+  if(fullUrl.includes('q=su')){
+    // console.log(req.cookies);
+
+    var object_url = url.parse(fullUrl, true);
+
+    //ORder Id, Amount, refId
+    var orderID = object_url.query.oid;
+    var amount = object_url.query.amt;
+    var refId = object_url.query.refId;
+
+
+    var cookiesCustomerId = req.cookies.customerId;
+    var customerProducts = await cartModel.findOne({customer_id : cookiesCustomerId})
+    var products = customerProducts.products;
+  
+    var customerFullName = req.cookies.customerFullName;
+    var customerCity = req.cookies.customerCity;
+    var customerStreetAddress = req.cookies.customerStreetAddress;
+    var customerPaymentType = req.cookies.customerPaymentType;
+    var customerTotalAmount = req.cookies.customerTotalAmount;
+    var customerPhoneNumber = req.cookies.customerPhoneNumber;
+ 
+
+
+
+
+        $url = "https://uat.esewa.com.np/epay/transrec";
+    
+        data = {
+          'amt': amount,
+          'scd': 'EPAYTEST',
+          'rid': refId,
+          'pid':orderID,
+      }
+
+
+        axios
+        .post('https://uat.esewa.com.np/epay/transrec?amt='+amount+'&scd=EPAYTEST&rid='+refId+'&pid='+orderID)
+        .then((res1) => {
+    
+          var response = res1.data;
+        
+          var result = response.includes("Success");
+          if(result){
+
+
+            //Saving order after successful payment in esewa
+            var saveOrder = new orderModel({
+              customerId : cookiesCustomerId,
+              fullName : customerFullName,
+              phoneNumber : customerPhoneNumber,
+              city : customerCity,
+              streetAddress: customerStreetAddress,
+              products : products,
+              paymentType : customerPaymentType,
+              totalAmount : customerTotalAmount
+            })
+        
+            saveOrder.save().then(async result => {
+              await cartModel.findOneAndDelete({customer_id : cookiesCustomerId})
+              
+              orderModel.populate(result,{path : 'customerId'},(err, placeOrder) => {
+            
+                //Emit Event
+                const eventEmitter = req.app.get('eventEmitter');
+                eventEmitter.emit('orderPlaced',placeOrder);
+
+                req.flash('success','Thank you for purchasing our products.');
+                res.redirect('/orders');
+                    
+                    });
+                  });
+        
+          }else{
+            console.log('IT is a failure');
+          
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+  }else{
+
+    
     var cookiesCustomerToken = req.cookies.customerToken;
     var cookiesCustomerrName = req.cookies.customerName;
     var cookiesCustomerId = req.cookies.customerId;
@@ -81,7 +171,11 @@ router.get('/', async function(req, res, next) {
           });
         });
       });
-    });     
+    });  
+
+  }
+
+   
 
   });
 

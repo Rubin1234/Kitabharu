@@ -13,7 +13,19 @@ var adminTypeModel = require('../../../modules/admintype');
 var publicationModel = require('../../../modules/publication');
 var sessionstorage = require('sessionstorage');
 
-router.get('/index',function(req,res,next){
+
+
+//Checking if the admin is from publication
+checkPublication = async function(req,res,next){
+    var userId = req.cookies.userId;
+    var userDetails = await admin.findOne({_id:userId}).populate('admin_type')
+    if(userDetails.admin_type.admin_type == 'Publication'){
+      res.render('404');
+    }
+    next();
+  }
+
+router.get('/index',checkPublication,function(req,res,next){
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
     var userId = req.cookies.userId;
@@ -30,7 +42,7 @@ router.get('/index',function(req,res,next){
 });
 
 
-router.get('/create',async function(req,res,next){
+router.get('/create',checkPublication,async function(req,res,next){
     var userName = req.cookies.userName;
     var userId = req.cookies.userId;
 
@@ -133,7 +145,7 @@ router.post('/store',upload,function(req,res,next){
 
 
 
-router.get('/edit/:id',async function(req,res,next){
+router.get('/edit/:id',checkPublication,async function(req,res,next){
     var userName = req.cookies.userName;
     var userId = req.cookies.userId;
     var adminType = req.cookies.adminType;

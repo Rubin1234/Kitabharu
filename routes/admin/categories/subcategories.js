@@ -15,8 +15,19 @@ const subCategoryModel = require('../../../modules/subcategories');
 var admin = require('../../../modules/admin');
 var sessionstorage = require('sessionstorage');
 
+//Checking if the admin is from publication
+checkPublication = async function(req,res,next){
+    var userId = req.cookies.userId;
+    var userDetails = await admin.findOne({_id:userId}).populate('admin_type')
+    if(userDetails.admin_type.admin_type == 'Publication'){
+      res.render('404');
+    }
+    next();
+  
+  }
 
-router.get('/index',function(req,res,next){
+
+router.get('/index',checkPublication,function(req,res,next){
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
     var userId = req.cookies.userId;
@@ -36,7 +47,7 @@ router.get('/index',function(req,res,next){
 });
 
 
-router.get('/create',function(req,res,next){
+router.get('/create',checkPublication,function(req,res,next){
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
     var userId = req.cookies.userId;
@@ -210,7 +221,7 @@ router.post('/store',image,function(req,res,next){
 
 
 
-router.get('/edit/:id',function(req,res,next){
+router.get('/edit/:id',checkPublication,function(req,res,next){
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
     var userId = req.cookies.userId;

@@ -20,24 +20,49 @@
         <!-- Begin page -->
         <div id="wrapper">
 
-            <!-- Topbar Start -->
-         <%- include('layouts/navbar') %>
+
             <!-- end Topbar -->
 
-            <!-- ========== Left Sidebar Start ========== -->
-            <%- include('layouts/leftsidebar') %>
+   
             <!-- Left Sidebar End -->
 
             <!-- ============================================================== -->
             <!-- Start Page Content here -->
             <!-- ============================================================== -->
 
-            <div class="content-page">
+            <div class="">
                 <div class="content">
 
                     <!-- Start Content-->
                     <div class="container-fluid">
-                        
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6 col-xl-4 mb-4">
+                                <div class="error-text-box">
+                                    <svg viewBox="0 0 600 200">
+                                        <!-- Symbol-->
+                                        <symbol id="s-text">
+                                            <text text-anchor="middle" x="50%" y="50%" dy=".35em">404!</text>
+                                        </symbol>
+                                        <!-- Duplicate symbols-->
+                                        <use class="text" xlink:href="#s-text"></use>
+                                        <use class="text" xlink:href="#s-text"></use>
+                                        <use class="text" xlink:href="#s-text"></use>
+                                        <use class="text" xlink:href="#s-text"></use>
+                                        <use class="text" xlink:href="#s-text"></use>
+                                    </svg>
+                                </div>
+                                <div class="text-center">
+                                    <h3 class="mt-0 mb-2">Whoops! Page not found </h3>
+                                    <!-- <p class="text-muted mb-3">It's looking like you may have taken a wrong turn. Don't worry...
+                                        it happens to the best of us. You might want to check your internet connection.
+                                        Here's a little tip that might help you get back on track.</p> -->
+
+                                   
+                                </div>
+                                <!-- end row -->
+
+                            </div> <!-- end col -->
+                        </div>
                         <!-- start page title -->
                         <!-- <div class="row">
                             <div class="col-12">
@@ -123,72 +148,7 @@
                             </div>
                         </div> -->
 
-                        <!-- Orders -->
-                        <% if(adminType == "Publication"){ %>
-                        <section class="orders light-section">
-                            <div class="mx-auto pt-4">
-                                <h3 class="font-weight-bold mb-3">Book Sold History (<%= admindata.firstname %> <%= admindata.lastname %>)</h3>
-                        
-                          
-                                <table class="" style="width: 100%;background-color: white;text-align: center !important;">
-                                    <thead>
-                                        <tr>
-                                            <th class="px-4 py-3 text-center">S.N</th>
-                                            <th class="px-4 py-3 text-center">Book Name</th>
-                                            <th class="px-4 py-3 text-center">Book Sold (Quantity)</th>
-                                
-                                            <!-- <th class="px-4 py-3 text-center">Status</th> -->
-                                        </tr>
-                                    </thead>
-                                    <tbody >
-                                        <% if(publicationWiseBookSold.length > 0){ %>
-                                            <% publicationWiseBookSold.forEach(function(data,index){ %>
-                                                <tr>
-                                                    <td class="border px-2 py-3"><%= index + 1 %></td>
-                                                    <td class="border px-2 py-3"><span style="background: #6b5ddeeb;
-                                                        color: white;
-                                                        padding: 6px 13px;"><%= data.book_name %></span></td>
-                                                    <td class="border px-2 py-3 font-weight-bold"><%= data.book_sold %> pcs</td>
-                                                </tr>
-
-                                          <%  }) %>
-                                        <% } %>
-              
-                                    </tbody>
-                                </table>
-                            </div>
-                        </section>
-                        <% } %>
-
-
-
-                        <% if(adminType == "Sub Admin" || adminType == "Super Admin"){ %>
-                        <section class="orders light-section">
-                            <div class="mx-auto pt-4">
-                                <h3 class="font-weight-bold mb-3">All Orders</h3>
-                        
-                          
-                                <table class="" style="width: 100%;background-color: white;text-align: center !important;">
-                                    <thead>
-                                        <tr>
-                                            <th class="px-4 py-3 text-center">OrderID</th>
-                                            <th class="px-4 py-3 text-center">Customer</th>
-                                            <th class="px-4 py-3 text-center">Contact</th>
-                                            <th class="px-4 py-3 text-center">Address</th>
-                                            <th class="px-2 py-3 text-center">Payment Method</th>
-                                            <th class="px-4 py-3 text-center">Status</th>
-                                            <th class="px-4 py-3 text-center">Placed at</th>
-                                            <!-- <th class="px-4 py-3 text-center">Status</th> -->
-                                        </tr>
-                                    </thead>
-                                    <tbody id="orderTableBody">
-                        
-                                    </tbody>
-                                </table>
-                            </div>
-                        </section>
-                        <% } %>
-                        
+     
                         
                     </div> <!-- container -->
 

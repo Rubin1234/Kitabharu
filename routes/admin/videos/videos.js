@@ -25,10 +25,22 @@ var Storage = multer.diskStorage({
 var upload = multer({
     storage:Storage
 }).single('articleimage');
+
+
+
+checkPublication = async function(req,res,next){
+    var userId = req.cookies.userId;
+    var userDetails = await admin.findOne({_id:userId}).populate('admin_type')
+    if(userDetails.admin_type.admin_type == 'Publication'){
+      res.render('404');
+    }
+    next();
+  
+  }
   
 
 
-router.get('/index',function(req,res,next){
+router.get('/index',checkPublication,function(req,res,next){
     var adminType = req.cookies.adminType;
     var userId = req.cookies.userId;
 

@@ -14,8 +14,10 @@ var jwt = require('jsonwebtoken');
 var userModel = require('../../modules/admin');
 var orderModel = require('../../modules/orders');
 var ModelProduct = require('../../modules/product'); 
+var bookSoldModel = require('../../modules/publicationWiseBookSold'); 
 
 var sessionstorage = require('sessionstorage');
+const publicationWiseBookSoldModel = require('../../modules/publicationWiseBookSold');
 
 //checking node-localstorage
 // if (typeof localStorage === "undefined" || localStorage === null) {
@@ -37,17 +39,34 @@ checkUserLogin = function(req,res,next){
 }
 
 
+//Checking if the admin is from publication
+checkPublication = async function(req,res,next){
+  var userId = req.cookies.userId;
+  var userDetails = await userModel.findOne({_id:userId}).populate('admin_type')
+  if(userDetails.admin_type.admin_type == 'Publication'){
+    return res.render('404');
+  }
+  next();
+
+}
+
+
 /* GET home page. */
 router.get('/dashboard', checkUserLogin,async function(req, res, next) {
 
   var adminType = req.cookies.adminType;
   var userId = req.cookies.userId;
 
+  userModel.findOne({_id:userId},async function(admindataErr,admindata){
+    if(admindata.publication != null){
+      var publicationWiseBookSold = await bookSoldModel.find({publication_name : admindata.publication});    
+       res.render('dashboard',{adminType,admindata,publicationWiseBookSold});
+    }else{
+      res.render('dashboard',{adminType,admindata});
+    }
 
 
-  userModel.findOne({_id:userId},function(admindataErr,admindata){
-    console.log(admindata);
-    res.render('dashboard',{adminType,admindata});
+
   });
 });
 
@@ -199,7 +218,7 @@ router.post('/setting',upload,function(req,res,next){
 });
 
 
-router.get('/dashboard/admin/orders',function(req, res, next) {
+router.get('/dashboard/admin/orders',checkPublication,function(req, res, next) {
   orderModel.find({status: {$ne: 'completed'}}, null , {sort : {'createdAt' : -1}}).
   populate('customerId','-password').exec((err, orders) => {
       if(req.xhr){
@@ -213,19 +232,63 @@ router.get('/dashboard/admin/orders',function(req, res, next) {
 })
 
 
-router.post('/dashboard/admin/order/status',function(req, res, next) {
-  orderModel.updateOne({_id: req.body.orderId}, {status: req.body.status}, (err, data) => {
-    if(err){
-     return   res.redirect('/dashboard')  
-    }
-  
+router.post('/dashboard/admin/order/status',async function(req, res, next) {
+  var status = req.body.status;
+  var orderId =  req.body.orderId;
 
-    // Emit Event
-    const eventEmitter = req.app.get('eventEmitter');
-    eventEmitter.emit('orderUpdated',{id: req.body.orderId, status: req.body.status})
+  var orderData = await orderModel.findById(orderId);
 
-    return  res.redirect('/dashboard')
+
+
+  if(status == 'completed'){
+    orderData.products.forEach(function(data){
+      
+      if(data.book_type == "paperbook"){
+        if(data.book_attribute.length > 0){
+
+          var publicationName = data.book_attribute[0].publication;
+
+          bookSoldModel.findOne({publication_name: publicationName,book_name:data.product_name},async (err1,data1) => {
+            console.log(data1);
+            //If data is null
+            if(data1 == null){
+              var savebookSoldModel = new bookSoldModel({
+                publication_name : publicationName,
+                book_name : data.product_name,
+                book_sold : data.qty
+              })
+              savebookSoldModel.save()
+            }else{
+
+              //If not null
+              data1.publication_name
+
+              var increasedQty = 0;
+              var increasedQty = parseInt(data1.book_sold) + parseInt(data.qty)
+    
+              await bookSoldModel.updateMany({"publication_name": data1.publication_name,"book_name": data1.book_name}, {"$set":{"book_sold": increasedQty}}, {"multi": true})
+            } 
+          })
+      }
+      }
+      
+ 
+    });
+}
+
+//If Not Completed
+orderModel.updateOne({_id: req.body.orderId}, {status: req.body.status}, (err, data) => {
+  if(err){
+   return   res.redirect('/dashboard')  
+  }
+
+  // Emit Event
+  const eventEmitter = req.app.get('eventEmitter');
+  eventEmitter.emit('orderUpdated',{id: req.body.orderId, status: req.body.status})
+
+  return  res.redirect('/dashboard')
 })
+
 })
 
 module.exports = router;

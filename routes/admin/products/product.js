@@ -43,14 +43,23 @@ var Storage = multer.diskStorage({
       var uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
       cb(null,file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname) );
     }
- 
 });
+
+
+//Checking if the admin is from publication
+checkPublication = async function(req,res,next){
+    var userId = req.cookies.userId;
+    var userDetails = await admin.findOne({_id:userId}).populate('admin_type')
+    if(userDetails.admin_type.admin_type == 'Publication'){
+      res.render('404');
+    }
+    next();
+  }
   
 
 
-router.get('/index',function(req,res,next){
+router.get('/index',checkPublication,function(req,res,next){
 
- 
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
     var userId = req.cookies.userId;
@@ -66,7 +75,7 @@ router.get('/index',function(req,res,next){
 });
 
 
-router.get('/create',function(req,res,next){
+router.get('/create',checkPublication,function(req,res,next){
     var category = categoryModel.find({});
     
     var userName = req.cookies.userName;
@@ -622,7 +631,7 @@ router.post('/store',upload,function(req,res,next){
 });
 
 
-router.get('/edit/:id',function(req,res,next){
+router.get('/edit/:id',checkPublication,function(req,res,next){
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
     var userId = req.cookies.userId;
@@ -3661,7 +3670,7 @@ router.get('/changecategory',function(req,res,next){
 
 // -------------------------------------------------------------   Add Attributes   ------------------------------------------------------------------------------------
 
-router.get('/:id/attributes/index',function(req,res,next){
+router.get('/:id/attributes/index',checkPublication,function(req,res,next){
     var productId = req.params.id;
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
@@ -3880,7 +3889,7 @@ router.post('/:id/attributes/store',attributeImages,function(req,res,next){
 
 
 
-router.get('/:id/attributes/edit/:attributeId',function(req,res,next){
+router.get('/:id/attributes/edit/:attributeId',checkPublication,function(req,res,next){
     var productId = req.params.id;
     var attributeId = req.params.attributeId;
     var userId = req.cookies.userId;
@@ -4029,7 +4038,7 @@ router.get('/:id/attributes/delete/:attributeId',function(req,res,next){
 
 //Product Images
 
-router.get('/:id/productimages/index',function(req,res,next){
+router.get('/:id/productimages/index',checkPublication,function(req,res,next){
     var productId = req.params.id;
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
@@ -4046,7 +4055,7 @@ router.get('/:id/productimages/index',function(req,res,next){
 });
 
 
-router.get('/:id/productimages/create',function(req,res,next){
+router.get('/:id/productimages/create',checkPublication,function(req,res,next){
     var productId = req.params.id;
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
@@ -4110,7 +4119,7 @@ router.post('/:id/productimages/store',product,function(req,res,next){
 });
 
 
-router.get('/:id/productimages/edit/:productImageId',function(req,res,next){
+router.get('/:id/productimages/edit/:productImageId',checkPublication,function(req,res,next){
     var productId = req.params.id;
     var productImageId = req.params.productImageId;
     var userName = req.cookies.userName;

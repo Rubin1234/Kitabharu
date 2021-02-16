@@ -26,9 +26,19 @@ var Storage = multer.diskStorage({
 var upload = multer({
     storage:Storage
 }).single('articleimage');
+
+//Checking if the admin is from publication
+checkPublication = async function(req,res,next){
+    var userId = req.cookies.userId;
+    var userDetails = await admin.findOne({_id:userId}).populate('admin_type')
+    if(userDetails.admin_type.admin_type == 'Publication'){
+      res.render('404');
+    }
+    next();
+  }
   
 
-router.get('/',function(req,res,next){
+router.get('/',checkPublication,function(req,res,next){
     var adminType = req.cookies.adminType;
     var userId = req.cookies.userId;
 
@@ -49,7 +59,7 @@ router.get('/',function(req,res,next){
     })
 });
 
-router.get('/create',function(req,res,next){
+router.get('/create',checkPublication,function(req,res,next){
     var adminType = req.cookies.adminType;
     res.render('backend/videos/create',{adminType,title:"Videos List"});
 });

@@ -73,7 +73,7 @@ var settingModel = require('../../modules/setting');
         console.error(error)
       })
    
-    }else{
+    }
 
   
 
@@ -319,7 +319,7 @@ var settingModel = require('../../modules/setting');
           });
         });
     })
-    }
+   
 
 
 

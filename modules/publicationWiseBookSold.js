@@ -10,6 +10,10 @@ var  publicationWiseBookSoldSchema = new Schema({
         type: String,
         required: true,
     },
+    book_name : {
+        type: String,
+        required: true,
+    },
     book_sold:{
         type: String,
         default: 0

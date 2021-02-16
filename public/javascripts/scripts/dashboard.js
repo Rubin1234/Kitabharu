@@ -43,8 +43,8 @@ function initAdmin(){
     function generateMarkup(orders) {
    
 
-
-        return orders.map(order => {
+        if(orders.length > 0){
+            return orders.map(order => {
                 var id = order._id
                 var orderId = id.substr(length - 5); 
 
@@ -99,6 +99,10 @@ function initAdmin(){
             </tr>
         `
         }).join('')
+        }else{
+           return  `<tr> <td class="border px-2 py-3 text-center" colspan="7"><h4 class="font-weight-bold">No Order Placed Until Now</h4></td></tr>`
+        }
+      
     }
 
 //     <td class="border px-4 py-3">
@@ -109,8 +113,7 @@ function initAdmin(){
     //Socket
 
     socket.on('orderPlaced',(order) => {
-        console.log(order);
-   
+        
         new Noty({
             text: 'New Order',
             type:'success',

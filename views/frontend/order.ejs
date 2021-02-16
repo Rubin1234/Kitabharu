@@ -23,6 +23,27 @@
   </div>
 </div>
  -->
+ <% if(messages.success){ %>
+    <script>
+      $(document).ready(function () {
+        bootoast.toast({
+          message: 'Thank you for purchasing our products.',
+          type: 'success',
+          timeout: 8,
+          dismissable: true
+        });
+
+
+        bootoast.toast({
+          message: 'You can buy other products.',
+          type: 'success',
+          timeout: 10,
+          dismissable: true
+        });
+      });
+
+    </script>
+    <% } %>
 
  <section class="section" style="width: 100%;">
     <div class="container blogs">
