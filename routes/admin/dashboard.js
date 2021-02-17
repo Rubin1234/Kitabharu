@@ -65,8 +65,6 @@ router.get('/dashboard', checkUserLogin,async function(req, res, next) {
       res.render('dashboard',{adminType,admindata});
     }
 
-
-
   });
 });
 

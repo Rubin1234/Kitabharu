@@ -91,7 +91,7 @@
                <span style="font-weight: 700;font-size: 14.5px;color: #dd3a3a;font-family: sans-serif;">(Stationary)</span>
                <% } %>
                <% if(data.discount_percent > 0){ %>
-               <div class="showdiscountpercentCart">15% off</div>
+               <div class="showdiscountpercentCart"><%= data.discount_percent%>% off</div>
                <% } %>
       </td>
       <td class="cart-product-price">

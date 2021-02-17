@@ -26,6 +26,7 @@ const { populate, db } = require('../../modules/categories');
 const cartModel = require('../../modules/cart');
 const reviewModel = require('../../modules/review');
 var settingModel = require('../../modules/setting'); 
+const sliderModel = require('../../modules/slider');
 
 /* GET home page. */
 
@@ -288,7 +289,9 @@ var settingModel = require('../../modules/setting');
                   
                      
 
-
+                        sliderModel.find({status:'Active'}).exec(function(error,sliderdata){
+                          console.log(sliderdata);
+                     
                         res.render('frontend/index',{
                           newArrival:data,
                           ebooks:data0,
@@ -305,7 +308,9 @@ var settingModel = require('../../modules/setting');
                           ebookReviewArray,
                           bookReviewArray,
                           stationaryReviewArray,
-                          setting : dataa
+                          setting : dataa,
+                          sliderdata
+                        })
                         }); 
                       });
                     });
@@ -339,9 +344,6 @@ var settingModel = require('../../modules/setting');
 
     var productId = req.query.productId;
     var productNumber = req.query.productNumber;
-
-  
-
     var cookiesCustomerToken = req.cookies.customerToken;
     var cookiesCustomerrName = req.cookies.customerName;
     var cookiesCustomerId = req.cookies.customerId;

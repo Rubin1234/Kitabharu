@@ -225,6 +225,10 @@ var settingModel = require('../../modules/setting');
     //From Cookies
     var cookiesCustomerId = req.cookies.customerId;
 
+    if( cookiesCustomerId == undefined ){
+      res.send('nocookies');
+    }else{  
+
     var promises = new Promise((resolve,reject) => {
       reviewModel.findOne({customer_id : cookiesCustomerId, product_slug : productSlug},function(err,data1){
        
@@ -263,6 +267,10 @@ var settingModel = require('../../modules/setting');
     promises.then( allData =>{
       res.send(allData);
     });
+
+
+  }
+
   });
 
   router.get('/deletereview',function(req,res,next){

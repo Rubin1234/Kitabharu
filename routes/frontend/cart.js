@@ -176,7 +176,8 @@ var settingModel = require('../../modules/setting');
     }else{ // if book type is null (Stationary)
       var existingProductIndex = cart.products.findIndex(p => p._id == productId && p.book_type == null);
     }
-      
+
+ 
         const existingProduct = cart.products[existingProductIndex];
 
         total_quantity =  parseInt(existingProduct.qty) + 1;
@@ -331,7 +332,6 @@ var settingModel = require('../../modules/setting');
     // )
 
  
-
 });
 
 

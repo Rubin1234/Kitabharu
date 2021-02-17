@@ -31,21 +31,12 @@ router.get('/index',checkPublication, async function (req, res, next) {
     var userId = req.cookies.userId;
 
     var orderData = await orderModel.find({}, null , { sort : {'createdAt' : -1}}).populate('customerId');
-    console.log(orderData);
-
-    var orderIdArray = [];
-    orderData.forEach(function(dat){
-       var id = dat._id.toString()
-       var orderId = id.substr(id.length - 5); 
-       orderIdArray.push(orderId);
-    });
-
 
     // var brand = brandModel.find({});
     var userData =  admin.findOne({_id:userId});
         userData.exec(function(admindataErr,admindata){
             var selected = 'selected';
-            res.render('backend/orders/index', { adminType, title: "Order Lists", records: orderData, dateFormat,admindata,orderIdArray,moment,selected });
+            res.render('backend/orders/index', { adminType, title: "Order Lists", records: orderData, dateFormat,admindata,moment,selected });
     
     });
 });

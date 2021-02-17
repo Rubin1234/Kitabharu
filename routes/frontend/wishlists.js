@@ -59,6 +59,7 @@ var settingModel = require('../../modules/setting');
             
     
               wishlistProduct.exec(function(err4,data4){
+                console.log(data4);
    
                 // var records = util.inspect(data4, false, null, true /* enable colors */);
                 res.render('frontend/wishlists',{
@@ -384,15 +385,7 @@ router.get('/removewishlistitem',function(req, res, next){
     bookType = null;
   }
 
-
   var wishlistProduct = req.query.cartProduct;
-
-
-  console.log(productId);
-  console.log(cookiesCustomerId);
-  console.log(bookType);
-  console.log(wishlistProduct);
-
 
 
 var removeItem = wishlistModel.findOne({customer_id : cookiesCustomerId, _id : wishlistProduct});

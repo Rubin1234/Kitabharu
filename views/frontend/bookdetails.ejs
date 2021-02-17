@@ -347,10 +347,12 @@
             <span style="padding-top: 5px;font-weight: bold;"><%= reviews.length %> Ratings</span>
           </div>
 
-          <button class="form-control ratenowBtn"  data-toggle="modal" data-target="#ratingModal" onclick="showRatingModal()">Rate Now !!!</button>
+          <button class="form-control ratenowBtn"  data-toggle="modal"  onclick="showRatingModal()">Rate Now !!!</button>
           <span id="productSlug" value="<%= bookDetails.slug %>"></span>
           <span id="productID" value="<%= bookDetails._id %>"></span>
           <span id="booktype" value="<%= bookDetails.book_type %>"></span>
+
+          
           <!-- Modal -->
           <div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">

@@ -56,10 +56,6 @@ router.get('/', async function(req, res, next) {
     var customerTotalAmount = req.cookies.customerTotalAmount;
     var customerPhoneNumber = req.cookies.customerPhoneNumber;
  
-
-
-
-
         $url = "https://uat.esewa.com.np/epay/transrec";
     
         data = {
@@ -89,7 +85,8 @@ router.get('/', async function(req, res, next) {
               streetAddress: customerStreetAddress,
               products : products,
               paymentType : customerPaymentType,
-              totalAmount : customerTotalAmount
+              totalAmount : customerTotalAmount,
+              orderId : orderID
             })
         
             saveOrder.save().then(async result => {
@@ -130,15 +127,8 @@ router.get('/', async function(req, res, next) {
      var settingData = settingModel.findOne({});
      var orderData = await orderModel.find({customerId : cookiesCustomerId}, null , { sort : {'createdAt' : -1}})
 
-     var orderIdArray = [];
-     orderData.forEach(function(dat){
-        var id = dat._id.toString()
-        var orderId = id.substr(id.length - 5); 
-        orderIdArray.push(orderId);
-     });
    
   
-
      settingData.exec(function(errr,dataa){
       bookSubcategories.exec(function(err1,data1){
         stationarySubcategories.exec(function(err2,data2){
@@ -165,7 +155,7 @@ router.get('/', async function(req, res, next) {
               setting : dataa,
               orderData,
               moment,
-              orderIdArray
+        
             });
          
           });

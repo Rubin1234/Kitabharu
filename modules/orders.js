@@ -6,6 +6,10 @@ var conn = mongoose.connection;
 var Schema = mongoose.Schema; 
 
 var  orderSchema = new Schema({
+        orderId : {
+            type: String,
+            required: true
+        },
         customerId : {
             type :Schema.Types.ObjectId,
             ref:'customers'

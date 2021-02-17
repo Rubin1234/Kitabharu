@@ -66,7 +66,7 @@
                             <% if(data.status == 'completed'){ %>
                                 
                                 <tr style="background-color:#fdfdfd">  
-                                   <td class="border py-3 px-4"> <s><a class="link font-weight-bold" href="/orders/<%= data._id %>" style="font-size: 16px;" id="order_id"><%= index + 1 %> ) &nbsp;&nbsp;<%= orderIdArray[index] %></a></s></td>
+                                   <td class="border py-3 px-4"> <s><a class="link font-weight-bold" href="/orders/<%= data._id %>" style="font-size: 16px;" id="order_id"><%= index + 1 %> ) &nbsp;&nbsp;<%= data.orderId %></a></s></td>
                                    <td class="border py-3 px-4"> <s><%= data.fullName %></s></td>
                                    <td class="border py-3 px-4"> <s><%= data.city %>, <%= data.streetAddress %></s></td>
                                     <td class="border py-3 px-4"> <s><%= data.phoneNumber %></s></td>
@@ -74,7 +74,7 @@
                                 </tr>
                             <% }else{ %>
                                 <tr style="background-color:#fdfdfd">  
-                                    <td class="border py-3 px-4"><a class="link font-weight-bold" href="/orders/<%= data._id %>" style="font-size: 16px;" id="order_id"><%= index + 1%> ) &nbsp;&nbsp;<%= orderIdArray[index] %></a></td>
+                                    <td class="border py-3 px-4"><a class="link font-weight-bold" href="/orders/<%= data._id %>" style="font-size: 16px;" id="order_id"><%= index + 1%> ) &nbsp;&nbsp;<%= data.orderId  %></a></td>
                                     <td class="border py-3 px-4"> <%= data.fullName %></td>
                                     <td class="border py-3 px-4"><%= data.city %>, <%= data.streetAddress %></td>
                                     <td class="border py-3 px-4"><%= data.phoneNumber %></td>

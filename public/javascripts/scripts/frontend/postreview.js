@@ -50,14 +50,18 @@ function showRatingModal(){
             productSlug : productSlug
          }
      })  .then(function(response){
-            
-               $('#ratingModal .modal-body').html(response.data);
-               $('#ratingModal').modal('show');
-               var removePostBtn = $('#removePostBtn').attr('value');
-               if(removePostBtn == 'null'){
-                $('#postNowBtn').css('display','none');
-               }    
-        });
+        if(response.data == 'nocookies'){
+            window.location.href = "../customer/login?n=0";
+        }else{
+                $('#ratingModal .modal-body').html(response.data);
+                $('#ratingModal').modal('show');
+                var removePostBtn = $('#removePostBtn').attr('value');
+
+                if(removePostBtn == 'null'){
+                    $('#postNowBtn').css('display','none');
+               }
+            }    
+    });
 }
 
 function closeRatingModal(){

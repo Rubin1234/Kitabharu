@@ -74,6 +74,7 @@ var myvideosRouter = require('./routes/admin/videos/videos');
 var settingRouter = require('./routes/admin/setting/setting')
 var publicationsRouter = require('./routes/admin/publication/publication')
 var ordersRouter = require('./routes/admin/orders/orders')
+var sliderRouter = require('./routes/admin/slider/slider');
 
 
 //Frontend
@@ -97,21 +98,27 @@ var payment = require('./routes/frontend/payment');
 var order = require('./routes/frontend/order');
 
 
+
 //API
 var homeApiRouter = require('./routes/api/home');
 var signUpApiRouter = require('./routes/api/signup');
 var loginApiRouter = require('./routes/api/login');
+var productApiRouter = require('./routes/api/product')
+var cartApiRouter = require('./routes/api/cart')
+var bookingApiRouter = require('./routes/api/booking')
+var userProfileApiRouter = require('./routes/api/userProfile')
 
 // view engine setup
 
 
 
 app.use(logger('dev'));
+
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 app.use(bodyParser.json({ type: 'application/*+json' }))
 
@@ -133,6 +140,7 @@ app.use('/myvideos',myvideosRouter);
 app.use('/settings',settingRouter);
 app.use('/publication',publicationsRouter);
 app.use('/order',ordersRouter);
+app.use('/slider',sliderRouter)
 
 
 
@@ -162,6 +170,10 @@ app.use('/orders',order);
 app.use('/api', homeApiRouter);
 app.use('/api', signUpApiRouter);
 app.use('/api', loginApiRouter);
+app.use('/api', productApiRouter);
+app.use('/api', cartApiRouter);
+app.use('/api', bookingApiRouter);
+app.use('/api', userProfileApiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

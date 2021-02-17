@@ -20,7 +20,7 @@ $(document).ready(function(){
 
 function addtobookwishlist(){
     var productId = $(event.currentTarget).attr('productId');
-
+    $('#loader').show();
     axios
     .get('../wishlists/addtobookwishlist',
     {
@@ -28,7 +28,7 @@ function addtobookwishlist(){
        productId: productId,
     }
      }).then(function(response){
-   
+      $('#loader').hide();
        if(response.data == 'nocookies'){
          window.location.href = "../customer/login?n=0";
        }else if(response.data == 'item-already-exist'){
@@ -41,7 +41,7 @@ function addtobookwishlist(){
        
        else{
          var productLength = response.data.productitem;
-         console.log(productLength);
+         
   
 
          
@@ -57,7 +57,7 @@ function addtobookwishlist(){
 
   function addtoEbookwishlist(){
     var productId = $(event.currentTarget).attr('productId');
- 
+    $('#loader').show();
     
     axios
     .get('../wishlists/addtoebookwishlist',
@@ -66,7 +66,7 @@ function addtobookwishlist(){
        productId: productId,
     }
      }).then(function(response){
-   
+      $('#loader').hide();
        if(response.data == 'nocookies'){
          window.location.href = "../customer/login?n=0";
        }else if(response.data == 'item-already-exist'){
@@ -101,7 +101,7 @@ function addtobookwishlist(){
     
     $(event.currentTarget).parent().parent().remove();
     var wishlistItemCount = $('.wishlistItem').children().length;
-
+    $('#loader').show();
     axios
     .get('/wishlists/removewishlistitem',
         {   
@@ -111,6 +111,7 @@ function addtobookwishlist(){
                 cartProduct : cartProduct,
             }
         }).then(function(response){
+          $('#loader').hide();
             bootoast.toast({
                 message: 'Cart Item Deleted',
                 type: 'success'
@@ -126,6 +127,8 @@ function addtobookwishlist(){
 
 function addtostationarywishlist(){
   var productId = $(event.currentTarget).attr('productId');
+
+  $('#loader').show();
   axios
   .get('../wishlists/addtostationarywishlist',
   {
@@ -133,7 +136,7 @@ function addtostationarywishlist(){
      productId: productId,
   }
    }).then(function(response){
- 
+    $('#loader').hide();
      if(response.data == 'nocookies'){
        window.location.href = "../customer/login?n=0";
      }else if(response.data == 'item-already-exist'){

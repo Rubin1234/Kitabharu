@@ -45,8 +45,7 @@ function initAdmin(){
 
         if(orders.length > 0){
             return orders.map(order => {
-                var id = order._id
-                var orderId = id.substr(length - 5); 
+
 
                 if( order.paymentType == 'esewa'){
                     var paymentType = '<td class="border px-2 py-3"><span style="background: #41a124;color: white;padding: 3px 12px;font-size: 18px;font-weight: bold; border-radius: 8px;">'+order.paymentType+'</td>';
@@ -57,9 +56,9 @@ function initAdmin(){
             return `
                 <tr>
                 <td class="border px-4 py-3 text-green-900">
-                    <p style="font-weight: bold;background: #6ad600eb;color: white;font-style: italic;padding: 9px 8px;border-radius: 2px;width: 85px;font-size: 15px;
+                    <p style="font-weight: bold;background: #6ad600eb;color: white;font-style: italic;padding: 9px 8px;border-radius: 2px;width: 100%;font-size: 17px;
                     margin-left: auto;
-                    margin-right: auto;">${ orderId }</p>
+                    margin-right: auto;">${ order.orderId }</p>
                     <h5 style="margin-top: 30px;font-size: 16px;color: #0d74b1;font-weight: bold;">Products</h5>
                   
                     <div style="background-color: whitesmoke;padding: 10px 11px;color: #4d4d4d;box-shadow: 0px 0px 4px -1px #ababab;margin-top: 15px;">${ renderItems(order.products) }</div>

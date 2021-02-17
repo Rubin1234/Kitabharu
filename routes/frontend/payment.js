@@ -116,7 +116,6 @@ router.get('/', function(req, res, next) {
     var successLink = req.body.su;
     var failureLink = req.body.fu;
 
-  
     var fullName = req.body.fullname;
     var phoneNumber = req.body.phonenumber;
     var city = req.body.city;
@@ -145,13 +144,9 @@ router.get('/', function(req, res, next) {
     //   totalAmount : totalAmount
     // })
 
-
-
     // saveOrder.save().then(async result => {
-    //   // await cartModel.findOneAndDelete({customer_id : cookiesCustomerId})
-      
-    //   orderModel.populate(result,{path : 'customerId'},(err, placeOrder) => {
-
+    // await cartModel.findOneAndDelete({customer_id : cookiesCustomerId})      
+    // orderModel.populate(result,{path : 'customerId'},(err, placeOrder) => {
 
         
     // var data = {
@@ -175,8 +170,6 @@ router.get('/', function(req, res, next) {
 
   //   });
   // });
-
-    
 
   });
 

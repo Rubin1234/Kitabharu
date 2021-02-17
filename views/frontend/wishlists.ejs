@@ -90,13 +90,38 @@
                     <% if(data.book_type == null){ %>
                        <span style="font-weight: 700;font-size: 14.5px;color: #dd3a3a;font-family: sans-serif;">(Stationary)</span>
                        <% } %>
+                       <br>
+                       <% if(data.discount_percent > 0){ %>
+                        <div class="showdiscountpercentCart mx-auto"><%= data.discount_percent%>% off</div>
+                        <% } %>
               </td>
               <td class="cart-product-price">
                  <% if(data.book_type == 'ebook'){ %>
-                 <span class="amountPerProduct" amountPerProduct="<%= data.ebook_id.ebook_price %>" >Rs  <%= data.ebook_id.ebook_price %></span>
+                     <% if(data.discount_percent > 0){
+                        var discount_price = 0;
+                        var discount_price = data.discount_percent/100 * data.ebook_id.ebook_price
+                        var discountedAmount = data.ebook_id.ebook_price - discount_price
+                        %>
+                  <s style="color: #848484;font-family:auto;font-size: 19px;padding-left: 10px;margin-left: auto;
+                  margin-right: auto;padding-top: 2px;">Rs <%= data.ebook_id.ebook_price %></s> &nbsp;&nbsp;
+                 <span class="amountPerProduct" amountPerProduct="<%= data.ebook_id.ebook_price %>" >Rs  <%= discountedAmount %></span>
+                        <% }else{ %>
+                           <span class="amountPerProduct" amountPerProduct="<%= data.ebook_id.ebook_price %>" >Rs  <%= data.ebook_id.ebook_price %></span>
+                           <% } %>
                     <% }else{ %>
-        
-                       <span class="amountPerProduct" amountPerProduct="<%= data.product_price %>" >Rs  <%= data.product_price %></span>
+                     <% if(data.discount_percent > 0){
+                        var discount_price = 0;
+                        var discount_price = data.discount_percent/100 * data.product_price
+                        var discountedAmount = data.product_price - discount_price
+                        %>
+                     <s style="color: #848484;font-family:auto;font-size: 19px;padding-left: 10px;margin-left: auto;
+                     margin-right: auto;padding-top: 2px;">Rs <%= data.product_price %></s> &nbsp;&nbsp;
+                       <span class="amountPerProduct" amountPerProduct="<%= data.product_price %>" >Rs  <%= discountedAmount %></span>
+                       <% }else{ %>
+
+
+                        <span class="amountPerProduct" amountPerProduct="<%= data.product_price %>" >Rs  <%= data.product_price %></span>
+                       <% } %>
                           <% } %>
               </td>
 
