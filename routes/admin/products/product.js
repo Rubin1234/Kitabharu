@@ -699,9 +699,6 @@ router.post('/update',edit_upload,function(req,res,next){
     var adminType = req.cookies.adminType;
     var images = req.files;
 
-  
- 
-
     var productId = req.body.id;
     var category_id = req.body.product_category;
     var subcategory_id = req.body.product_subcategory;
@@ -729,6 +726,9 @@ router.post('/update',edit_upload,function(req,res,next){
     var booktype;
     var eBookID;
 
+
+ 
+
     if(paperBook && ebook){
        
         booktype = 'both';
@@ -738,11 +738,16 @@ router.post('/update',edit_upload,function(req,res,next){
         eBookID = null;    
         booktype = paperBook;
     
-    }else if(ebook){
-            
+    }else if(ebook){        
         booktype = ebook;
-    
+    }else{
+        booktype = 'stationary'
     }
+
+  
+    
+
+ 
 
     //For Flash Sale 
     var flash_sale = req.body.flash_sale;
@@ -2732,7 +2737,7 @@ router.post('/update',edit_upload,function(req,res,next){
 
 
          productDetails.exec(function(err,doc){
-            console.log(doc);
+            console.log(doc.category_id.category_name)
 
            if(booktype == 'paperbook' && doc.ebook_id != null){
 
@@ -3126,7 +3131,9 @@ router.post('/update',edit_upload,function(req,res,next){
                      });       
                 });
              });
-        }else if(doc.category_id.category_name == 'Stationary'){
+        }else if(booktype == 'stationary'){
+
+            console.log('stationary')
             
             var updateProduct = productModel.findByIdAndUpdate(productId,{
                 book_type : null,
@@ -3183,6 +3190,8 @@ router.get('/delete/:id',function(req,res,next){
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
     var id = req.params.id;
+
+  
 
 
     var deleteProduct = ModelProduct.findByIdAndDelete(id).populate('category_id').populate('images');
@@ -3387,7 +3396,7 @@ router.get('/delete/:id',function(req,res,next){
         deleteProductArray.exec(function(err1,data1){   
               
             //If Category is Book
-            if(data.category_id.category_name == 'Book'){
+            if(data.category_id._id == '5fc86fabe5825658544dfa06'){
 
                 //IF Product Image is Not Empty
                 if(data.images.length > 0){
@@ -3458,7 +3467,7 @@ router.get('/delete/:id',function(req,res,next){
                     }else{
                                //Book Attribute is not empty
                         if(data.book_attribute.length > 0){ 
-                            console.log('attr');
+                           
 
                             var bookAttribute_id = data.book_attribute[0];
                             var deleteBookAttribute = bookAttributesModel.findOneAndDelete({_id : bookAttribute_id});
@@ -3575,7 +3584,7 @@ router.get('/delete/:id',function(req,res,next){
 
                     //If Category is Stationary        
                     }
-                    else if(data.category_id.category_name == 'Stationary'){
+                    else if(data.category_id._id == '5fc871bce5825658544dfa0c'){
 
                         //IF Product Images Are Not Empty
                         if(data.images.length > 0){
@@ -3685,6 +3694,8 @@ router.get('/:id/attributes/index',checkPublication,function(req,res,next){
 
     bookattributes.exec(function(err,data){
         productDetails.exec(function(err1,data1){
+            console.log(data1);
+
             stationaryattributes.exec(function(err2,data2){
                 publication.exec(function(err3,data3){
                     userData.exec(function(admindataErr,admindata){

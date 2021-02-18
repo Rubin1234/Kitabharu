@@ -4,9 +4,10 @@
 <!-- Mirrored from coderthemes.com/ubold/layouts/default/tables-datatables.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 15 Jul 2020 07:32:15 GMT -->
 <head>
         <meta charset="utf-8" />
-        <title>Datatables | UBold - Responsive Admin Dashboard Template</title>
+        <title>Products | Smart Innovation</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+        <link rel="shortcut icon" href="../../../frontend_images/logo.jpg"/>
+        <meta content="Kitabharu Admin Panel" name="description" />
         <meta content="Coderthemes" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <!-- App favicon -->
@@ -86,7 +87,7 @@
                                     <form role="form" class="parsley-examples" action="/product/<%= productId %>/attributes/store" method="POST" enctype="multipart/form-data">
                                         <div id="attributes">
 
-                                            <% if(productDetails.category_id.category_name == 'Book'){ %>
+                                            <% if(productDetails.category_id._id == '5fc86fabe5825658544dfa06'){ %>
 
                                         <div class="row" style="font-size: 13px;background: #f7f7f7;padding: 18px 0px 3px 20px;border-radius: 4px;margin-bottom: 20px;border: 1px solid #e7e7e7;">
                                      
@@ -160,7 +161,7 @@
                                         </div>
                                         <% } %>
 
-                                        <% if(productDetails.category_id.category_name == 'Stationary'){ %>
+                                        <% if(productDetails.category_id._id == '5fc871bce5825658544dfa0c'){ %>
                                             <input type="hidden" name="category_name" value="<%= productDetails.category_id.category_name %>">
                                             <div class="row" style="font-size: 13px;background: #f7f7f7;padding: 18px 0px 3px 20px;border-radius: 4px;margin-bottom: 20px;border: 1px solid #e7e7e7;">
                                                 <div class="col-lg-6">

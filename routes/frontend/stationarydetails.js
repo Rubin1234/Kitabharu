@@ -44,6 +44,7 @@ const settingModel = require('../../modules/setting');
     var review = reviewModel.find({product_slug : slug}).populate('customer_id');
     
     stationaryDetails.exec(function(err,data){
+      console.log(data);
       bookSubcategories.exec(function(err1,data1){
         stationarySubcategories.exec(function(err2,data2){
           ebookSubcategories.exec(function(err3,data3){
@@ -101,6 +102,8 @@ const settingModel = require('../../modules/setting');
               var roundOffValue = parseInt(average);
 
               var settingData = settingModel.findOne({});
+
+
               settingData.exec(function(errr,dataa){
               res.render('frontend/stationarydetails',{
                 stationaryDetails:data,

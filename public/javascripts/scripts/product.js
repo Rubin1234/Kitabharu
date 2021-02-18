@@ -7,11 +7,11 @@ $(function () {
   $(document).ready(function(){
    
     //Chekcing the product category
-    var product_category = $('#product_category').find('option:selected').attr('category');
+    var product_category = $('#product_category').find('option:selected').attr('value');
+    
     var book_type = $('#book_type').attr('book_type');
-    console.log(book_type);
 
-    if(product_category == 'Book'){
+    if(product_category == '5fc86fabe5825658544dfa06'){
       let bookType = '<div class="form-group row"><label for="inputEmail3" class="col-3 col-form-label">Book Type<span class="text-danger">*</span></label><div class="col-7"><div class="checkbox checkbox-success form-check-inline" style="margin-right: 2rem;padding-top: 5.5px;">';
       
       bookType += '<input type="checkbox" id="booktypeCheckbox1" value="paperbook" name="paperbook" onchange="changePaperbook()"';
@@ -32,7 +32,7 @@ $(function () {
       bookType += '<label for="inlineCheckbox2"> E-Book </label></div><br><span id="booktype-error" class="help-block" style="font-weight: normal;color: #f1556c;font-size: 14px;margin-bottom: 0;top: 6px;left: -5px; position: relative;"></span></div></div>';
    
       $('#book_type').empty().append(bookType);
-   }else if(product_category == 'Stationary'){
+   }else if(product_category == '5fc871bce5825658544dfa0c'){
       $('#book_type').empty();
       $('#e-book').empty();
    }
@@ -44,7 +44,6 @@ $(function () {
       
       }
       else if($('#booktypeCheckbox1').is(":checked")){
-        console.log('sasd');
         $('#e-book').css('display','none');
         $('#edit_ebook_price').removeAttr('required'); 
       }
@@ -54,14 +53,14 @@ $(function () {
 
 function changeCategory(){
    var ID = $(event.currentTarget).val();
-   var category = $(event.currentTarget).find('option:selected').attr('category');
+   var category = $(event.currentTarget).find('option:selected').attr('value');
 
 
    var bookType = '<div class="form-group row"><label for="inputEmail3" class="col-3 col-form-label">Book Type<span class="text-danger">*</span></label><div class="col-7"><div class="checkbox checkbox-success form-check-inline" style="margin-right: 2rem;padding-top: 5.5px;"><input type="checkbox" id="booktypeCheckbox1" value="paperbook" name="paperbook" onchange="changePaperbook()"><label for="inlineCheckbox1"> Paper Book</label></div><div class="checkbox checkbox-success form-check-inline" style="padding-top: 5.5px;"><input type="checkbox" id="booktypeCheckbox2" value="ebook" name="ebook" onchange="changeEbook()"><label for="inlineCheckbox2"> E-Book </label><div style="padding-left:15px;" id="booktypeErr"></div></div><br><span id="booktype-error" class="help-block" style="font-weight: normal;color: #f1556c;font-size: 14px;margin-bottom: 0;top: 6px;left: -5px; position: relative;"></span></div></div>';
    
-   if(category == 'Book'){
+   if(category == '5fc86fabe5825658544dfa06'){ //For Book
       $('#book_type').empty().append(bookType);
-   }else if(category == 'Stationary'){
+   }else if(category == '5fc871bce5825658544dfa0c'){ //For Stationary
       $('#book_type').empty();
       $('#e-book').empty();
    }
@@ -103,15 +102,15 @@ function changeCategory(){
 
 function editchangeCategory(){
   var ID = $(event.currentTarget).val();
-  var category = $(event.currentTarget).find('option:selected').attr('category');
+  var category = $(event.currentTarget).find('option:selected').attr('value');
 
 
   var bookType = '<div class="form-group row"><label for="inputEmail3" class="col-3 col-form-label">Book Type<span class="text-danger">*</span></label><div class="col-7"><div class="checkbox checkbox-success form-check-inline" style="margin-right: 2rem;padding-top: 5.5px;"><input type="checkbox" id="booktypeCheckbox1" value="paperbook" name="paperbook" onchange="changePaperbook()"><label for="inlineCheckbox1"> Paper Book</label></div><div class="checkbox checkbox-success form-check-inline" style="padding-top: 5.5px;"><input type="checkbox" id="booktypeCheckbox2" value="ebook" name="ebook" onchange="changeEbook()"><label for="inlineCheckbox2"> E-Book </label></div><br><span id="booktype-error" class="help-block" style="font-weight: normal;color: #f1556c;font-size: 14px;margin-bottom: 0;top: 6px;left: -5px; position: relative;"></span></div></div>';
   
-  if(category == 'Book'){
+  if(category == '5fc86fabe5825658544dfa06'){
      $('#book_type').css('display','block');
      $('#e-book').css('display','block');
-  }else if(category == 'Stationary'){
+  }else if(category == '5fc871bce5825658544dfa0c'){
      $('#book_type').css('display','none');
      $('#e-book').css('display','none');
   }

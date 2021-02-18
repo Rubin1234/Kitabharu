@@ -187,10 +187,14 @@
          <div class="description">
               <h4>Description</h4>
               <table style="width: 80%">
-                <tr>
-                  <td style="font-weight: bold;font-size: 17px;">Manufacturer:</td>
-                  <td style="font-size: 15px;"><%= stationaryDetails.stationary_attribute[0].manufacturer_name %></td>
-                </tr>
+               
+                  <tr>
+                    <td style="font-weight: bold;font-size: 17px;">Manufacturer:</td>
+                    <% if(stationaryDetails.stationary_attribute.length > 0){ %>
+                    <td style="font-size: 15px;"><%= stationaryDetails.stationary_attribute[0].manufacturer_name %></td>
+                    <% } %>
+                  </tr>
+         
               </table>
               
               
