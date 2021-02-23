@@ -6,51 +6,42 @@
 
 <div id="top-bar">
     <div class="container clearfix">
-    <div class="col_half nobottommargin">
-    
-    <div class="top-links">
-    <ul>
-    <li><a><i class="icon-location"  style="color: #145ba2"></i>&nbsp;<%= setting.location %></a></li>
-    <li><a><i class="icon-email3"  style="color: #145ba2;"></i>&nbsp;<%= setting.email %></a></li>
-    <li><a><i class="icon-call"  style="color: #145ba2"></i>&nbsp;+<%= setting.contact %></a></li>
-    
-    </ul>
-    </div>
-    </div>
-    <div class="col_half fright col_last nobottommargin">
-    
-    <div id="top-social">
-    <ul>
-    <li><a href="/wishlists" class="si" ><i class="icon-line-heart" style="color: #145ba2"></i>&nbsp;&nbsp;My Wishlist <span style="color: #f13c2a;">(<span style="color: #f13c2a;" id="wishlistproductnumber">0</span>)</span></a></li>
-    <% if(cookiesCustomerToken){ %>
-  
-    <li class="dropdown">
-        <a href="#" class="si"><i class="icon-user-alt" style="color: #145ba2"></i>&nbsp;&nbsp;<%= cookiesCustomerEmail %></a>
-        <ul class="dropdown-content">
-            <a href="/customer/accountsetting"><i class="icon-key1" style="color: #145ba2"></i>&nbsp;&nbsp;&nbsp;Setting</a>
-           
-          </ul>
-    
-    </li>
- 
+      <div class="row" style="">
+        <div class="col-xl-8 col-lg-8 col-md-9">
+          <div class="top-links">
+            <ul>
+              <li><a><i class="icon-location"  style="color: #145ba2"></i>&nbsp;<%= setting.location %></a></li>
+              <li><a><i class="icon-email3"  style="color: #145ba2;"></i>&nbsp;<%= setting.email %></a></li>
+              <li><a><i class="icon-call"  style="color: #145ba2"></i>&nbsp;+<%= setting.contact %></a></li>
+            </ul>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-3">
+          <div id="top-social">
+            <ul style="display: flex;">
+              <li style="margin-left: auto;"><a href="/wishlists" class="si" ><i class="icon-line-heart" style="color: #145ba2"></i>&nbsp;&nbsp;<span class="wishlistspan">My Wishlist </span><span style="color: #f13c2a;">(<span style="color: #f13c2a;" id="wishlistproductnumber">0</span>)</span></a></li>
+                <% if(cookiesCustomerToken){ %>
+                  <li class="dropdown">
+                    <a href="#" class="si"><i class="icon-user-alt" style="color: #145ba2"></i>&nbsp;&nbsp;<%= cookiesCustomerEmail %></a>
+                    <ul class="dropdown-content">
+                      <a href="/customer/accountsetting"><i class="icon-key1" style="color: #145ba2"></i>&nbsp;&nbsp;&nbsp;Setting</a>
+                    </ul>
+                  </li>
+        
+                  <li><a href="/orders" class="si"><i class="icon-long-arrow-down" style="color: #145ba2"></i>&nbsp;&nbsp;orders</a></li>
+                  <li><a href="/customer/logout" class="si"><i class="icon-key1" style="color: #145ba2"></i>&nbsp;&nbsp;&nbsp;logout</a></li>
+                <%}else{ %>
+                  <li><a href="/customer/login" class="si"><i class="icon-user-alt" style="color: #145ba2"></i>&nbsp;&nbsp;<span class="wishlistspan">Login</span></a></li>
+                  <li><a href="/customer/login" class="si"><i class="icon-key1" style="color: #145ba2"></i>&nbsp;&nbsp;<span class="wishlistspan">Register</span></a></li>
+                <% } %>  
+            </ul>
+          </div>
+        </div>
+      </div>
 
-      
-    
-     
-    <li><a href="/orders" class="si"><i class="icon-long-arrow-down" style="color: #145ba2"></i>&nbsp;&nbsp;orders</a></li>
-    <li><a href="/customer/logout" class="si"><i class="icon-key1" style="color: #145ba2"></i>&nbsp;&nbsp;&nbsp;logout</a></li>
-   <% }else{ %>
-    <li><a href="/customer/login" class="si"><i class="icon-user-alt" style="color: #145ba2"></i>&nbsp;&nbsp;Login</a></li>
-    <li><a href="/customer/login" class="si"><i class="icon-key1" style="color: #145ba2"></i>&nbsp;&nbsp;Register</a></li>
-    <% } %>
-   
-    <!-- <li><a href="#" class="si-github"><i class="icon-github-circled"></i></a></li>
-    <li><a href="#" class="si-pinterest"><i class="icon-pinterest"></i></a></li>
-    <li><a href="#" class="si-instagram"><i class="icon-instagram2"></i></a></li>
-    <li><a href="tel:+91.11.85412542" class="si-call"><i class="icon-call"></i></a></li> -->
-    
-    </ul>
-    </div>
-    </div>
+
+
+
+
     </div>
     </div>

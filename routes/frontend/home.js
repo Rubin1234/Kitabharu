@@ -424,9 +424,6 @@ const sliderModel = require('../../modules/slider');
                         data5.products.forEach(function(doc){
                           productItemNumber = parseInt(productItemNumber) + parseInt(doc.qty);
                         });
-
-                        console.log(productItemNumber); 
-                        console.log('productItemNumber'); 
   
                         res.send({
                           'productitem': productItemNumber, 
@@ -521,8 +518,8 @@ const sliderModel = require('../../modules/slider');
               }
               else
               { 
+                
                 //If Cart is empty
-        
                 var savedata = data.toObject();
 
                 if(productNumber == undefined){
