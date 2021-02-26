@@ -45,12 +45,6 @@ next();
 }
 
 
-
-
-
-
-
-
   router.get('/login', checkLogin, function(req, res, next) {
 
     var cookiesCustomerToken = req.cookies.customerToken;
@@ -103,6 +97,15 @@ next();
     var password = req.body.customerpassword;
     var slugname = slug(username);
 
+
+    customerModel.find({email:email}).exec(function(er,doc){
+      
+      if(doc.length > 0){
+       req.flash('error','Sorry, The Email has Already Existed.Please enter a new email address.');
+       res.redirect('/customer/login'); 
+      }else{
+
+
    var hashpassword = bcyrpt.hashSync(password,10);
 
     var customer = new customerModel({
@@ -116,7 +119,9 @@ next();
     req.flash('success','Register Succesfull. Please login to proceed.!!!');
     res.redirect('/customer/login');
  
+  }
   });
+});
 
 
   router.post('/login',function(req,res,next){
@@ -310,6 +315,7 @@ next();
 
 
   router.get('/forgot-password', function(req, res, next) {
+
   
     var cookiesCustomerToken = req.cookies.customerToken;
     var cookiesCustomerrName = req.cookies.customerName;
@@ -357,20 +363,33 @@ next();
 
   router.post('/forgot-password', function(req, res, next) {
     var email = req.body.resetemail;
+ 
+    
+    customerModel.find({email:email}).exec(function(er,doc){
 
-    customerModel.findOne({email},function(errr,customer){
-      var customerId = customer._id;
-      const token =  jwt.sign({customerId},'login_email', {expiresIn: '10m'})
+      if(doc.length <= 0){
+       req.flash('error','Sorry, The email address is invalid. Please enter a valid email address.');
+      return res.redirect('forgot-password');
+      }else{
+    
+        customerModel.findOne({email},function(errr,customer){
+         var customerId = customer._id;
+          const token =  jwt.sign({customerId},'login_email', {expiresIn: '10m'})
  
       res.cookie('resetPasswordToken',token)
 
         //Step 1
         let transporter = nodemailer.createTransport({
           service : 'gmail',
-          auth : {
-            user: process.env.Email,
-            pass: process.env.Password
-          }
+
+      auth : {
+        user: 'rubinawale10@gmail.com',
+        pass: 'dtlyxtdiavkoxaqu'
+      }
+          // auth : {
+          //   user: process.env.Email,
+          //   pass: process.env.Password
+          // }
         });
     
         
@@ -394,7 +413,9 @@ next();
 
       req.flash('success','Reset password link has been sent to you email address succesfully. Please go throught that link to reset your password. Thank You !!!');
       res.redirect('forgot-password');
-
+    
+    });
+  }
   });
 });
 

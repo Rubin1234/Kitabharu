@@ -33,11 +33,11 @@ var settingModel = require('../../modules/setting');
 
 
   // var records = util.inspect(data, false, null, true /* enable colors */);
-  var allEbooks = ModelProduct.find({book_type : ['ebook','both']}).populate('ebook_id').populate('book_attribute');
+  var allEbooks = ModelProduct.find({book_type : ['ebook','both'],status: 'Active'}).populate('ebook_id').populate('book_attribute');
     
-  var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
-  var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
-  var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
+  var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06'],status: 'Active'});
+  var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206'],status: 'Active'});
+  var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both'],status: 'Active'}).populate('subcategory_id');
 
   
   var slug = '';
@@ -138,9 +138,9 @@ router.get('/:slug',(req,res,next) => {
   var cookiesCustomerEmail = req.cookies.customerEmail;
 
   //FOr Menu
-  var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
-  var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
-  var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
+  var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06'],status:'Active'});
+  var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206'],status:'Active'});
+  var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both'],status:'Active'}).populate('subcategory_id');
 
 
 
@@ -148,7 +148,7 @@ router.get('/:slug',(req,res,next) => {
 
     var subcategoryId = data._id;
 
-    ModelProduct.find({subcategory_id:subcategoryId,book_type : ['ebook','both']}).exec(function(err1,data1){
+    ModelProduct.find({subcategory_id:subcategoryId,book_type : ['ebook','both'],status:'Active'}).exec(function(err1,data1){
 
         //For Rating
         const promises = data1.map((item,index) => new Promise((resolve,reject) => {

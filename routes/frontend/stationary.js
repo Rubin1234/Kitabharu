@@ -31,11 +31,10 @@ var settingModel = require('../../modules/setting');
     var cookiesCustomerId = req.cookies.customerId;
     var cookiesCustomerEmail = req.cookies.customerEmail;
     
-    var stationaryProducts = ModelProduct.find({category_id:['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']}).populate('stationary_attribute').limit(10);
-
-    var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
-    var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
-    var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
+    var stationaryProducts = ModelProduct.find({category_id:['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206'],status : 'Active'}).populate('stationary_attribute').limit(10);
+    var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06'],status : 'Active'});
+    var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206'],status : 'Active'});
+    var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both'],status : 'Active'}).populate('subcategory_id');
 
     var slug = '';
     var checked = '';
@@ -144,9 +143,9 @@ var settingModel = require('../../modules/setting');
     var subCategoryName = subCategoryModel.findOne({slug:slug});
 
     //FOr Menu
-    var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
-    var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
-    var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
+    var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06'],status : 'Active'});
+    var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206'],status : 'Active'});
+    var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both'],status : 'Active'}).populate('subcategory_id');
 
     subCategoryName.exec(function(err,data){     
       var subcategoryId = data._id;

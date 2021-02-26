@@ -85,15 +85,15 @@ const sliderModel = require('../../modules/slider');
 
    
   
-      var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
-      var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
-      var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
-      var newArrival = ModelProduct.find({book_type : ['paperbook','both','ebook']}).sort({_id:-1}).populate('book_attribute').limit(10);
-      var books = ModelProduct.find({book_type : ['paperbook','both']}).populate('book_attribute').limit(10);
-      var ebooks = ModelProduct.find({book_type : ['ebook','both']}).populate('book_attribute').populate('ebook_id').limit(10);
+      var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06'], status : 'Active'});
+      var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206'], status : 'Active'});
+      var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both'], status : 'Active'}).populate('subcategory_id');
+      var newArrival = ModelProduct.find({book_type : ['paperbook','both','ebook'], status : 'Active'}).sort({_id:-1}).populate('book_attribute').limit(10);
+      var books = ModelProduct.find({book_type : ['paperbook','both'], status : 'Active'}).populate('book_attribute').limit(10);
+      var ebooks = ModelProduct.find({book_type : ['ebook','both'], status : 'Active'}).populate('book_attribute').populate('ebook_id').limit(10);
       //  var productModel = ModelProduct.find({book_type : ['paperbook','both']}).populate('book_attribute');
   
-      var stationaryProducts = ModelProduct.find({category_id: ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']}).populate('book_attribute').populate('stationary_attribute').limit(10);
+      var stationaryProducts = ModelProduct.find({category_id: ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206'], status : 'Active'}).populate('book_attribute').populate('stationary_attribute').limit(10);
   
       newArrival.exec(function(err,data){
       
@@ -276,7 +276,7 @@ const sliderModel = require('../../modules/slider');
                   bookSubcategories.exec(function(err3,data3){
                     stationarySubcategories.exec(function(err4,data4){
                       ebookSubcategories.exec(function(err5,data5){
-  
+                        console.log(data5);
                         //Storing subcategories in array for taking unique value
                         var array = [];
   
@@ -290,7 +290,7 @@ const sliderModel = require('../../modules/slider');
                      
 
                         sliderModel.find({status:'Active'}).exec(function(error,sliderdata){
-                          console.log(sliderdata);
+                        
                      
                         res.render('frontend/index',{
                           newArrival:data,
@@ -415,7 +415,7 @@ const sliderModel = require('../../modules/slider');
                     updateCart.exec(function(err4,data4){
                        //For Count Latest Item Quantity Number
                        modelCart.findOne({customer_id:cookiesCustomerId},function(err5,data5){
-                        console.log(data5);
+                      
 
                         var totalPrice = data5.total_price;
 
@@ -439,7 +439,7 @@ const sliderModel = require('../../modules/slider');
 
                   //If card has other different product
                   var savedata = data.toObject();
-                  console.log(productNumber);
+                  
                   
                 if(productNumber == undefined){
                   savedata.qty = 1;
@@ -501,7 +501,7 @@ const sliderModel = require('../../modules/slider');
                       var productItemNumber = 0;
 
                       data5.products.forEach(function(doc){
-                        console.log(doc)
+                     
                         productItemNumber += parseInt(doc.qty);
                       });
 

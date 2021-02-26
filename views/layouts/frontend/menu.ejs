@@ -27,7 +27,9 @@
         <ul>
         
             <% ebookSubcategories.forEach(function(data){ %>
+               <% if(data.status == 'Active'){ %>
                 <li><a href="../ebooks/<%= data.slug%>"><div><%= data.subcategory_name %></div></a></li>
+                <% } %>
             <% }) %>
        
         

@@ -87,11 +87,22 @@
  <script src="/javascripts/scripts/brand.js"></script>
  <script src="/javascripts/scripts/dashboard.js"></script>
  <script src="/javascripts/scripts/slider.js"></script>
+
+
  
 
 
  <script>
-   $('#specialoffer_startdate').flatpickr({
+    $(document).ready(function(){
+      setTimeout(function(){
+                $('#alertmessage').remove();    
+            }, 5000);
+    })
+
+
+
+
+$('#specialoffer_startdate').flatpickr({
          enableTime: false,
          dateFormat: "Y/m/d",
       });
