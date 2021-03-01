@@ -18,23 +18,27 @@ var bookAttributesSchema = new Schema({
     author_name:{
         type: String,
         default: null,
+        required: false
     },
     publication:{
         type: String,
         default: null,
+        required: false
     },
 
     total_pages:{
        type:String,
-       required:true,
+       required:false,
     },
     published_year:{
         type:String,
        default:null,
+       required: false
      },
      language:{
         type:String,
        default:null,
+       required: false
      },
 
     status: {

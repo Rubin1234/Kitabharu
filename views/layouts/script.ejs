@@ -302,6 +302,7 @@ function multipleImageFormValidation(){
    var validExt = ["jpeg","png","jpg"];
    $('#imgError').empty();
 
+
    var files = document.forms['multipleImageForm']['product_images'].files;
 
    if (files.length > 0) {
@@ -320,6 +321,11 @@ function multipleImageFormValidation(){
          }
       }
  
+}else{
+
+            $('#imgError').append(' <p style="color: #f1556c;margin-bottom: 10px;"><i class="mdi mdi-close-circle"></i>Image is required.</p>')
+            event.preventDefault(); 
+     
 }
 
 }

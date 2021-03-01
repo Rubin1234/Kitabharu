@@ -72,11 +72,11 @@
                             </div>
                         <% } %> 
                         <!-- end page title --> 
-                        <% if(productDetails.category_id.category_name == 'Book'){ %>
+                        <% if(productDetails.category_id._id == '5fc86fabe5825658544dfa06'){ %>
                         <form role="form" action="/product/<%= productId %>/attributes/update/<%= records._id %>" method="POST" class="parsley-examples" >
                         <% } %>
 
-                        <% if(productDetails.category_id.category_name == 'Stationary'){ %>
+                        <% if(productDetails.category_id._id == '5fc871bce5825658544dfa0c'){ %>
                             <form role="form" action="/product/<%= productId %>/attributes/update/<%= records1._id %>" method="POST" class="parsley-examples" >
                             <% } %>
                             
@@ -90,8 +90,8 @@
                                     <h4 class="header-title m-t-0 m-b-20">Edit Product Attributes</h4>
                                     <hr>
                                      <br>
-                                     <% if(productDetails.category_id.category_name == 'Book'){ %>
-                                        <input type="hidden" name="category_name" value="<%= productDetails.category_id.category_name %>">
+                                     <% if(productDetails.category_id._id == '5fc86fabe5825658544dfa06'){ %>
+                                        <input type="hidden" name="category_id" value="<%= productDetails.category_id._id %>">
                                     <div class="row" style="font-size: 13px;background: #f7f7f7;padding: 18px 0px 3px 20px;border-radius: 4px;margin-bottom: 20px;border: 1px solid #e7e7e7;">
                                         <div class="col-lg-4">
                                             <div class="form-group">
@@ -115,32 +115,32 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="form-label">Author<span class="text-danger">*</span></label>
-                                                <input type="text" name="author_name" value="<%= records.author_name %>" parsley-type="text" class="form-control"  placeholder="Enter a author name"  required>
+                                                <input type="text" name="author_name" value="<%= records.author_name %>" parsley-type="text" class="form-control"  placeholder="Enter a author name" >
                                             </div>
                                         </div>
                               
                                         <div class="col-lg-4">
                                             <div class="form-group">
-                                                <label for="inputEmail3" class="form-label">Total Pages<span class="text-danger">*</span></label>
-                                                <input type="text" name="total_pages" value="<%= records.total_pages %>" parsley-type="text" class="form-control"  placeholder="Enter a total no. of pages"  required>
+                                                <label for="inputEmail3" class="form-label">Total Pages</label>
+                                                <input type="text" name="total_pages" value="<%= records.total_pages %>" parsley-type="text" class="form-control"  placeholder="Enter a total no. of pages" >
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
-                                                <label for="inputEmail3" class="form-label">Published Year<span class="text-danger">*</span></label>
-                                                <input type="text" name="published_year" value="<%= records.published_year %>" parsley-type="text" class="form-control"  placeholder="Enter a published year"  required>
+                                                <label for="inputEmail3" class="form-label">Published Year</label>
+                                                <input type="text" name="published_year" value="<%= records.published_year %>" parsley-type="text" class="form-control"  placeholder="Enter a published year" >
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
-                                                <label for="inputEmail3" class="form-label">Language<span class="text-danger">*</span></label>
-                                                <input type="text" name="language" value="<%= records.language %>" parsley-type="text" class="form-control"  placeholder="Enter a language"  required>
+                                                <label for="inputEmail3" class="form-label">Language</label>
+                                                <input type="text" name="language" value="<%= records.language %>" parsley-type="text" class="form-control"  placeholder="Enter a language" >
                                             </div>
                                         </div>
                                     </div> <!-- end col -->
                                     <% } %>
-                                    <% if(productDetails.category_id.category_name == 'Stationary'){ %>
-                                        <input type="hidden" name="category_name" value="<%= productDetails.category_id.category_name %>">
+                                    <% if(productDetails.category_id._id == '5fc871bce5825658544dfa0c'){ %>
+                                        <input type="hidden" name="category_id" value="<%= productDetails.category_id._id %>">
                                         <div class="row" style="font-size: 13px;background: #f7f7f7;padding: 18px 0px 3px 20px;border-radius: 4px;margin-bottom: 20px;border: 1px solid #e7e7e7;">
                                             <div class="col-lg-6">
                                                 <div class="form-group">
@@ -183,13 +183,13 @@
                                     <div class="form-group row">
                                         <label for="inputEmail3" class="col-4 col-form-label">Status<span class="text-danger">*</span></label>
                                         <div class="col-7">
-                                            <% if(productDetails.category_id.category_name == 'Book'){ %>
+                                            <% if(productDetails.category_id._id == '5fc86fabe5825658544dfa06'){ %>
                                             <select name="status" class="selectpicker show-tick" data-style="btn-light" style="border: 1px solid lightgrey;">
                                                 <option value="Active" <% if(records.status == 'Active'){ %> <%=selected%> <% } %> >Active</option>
                                                 <option value="Inactive"  <% if(records.status == 'Inactive'){ %> <%=selected%> <% } %> >Inactive</option>
                                             </select>
                                             <% } %>
-                                            <% if(productDetails.category_id.category_name == 'Stationary'){ %>
+                                            <% if(productDetails.category_id._id == '5fc871bce5825658544dfa0c'){ %>
                                                 <select name="status" class="selectpicker show-tick" data-style="btn-light" style="border: 1px solid lightgrey;">
                                                     <option value="Active" <% if(records1.status == 'Active'){ %> <%=selected%> <% } %> >Active</option>
                                                     <option value="Inactive"  <% if(records1.status == 'Inactive'){ %> <%=selected%> <% } %> >Inactive</option>

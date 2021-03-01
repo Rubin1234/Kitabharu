@@ -347,7 +347,10 @@
             <span style="padding-top: 5px;font-weight: bold;"><%= reviews.length %> Ratings</span>
           </div>
 
-          <button class="form-control ratenowBtn"  data-toggle="modal"  onclick="showRatingModal()">Rate Now !!!</button>
+          <% if(eligibleForRateNow){ %>
+            <button class="form-control ratenowBtn"  data-toggle="modal"  onclick="showRatingModal()">Rate Now !!!</button>
+          <% } %>
+        
           <span id="productSlug" value="<%= bookDetails.slug %>"></span>
           <span id="productID" value="<%= bookDetails._id %>"></span>
           <span id="booktype" value="<%= bookDetails.book_type %>"></span>

@@ -3685,18 +3685,21 @@ router.get('/:id/attributes/index',checkPublication,function(req,res,next){
     var adminType = req.cookies.adminType;
     var userId = req.cookies.userId;
 
+    console.log(productId)
 
     var productDetails = productModel.findOne({ _id : productId }).populate('category_id');
+
     var bookattributes = bookAttributesModel.find({product_id:productId});
     var stationaryattributes = stationaryAttributesModel.find({product_id:productId});
     var publication = publicationModel.find({status: "Active"});
     var userData = admin.findOne({_id:userId});
 
     bookattributes.exec(function(err,data){
+        console.log(data.length)
         productDetails.exec(function(err1,data1){
-            console.log(data1);
 
             stationaryattributes.exec(function(err2,data2){
+             
                 publication.exec(function(err3,data3){
                     userData.exec(function(admindataErr,admindata){
                         res.render('backend/products/attributes/index',{adminType,productId,records:data,productDetails:data1,records1:data2,records3:data3,title:"Product Attribute Lists",admindata});
@@ -3736,6 +3739,8 @@ router.post('/:id/attributes/store',attributeImages,function(req,res,next){
 
     var data = req.body;
     var productId = req.params.id;
+   
+  
     var category_name = req.body.category_name;
 
     var product_code = req.body.product_code;
@@ -3749,7 +3754,8 @@ router.post('/:id/attributes/store',attributeImages,function(req,res,next){
 
    var images = req.files;
 
-    if(category_name == 'Stationary'){
+    if(category_name == '5fc871bce5825658544dfa0c'){
+      
 
         stationaryAttributesModel.find({product_code:product_code}).exec(function(er,doc){
             bookAttributesModel.find({product_code:product_code}).exec(function(er1,doc1){
@@ -3780,6 +3786,7 @@ router.post('/:id/attributes/store',attributeImages,function(req,res,next){
     });
 
     }else{  
+     
         bookAttributesModel.find({product_code:product_code}).exec(function(er,doc){
             stationaryAttributesModel.find({product_code:product_code}).exec(function(er1,doc1){
                 if(doc.length > 0|| doc1.length > 0){
@@ -3944,6 +3951,7 @@ router.post('/:id/attributes/update/:attributeId',function(req,res,next){
     var attributeId = req.params.attributeId;
     var product_code = req.body.product_code;
     
+ 
     //For Book
     var author_name = req.body.author_name;
     var publication_name = req.body.publication_name;
@@ -3953,13 +3961,13 @@ router.post('/:id/attributes/update/:attributeId',function(req,res,next){
 
     //For Stationary
     var manufacturer_name = req.body.manufacturer_name;
-    var category_name = req.body.category_name;
+    var category_id = req.body.category_id;
 
     var status = req.body.status;
 
 
 
-    if(category_name == 'Stationary'){
+    if(category_id == '5fc871bce5825658544dfa0c'){ //Stationary
         stationaryAttributesModel.find({_id:{$ne:attributeId},product_code:product_code}).exec(function(er,doc){
             bookAttributesModel.find({_id:{$ne:attributeId},product_code:product_code}).exec(function(er1,doc1){
             if(doc.length > 0|| doc1.length > 0){
@@ -3983,7 +3991,7 @@ router.post('/:id/attributes/update/:attributeId',function(req,res,next){
         });
     });
 
-    }else if(category_name == 'Book'){
+    }else if(category_id == '5fc86fabe5825658544dfa06'){ //Book
         bookAttributesModel.find({_id:{$ne:attributeId},product_code:product_code}).exec(function(er,doc){
             stationaryAttributesModel.find({_id:{$ne:attributeId},product_code:product_code}).exec(function(er1,doc1){
             if(doc.length > 0 || doc1.length > 0){
@@ -4020,7 +4028,7 @@ router.get('/:id/attributes/delete/:attributeId',function(req,res,next){
     var productDetails = ModelProduct.findById(productId).populate('category_id');
     
     productDetails.exec(function(error,doc){
-        if(doc.category_id.category_name == 'Book'){
+        if(doc.category_id.category_name == '5fc86fabe5825658544dfa06'){
             var deleteBookAttribute = bookAttributesModel.findByIdAndDelete(attributeId);
 
             deleteBookAttribute.exec(function(err,data){
@@ -4030,7 +4038,7 @@ router.get('/:id/attributes/delete/:attributeId',function(req,res,next){
                     res.redirect('/product/'+  productId +'/attributes/index');
                 });
             });
-        }else if(doc.category_id.category_name == 'Stationary'){
+        }else if(doc.category_id.category_name == '5fc871bce5825658544dfa0c'){
             var deletestationaryAttribute = stationaryAttributesModel.findByIdAndDelete(attributeId);
 
             deletestationaryAttribute.exec(function(err,data){

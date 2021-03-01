@@ -41,6 +41,8 @@ router.get('/productlist/:id', function(req, res, next) {
     })
 });
 
+
+
 //By Category Id
 router.get('/productlist/category/:id',async function(req, res, next) {
     var categoryId = req.params.id;

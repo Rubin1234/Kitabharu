@@ -19,6 +19,7 @@ const util = require('util');
 var ModelProduct = require('../../modules/product'); 
 const subCategoryModel = require('../../modules/subcategories');
 const reviewModel = require('../../modules/review');
+const orderModel = require('../../modules/orders');
 const { populate, db, findByIdAndDelete } = require('../../modules/categories');
 const { rejects } = require('assert');
 const { resolve } = require('path');
@@ -37,25 +38,42 @@ var settingModel = require('../../modules/setting');
 
 
   router.get('/bookdetails/:slug',function(req,res,next){
-
+   
     var cookiesCustomerToken = req.cookies.customerToken;
     var cookiesCustomerrName = req.cookies.customerName;
     var cookiesCustomerId = req.cookies.customerId;
     var cookiesCustomerEmail = req.cookies.customerEmail;
-
-
     var slug = req.params.slug;
 
     var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06'], status : 'Active'});
     var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206'], status : 'Active'});
     var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both'], status : 'Active'}).populate('subcategory_id');
-
     var bookDetails = ModelProduct.findOne({slug:slug}).populate('images').populate('book_attribute').populate('subcategory_id').populate('images').populate('ebook_id');
-
     var review = reviewModel.find({product_slug : slug}).populate('customer_id');
     
-    
-    bookDetails.exec(function(err,data){
+    bookDetails.exec(async function(err,data){
+      
+      //To show review only after buying a product
+      var productId = data._id;
+      
+      if(cookiesCustomerId != undefined){
+         var orders =  await orderModel.find({customerId:cookiesCustomerId});
+
+         var eligibleForRateNow = false;
+         orders.forEach((order) => {
+       
+             var existingProductIndex = order.products.findIndex(p => p._id == productId.toString());
+             if(existingProductIndex >= 0){
+               eligibleForRateNow = true
+             }
+         
+         })
+
+           
+      }
+ 
+
+
       bookSubcategories.exec(function(err1,data1){
         stationarySubcategories.exec(function(err2,data2){
           ebookSubcategories.exec(function(err3,data3){
@@ -119,6 +137,8 @@ var settingModel = require('../../modules/setting');
 
               var settingData = settingModel.findOne({});
               settingData.exec(function(errr,dataa){
+
+
               res.render('frontend/bookdetails',{
                 bookDetails:data,
                 bookSubcategories:data1,
@@ -137,7 +157,8 @@ var settingModel = require('../../modules/setting');
                 countOneStar,
                 average,
                 roundOffValue,
-                setting : dataa
+                setting : dataa,
+                eligibleForRateNow
               });  
               });  
             }); 
