@@ -40,6 +40,8 @@ var settingModel = require('../../modules/setting');
      var settingData = settingModel.findOne({});
      settingData.exec(function(errr,dataa){
     videos.exec(function(err,data){
+      console.log(data);
+
       bookSubcategories.exec(function(err1,data1){
         stationarySubcategories.exec(function(err2,data2){
           ebookSubcategories.exec(function(err3,data3){

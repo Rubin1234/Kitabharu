@@ -16,8 +16,8 @@
       <div class="inner-banner-title">
            <h4>My Wishlist</h4>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="">Home</a></li>
-            <li class="breadcrumb-item active"><a href="">My Wishlist</a></li>
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active"><a >My Wishlist</a></li>
           </ol>
       </div>
      
@@ -26,7 +26,7 @@
 
 <div class="listing container mt-4 mb-4">
     <ol class="breadcrumb" >
-           <li class="breadcrumb-item"><a href="">Home</a></li>
+           <li class="breadcrumb-item"><a href="/">Home</a></li>
            <!-- <li class="breadcrumb-item "><a href="">Books</a></li> -->
             <li class="breadcrumb-item active"><a href="">My Wishlist</a></li>
          </ol>
@@ -37,7 +37,9 @@
     <div class="container clearfix">
     <div class="table-responsive">
       <form action="cart/update" method="POST" style="text-align: center;">
+         <% if(wishlistProduct != null){ %>
         <% if(wishlistProduct.products.length > 0){ %>
+      
    <table class="table cart">
     <thead>
     <tr>
@@ -52,85 +54,86 @@
     <tbody class="wishlistItem">
         <% wishlistProduct.products.forEach(function(data){ %>
             <tr class="cart_item">
-              <input type="hidden" value="<%= data._id %>" name="product_id[]">
+              <input type="hidden" value="<%= data.product_id._id %>" name="product_id[]">
            
-              <% if(data.book_type != null){ %>
-                 <input type="hidden" value="<%= data.book_type %>" name="book_type[]" >
+              <% if(data.booktype != null){ %>
+                 <input type="hidden" value="<%= data.booktype %>" name="book_type[]" >
                  <% }else{ %>
                     <input type="hidden" value=null name="book_type[]" >
                  <% } %>
            
-                 <% if(data.book_type != 'ebook'){ %>
-                    <input type="hidden" value="<%= data.product_price %>" name="price[]" >
+                 <% if(data.booktype != 'ebook'){ %>
+                    <input type="hidden" value="<%= data.product_id.product_price %>" name="price[]" >
                     <% }else{ %>
-                       <input type="hidden" value="<%= data.ebook_id.ebook_price %>" name="price[]" >
+                       <input type="hidden" value="<%= data.product_id.ebook_id.ebook_price %>" name="price[]" >
                     <% } %>
         
               <td class="cart-product-remove">
-                 <i class="icon-trash2 remove" onclick="removeWishlistItem()" cartProduct="<%= wishlistProduct._id %>" productId="<%= data._id %>"
-                   
-              
-                  bookType="<%= data.book_type %>"
-                   
+                 <i class="icon-trash2 remove" onclick="removeWishlistItem()" cartProduct="<%= wishlistProduct._id %>" productId="<%= data.product_id._id %>"
+                  bookType="<%= data.booktype %>"
                    ></i>
               </td>
               <td class="cart-product-thumbnail">
-                 <a href="#"><img width="64" height="64" src="images/backend/products/<%= data.product_image %>" alt="<%= data.product_name %>"></a>
+                 <a href="#"><img width="64" height="64" src="images/backend/products/<%= data.product_id.product_image %>" alt="<%= data.product_id.product_name %>"></a>
               </td>
               <td class="cart-product-name">
-                 <a href="#"><%= data.product_name %> </a>
+                 <a href="#"><%= data.product_id.product_name %> </a>
                  
-                 <% if(data.book_type == 'ebook'){ %>
+                 <% if(data.booktype == 'ebook'){ %>
                  
                  <span style="font-weight: 700;font-size: 14.5px;color: #dd3a3a;font-family: sans-serif;">(E-Book)</span>
                  <% } %>
-                 <% if(data.book_type == 'paperbook'){ %>
+                 <% if(data.booktype == 'paperbook'){ %>
                     <span style="font-weight: 700;font-size: 14.5px;color: #dd3a3a;font-family: sans-serif;">(Book)</span>
                     <% } %>
-                    <% if(data.book_type == null){ %>
+                    <% if(data.booktype == null){ %>
                        <span style="font-weight: 700;font-size: 14.5px;color: #dd3a3a;font-family: sans-serif;">(Stationary)</span>
                        <% } %>
                        <br>
-                       <% if(data.discount_percent > 0){ %>
-                        <div class="showdiscountpercentCart mx-auto"><%= data.discount_percent%>% off</div>
+                       <% if(data.product_id.discount_percent > 0){ %>
+                        <div class="showdiscountpercentCart mx-auto"><%= data.product_id.discount_percent%>% off</div>
                         <% } %>
               </td>
               <td class="cart-product-price">
-                 <% if(data.book_type == 'ebook'){ %>
-                     <% if(data.discount_percent > 0){
+                 <% if(data.booktype == 'ebook'){ %>
+                     <% if(data.product_id.discount_percent > 0){
                         var discount_price = 0;
-                        var discount_price = data.discount_percent/100 * data.ebook_id.ebook_price
-                        var discountedAmount = data.ebook_id.ebook_price - discount_price
+                        var discount_price = data.product_id.discount_percent/100 * data.product_id.ebook_id.ebook_price
+                        var discountedAmount = data.product_id.ebook_id.ebook_price - discount_price
                         %>
                   <s style="color: #848484;font-family:auto;font-size: 19px;padding-left: 10px;margin-left: auto;
-                  margin-right: auto;padding-top: 2px;">Rs <%= data.ebook_id.ebook_price %></s> &nbsp;&nbsp;
-                 <span class="amountPerProduct" amountPerProduct="<%= data.ebook_id.ebook_price %>" >Rs  <%= discountedAmount %></span>
+                  margin-right: auto;padding-top: 2px;">Rs <%= data.product_id.ebook_id.ebook_price %></s> &nbsp;&nbsp;
+                 <span class="amountPerProduct" amountPerProduct="<%= data.product_id.ebook_id.ebook_price %>" >Rs  <%= discountedAmount %></span>
                         <% }else{ %>
-                           <span class="amountPerProduct" amountPerProduct="<%= data.ebook_id.ebook_price %>" >Rs  <%= data.ebook_id.ebook_price %></span>
+                           <span class="amountPerProduct" amountPerProduct="<%= data.product_id.ebook_id.ebook_price %>" >Rs  <%= data.product_id.ebook_id.ebook_price %></span>
                            <% } %>
                     <% }else{ %>
-                     <% if(data.discount_percent > 0){
+                     <% if(data.product_id.discount_percent > 0){
                         var discount_price = 0;
-                        var discount_price = data.discount_percent/100 * data.product_price
-                        var discountedAmount = data.product_price - discount_price
+                        var discount_price = data.product_id.discount_percent/100 * data.product_id.product_price
+                        var discountedAmount = data.product_id.product_price - discount_price
                         %>
                      <s style="color: #848484;font-family:auto;font-size: 19px;padding-left: 10px;margin-left: auto;
-                     margin-right: auto;padding-top: 2px;">Rs <%= data.product_price %></s> &nbsp;&nbsp;
-                       <span class="amountPerProduct" amountPerProduct="<%= data.product_price %>" >Rs  <%= discountedAmount %></span>
+                     margin-right: auto;padding-top: 2px;">Rs <%= data.product_id.product_price %></s> &nbsp;&nbsp;
+                       <span class="amountPerProduct" amountPerProduct="<%= data.product_id.product_price %>" >Rs  <%= discountedAmount %></span>
                        <% }else{ %>
 
 
-                        <span class="amountPerProduct" amountPerProduct="<%= data.product_price %>" >Rs  <%= data.product_price %></span>
+                        <span class="amountPerProduct" amountPerProduct="<%= data.product_id.product_price %>" >Rs  <%= data.product_id.product_price %></span>
                        <% } %>
                           <% } %>
               </td>
 
               <td class="cart-product-subtotal">
-                <% if(data.book_type == 'paperbook'){ %>
-                <span type="" class="btn btn-primary" style="margin:auto;font-family: Raleway,sans-serif !important;font-size:15px;background-color: #145ba2;color: white;border-color:#145ba2;padding: 5px 10px;border-radius:0px;" productid="<%= data._id %>" onclick="addtobookcart()"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</span>
-                <% }else{ %>
-                    <span type="" class="btn btn-primary" style="    margin: auto;font-size: 15px; background-color: #145ba2;color: white;border-color: #145ba2;padding: 5px 10px;border-radius: 0px;font-family: Raleway,sans-serif !important;" productid="<%= data._id %>" onclick="addtoEbookcart()"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</span>
-                    <% } %>
+               <% if(data.booktype == null){ %>
+                  <span type="" class="btn btn-primary" style="margin:auto;font-family: Raleway,sans-serif !important;font-size:15px;background-color: #145ba2;color: white;border-color:#145ba2;padding: 5px 10px;border-radius:0px;" productid="<%= data.product_id._id %>" onclick="addtocart()"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</span>
+                  <% } %>
+                <% if(data.booktype == 'paperbook'){ %>
+                <span type="" class="btn btn-primary" style="margin:auto;font-family: Raleway,sans-serif !important;font-size:15px;background-color: #145ba2;color: white;border-color:#145ba2;padding: 5px 10px;border-radius:0px;" productid="<%= data.product_id._id %>" onclick="addtobookcart()"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</span>
+                <% } %>
+                <% if(data.booktype == 'ebook'){ %>
+                  <span type="" class="btn btn-primary" style="    margin: auto;font-size: 15px; background-color: #145ba2;color: white;border-color: #145ba2;padding: 5px 10px;border-radius: 0px;font-family: Raleway,sans-serif !important;" productid="<%= data.product_id._id %>" onclick="addtoEbookcart()"><i class="icon-cart-plus"></i>&nbsp;&nbsp;Add to cart</span>
+                  <% } %>
               </td>
             </tr>
         <% }) %>  
@@ -139,6 +142,9 @@
    <% }else{ %>
     <img width="25%" src="images/no-products-found.png" alt="">
     <% } %>
+    <% }else{ %>
+      <img width="25%" src="images/no-products-found.png" alt="">
+      <% } %>
 </form>
     </div>
     <br>

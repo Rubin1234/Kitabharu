@@ -5,7 +5,6 @@ var bcrypt = require('bcryptjs');
 var sharp = require('sharp');
 var dateFormat = require('dateformat');
 var slug = require('slug');    
-
 require('dotenv').config();
 var nodemailer = require('nodemailer'); 
 

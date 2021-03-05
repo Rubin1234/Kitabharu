@@ -75,8 +75,9 @@ router.post('/store',upload,function(req,res,next){
     var status = req.body.status;
 
     var slugname = slug(myvideoTitle);
-
-
+    var stringVideoLink = myvideoLink.toString();
+    var videoLink = stringVideoLink.split('&list')[0];
+ 
 
     videosModel.find({youtube_link:myvideoLink}).exec(function(er,doc){
 
@@ -87,7 +88,7 @@ router.post('/store',upload,function(req,res,next){
         
             var saveArticle = new videosModel({
                 video_title : myvideoTitle,
-                youtube_link : myvideoLink,
+                youtube_link : videoLink,
                 slug : slugname,
                 status : status
              

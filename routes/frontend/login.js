@@ -382,14 +382,7 @@ next();
         let transporter = nodemailer.createTransport({
           service : 'gmail',
 
-      auth : {
-        user: 'rubinawale10@gmail.com',
-        pass: 'dtlyxtdiavkoxaqu'
-      }
-          // auth : {
-          //   user: process.env.Email,
-          //   pass: process.env.Password
-          // }
+   d
         });
     
         

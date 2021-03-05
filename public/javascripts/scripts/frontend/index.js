@@ -1,8 +1,3 @@
-
-
-
-
-
 $(document).ready(function(){
 
   //For Search
@@ -132,7 +127,6 @@ function mycart(){
 
 
 function addtobookcart(){
-  console.log('bookcart');
 
   var productId = $(event.currentTarget).attr('productId');
   var booknumber = $('#booknumber').val();

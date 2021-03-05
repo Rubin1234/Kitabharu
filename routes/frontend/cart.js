@@ -42,7 +42,10 @@ var settingModel = require('../../modules/setting');
     
      // var records = util.inspect(data, false, null, true /* enable colors */);
 
-  var cartProduct = cartModel.findOne({'customer_id':cookiesCustomerId});
+  var cartProduct = cartModel.findOne({'customer_id':cookiesCustomerId}).populate({  path: 'products.product_id',
+  model: 'product', populate : {path: 'ebook_id', model: 'ebook'}});
+
+
   var settingData = settingModel.findOne({});
   settingData.exec(function(errr,dataa){
     bookSubcategories.exec(function(err1,data1){
@@ -60,8 +63,6 @@ var settingModel = require('../../modules/setting');
         
 
         cartProduct.exec(function(err4,data4){
-        
-
 
             // var records = util.inspect(data4, false, null, true /* enable colors */);
             res.render('frontend/cart',{
@@ -165,82 +166,78 @@ var settingModel = require('../../modules/setting');
       var bookType = req.query.bookType;
 
       var productData = await ModelProduct.findById(productId);
-    
       cartModel.findOne({customer_id:cookiesCustomerId}).exec(function(err1,cart){
-     
-        var total_quantity = 0;
-        
-     
-      
-          // If book type is paperbook or ebook
-    if(bookType == 'paperbook' || bookType == 'ebook'){
-      var existingProductIndex = cart.products.findIndex(p => p._id == productId && p.book_type == bookType);
-    }else{ // if book type is null (Stationary)
-      var existingProductIndex = cart.products.findIndex(p => p._id == productId && p.book_type == null);
-    }
-
- 
-        const existingProduct = cart.products[existingProductIndex];
-
-        total_quantity =  parseInt(existingProduct.qty) + 1;
-
-        var totalPrice =  productData.product_price;
-
-               //If Product has discount
-               if(productData.discount_percent > 0){
-                var discount_price = 0;
-                var discount_price = productData.discount_percent/100 * totalPrice;
-                var discountedAmount = totalPrice - discount_price;
-                
-                cart.total_price += parseInt(discountedAmount);
-      
-              }else{
-                cart.total_price += parseInt(totalPrice);
-              }
-
-
-                
-        // total =  parseInt(cart.total_price) + parseInt(totalPrice);
-       
-
-            var updateArray = cartModel.updateOne( 
-              { _id: cart.id, "products._id": existingProduct._id}, 
-              { $set: { "products.$.qty": total_quantity } }
-            )
-
-              //  //Udate Quantity in Product  Array in cart
-              //  var updateArray = cartModel.update(
-              //   {customer_id:cookiesCustomerId, 
-              //   products:{ $elemMatch :{"book_type":bookType, "_id": existingProduct._id}}},
-              //   { $set: { "products.$.qty":  total_quantity }}
-              // )
-
-              //Update Price
-              var updateTotalPrice = cartModel.findOneAndUpdate({customer_id:cookiesCustomerId},{total_price : cart.total_price}); 
-
-              updateArray.exec(function(err,data){
-            
-
-                updateTotalPrice.exec(function(err1,data1){
-
-                  cartModel.findOne({customer_id:cookiesCustomerId},function(err5,data5){
   
-          
-                    // For Latest Number of product item        
-                    var productItemNumber = 0;
-        
-                    data5.products.forEach(function(doc){
-                      productItemNumber += parseInt(doc.qty);
-                    });
-        
-                    var totalPrice = data5.total_price;
 
-                    res.send({
-                      'productitem': productItemNumber, 
-                      'totalAmount' : totalPrice
-                    });
+        var total_quantity = 0;
+      
+        // If book type is paperbook or ebook
+      if(bookType == 'paperbook' || bookType == 'ebook'){
+        var existingProductIndex = cart.products.findIndex(p => p.product_id == productId && p.booktype == bookType);
+      }else{ // if book type is null (Stationary)
+        var existingProductIndex = cart.products.findIndex(p => p.product_id == productId && p.booktype == null);
+      }
+
+      const existingProduct = cart.products[existingProductIndex];
+      console.log(existingProduct);
+      
+      total_quantity =  parseInt(existingProduct.qty) + 1;
+      console.log(total_quantity);
+  
+      // total =  parseInt(cart.total_price) + parseInt(totalPrice);
+       
+      var updateArray = cartModel.updateOne( 
+        { _id: cart.id, "products.product_id": existingProduct.product_id}, 
+        { $set: { "products.$.qty": total_quantity } }
+      )
+   
+      updateArray.exec(function(err,data){
+          //For Count Latest Item Quantity Number
+          cartModel.findOne({customer_id:cookiesCustomerId}).populate({path: 'products.product_id',model: 'product', populate : { path: 'ebook_id', model: 'ebook' }}).exec(function(err5,cart2){
+                    
+            var productItemNumber = 0;
+            var finalAmount = 0;
+            cart2.products.forEach(function(doc){
+
+              //For Showing Item Number
+              productItemNumber += parseInt(doc.qty);
+
+              //If there is discount on product
+              if(doc.product_id.discount_percent > 0){
+                if(doc.booktype == 'paperbook' || doc.booktype == null){
+                  var productPrice = doc.product_id.product_price * doc.qty;
+                }
+                if(doc.booktype == 'ebook'){
+                  var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
+                }
+
+                var discountPercent = doc.product_id.discount_percent; 
+                var discount_price = 0;
+                var discount_price = discountPercent/100 * productPrice;
+                var discountedAmount = productPrice - discount_price;
+                finalAmount += parseInt(discountedAmount);
+              }  
+              else{ 
+                
+                //If there is no discount price
+                if(doc.booktype == 'paperbook' || doc.booktype == null){
+                  var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
+                }
+
+                if(doc.booktype == 'ebook'){
+                  var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
+                }
+
+                finalAmount += parseInt(productPrice);
+              }
+            }); 
+
+            res.send({
+              'productitem': productItemNumber, 
+              'totalAmount' : finalAmount
+            });
                   });
-              });
+          
             });
       });
   });
@@ -253,74 +250,77 @@ var settingModel = require('../../modules/setting');
     var productId = req.query.productId;
     var cookiesCustomerId = req.cookies.customerId;
     var bookType = req.query.bookType;
-
+  
     var productData = await ModelProduct.findById(productId);
 
     cartModel.findOne({customer_id:cookiesCustomerId}).exec(function(err1,cart){
 
       var total_quantity = 0;
 
-          // If book type is paperbook or ebook
-    if(bookType == 'paperbook' || bookType == 'ebook'){
-      var existingProductIndex = cart.products.findIndex(p => p._id == productId && p.book_type == bookType);
-    }else{ // if book type is null (Stationary)
-      var existingProductIndex = cart.products.findIndex(p => p._id == productId && p.book_type == null);
-    }
-      
-      
+      // If book type is paperbook or ebook
+      if(bookType == 'paperbook' || bookType == 'ebook'){
+        var existingProductIndex = cart.products.findIndex(p => p.product_id == productId && p.booktype == bookType);
+      }else{ // if book type is null (Stationary)
+        var existingProductIndex = cart.products.findIndex(p => p.product_id == productId && p.booktype == null);
+      }
+
       const existingProduct = cart.products[existingProductIndex];
+   
       total_quantity =  parseInt(existingProduct.qty) - 1;
 
-      var totalPrice =  productData.product_price;
-
-      //If Product has discount
-      if(productData.discount_percent > 0){
-       var discount_price = 0;
-       var discount_price = productData.discount_percent/100 * totalPrice;
-       var discountedAmount = totalPrice - discount_price;
-       
-       cart.total_price -= parseInt(discountedAmount);
-
-     }else{
-       cart.total_price -= parseInt(totalPrice);
-     }
-
-
-        //Udate Quantity in Product  Array in cart
-
-        var updateArray = cartModel.updateOne( 
-          { _id: cart.id, "products._id": existingProduct._id}, 
-          { $set: { "products.$.qty": total_quantity } }
-        )
-        // var updateArray = cartModel.updateOne(
-        //   {customer_id:cookiesCustomerId, 
-        //   products:{ $elemMatch :{"book_type":bookType, "_id": existingProduct._id}}},
-        //   { $set: { "products.$.qty":  total_quantity }}
-        // )
-
-        //Update Price
-        var updateTotalPrice = cartModel.findOneAndUpdate({customer_id:cookiesCustomerId},{total_price : cart.total_price}); 
-
-        updateArray.exec(function(err,data){
-          updateTotalPrice.exec(function(err1,data1){
-            cartModel.findOne({customer_id:cookiesCustomerId},function(err5,data5){
-  
-                  
-              // For Latest Number of product item        
+      //Udate Quantity in Product  Array in cart
+      var updateArray = cartModel.updateOne( 
+        { _id: cart.id, "products.product_id": existingProduct.product_id}, 
+        { $set: { "products.$.qty": total_quantity } }
+      )
+   
+        updateArray.exec(function(err,data){  
+            //For Count Latest Item Quantity Number
+            cartModel.findOne({customer_id:cookiesCustomerId}).populate({path: 'products.product_id',model: 'product', populate : { path: 'ebook_id', model: 'ebook' }}).exec(function(err5,cart2){
+                    
               var productItemNumber = 0;
+              var finalAmount = 0;
+              cart2.products.forEach(function(doc){
   
-              data5.products.forEach(function(doc){
+                //For Showing Item Number
                 productItemNumber += parseInt(doc.qty);
-              });
   
-              var totalPrice = data5.total_price;
+                //If there is discount on product
+                if(doc.product_id.discount_percent > 0){
+                  if(doc.booktype == 'paperbook' || doc.booktype == null){
+                    var productPrice = doc.product_id.product_price * doc.qty;
+                  }
+                  if(doc.booktype == 'ebook'){
+                    var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
+                  }
+  
+                  var discountPercent = doc.product_id.discount_percent; 
+                  var discount_price = 0;
+                  var discount_price = discountPercent/100 * productPrice;
+                  var discountedAmount = productPrice - discount_price;
+                  finalAmount += parseInt(discountedAmount);
+                }  
+                else{ 
+                  
+                  //If there is no discount price
+                  if(doc.booktype == 'paperbook' || doc.booktype == null){
+                    var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
+                  }
+  
+                  if(doc.booktype == 'ebook'){
+                    var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
+                  }
+  
+                  finalAmount += parseInt(productPrice);
+                }
+              }); 
       
               res.send({
                 'productitem': productItemNumber, 
-                'totalAmount' : totalPrice
+                'totalAmount' : finalAmount
               });
             });
-          });
+      
         });
     });
 
@@ -347,89 +347,117 @@ router.get('/removeitem',async function(req, res, next){
   //From Cookies
   var cookiesCustomerId = req.cookies.customerId;
   var productData = await ModelProduct.findById(productId).populate('ebook_id');
- 
-
   var removeItem = cartModel.findOne({customer_id : cookiesCustomerId, _id : cartProduct});
    
   removeItem.exec(function(err,data){
 
     // If book type is paperbook or ebook
     if(bookType == 'paperbook' || bookType == 'ebook'){
-      var existingProductIndex = data.products.findIndex(p => p._id == productId && p.book_type == bookType);
+      var existingProductIndex = data.products.findIndex(p => p.product_id == productId && p.booktype == bookType);
     }else{ // if book type is null (Stationary)
-      var existingProductIndex = data.products.findIndex(p => p._id == productId && p.book_type == null);
+      var existingProductIndex = data.products.findIndex(p => p.product_id_id == productId && p.booktype == null);
     }
 
-
     var existingProduct = data.products[existingProductIndex];
+   
+
     var priceToBeDeduct= 0;
 
    
 
-    //Price to be deducted
-    if(bookType == 'paperbook' || bookType == ''){
+    // //Price to be deducted
+    // if(bookType == 'paperbook' || bookType == ''){
 
-      var totalPrice =  productData.product_price;
+    //   var totalPrice =  productData.product_price;
       
-          //If Product has discount
-          if(productData.discount_percent > 0){
-            var discount_price = 0;
-            var discount_price = productData.discount_percent/100 * totalPrice;
-            var discountedAmount = totalPrice - discount_price;
-            priceToBeDeduct = parseInt(existingProduct.qty) * parseInt(discountedAmount);
+    //       //If Product has discount
+    //       if(productData.discount_percent > 0){
+    //         var discount_price = 0;
+    //         var discount_price = productData.discount_percent/100 * totalPrice;
+    //         var discountedAmount = totalPrice - discount_price;
+    //         priceToBeDeduct = parseInt(existingProduct.qty) * parseInt(discountedAmount);
            
-          }else{
-            priceToBeDeduct = parseInt(existingProduct.qty) * parseInt(totalPrice);
+    //       }else{
+    //         priceToBeDeduct = parseInt(existingProduct.qty) * parseInt(totalPrice);
            
-          }
+    //       }
       
    
-    }else{
+    // }else{
 
-      var totalPrice =  productData.ebook_id.ebook_price;
+    //   var totalPrice =  productData.ebook_id.ebook_price;
 
-          //If Product has discount
-          if(productData.discount_percent > 0){
-            var discount_price = 0;
-            var discount_price = productData.discount_percent/100 * totalPrice;
-            var discountedAmount = totalPrice - discount_price;
+    //       //If Product has discount
+    //       if(productData.discount_percent > 0){
+    //         var discount_price = 0;
+    //         var discount_price = productData.discount_percent/100 * totalPrice;
+    //         var discountedAmount = totalPrice - discount_price;
 
-            priceToBeDeduct = parseInt(existingProduct.qty) * parseInt(discountedAmount);
+    //         priceToBeDeduct = parseInt(existingProduct.qty) * parseInt(discountedAmount);
            
-          }else{
-            priceToBeDeduct = parseInt(existingProduct.qty) * parseInt(totalPrice);
+    //       }else{
+    //         priceToBeDeduct = parseInt(existingProduct.qty) * parseInt(totalPrice);
            
-          }
+    //       }
 
-    }
+    // }
    
     //Price Deducted
-    var newTotalPrice = parseInt(data.total_price) - priceToBeDeduct; 
+    // var newTotalPrice = parseInt(data.total_price) - priceToBeDeduct; 
 
     // first element removed
-    data.products.splice(existingProductIndex, 1); 
+    data.products.splice(existingProductIndex, 1);
 
     //Removing Previous Object
-    var updateProduct = cartModel.updateOne({'customer_id':cookiesCustomerId},{ $pull : { 'products': {} },total_price: newTotalPrice}, {multi:true});
-      updateProduct.exec(function(err5,data5){
-    
-        cartModel.updateOne({customer_id:cookiesCustomerId},{products:data.products}).exec(function(err1,data1){
-           //For Count Latest Item Quantity Number
-           cartModel.findOne({customer_id:cookiesCustomerId},function(err5,data5){
+    var updateProduct = cartModel.updateOne({'customer_id':cookiesCustomerId},{ $pull : { 'products': {} }}, {multi:true});
   
+    updateProduct.exec(function(err5,data5){
+     
+        cartModel.updateOne({customer_id:cookiesCustomerId},{products:data.products}).exec(function(err1,data1){
+          
+          //For Count Latest Item Quantity Number
+          cartModel.findOne({customer_id:cookiesCustomerId}).populate({path: 'products.product_id',model: 'product', populate : { path: 'ebook_id', model: 'ebook' }}).exec(function(err5,cart2){
+            
+              var productItemNumber = 0;
+              var finalAmount = 0;
+              cart2.products.forEach(function(doc){
+  
+                //For Showing Item Number
+                productItemNumber += parseInt(doc.qty);
+  
+                //If there is discount on product
+                if(doc.product_id.discount_percent > 0){
+                  if(doc.booktype == 'paperbook' || doc.booktype == null){
+                    var productPrice = doc.product_id.product_price * doc.qty;
+                  }
+                  if(doc.booktype == 'ebook'){
+                    var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
+                  }
+  
+                  var discountPercent = doc.product_id.discount_percent; 
+                  var discount_price = 0;
+                  var discount_price = discountPercent/100 * productPrice;
+                  var discountedAmount = productPrice - discount_price;
+                  finalAmount += parseInt(discountedAmount);
+                }  
+                else{ 
                   
-            // For Latest Number of product item        
-            var productItemNumber = 0;
-
-            data5.products.forEach(function(doc){
-              productItemNumber += parseInt(doc.qty);
-            });
-
-            var totalPrice = data5.total_price;
+                  //If there is no discount price
+                  if(doc.booktype == 'paperbook' || doc.booktype == null){
+                    var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
+                  }
+  
+                  if(doc.booktype == 'ebook'){
+                    var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
+                  }
+  
+                  finalAmount += parseInt(productPrice);
+                }
+              }); 
     
             res.send({
               'productitem': productItemNumber, 
-              'totalAmount' : totalPrice
+              'totalAmount' : finalAmount
             });
           });
        

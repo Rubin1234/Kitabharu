@@ -39,9 +39,8 @@ var settingModel = require('../../modules/setting');
         var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both'],status:'Active'}).populate('subcategory_id');
          // var records = util.inspect(data, false, null, true /* enable colors */);
     
-      var wishlistProduct = wishlistModel.findOne({'customer_id':cookiesCustomerId}).populate('ebook_id');
+      var wishlistProduct = wishlistModel.findOne({'customer_id':cookiesCustomerId}).populate({path: 'products.product_id',model: 'product', populate : {path: 'ebook_id', model: 'ebook'}});
     
-
       var settingData = settingModel.findOne({});
       settingData.exec(function(errr,dataa){
         bookSubcategories.exec(function(err1,data1){
@@ -102,7 +101,7 @@ var settingModel = require('../../modules/setting');
                 //IF Cart is empty
                 if(wishlist != null){
                     //to check product is existing in cart
-                    const existingProductIndex = wishlist.products.findIndex(p => p._id == productId && p.book_type == 'paperbook');  
+                    const existingProductIndex = wishlist.products.findIndex(p => p.product_id == productId && p.booktype == 'paperbook');  
                   
 
                     if(existingProductIndex >= 0){
@@ -110,12 +109,13 @@ var settingModel = require('../../modules/setting');
 
                     }else{
                             //If card has other different product
-                            var savedata = data.toObject();
-                            savedata.book_type = 'paperbook';
+                            var products = new Object();
+                            products.booktype = 'paperbook';
                     
-                            savedata.qty = 1;
-                       
-                            wishlist.products.push(savedata);
+                            products.qty = 1;
+                            products.product_id = data._id;
+
+                            wishlist.products.push(products);
                             wishlist.save();
 
                             var productItemNumber = 0;
@@ -124,8 +124,7 @@ var settingModel = require('../../modules/setting');
                             productItemNumber += parseInt(doc.qty);
                             });
 
-                            console.log(productItemNumber);
-
+                       
                             res.send({
                             'productitem': productItemNumber, 
                             'wishlist': wishlist,
@@ -140,16 +139,19 @@ var settingModel = require('../../modules/setting');
                         customer_id : cookiesCustomerId
                     });
 
-                    var savedata = data.toObject();
-                    savedata.book_type = 'paperbook';
+                    var products = new Object();
+                    products.booktype = 'paperbook';
     
-                    savedata.qty = 1;
+                    products.qty = 1;
 
-                    saveWishlist.products.push(savedata);
+                    //Defining product object Id
+                    products.product_id = data._id;
+
+                    saveWishlist.products.push(products);
                     saveWishlist.save();
 
                     res.send({
-                        'productitem': savedata.qty, 
+                        'productitem': products.qty, 
                         'wishlist': wishlist,
                     });
                 }   
@@ -180,34 +182,33 @@ var settingModel = require('../../modules/setting');
                 //IF Cart is empty
                 if(wishlist != null){
                     //to check product is existing in cart
-                    const existingProductIndex = wishlist.products.findIndex(p => p._id == productId && p.book_type == 'ebook');  
-                  
-
+                    const existingProductIndex = wishlist.products.findIndex(p => p.product_id == productId && p.booktype == 'ebook');  
+          
                     if(existingProductIndex >= 0){
                         res.send('item-already-exist' );
-
                     }else{
-                            //If card has other different product
-                            var savedata = data.toObject();
-                            savedata.book_type = 'ebook';
-                    
-                            savedata.qty = 1;
-                       
-                            wishlist.products.push(savedata);
-                            wishlist.save();
+                      //If card has other different product
+                      var products = new Object();
+                      products.booktype = 'ebook';
+              
+                      products.qty = 1;
 
-                            var productItemNumber = 0;
+                      //Defining product object Id
+                      products.product_id = data._id;
+                  
+                      wishlist.products.push(products);
+                      wishlist.save();
 
-                            wishlist.products.forEach(function(doc){
-                            productItemNumber += parseInt(doc.qty);
-                            });
+                      var productItemNumber = 0;
 
-                            console.log(productItemNumber);
+                      wishlist.products.forEach(function(doc){
+                      productItemNumber += parseInt(doc.qty);
+                      });
 
-                            res.send({
-                            'productitem': productItemNumber, 
-                            'wishlist': wishlist,
-                            });
+                      res.send({
+                      'productitem': productItemNumber, 
+                      'wishlist': wishlist,
+                      });
                     
                         }
 
@@ -218,16 +219,19 @@ var settingModel = require('../../modules/setting');
                         customer_id : cookiesCustomerId
                     });
 
-                    var savedata = data.toObject();
-                    savedata.book_type = 'ebook';
+                    var products = new Object();
+                    products.booktype = 'ebook';
     
-                    savedata.qty = 1;
+                    products.qty = 1;
 
-                    saveWishlist.products.push(savedata);
+                    //Defining product object Id
+                    products.product_id = data._id;
+
+                    saveWishlist.products.push(products);
                     saveWishlist.save();
 
                     res.send({
-                        'productitem': savedata.qty, 
+                        'productitem': products.qty, 
                         'wishlist': wishlist,
                     });
                 }   
@@ -300,35 +304,37 @@ var settingModel = require('../../modules/setting');
                 //IF Cart is empty
                 if(wishlist != null){
                     //to check product is existing in cart
-                    const existingProductIndex = wishlist.products.findIndex(p => p._id == productId && p.book_type == null);  
+                    const existingProductIndex = wishlist.products.findIndex(p => p.product_id == productId && p.book_type == null);  
                   
 
                     if(existingProductIndex >= 0){
                         res.send('item-already-exist' );
 
                     }else{
-                            //If card has other different product
-                            var savedata = data.toObject();
-                         
-                            savedata.qty = 1;
-                       
-                            wishlist.products.push(savedata);
-                            wishlist.save();
 
-                            var productItemNumber = 0;
+                      //If card has other different product
+                      var products = new Object();
+                      products.booktype = null;
+                      products.qty = 1;
+                  
+                      //Defining product object Id
+                      products.product_id = data._id;
 
-                            wishlist.products.forEach(function(doc){
-                            productItemNumber += parseInt(doc.qty);
-                            });
+                      wishlist.products.push(products);
+                      wishlist.save();
 
-                      
+                      var productItemNumber = 0;
 
-                            res.send({
-                            'productitem': productItemNumber, 
-                            'wishlist': wishlist,
-                            });
-                    
-                        }
+                      wishlist.products.forEach(function(doc){
+                        productItemNumber += parseInt(doc.qty);
+                      });
+
+                      res.send({
+                      'productitem': productItemNumber, 
+                      'wishlist': wishlist,
+                      });
+
+                    }
 
                 }else{
                     
@@ -337,15 +343,19 @@ var settingModel = require('../../modules/setting');
                         customer_id : cookiesCustomerId
                     });
 
-                    var savedata = data.toObject();
+                    //If card has other different product
+                    var products = new Object();
+                    products.booktype = null;
+                    products.qty = 1;
                    
-                    savedata.qty = 1;
+                    //Defining product object Id
+                    products.product_id = data._id;
 
-                    saveWishlist.products.push(savedata);
+                    saveWishlist.products.push(products);
                     saveWishlist.save();
 
                     res.send({
-                        'productitem': savedata.qty, 
+                        'productitem': products.qty, 
                         'wishlist': wishlist,
                     });
                 }   

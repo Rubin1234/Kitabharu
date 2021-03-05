@@ -6,12 +6,9 @@ var conn = mongoose.connection;
 var Schema = mongoose.Schema; 
 
 var  cartSchema = new Schema({
-    products: [],
+    products: [       
+    ],
          
-    total_price:{
-        type: Number,
-        default: null,
-    },
 
     customer_id:{
         type: String,

@@ -68,6 +68,8 @@ function removeItem(){
 }
 
 function productNumberAdd(){
+ 
+
    var quantity =  $(event.currentTarget).siblings('.qty').val();
    var max =  $(event.currentTarget).siblings('.qty').attr('max');
    var totalQuantity = parseInt(quantity) + parseInt(1);
@@ -162,7 +164,7 @@ function productNumberSub(){
 
     var productId =  $(event.currentTarget).attr('productId');
     var bookType =  $(event.currentTarget).attr('bookType');
-
+    $('#loader').show();
 
     axios
     .get('/cart/updated/sub',
