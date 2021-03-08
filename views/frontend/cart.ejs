@@ -72,7 +72,7 @@
                <input type="hidden" value="<%= data.product_id.ebook_id.ebook_price %>" name="price[]" >
             <% } %>
             <td class="cart-select-option">
-               <input type="checkbox" style="transform:scale(1.2)" onclick="selectItem()" cartProduct="<%= cartProduct._id %>" productId="<%= data.product_id._id %>" bookType="<%= data.booktype %>">
+               <input type="checkbox" style="transform:scale(1.2)" onclick="selectItem()" cartProduct="<%= cartProduct._id %>" productId="<%= data.product_id._id %>" bookType="<%= data.booktype %>" <% if(data.selected){ %> <%= checked %> <% } %>    >
             </td>
       <td class="cart-product-remove">
          <i style="font-size: 19px;" class="icon-trash2 remove" onclick="removeItem()" cartProduct="<%= cartProduct._id %>" productId="<%= data.product_id._id %>" bookType="<%= data.booktype %>"></i>
@@ -157,7 +157,7 @@
     
   
     <tr class="cart_item" style="margin-top: 10px;">
-    <td colspan="6">
+    <td colspan="8">
     <div class="row clearfix" style="padding-top: 15px;">
     <!-- <div class="col-lg-4 col-4 nopadding">
     <div class="row">

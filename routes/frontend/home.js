@@ -390,34 +390,36 @@ const sliderModel = require('../../modules/slider');
                               //For Showing Item Number
                               productItemNumber += parseInt(doc.qty);
         
-                              //If there is discount on product
-                              if(doc.product_id.discount_percent > 0){
-                                if(doc.booktype == 'paperbook' || doc.booktype == null){
-                                  var productPrice = doc.product_id.product_price * doc.qty;
-                                }
-                                if(doc.booktype == 'ebook'){
-                                  var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
-                                }
-        
-                                var discountPercent = doc.product_id.discount_percent; 
-                                var discount_price = 0;
-                                var discount_price = discountPercent/100 * productPrice;
-                                var discountedAmount = productPrice - discount_price;
-                                finalAmount += parseInt(discountedAmount);
-                              }  
-                              else{ 
-                                
-                                //If there is no discount price
-                                if(doc.booktype == 'paperbook' || doc.booktype == null){
-                                  var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
-                                }
+                              if(doc.selected == true){
+                                //If there is discount on product
+                                if(doc.product_id.discount_percent > 0){
+                                  if(doc.booktype == 'paperbook' || doc.booktype == null){
+                                    var productPrice = doc.product_id.product_price * doc.qty;
+                                  }
+                                  if(doc.booktype == 'ebook'){
+                                    var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
+                                  }
                 
-                                if(doc.booktype == 'ebook'){
-                                  var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
+                                  var discountPercent = doc.product_id.discount_percent; 
+                                  var discount_price = 0;
+                                  var discount_price = discountPercent/100 * productPrice;
+                                  var discountedAmount = productPrice - discount_price;
+                                  finalAmount += parseInt(discountedAmount);
+                                }  
+                                else{ 
+                                  
+                                  //If there is no discount price
+                                  if(doc.booktype == 'paperbook' || doc.booktype == null){
+                                    var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
+                                  }
+                
+                                  if(doc.booktype == 'ebook'){
+                                    var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
+                                  }
+                
+                                  finalAmount += parseInt(productPrice);
                                 }
-        
-                                finalAmount += parseInt(productPrice);
-                              }
+                              } 
                             }); 
                         res.send({
                           'productitem': productItemNumber, 
@@ -461,32 +463,36 @@ const sliderModel = require('../../modules/slider');
                             //For Showing Item Number
                             productItemNumber += parseInt(doc.qty);
             
-                            //If there is discount on product
-                            if(doc.product_id.discount_percent > 0){
-                              if(doc.booktype == 'paperbook' || doc.booktype == null){
-                                var productPrice = doc.product_id.product_price * doc.qty;
+                            if(doc.selected == true){
+                              //If there is discount on product
+                              if(doc.product_id.discount_percent > 0){
+                                if(doc.booktype == 'paperbook' || doc.booktype == null){
+                                  var productPrice = doc.product_id.product_price * doc.qty;
+                                }
+                                if(doc.booktype == 'ebook'){
+                                  var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
+                                }
+              
+                                var discountPercent = doc.product_id.discount_percent; 
+                                var discount_price = 0;
+                                var discount_price = discountPercent/100 * productPrice;
+                                var discountedAmount = productPrice - discount_price;
+                                finalAmount += parseInt(discountedAmount);
+                              }  
+                              else{ 
+                                
+                                //If there is no discount price
+                                if(doc.booktype == 'paperbook' || doc.booktype == null){
+                                  var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
+                                }
+              
+                                if(doc.booktype == 'ebook'){
+                                  var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
+                                }
+              
+                                finalAmount += parseInt(productPrice);
                               }
-                              if(doc.booktype == 'ebook'){
-                                var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
-                              }
-                  
-                              var discountPercent = doc.product_id.discount_percent;        
-                              var discount_price = 0;
-                              var discount_price = discountPercent/100 * productPrice;
-                              var discountedAmount = productPrice - discount_price;
-                              finalAmount += parseInt(discountedAmount);
-                            }  
-                            else{ 
-      
-                              //If there is no discount price
-                              if(doc.booktype == 'paperbook' || doc.booktype == null){
-                                var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
-                              }
-                              if(doc.booktype == 'ebook'){
-                                var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
-                              }
-                              finalAmount += parseInt(productPrice);
-                            }
+                            } 
                           });
             
                     res.send({
@@ -609,34 +615,36 @@ const sliderModel = require('../../modules/slider');
                       //For Showing Item Number
                       productItemNumber += parseInt(doc.qty);
 
-                      //If there is discount on product
-                      if(doc.product_id.discount_percent > 0){
-                        if(doc.booktype == 'paperbook' || doc.booktype == null){
-                          var productPrice = doc.product_id.product_price * doc.qty;
-                        }
-                        if(doc.booktype == 'ebook'){
-                          var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
-                        }
-
-                        var discountPercent = doc.product_id.discount_percent; 
-                        var discount_price = 0;
-                        var discount_price = discountPercent/100 * productPrice;
-                        var discountedAmount = productPrice - discount_price;
-                        finalAmount += parseInt(discountedAmount);
-                      }  
-                      else{ 
-
-                        //If there is no discount price
-                        if(doc.booktype == 'paperbook' || doc.booktype == null){
-                          var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
-                        }
+                      if(doc.selected == true){
+                        //If there is discount on product
+                        if(doc.product_id.discount_percent > 0){
+                          if(doc.booktype == 'paperbook' || doc.booktype == null){
+                            var productPrice = doc.product_id.product_price * doc.qty;
+                          }
+                          if(doc.booktype == 'ebook'){
+                            var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
+                          }
         
-                        if(doc.booktype == 'ebook'){
-                          var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
+                          var discountPercent = doc.product_id.discount_percent; 
+                          var discount_price = 0;
+                          var discount_price = discountPercent/100 * productPrice;
+                          var discountedAmount = productPrice - discount_price;
+                          finalAmount += parseInt(discountedAmount);
+                        }  
+                        else{ 
+                          
+                          //If there is no discount price
+                          if(doc.booktype == 'paperbook' || doc.booktype == null){
+                            var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
+                          }
+        
+                          if(doc.booktype == 'ebook'){
+                            var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
+                          }
+        
+                          finalAmount += parseInt(productPrice);
                         }
-
-                        finalAmount += parseInt(productPrice);
-                      }
+                      } 
                     });                 
                     res.send({
                       'productitem': productItemNumber, 
@@ -683,32 +691,36 @@ const sliderModel = require('../../modules/slider');
                       //For Showing Item Number
                       productItemNumber += parseInt(doc.qty);
       
-                      //If there is discount on product
-                      if(doc.product_id.discount_percent > 0){
-                        if(doc.booktype == 'paperbook' || doc.booktype == null){
-                          var productPrice = doc.product_id.product_price * doc.qty;
+                      if(doc.selected == true){
+                        //If there is discount on product
+                        if(doc.product_id.discount_percent > 0){
+                          if(doc.booktype == 'paperbook' || doc.booktype == null){
+                            var productPrice = doc.product_id.product_price * doc.qty;
+                          }
+                          if(doc.booktype == 'ebook'){
+                            var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
+                          }
+        
+                          var discountPercent = doc.product_id.discount_percent; 
+                          var discount_price = 0;
+                          var discount_price = discountPercent/100 * productPrice;
+                          var discountedAmount = productPrice - discount_price;
+                          finalAmount += parseInt(discountedAmount);
+                        }  
+                        else{ 
+                          
+                          //If there is no discount price
+                          if(doc.booktype == 'paperbook' || doc.booktype == null){
+                            var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
+                          }
+        
+                          if(doc.booktype == 'ebook'){
+                            var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
+                          }
+        
+                          finalAmount += parseInt(productPrice);
                         }
-                        if(doc.booktype == 'ebook'){
-                          var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
-                        }
-            
-                        var discountPercent = doc.product_id.discount_percent;        
-                        var discount_price = 0;
-                        var discount_price = discountPercent/100 * productPrice;
-                        var discountedAmount = productPrice - discount_price;
-                        finalAmount += parseInt(discountedAmount);
-                      }  
-                      else{ 
-
-                        //If there is no discount price
-                        if(doc.booktype == 'paperbook' || doc.booktype == null){
-                          var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
-                        }
-                        if(doc.booktype == 'ebook'){
-                          var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
-                        }
-                        finalAmount += parseInt(productPrice);
-                      }
+                      } 
                     });
               
                     res.send({
@@ -828,34 +840,36 @@ const sliderModel = require('../../modules/slider');
                         //For Showing Item Number
                         productItemNumber += parseInt(doc.qty);
   
-                        //If there is discount on product
-                        if(doc.product_id.discount_percent > 0){
-                          if(doc.booktype == 'paperbook' || doc.booktype == null){
-                            var productPrice = doc.product_id.product_price * doc.qty;
-                          }
-                          if(doc.booktype == 'ebook'){
-                            var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
-                          }
-  
-                          var discountPercent = doc.product_id.discount_percent; 
-                          var discount_price = 0;
-                          var discount_price = discountPercent/100 * productPrice;
-                          var discountedAmount = productPrice - discount_price;
-                          finalAmount += parseInt(discountedAmount);
-                        }  
-                        else{ 
-  
-                          //If there is no discount price
-                          if(doc.booktype == 'paperbook' || doc.booktype == null){
-                            var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
-                          }
+                        if(doc.selected == true){
+                          //If there is discount on product
+                          if(doc.product_id.discount_percent > 0){
+                            if(doc.booktype == 'paperbook' || doc.booktype == null){
+                              var productPrice = doc.product_id.product_price * doc.qty;
+                            }
+                            if(doc.booktype == 'ebook'){
+                              var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
+                            }
           
-                          if(doc.booktype == 'ebook'){
-                            var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
+                            var discountPercent = doc.product_id.discount_percent; 
+                            var discount_price = 0;
+                            var discount_price = discountPercent/100 * productPrice;
+                            var discountedAmount = productPrice - discount_price;
+                            finalAmount += parseInt(discountedAmount);
+                          }  
+                          else{ 
+                            
+                            //If there is no discount price
+                            if(doc.booktype == 'paperbook' || doc.booktype == null){
+                              var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
+                            }
+          
+                            if(doc.booktype == 'ebook'){
+                              var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
+                            }
+          
+                            finalAmount += parseInt(productPrice);
                           }
-  
-                          finalAmount += parseInt(productPrice);
-                        }
+                        } 
                       }); 
 
                       res.send({
@@ -901,32 +915,36 @@ const sliderModel = require('../../modules/slider');
                       //For Showing Item Number
                       productItemNumber += parseInt(doc.qty);
       
-                      //If there is discount on product
-                      if(doc.product_id.discount_percent > 0){
-                        if(doc.booktype == 'paperbook' || doc.booktype == null){
-                          var productPrice = doc.product_id.product_price * doc.qty;
+                      if(doc.selected == true){
+                        //If there is discount on product
+                        if(doc.product_id.discount_percent > 0){
+                          if(doc.booktype == 'paperbook' || doc.booktype == null){
+                            var productPrice = doc.product_id.product_price * doc.qty;
+                          }
+                          if(doc.booktype == 'ebook'){
+                            var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
+                          }
+        
+                          var discountPercent = doc.product_id.discount_percent; 
+                          var discount_price = 0;
+                          var discount_price = discountPercent/100 * productPrice;
+                          var discountedAmount = productPrice - discount_price;
+                          finalAmount += parseInt(discountedAmount);
+                        }  
+                        else{ 
+                          
+                          //If there is no discount price
+                          if(doc.booktype == 'paperbook' || doc.booktype == null){
+                            var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
+                          }
+        
+                          if(doc.booktype == 'ebook'){
+                            var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
+                          }
+        
+                          finalAmount += parseInt(productPrice);
                         }
-                        if(doc.booktype == 'ebook'){
-                          var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
-                        }
-            
-                        var discountPercent = doc.product_id.discount_percent;        
-                        var discount_price = 0;
-                        var discount_price = discountPercent/100 * productPrice;
-                        var discountedAmount = productPrice - discount_price;
-                        finalAmount += parseInt(discountedAmount);
-                      }  
-                      else{ 
-
-                        //If there is no discount price
-                        if(doc.booktype == 'paperbook' || doc.booktype == null){
-                          var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
-                        }
-                        if(doc.booktype == 'ebook'){
-                          var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
-                        }
-                        finalAmount += parseInt(productPrice);
-                      }
+                      } 
                     });
                    
                     res.send({
@@ -1031,35 +1049,36 @@ const sliderModel = require('../../modules/slider');
               //For Showing Item Number
               productItemNumber += parseInt(doc.qty);
 
-              //If there is discount on product
-              if(doc.product_id.discount_percent > 0){
+              if(doc.selected == true){
+                //If there is discount on product
+                if(doc.product_id.discount_percent > 0){
+                  if(doc.booktype == 'paperbook' || doc.booktype == null){
+                    var productPrice = doc.product_id.product_price * doc.qty;
+                  }
+                  if(doc.booktype == 'ebook'){
+                    var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
+                  }
 
-               if(doc.booktype == 'paperbook' || doc.booktype == null){
-                var productPrice = doc.product_id.product_price * doc.qty;
-               }
-               if(doc.booktype == 'ebook'){
-                var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
-               }
+                  var discountPercent = doc.product_id.discount_percent; 
+                  var discount_price = 0;
+                  var discount_price = discountPercent/100 * productPrice;
+                  var discountedAmount = productPrice - discount_price;
+                  finalAmount += parseInt(discountedAmount);
+                }  
+                else{ 
+                  
+                  //If there is no discount price
+                  if(doc.booktype == 'paperbook' || doc.booktype == null){
+                    var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
+                  }
 
-                var discountPercent = doc.product_id.discount_percent;        
-                var discount_price = 0;
-                var discount_price = discountPercent/100 * productPrice;
-                var discountedAmount = productPrice - discount_price;
-                finalAmount += parseInt(discountedAmount);
-              }  
-              else{ 
-                //If there is no discount price
+                  if(doc.booktype == 'ebook'){
+                    var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
+                  }
 
-                if(doc.booktype == 'paperbook' || doc.booktype == null){
-                  var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
+                  finalAmount += parseInt(productPrice);
                 }
-
-                if(doc.booktype == 'ebook'){
-                  var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
-                }
-                
-                finalAmount += parseInt(productPrice);
-                }
+              } 
             });
   
             res.send({

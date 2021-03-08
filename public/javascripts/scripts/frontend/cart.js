@@ -203,7 +203,7 @@ function selectItem(){
        var cartId = $(event.currentTarget).attr('cartProduct');
        var productId = $(event.currentTarget).attr('productId');
        var bookType = $(event.currentTarget).attr('bookType');
-
+       $('#loader').show();
        axios
        .get('/cart/selectoption',
            {   
@@ -213,7 +213,13 @@ function selectItem(){
                     bookType : bookType,
                }
            }).then(function(response){
-                console.log(1);
+            var productLength = response.data.productitem;
+            var totalAmount = response.data.totalAmount; 
+            var total = response.data.total;
+             
+            $('#cartProductPrice').empty().append(totalAmount);
+            $('.amount').empty().html('Rs '+ totalAmount); 
+            $('.totalAmount').empty().html('Rs '+ total); 
                $('#loader').hide();
                bootoast.toast({
                    message: 'Cart Updated',
@@ -222,8 +228,36 @@ function selectItem(){
            
            });
 
-     
     }else{
-        console.log('notchecked')
+        
+       var cartId = $(event.currentTarget).attr('cartProduct');
+       var productId = $(event.currentTarget).attr('productId');
+       var bookType = $(event.currentTarget).attr('bookType');
+       $('#loader').show();
+       axios
+       .get('/cart/deselectoption',
+           {   
+               params:{
+                    cartId : cartId,
+                    productId : productId,
+                    bookType : bookType,
+               }
+           }).then(function(response){
+            var productLength = response.data.productitem;
+            var totalAmount = response.data.totalAmount; 
+            var total = response.data.total; 
+       
+
+            $('#cartProductPrice').empty().append(totalAmount);
+            $('.amount').empty().html('Rs '+ totalAmount); 
+            $('.totalAmount').empty().html('Rs '+ total); 
+               $('#loader').hide();
+               bootoast.toast({
+                   message: 'Cart Updated',
+                   type: 'success'
+               })
+           
+           });
+
     }
 }
