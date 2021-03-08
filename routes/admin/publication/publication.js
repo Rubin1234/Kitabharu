@@ -14,7 +14,7 @@ var sessionstorage = require('sessionstorage');
 //storage for Image Upload
 var Storage = multer.diskStorage({
 
-    // destination: './public/images/backend/admins/',
+    // destination: '/home/kitabharu/kitabharu/public/images/backend/admins/',
     filename: function(req,file,cb){
         console.log(cb)
       var uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -97,8 +97,8 @@ router.post('/store',upload,function(req,res,next){
                 let width1 = 300;
                 let height1 = 300;
                 
-                sharp(req.file.path).resize(width,height).toFile('./public/images/backend/publication/'+ req.file.filename);
-                sharp(req.file.path).resize(width1,height1).toFile('./public/images/backend/publication/frontview/'+ req.file.filename);
+                sharp(req.file.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/publication/'+ req.file.filename);
+                sharp(req.file.path).resize(width1,height1).toFile('/home/kitabharu/kitabharu/public/images/backend/publication/frontview/'+ req.file.filename);
             }
         
             var savepublication = new publicationModel({
@@ -164,13 +164,13 @@ router.post('/update',upload,function(req,res,next){
                     let width1 = 300;
                     let height1 = 300;
         
-                    sharp(req.file.path).resize(width,height).toFile('./public/images/backend/publication/'+ req.file.filename);
-                    sharp(req.file.path).resize(width1,height1).toFile('./public/images/backend/publication/frontview/'+ req.file.filename);
+                    sharp(req.file.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/publication/'+ req.file.filename);
+                    sharp(req.file.path).resize(width1,height1).toFile('/home/kitabharu/kitabharu/public/images/backend/publication/frontview/'+ req.file.filename);
 
                     if(previousPublicationImage != ''){
                         console.log(1)
-                    var filePath = './public/images/backend/publication/'+previousPublicationImage;
-                    var filePath1 = './public/images/backend/publication/frontview/'+previousPublicationImage;
+                    var filePath = '/home/kitabharu/kitabharu/public/images/backend/publication/'+previousPublicationImage;
+                    var filePath1 = '/home/kitabharu/kitabharu/public/images/backend/publication/frontview/'+previousPublicationImage;
                     fs.unlinkSync(filePath);
                     fs.unlinkSync(filePath1);
                     }
@@ -202,8 +202,8 @@ router.get('/delete/:id',function(req,res,next){
 
             // If category image is not null
             if(data.article_image != null){       
-                var filePath = './public/images/backend/publication/'+data.publication_image;
-                var filePath1 = './public/images/backend/publication/frontview/'+data.publication_image;
+                var filePath = '/home/kitabharu/kitabharu/public/images/backend/publication/'+data.publication_image;
+                var filePath1 = '/home/kitabharu/kitabharu/public/images/backend/publication/frontview/'+data.publication_image;
                 fs.unlinkSync(filePath);
                 fs.unlinkSync(filePath1);
             }

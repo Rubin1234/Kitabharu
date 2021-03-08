@@ -100,8 +100,8 @@ router.post('/store',upload,function(req,res,next){
                 let width1 = 570;
                 let height1 = 350;
                 
-                sharp(req.file.path).resize(width,height).toFile('./public/images/backend/articles/'+ req.file.filename);
-                sharp(req.file.path).resize(width1,height1).toFile('./public/images/backend/articles/frontview/'+ req.file.filename);
+                sharp(req.file.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/articles/'+ req.file.filename);
+                sharp(req.file.path).resize(width1,height1).toFile('/home/kitabharu/kitabharu/public/images/backend/articles/frontview/'+ req.file.filename);
             }
         
             var saveArticle = new articleModel({
@@ -168,13 +168,13 @@ router.post('/update',upload,function(req,res,next){
                     let width1 = 570;
                     let height1 = 350;
         
-                    sharp(req.file.path).resize(width,height).toFile('./public/images/backend/articles/'+ req.file.filename);
-                    sharp(req.file.path).resize(width1,height1).toFile('./public/images/backend/articles/frontview/'+ req.file.filename);
+                    sharp(req.file.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/articles/'+ req.file.filename);
+                    sharp(req.file.path).resize(width1,height1).toFile('/home/kitabharu/kitabharu/public/images/backend/articles/frontview/'+ req.file.filename);
 
                     if(previousArticleImage != ''){
                         console.log(1)
-                    var filePath = './public/images/backend/articles/'+previousArticleImage;
-                    var filePath1 = './public/images/backend/articles/frontview/'+previousArticleImage;
+                    var filePath = '/home/kitabharu/kitabharu/public/images/backend/articles/'+previousArticleImage;
+                    var filePath1 = '/home/kitabharu/kitabharu/public/images/backend/articles/frontview/'+previousArticleImage;
                     fs.unlinkSync(filePath);
                     fs.unlinkSync(filePath1);
                     }
@@ -209,8 +209,8 @@ router.get('/delete/:id',function(req,res,next){
 
             // If category image is not null
             if(data.article_image != null){       
-                var filePath = './public/images/backend/articles/'+data.article_image;
-                var filePath1 = './public/images/backend/articles/frontview/'+data.article_image;
+                var filePath = '/home/kitabharu/kitabharu/public/images/backend/articles/'+data.article_image;
+                var filePath1 = '/home/kitabharu/kitabharu/public/images/backend/articles/frontview/'+data.article_image;
                 fs.unlinkSync(filePath);
                 fs.unlinkSync(filePath1);
             }

@@ -15,7 +15,7 @@ var sessionstorage = require('sessionstorage');
 //storage for Image Upload
 var Storage = multer.diskStorage({
 
-    // destination: './public/images/backend/admins/',
+    // destination: '/home/kitabharu/kitabharu/public/images/backend/admins/',
     filename: function(req,file,cb){
         console.log(cb)
       var uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -98,7 +98,7 @@ router.post('/store',upload,function(req,res,next){
                 let width = 1630;
                 let height = 630;
         
-                sharp(req.file.path).resize(width,height).toFile('./public/images/backend/slider/'+ req.file.filename);
+                sharp(req.file.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/slider/'+ req.file.filename);
              
             }
 
@@ -157,10 +157,10 @@ router.post('/update',upload,function(req,res,next){
         let width = 1633;
         let height = 630;
 
-        sharp(req.file.path).resize(width,height).toFile('./public/images/backend/slider/'+ req.file.filename);
+        sharp(req.file.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/slider/'+ req.file.filename);
   
         if(previousSliderImage != ''){
-            var filePath = './public/images/backend/slider/'+previousSliderImage;
+            var filePath = '/home/kitabharu/kitabharu/public/images/backend/slider/'+previousSliderImage;
             fs.unlinkSync(filePath);
         }
     }
@@ -189,7 +189,7 @@ router.get('/delete/:id',function(req,res,next){
 
             // If category image is not null
             if(data.image != null){       
-                var filePath = './public/images/backend/slider/'+data.image;
+                var filePath = '/home/kitabharu/kitabharu/public/images/backend/slider/'+data.image;
                 fs.unlinkSync(filePath);
             }
 

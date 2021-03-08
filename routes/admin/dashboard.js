@@ -93,7 +93,7 @@ router.get('/setting',function(req, res, next) {
 
 //storage for Image Upload
 var Storage = multer.diskStorage({
-  // destination: './public/images/backend/admins/',
+  // destination: '/home/kitabharu/kitabharu/public/images/backend/admins/',
   filename: function(req,file,cb){
     var uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
     cb(null,file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname) );
@@ -135,10 +135,10 @@ router.post('/setting',upload,function(req,res,next){
         let width = 500;
         let height = 500;
     
-        sharp(req.file.path).resize(width,height).toFile('./public/images/backend/admins/'+ req.file.filename);
+        sharp(req.file.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/admins/'+ req.file.filename);
         
         //Deleting File 
-        var filePath = './public/images/backend/admins/'+previousprofilePic;
+        var filePath = '/home/kitabharu/kitabharu/public/images/backend/admins/'+previousprofilePic;
         fs.unlinkSync(filePath);
     }   
   

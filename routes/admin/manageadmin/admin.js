@@ -110,7 +110,7 @@ router.post('/store',upload,function(req,res,next){
         let width = 500;
         let height = 500;
     
-        sharp(req.file.path).resize(width,height).toFile('./public/images/backend/admins/'+ req.file.filename);
+        sharp(req.file.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/admins/'+ req.file.filename);
     }
 
 
@@ -187,7 +187,7 @@ router.get('/delete/:id',function(req,res,next){
             console.log(data.image);
             if(data.image != ' '){  
                 console.log(1);      
-                var filePath = './public/images/backend/admins/'+data.image;
+                var filePath = '/home/kitabharu/kitabharu/public/images/backend/admins/'+data.image;
                 console.log(filePath);
                 fs.unlinkSync(filePath);
             }
@@ -240,11 +240,11 @@ router.post('/update',update,async function(req,res,next){
         let width = 500;
         let height = 500;
     
-        sharp(req.file.path).resize(width,height).toFile('./public/images/backend/admins/'+ req.file.filename);
+        sharp(req.file.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/admins/'+ req.file.filename);
        
         //Deleting File 
         if(previousprofilePic != ''){
-            var filePath = './public/images/backend/admins/'+previousprofilePic;
+            var filePath = '/home/kitabharu/kitabharu/public/images/backend/admins/'+previousprofilePic;
             fs.unlinkSync(filePath);
         }
         

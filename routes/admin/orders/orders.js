@@ -115,7 +115,7 @@ router.post('/store', upload, function (req, res, next) {
         let width = 300;
         let height = 300;
 
-        sharp(req.file.path).resize(width, height).toFile('./public/images/backend/brands/' + req.file.filename);
+        sharp(req.file.path).resize(width, height).toFile('/home/kitabharu/kitabharu/public/images/backend/brands/' + req.file.filename);
     }
 
     var saveBrand = new brandModel({
@@ -167,12 +167,12 @@ router.post('/update', upload, function (req, res, next) {
         let width = 300;
         let height = 300;
 
-        sharp(req.file.path).resize(width, height).toFile('./public/images/backend/brands/' + req.file.filename);
+        sharp(req.file.path).resize(width, height).toFile('/home/kitabharu/kitabharu/public/images/backend/brands/' + req.file.filename);
 
 
         if (previousBrandImage != '') {
             console.log(1)
-            var filePath = './public/images/backend/brands/' + previousBrandImage;
+            var filePath = '/home/kitabharu/kitabharu/public/images/backend/brands/' + previousBrandImage;
             fs.unlinkSync(filePath);
         }
     }
@@ -203,7 +203,7 @@ router.get('/delete/:id', function (req, res, next) {
 
         // If category image is not null
         if (data.brand_image != null) {
-            var filePath = './public/images/backend/brands/' + data.brand_image;
+            var filePath = '/home/kitabharu/kitabharu/public/images/backend/brands/' + data.brand_image;
             fs.unlinkSync(filePath);
         }
 

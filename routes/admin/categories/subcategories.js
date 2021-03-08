@@ -111,7 +111,7 @@ router.post('/store',image,function(req,res,next){
             let width = 500;
             let height = 500;
 
-            sharp(req.files['subcategory_image'][0].path).resize(width,height).toFile('./public/images/backend/subcategories/'+ image);
+            sharp(req.files['subcategory_image'][0].path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/subcategories/'+ image);
 
 
             var saveSubCategory = new SubCategoryModel({
@@ -148,7 +148,7 @@ router.post('/store',image,function(req,res,next){
             let width1 = 100;
             let height1 = 100;
 
-            sharp(req.files['subcategory_icon'][0].path).resize(width1,height1).toFile('./public/images/backend/subcategories/icons/'+ icon);
+            sharp(req.files['subcategory_icon'][0].path).resize(width1,height1).toFile('/home/kitabharu/kitabharu/public/images/backend/subcategories/icons/'+ icon);
 
             var savesubCategory = new SubCategoryModel({
             subcategory_name:subCategoryName,
@@ -179,9 +179,9 @@ router.post('/store',image,function(req,res,next){
             let width1 = 100;
             let height1 = 100;
                 
-            sharp(req.files['subcategory_image'][0].path).resize(width,height).toFile('./public/images/backend/subcategories/'+ image);
+            sharp(req.files['subcategory_image'][0].path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/subcategories/'+ image);
                 
-            sharp(req.files['subcategory_icon'][0].path).resize(width1,height1).toFile('./public/images/backend/subcategories/icons/'+ icon);
+            sharp(req.files['subcategory_icon'][0].path).resize(width1,height1).toFile('/home/kitabharu/kitabharu/public/images/backend/subcategories/icons/'+ icon);
 
             var savesubCategory = new SubCategoryModel({
                 subcategory_name:subCategoryName,
@@ -282,10 +282,10 @@ router.post('/update',image1,function(req,res,next){
             let width = 500;
             let height = 500;
 
-            sharp(req.files['subcategory_image'][0].path).resize(width,height).toFile('./public/images/backend/subcategories/'+ subcategoryImage);
+            sharp(req.files['subcategory_image'][0].path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/subcategories/'+ subcategoryImage);
 
             if(previousSubCategoryImage != ''){
-            var filePath = './public/images/backend/subcategories/'+previousSubCategoryImage;
+            var filePath = '/home/kitabharu/kitabharu/public/images/backend/subcategories/'+previousSubCategoryImage;
             fs.unlinkSync(filePath);
             }
 
@@ -327,10 +327,10 @@ router.post('/update',image1,function(req,res,next){
             let width = 100;
             let height = 100;
 
-            sharp(req.files['subcategory_icon'][0].path).resize(width,height).toFile('./public/images/backend/subcategories/icons/'+ subcategoryIcon);
+            sharp(req.files['subcategory_icon'][0].path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/subcategories/icons/'+ subcategoryIcon);
 
             if(previousSubCategoryIcon != ''){
-            var filePath = './public/images/backend/subcategories/icons/'+previousSubCategoryIcon;
+            var filePath = '/home/kitabharu/kitabharu/public/images/backend/subcategories/icons/'+previousSubCategoryIcon;
             fs.unlinkSync(filePath);
            
         }
@@ -375,10 +375,10 @@ router.post('/update',image1,function(req,res,next){
             let width = 500;
             let height = 500;
 
-            sharp(req.files['subcategory_image'][0].path).resize(width,height).toFile('./public/images/backend/subcategories/'+ subcategoryImage);
+            sharp(req.files['subcategory_image'][0].path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/subcategories/'+ subcategoryImage);
 
             if(previousSubCategoryImage != ''){
-            var filePath1 = './public/images/backend/subcategories/'+previousSubCategoryImage;
+            var filePath1 = '/home/kitabharu/kitabharu/public/images/backend/subcategories/'+previousSubCategoryImage;
             fs.unlinkSync(filePath1);
             }
 
@@ -386,10 +386,10 @@ router.post('/update',image1,function(req,res,next){
             let width1 = 100;
             let height1 = 100;
 
-            sharp(req.files['subcategory_icon'][0].path).resize(width1,height1).toFile('./public/images/backend/subcategories/icons/'+ subcategoryIcon);
+            sharp(req.files['subcategory_icon'][0].path).resize(width1,height1).toFile('/home/kitabharu/kitabharu/public/images/backend/subcategories/icons/'+ subcategoryIcon);
 
             if(previousSubCategoryIcon != ''){
-            var filePath = './public/images/backend/subcategories/icons/'+previousSubCategoryIcon;
+            var filePath = '/home/kitabharu/kitabharu/public/images/backend/subcategories/icons/'+previousSubCategoryIcon;
             fs.unlinkSync(filePath);}
 
             var updateSubCategory = SubCategoryModel.findByIdAndUpdate(id,{
@@ -476,14 +476,14 @@ router.get('/delete/:id',function(req,res,next){
 
             // If category image is not null
             if(data.subcategory_image != null){       
-                var filePath = './public/images/backend/subcategories/'+data.subcategory_image;
+                var filePath = '/home/kitabharu/kitabharu/public/images/backend/subcategories/'+data.subcategory_image;
                 fs.unlinkSync(filePath);
             }
 
             // If category icon is not null
             if(data.subcategory_icon != null){  
                 
-                var filePath1 = './public/images/backend/subcategories/icons/'+data.subcategory_icon;
+                var filePath1 = '/home/kitabharu/kitabharu/public/images/backend/subcategories/icons/'+data.subcategory_icon;
              
                 fs.unlinkSync(filePath1);
             }
