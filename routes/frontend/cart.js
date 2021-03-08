@@ -62,7 +62,51 @@ var settingModel = require('../../modules/setting');
           var uniqueValueEbook = array.filter(onlyUnique);
         
 
-        cartProduct.exec(function(err4,data4){
+        cartProduct.exec(async function(err4,data4){
+          var productItemNumber = 0;
+          var finalAmount = 0;
+          data4.products.forEach(function(doc){
+
+            //For Showing Item Number
+            productItemNumber += parseInt(doc.qty);
+
+            //If there is discount on product
+            if(doc.product_id.discount_percent > 0){
+              if(doc.booktype == 'paperbook' || doc.booktype == null){
+                var productPrice = doc.product_id.product_price * doc.qty;
+              }
+              if(doc.booktype == 'ebook'){
+                var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
+              }
+
+              var discountPercent = doc.product_id.discount_percent; 
+              var discount_price = 0;
+              var discount_price = discountPercent/100 * productPrice;
+              var discountedAmount = productPrice - discount_price;
+              finalAmount += parseInt(discountedAmount);
+            }  
+            else{ 
+              
+              //If there is no discount price
+              if(doc.booktype == 'paperbook' || doc.booktype == null){
+                var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
+              }
+
+              if(doc.booktype == 'ebook'){
+                var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
+              }
+
+              finalAmount += parseInt(productPrice);
+            }
+          });
+  
+
+          //For Delivery and service,tax charge
+          var settingData = await settingModel.findOne({});
+          var deliveryCharge = settingData.delivery_charge;
+          var serviceCharge = settingData.service_charge/100 * finalAmount;
+          var taxCharge = settingData.tax_charge/100 * finalAmount;
+          var total = finalAmount + parseInt(deliveryCharge) + parseInt(serviceCharge) + parseInt(taxCharge)
 
             // var records = util.inspect(data4, false, null, true /* enable colors */);
             res.render('frontend/cart',{
@@ -74,7 +118,9 @@ var settingModel = require('../../modules/setting');
               cookiesCustomerId,
               cookiesCustomerEmail,
               cartProduct:data4,
-              setting : dataa
+              setting : dataa,
+              finalAmount,
+              totalPrice : total
             });
           });
           }); 
@@ -179,10 +225,10 @@ var settingModel = require('../../modules/setting');
       }
 
       const existingProduct = cart.products[existingProductIndex];
-      console.log(existingProduct);
+ 
       
       total_quantity =  parseInt(existingProduct.qty) + 1;
-      console.log(total_quantity);
+  
   
       // total =  parseInt(cart.total_price) + parseInt(totalPrice);
        
@@ -191,9 +237,9 @@ var settingModel = require('../../modules/setting');
         { $set: { "products.$.qty": total_quantity } }
       )
    
-      updateArray.exec(function(err,data){
+      updateArray.exec( function(err,data){
           //For Count Latest Item Quantity Number
-          cartModel.findOne({customer_id:cookiesCustomerId}).populate({path: 'products.product_id',model: 'product', populate : { path: 'ebook_id', model: 'ebook' }}).exec(function(err5,cart2){
+          cartModel.findOne({customer_id:cookiesCustomerId}).populate({path: 'products.product_id',model: 'product', populate : { path: 'ebook_id', model: 'ebook' }}).exec(async function(err5,cart2){
                     
             var productItemNumber = 0;
             var finalAmount = 0;
@@ -232,11 +278,19 @@ var settingModel = require('../../modules/setting');
               }
             }); 
 
+          //For Delivery and service,tax charge
+          var settingData = await settingModel.findOne({});
+          var deliveryCharge = settingData.delivery_charge;
+          var serviceCharge = settingData.service_charge/100 * finalAmount;
+          var taxCharge = settingData.tax_charge/100 * finalAmount;
+          var total = finalAmount + parseInt(deliveryCharge) + parseInt(serviceCharge) + parseInt(taxCharge)
+
             res.send({
               'productitem': productItemNumber, 
-              'totalAmount' : finalAmount
+              'totalAmount' : finalAmount,
+              'total' : total
             });
-                  });
+          });
           
             });
       });
@@ -276,11 +330,11 @@ var settingModel = require('../../modules/setting');
    
         updateArray.exec(function(err,data){  
             //For Count Latest Item Quantity Number
-            cartModel.findOne({customer_id:cookiesCustomerId}).populate({path: 'products.product_id',model: 'product', populate : { path: 'ebook_id', model: 'ebook' }}).exec(function(err5,cart2){
+            cartModel.findOne({customer_id:cookiesCustomerId}).populate({path: 'products.product_id',model: 'product', populate : { path: 'ebook_id', model: 'ebook' }}).exec(async function(err5,cart2){
                     
               var productItemNumber = 0;
               var finalAmount = 0;
-              cart2.products.forEach(function(doc){
+              cart2.products.forEach(function(doc){   
   
                 //For Showing Item Number
                 productItemNumber += parseInt(doc.qty);
@@ -314,10 +368,18 @@ var settingModel = require('../../modules/setting');
                   finalAmount += parseInt(productPrice);
                 }
               }); 
+
+              //For Delivery and service,tax charge
+              var settingData = await settingModel.findOne({});
+              var deliveryCharge = settingData.delivery_charge;
+              var serviceCharge = settingData.service_charge/100 * finalAmount;
+              var taxCharge = settingData.tax_charge/100 * finalAmount;
+              var total = finalAmount + parseInt(deliveryCharge) + parseInt(serviceCharge) + parseInt(taxCharge)
       
               res.send({
                 'productitem': productItemNumber, 
-                'totalAmount' : finalAmount
+                'totalAmount' : finalAmount,
+                'total' : total
               });
             });
       
@@ -359,7 +421,6 @@ router.get('/removeitem',async function(req, res, next){
     }
 
     var existingProduct = data.products[existingProductIndex];
-   
 
     var priceToBeDeduct= 0;
 
@@ -416,7 +477,7 @@ router.get('/removeitem',async function(req, res, next){
         cartModel.updateOne({customer_id:cookiesCustomerId},{products:data.products}).exec(function(err1,data1){
           
           //For Count Latest Item Quantity Number
-          cartModel.findOne({customer_id:cookiesCustomerId}).populate({path: 'products.product_id',model: 'product', populate : { path: 'ebook_id', model: 'ebook' }}).exec(function(err5,cart2){
+          cartModel.findOne({customer_id:cookiesCustomerId}).populate({path: 'products.product_id',model: 'product', populate : { path: 'ebook_id', model: 'ebook' }}).exec(async function(err5,cart2){
             
               var productItemNumber = 0;
               var finalAmount = 0;
@@ -454,10 +515,18 @@ router.get('/removeitem',async function(req, res, next){
                   finalAmount += parseInt(productPrice);
                 }
               }); 
+
+              //For Delivery and service,tax charge
+              var settingData = await settingModel.findOne({});
+              var deliveryCharge = settingData.delivery_charge;
+              var serviceCharge = settingData.service_charge/100 * finalAmount;
+              var taxCharge = settingData.tax_charge/100 * finalAmount;
+              var total = finalAmount + parseInt(deliveryCharge) + parseInt(serviceCharge) + parseInt(taxCharge)
     
             res.send({
               'productitem': productItemNumber, 
-              'totalAmount' : finalAmount
+              'totalAmount' : finalAmount,
+              'total' : total
             });
           });
        
@@ -474,6 +543,40 @@ router.get('/removeitem',async function(req, res, next){
         // });
       });
     })
+  });
+
+
+  router.get('/selectoption',async function(req, res, next){
+    var cookiesCustomerId = req.cookies.customerId;
+
+    //From Axios
+    var productId = req.query.productId;
+    var bookType = req.query.bookType;
+    var cartProduct = req.query.cartId;
+    console.log(productId);
+    console.log(bookType);
+    console.log(cartProduct);
+
+    cartModel.findOne({customer_id:cookiesCustomerId}).exec(function(err1,cart){
+
+      var total_quantity = 0;
+
+      // If book type is paperbook or ebook
+      if(bookType == 'paperbook' || bookType == 'ebook'){
+        var existingProductIndex = cart.products.findIndex(p => p.product_id == productId && p.booktype == bookType);
+      }else{ // if book type is null (Stationary)
+        var existingProductIndex = cart.products.findIndex(p => p.product_id == productId && p.booktype == null);
+      }
+
+      const existingProduct = cart.products[existingProductIndex];
+ 
+      //Udate Quantity in Product  Array in cart
+      var updateArray = cartModel.updateOne( 
+        { _id: cart.id, "products.product_id": existingProduct.product_id}, 
+        { $set: { "products.$.selected": true } }
+      )
+
+    });
   });
 
  //Making Unique value for E-book

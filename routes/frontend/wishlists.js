@@ -372,38 +372,22 @@ var settingModel = require('../../modules/setting');
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 router.get('/removewishlistitem',function(req, res, next){
   var productId = req.query.productId;
   var cookiesCustomerId = req.cookies.customerId;
   var bookType = req.query.bookType;
+  var wishlistProduct = req.query.cartProduct;
 
   if(bookType == ''){
     bookType = null;
   }
 
-  var wishlistProduct = req.query.cartProduct;
-
-
 var removeItem = wishlistModel.findOne({customer_id : cookiesCustomerId, _id : wishlistProduct});
    
   removeItem.exec(function(err,data){
-    console.log(data);
 
-    const existingProductIndex = data.products.findIndex(p => p._id == productId && p.book_type == bookType);
+    const existingProductIndex = data.products.findIndex(p => p.product_id == productId && p.book_type == bookType);
+   
     data.products.splice(existingProductIndex, 1); // first element removed
 
     //Removing Previous Object
@@ -411,7 +395,7 @@ var removeItem = wishlistModel.findOne({customer_id : cookiesCustomerId, _id : w
       updateProduct.exec(function(err5,data5){
 
         //Adding New Object After Deleting
-        wishlistModel.findOne({customer_id:cookiesCustomerId}).exec(function(err1,data1){
+        wishlistModel.findOne({customer_id:cookiesCustomerId}).populate({path: 'products.product_id',model: 'product', populate : { path: 'ebook_id', model: 'ebook' }}).exec(function(err1,data1){
           data.products.forEach(function(data2){
             data1.products.push(data2);
           });

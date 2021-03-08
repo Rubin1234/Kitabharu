@@ -1,4 +1,3 @@
-
 $(document).ready(function(){
     var productQuantity = $('.qty1').attr('qty');
     $(".amountPerProduct" ).each(function() {
@@ -10,9 +9,7 @@ $(document).ready(function(){
         
         if(productQuantity == 1){
             $(this).parent().siblings().siblings('.cart-product-quantity').children().children('.minus').prop("disabled", true);
-        }
-
-        
+        }  
     });
 });
 
@@ -30,12 +27,12 @@ function removeItem(){
     var totalAmount = 0;
 
 
-    $('.amountTotal').each(function(){
-     var totalPricePerProduct = $(this).attr('totalPrice');
-     totalAmount += parseInt(totalPricePerProduct); 
-  });
+//     $('.amountTotal').each(function(){
+//      var totalPricePerProduct = $(this).attr('totalPrice');
+//      totalAmount += parseInt(totalPricePerProduct); 
+//   });
     
-    $('.amount').empty().html('Rs '+ totalAmount);
+//     $('.amount').empty().html('Rs '+ totalAmount);
 
     $('#loader').show();
     axios
@@ -48,7 +45,11 @@ function removeItem(){
             }
         }).then(function(response){
             var productLength = response.data.productitem;
-            var totalAmount = response.data.totalAmount;  
+            var totalAmount = response.data.totalAmount; 
+            var total = response.data.total; 
+
+            $('.amount').empty().html('Rs '+ totalAmount); 
+            $('.totalAmount').empty().html('Rs '+ total);  
        
             $('#cartproductnumber').empty().append(productLength);
             $('#cartproductnumber2').empty().append(productLength);
@@ -69,7 +70,6 @@ function removeItem(){
 
 function productNumberAdd(){
  
-
    var quantity =  $(event.currentTarget).siblings('.qty').val();
    var max =  $(event.currentTarget).siblings('.qty').attr('max');
    var totalQuantity = parseInt(quantity) + parseInt(1);
@@ -84,20 +84,18 @@ function productNumberAdd(){
         $(event.currentTarget).removeAttr("disabled","");
     }
 
-
    var perPrice = $(event.currentTarget).parent().parent().siblings('.cart-product-price').children().attr('amountperproduct');
-
    var totalPricePerProduct = totalQuantity * parseInt(perPrice);
    $(event.currentTarget).parent().parent().siblings('.cart-product-subtotal').children().html('Rs '+ totalPricePerProduct);
    $(event.currentTarget).parent().parent().siblings('.cart-product-subtotal').children().attr('totalPrice',totalPricePerProduct);
 
    var totalAmount = 0;
-   $('.amountTotal').each(function(){
-    var totalPricePerProduct = $(this).attr('totalPrice');
-    totalAmount += parseInt(totalPricePerProduct); 
- });
+//    $('.amountTotal').each(function(){
+//     var totalPricePerProduct = $(this).attr('totalPrice');
+//     totalAmount += parseInt(totalPricePerProduct); 
+//  });
 
- $('.amount').empty().html('Rs '+ totalAmount);
+//  $('.amount').empty().html('Rs '+ totalAmount);
 
 //Using Axios to change into database of quantity and totalprice
 var productId =  $(event.currentTarget).attr('productId');
@@ -113,7 +111,11 @@ axios
         }
     }).then(function(response){
         var productLength = response.data.productitem;
-        var totalAmount = response.data.totalAmount;  
+        var totalAmount = response.data.totalAmount;
+        var total = response.data.total;
+      
+         $('.amount').empty().html('Rs '+ totalAmount);
+         $('.totalAmount').empty().html('Rs '+ total);  
    
         $('#cartproductnumber').empty().append(productLength);
         $('#cartproductnumber2').empty().append(productLength);
@@ -153,11 +155,11 @@ function productNumberSub(){
     $(event.currentTarget).parent().parent().siblings('.cart-product-subtotal').children().attr('totalPrice',totalPricePerProduct);
     
     var totalAmount = 0;
-    $('.amountTotal').each(function(){
-     var totalPricePerProduct = $(this).attr('totalPrice');
-     totalAmount += parseInt(totalPricePerProduct); 
-  });
-  $('.amount').empty().html('Rs '+ totalAmount);
+//     $('.amountTotal').each(function(){
+//      var totalPricePerProduct = $(this).attr('totalPrice');
+//      totalAmount += parseInt(totalPricePerProduct); 
+//   });
+//   $('.amount').empty().html('Rs '+ totalAmount);
 
 
   //Using Axios to change into database of quantity and totalprice
@@ -176,8 +178,12 @@ function productNumberSub(){
             }
         }).then(function(response){
             var productLength = response.data.productitem;
-            var totalAmount = response.data.totalAmount;  
+            var totalAmount = response.data.totalAmount; 
+            var total = response.data.total; 
        
+            $('.amount').empty().html('Rs '+ totalAmount); 
+            $('.totalAmount').empty().html('Rs '+ total);  
+            
             $('#cartproductnumber').empty().append(productLength);
             $('#cartproductnumber2').empty().append(productLength);
             $('#cartProductPrice').empty().append(totalAmount);
@@ -189,4 +195,35 @@ function productNumberSub(){
         
         });
 
+}
+
+function selectItem(){
+    if($(event.currentTarget).prop('checked') == true){
+
+       var cartId = $(event.currentTarget).attr('cartProduct');
+       var productId = $(event.currentTarget).attr('productId');
+       var bookType = $(event.currentTarget).attr('bookType');
+
+       axios
+       .get('/cart/selectoption',
+           {   
+               params:{
+                    cartId : cartId,
+                    productId : productId,
+                    bookType : bookType,
+               }
+           }).then(function(response){
+                console.log(1);
+               $('#loader').hide();
+               bootoast.toast({
+                   message: 'Cart Updated',
+                   type: 'success'
+               })
+           
+           });
+
+     
+    }else{
+        console.log('notchecked')
+    }
 }

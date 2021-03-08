@@ -76,6 +76,7 @@ router.post('/login', function (req, res, next) {
 
   checkEmail.exec(function (err, data) {
 
+
     if (err) throw err;
     if (data != null) {
 

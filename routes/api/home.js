@@ -27,7 +27,7 @@ const { rejects } = require('assert');
 
   router.get('/category', function(req, res, next) {
     
-    categoryModel.find({}).exec(function(err,data){
+    categoryModel.find({}).populate('subcategories').exec(function(err,data){
       
       const promises = data.map((item) => new Promise((resolve,reject) => {
         SubCategoryModel.find({category_type_id:item._id},function(err1,data1){

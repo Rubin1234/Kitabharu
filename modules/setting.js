@@ -6,6 +6,18 @@ var conn = mongoose.connection;
 var Schema = mongoose.Schema; 
 
 var  settingSchema = new Schema({
+    delivery_charge : {
+        type: String,
+        default: 0,
+    },
+    service_charge : {
+        type: String,
+        default: 0,
+    },
+    tax_charge : {
+        type: String,
+        default: 0,
+    },
     location: {
         type: String,
         default: null,

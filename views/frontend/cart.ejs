@@ -45,8 +45,9 @@
    <table class="table cart">
     <thead>
     <tr>
+      <th class="cart-select-option">&nbsp;</th>
     <th class="cart-product-remove">&nbsp;</th>
-    <th class="cart-product-thumbnail">&nbsp;</th>
+    <th class="cart-product-thumbnail">&nbsp;Image</th>
     <th class="cart-product-name">Product</th>
     <th class="cart-product-price">Unit Price</th>
     <th class="cart-product-quantity">Quantity</th>
@@ -70,10 +71,13 @@
             <% }else{ %>
                <input type="hidden" value="<%= data.product_id.ebook_id.ebook_price %>" name="price[]" >
             <% } %>
-
+            <td class="cart-select-option">
+               <input type="checkbox" style="transform:scale(1.2)" onclick="selectItem()" cartProduct="<%= cartProduct._id %>" productId="<%= data.product_id._id %>" bookType="<%= data.booktype %>">
+            </td>
       <td class="cart-product-remove">
-         <i class="icon-trash2 remove" onclick="removeItem()" cartProduct="<%= cartProduct._id %>" productId="<%= data.product_id._id %>" bookType="<%= data.booktype %>"></i>
+         <i style="font-size: 19px;" class="icon-trash2 remove" onclick="removeItem()" cartProduct="<%= cartProduct._id %>" productId="<%= data.product_id._id %>" bookType="<%= data.booktype %>"></i>
       </td>
+  
       <td class="cart-product-thumbnail">
          <a href="#"><img width="64" height="64" src="images/backend/products/<%= data.product_id.product_image %>" alt="<%= data.product_id.product_name %>"></a>
       </td>
@@ -193,15 +197,15 @@
     <strong>Cart Subtotal</strong>
     </td>
     <td class="cart-product-name">
-    <span class="amount" style="color:#145ba2;">Rs <%= cartProduct.total_price %></span>
+    <span class="amount font-weight-bold" style="color:#145ba2;">Rs <%= finalAmount %></span>
     </td>
     </tr>
     <tr class="cart_item">
     <td class="cart-product-name">
-    <strong>Shipping</strong>
+    <strong>Delivery Charge</strong>
     </td>
     <td class="cart-product-name">
-    <span class="amount">Free Delivery</span>
+    <span class="deliveryCharge font-weight-bold" ><%= setting.delivery_charge %></span>
     </td>
     </tr>
     <tr class="cart_item">
@@ -209,7 +213,7 @@
     <strong>Total</strong>
     </td>
     <td class="cart-product-name">
-    <span class="amount color lead"><strong>Rs <%= cartProduct.total_price %></strong></span>
+    <span class="totalAmount color lead font-weight-bold"><strong>Rs <%= totalPrice %></strong></span>
     </td>
     </tr>
     </tbody>
@@ -219,8 +223,8 @@
     <div class="col-lg-4 clearfix" id="padding-left" >
       <h4 style="font-size: 25px;margin-bottom: 15px;">We Accept</h4>
       <hr>
-      <img src="frontend_images/footer/esewa.jpg" alt="" width="100px" height="80px" style="margin-right: 25px;">
-      <img src="frontend_images/footer/cod.jpg" alt="" width="80px" height="50px">
+      <img src="frontend_images/footer/esewa.jpg" alt="" width="150px" height="100px" style="margin-right: 25px;">
+      <!-- <img src="frontend_images/footer/cod.jpg" alt="" width="80px" height="50px"> -->
       </div>
     </div>
        <% }else{ %>

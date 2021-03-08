@@ -71,6 +71,10 @@ router.post('/store',upload,function(req,res,next){
 
     var adminType = req.cookies.adminType;
 
+    var deliveryCharge = req.body.delivery_charge;
+    var serviceCharge = req.body.service_charge;
+    var taxCharge = req.body.tax_charge;
+
     var location = req.body.location;
     var email = req.body.email;
     var contact = req.body.contact;
@@ -84,6 +88,9 @@ router.post('/store',upload,function(req,res,next){
 
         
     var saveSetting = new settingModel({
+        delivery_charge : deliveryCharge,
+        service_charge : serviceCharge,
+        tax_charge : taxCharge,
         location : location,
         email : email,
         contact : contact,
@@ -131,33 +138,30 @@ router.post('/update',upload,function(req,res,next){
     var twitter_link = req.body.twitter_link;
     var instagram_link = req.body.instagram_link;
     var linkedin_link = req.body.linkedin_link;
+    var deliveryCharge = req.body.delivery_charge;
+    var serviceCharge = req.body.service_charge;
+    var taxCharge = req.body.tax_charge;
 
-  
-    
+    var updateSetting = settingModel.findByIdAndUpdate(Id,{
+        delivery_charge : deliveryCharge,
+        service_charge : serviceCharge,
+        tax_charge : taxCharge,
+        location : location,
+        email : email,
+        contact : contact,
+        office_reg_no : regno,
+        google_map_link : googlemap_link,
+        facebook_link : facebook_link,
+        youtube_link :youtube_link,
+        twitter_link : twitter_link,
+        instagram_link :instagram_link,
+        linkedIn_link : linkedin_link,
+    });
 
-
-
-     
-                var updateSetting = settingModel.findByIdAndUpdate(Id,{
-                    location : location,
-                    email : email,
-                    contact : contact,
-                    office_reg_no : regno,
-                    google_map_link : googlemap_link,
-                    facebook_link : facebook_link,
-                    youtube_link :youtube_link,
-                    twitter_link : twitter_link,
-                    instagram_link :instagram_link,
-                    linkedIn_link : linkedin_link,
-                });
-
-                updateSetting.exec(function(err,data){
-                    req.flash('success','Video Updated Succesfully. Thank you!!!');
-                    return res.redirect('/settings');
-                });
-
-
-        
+    updateSetting.exec(function(err,data){
+        req.flash('success','Video Updated Succesfully. Thank you!!!');
+        return res.redirect('/settings');
+    });
 
 });
 

@@ -37,9 +37,7 @@ $(document).ready(function(){
    if(totalAmount == undefined){
     totalAmount = 0
    }
-   console.log(totalAmount);
-
-
+  
         $('#cartproductnumber').append(productLength);
         $('#cartproductnumber2').append(productLength);
         $('#cartProductPrice').empty().append(totalAmount);

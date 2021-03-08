@@ -66,7 +66,47 @@
                                     <h4 class="header-title m-t-0 m-b-20">Edit Setting</h4>
                                     <hr>
                                      <br>
-                                    
+
+                                    <!-- Charge -->
+                                     <div class="form-group row" style="text-align: center;">
+                                      
+                                        <div class="col-10">
+                                            <h3>Charges</h3>
+                                            <hr style="    width: 10%;border: 2px solid #6b5ddeeb;margin-top: 15px;background: #6b5ddeeb;">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-2 col-form-label">Delivery Charge (Rs)<span class="text-danger">*</span></label>
+                                        <div class="col-8">
+                                            <input type="number" min="0" required parsley-type="text" class="form-control"
+                                                id="inputEmail2" placeholder="Enter a delivery charge" value="<%= data.delivery_charge %>" name="delivery_charge" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-2 col-form-label">Service Charge (In %)<span class="text-danger">*</span></label>
+                                        <div class="col-8">
+                                            <input type="number"  min="0"  max="100" parsley-type="text" class="form-control"
+                                                id="inputEmail2" placeholder="Enter a service charge" value="<%= data.service_charge %>" name="service_charge" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-2 col-form-label">Tax (In %)<span class="text-danger">*</span></label>
+                                        <div class="col-8">
+                                            <input type="number"  min="0" max="100" parsley-type="text" class="form-control"
+                                                id="inputEmail2" placeholder="Enter a tax charge" value="<%= data.tax_charge %>" name="tax_charge" >
+                                        </div>
+                                    </div>
+                                    <br>
+
+                                    <div class="form-group row" style="text-align: center;">
+                                      
+                                        <div class="col-10">
+                                            <h3>Website Setting</h3>
+                                            <hr style="    width: 10%;border: 2px solid #6b5ddeeb;margin-top: 15px;background: #6b5ddeeb;">
+                                        </div>
+                                    </div>
+
+                                    <!-- Website Setting -->
                                      <div class="form-group row">
                                         <label for="inputEmail3" class="col-2 col-form-label">Location<span class="text-danger">*</span></label>
                                         <div class="col-8">
@@ -107,7 +147,7 @@
                                       
                                         <div class="col-10">
                                             <h3>Social Media Links</h3>
-                                            <hr style="    width: 10%;border: 2px solid #6b5ddeeb;margin-top: 15px;">
+                                            <hr style="    width: 10%;border: 2px solid #6b5ddeeb;margin-top: 15px;background: #6b5ddeeb;">
                                         </div>
                                     </div>
 

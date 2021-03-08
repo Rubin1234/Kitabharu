@@ -9,7 +9,6 @@ $(document).ready(function(){
             array.push(subcategory_id);
         }
     });
-    console.log(array);
 });
 
 function stationarySubcategoryCheckbox(){

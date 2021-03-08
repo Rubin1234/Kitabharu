@@ -515,6 +515,8 @@ const sliderModel = require('../../modules/slider');
                   products.qty = productNumber;
                 }
 
+                //Defining Selected or not
+                products.selected = false;
              
                 //Definiing product object Id
                 products.product_id = data._id;
@@ -661,6 +663,9 @@ const sliderModel = require('../../modules/slider');
                   products.qty = booknumber;
                 }
 
+                //Defining Selected or not
+                products.selected = false;
+
                 //Defining product object Id
                 products.product_id = data._id;
                   
@@ -733,6 +738,9 @@ const sliderModel = require('../../modules/slider');
 
               //Definiing product object Id
               products.product_id = data._id;
+
+              //Defining Selected or not
+              products.selected = false;
               
               //If book order is 0
               var totalPrice = products.qty * data.product_price;
@@ -875,8 +883,10 @@ const sliderModel = require('../../modules/slider');
 
                 //Definiing product object Id
                 products.product_id = data._id;
+
+                //Defining Selected or not
+                products.selected = false;
               
-    
                 cart.products.push(products);
                 cart.save().then(arr => {
 
@@ -945,6 +955,9 @@ const sliderModel = require('../../modules/slider');
 
               //Definiing product object Id
               products.product_id = data._id;
+
+              //Defining Selected or not
+              products.selected = false;
 
               //If book order is 0
               var totalPrice = data.ebook_id.ebook_price;
