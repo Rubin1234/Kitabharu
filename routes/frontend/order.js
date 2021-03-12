@@ -46,8 +46,18 @@ router.get('/', async function(req, res, next) {
 
 
     var cookiesCustomerId = req.cookies.customerId;
-    var customerProducts = await cartModel.findOne({customer_id : cookiesCustomerId})
+    var customerProducts = await cartModel.findOne({customer_id : cookiesCustomerId}).populate({path: 'products.product_id',model: 'product', populate : { path: 'ebook_id', model: 'ebook' }})
+
     var products = customerProducts.products;
+
+    var arr = [];
+    products.forEach(function(d){
+      var products = new Object();
+      products.booktype = d.booktype
+      products.qty = d.qty
+      products.product = d.product_id.toObject()
+      arr.push(products);
+    })
   
     var customerFullName = req.cookies.customerFullName;
     var customerCity = req.cookies.customerCity;
@@ -83,14 +93,14 @@ router.get('/', async function(req, res, next) {
               phoneNumber : customerPhoneNumber,
               city : customerCity,
               streetAddress: customerStreetAddress,
-              products : products,
+              products : arr,
               paymentType : customerPaymentType,
               totalAmount : customerTotalAmount,
               orderId : orderID
             })
         
             saveOrder.save().then(async result => {
-              await cartModel.findOneAndDelete({customer_id : cookiesCustomerId})
+              await cartModel.update({customer_id : cookiesCustomerId}, {$pull: {products:{selected:true}}})
               
               orderModel.populate(result,{path : 'customerId'},(err, placeOrder) => {
             

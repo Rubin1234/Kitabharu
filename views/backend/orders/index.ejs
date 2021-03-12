@@ -259,7 +259,7 @@
                                                             
                                                                 <h4 class="mb-3"> <span style="font-weight: bold;">Ordered Products: </span><br> </h4>
                                                                 <% data.products.forEach(function(data,index){ %>
-                                                                        <h5><%= index + 1 %>) <%= data.product_name %> (<%= data.qty %>pcs)</h5>
+                                                                        <h5><%= index + 1 %>) <%= data.product.product_name %> (<%= data.qty %>pcs)</h5>
                                                                <% }) %>
                                                             </div>
                                                         </div>

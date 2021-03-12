@@ -423,6 +423,8 @@ router.get('/removeitem',async function(req, res, next){
 
   //From Cookies
   var cookiesCustomerId = req.cookies.customerId;
+
+
   var productData = await ModelProduct.findById(productId).populate('ebook_id');
   var removeItem = cartModel.findOne({customer_id : cookiesCustomerId, _id : cartProduct});
    
@@ -559,7 +561,7 @@ router.get('/removeitem',async function(req, res, next){
            
         // });
       });
-    })
+    });
   });
 
 

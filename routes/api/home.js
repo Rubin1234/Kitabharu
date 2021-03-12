@@ -27,11 +27,12 @@ const { rejects } = require('assert');
 
   router.get('/category', function(req, res, next) {
     
-    categoryModel.find({}).populate('subcategories').exec(function(err,data){
+    categoryModel.find({}).exec(function(err,data){
       
       const promises = data.map((item) => new Promise((resolve,reject) => {
         SubCategoryModel.find({category_type_id:item._id},function(err1,data1){
           data1.forEach(function(doc){
+        
             item.subcategories.push(doc);           
           });                        
           resolve(item);
@@ -40,8 +41,11 @@ const { rejects } = require('assert');
 
       Promise.all(promises)
       .then(allArray => {  
+        console.log(allArray);
         var records = util.inspect(allArray, false, null, true /* enable colors */);    
+        console.log(records);
         res.send(allArray);
+        
       });
     });
   });

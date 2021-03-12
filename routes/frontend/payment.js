@@ -25,10 +25,6 @@ const cartModel = require('../../modules/cart');
 const settingModel = require('../../modules/setting');
 const orderModel = require('../../modules/orders') 
 
-
-
-
-
 router.get('/', function(req, res, next) {
 
     var cookiesCustomerToken = req.cookies.customerToken;
@@ -37,10 +33,7 @@ router.get('/', function(req, res, next) {
     var cookiesCustomerEmail = req.cookies.customerEmail;
 
     var esewa_orderID = uniqid();
-
-    var customerCart = cartModel.findOne({customer_id : cookiesCustomerId});
-   
-
+    var customerCart = cartModel.findOne({customer_id:cookiesCustomerId}).populate({path: 'products.product_id',model: 'product', populate : { path: 'ebook_id', model: 'ebook' }});
     var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06'],status:'Active'});
     var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206'],status:'Active'});
     var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both'],status:'Active'}).populate('subcategory_id');
@@ -64,19 +57,58 @@ router.get('/', function(req, res, next) {
   
             customerCart.exec(function(err4,data4){
 
-              var taxPercent = 10;
-              var serviceCharge = 100;
-              var deliveryCharge = 100;
-              var taxAmount = 0;
+              //For Total Price
+              var productItemNumber = 0;
+              var finalAmount = 0;
+              data4.products.forEach(function(doc){ 
+            
 
-              var productAmount = data4.total_price;
+                //For Showing Item Number
+                productItemNumber += parseInt(doc.qty);
+    
+                if(doc.selected == true){
+                            //If there is discount on product
+                if(doc.product_id.discount_percent > 0){
+                  if(doc.booktype == 'paperbook' || doc.booktype == null){
+                    var productPrice = doc.product_id.product_price * doc.qty;
+                  }
+                  if(doc.booktype == 'ebook'){
+                    var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
+                  }
+    
+                  var discountPercent = doc.product_id.discount_percent; 
+                  var discount_price = 0;
+                  var discount_price = discountPercent/100 * productPrice;
+                  var discountedAmount = productPrice - discount_price;
+                  finalAmount += parseInt(discountedAmount);
+                }  
+                else{ 
+                  
+                  //If there is no discount price
+                  if(doc.booktype == 'paperbook' || doc.booktype == null){
+                    var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
+                  }
+    
+                  if(doc.booktype == 'ebook'){
+                    var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
+                  }
+    
+                  finalAmount += parseInt(productPrice);
+                }
+                }
+    
+              }); 
+
               
-              taxAmount = taxPercent/100 * productAmount;
-        
-        
-              var totalAmount = parseInt(productAmount) + serviceCharge + deliveryCharge + taxAmount;
-              console.log(totalAmount);
-          
+          //For Delivery and service,tax charge
+
+          var deliveryCharge = dataa.delivery_charge;
+          var serviceCharge = dataa.service_charge/100 * finalAmount;
+          var taxCharge = dataa.tax_charge/100 * finalAmount;
+          var total = finalAmount + parseInt(deliveryCharge) + parseInt(serviceCharge) + parseInt(taxCharge);
+
+ 
+                    
             // var records = util.inspect(data4, false, null, true /* enable colors */);
             res.render('frontend/payment',{
               bookSubcategories:data1,
@@ -88,11 +120,12 @@ router.get('/', function(req, res, next) {
               cookiesCustomerEmail,
               setting : dataa,
               esewa_orderID,
-              productAmount,
-              totalAmount,
+              finalAmount,
               serviceCharge,
               deliveryCharge,
-              taxAmount
+              taxCharge,
+              total
+            
             });
             });
           });

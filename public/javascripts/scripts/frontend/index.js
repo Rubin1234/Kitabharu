@@ -68,12 +68,11 @@ function addtocart(){
 
             var productLength = response.data.productitem;
             var totalAmount = response.data.totalAmount;
-            console.log(productLength);
-            console.log(totalAmount);  
+         
        
             $('#cartproductnumber').empty().append(productLength);
             $('#cartproductnumber2').empty().append(productLength);
-            $('#cartProductPrice').empty().append(totalAmount);
+            // $('#cartProductPrice').empty().append(totalAmount);
 
             //FOr hiding Loader
             $('#loader').hide();
@@ -150,7 +149,7 @@ function addtobookcart(){
 
         $('#cartproductnumber').empty().append(productLength);
         $('#cartproductnumber2').empty().append(productLength);
-        $('#cartProductPrice').empty().append(totalAmount);
+        // $('#cartProductPrice').empty().append(totalAmount);
         
         //For Showing Loader
         $('#loader').hide();
@@ -185,7 +184,7 @@ function addtoEbookcart(){
    
        $('#cartproductnumber').empty().append(productLength);
        $('#cartproductnumber2').empty().append(productLength);
-       $('#cartProductPrice').empty().append(totalAmount);
+      //  $('#cartProductPrice').empty().append(totalAmount);
 
        $('#loader').hide();
          bootoast.toast({

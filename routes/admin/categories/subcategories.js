@@ -54,10 +54,10 @@ router.get('/create',checkPublication,function(req,res,next){
 
     var category = categoryModel.find({});
     var userData = admin.findOne({_id:userId});
-    
+
+
     category.exec(function(err,data){
         userData.exec(function(admindataErr,admindata){
-            var adminType = sessionstorage.getItem('adminType');
             res.render('backend/subcategories/create',{adminType,title:"Add Sub-Category",records:data,admindata});
         });
     });

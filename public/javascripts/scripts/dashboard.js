@@ -33,7 +33,7 @@ function initAdmin(){
         return parsedItems.map((product) => {    
             return `
                 <p style="    font-size: 13.5px;
-                font-weight: bold;margin-bottom:0px;">${product.product_name} = ${product.qty} pcs </p>
+                font-weight: bold;margin-bottom:0px;">${product.product.product_name} = ${product.qty} pcs </p>
             `
         }).join('')
     }
@@ -41,6 +41,7 @@ function initAdmin(){
 
   
     function generateMarkup(orders) {
+        console.log(orders);
    
 
         if(orders.length > 0){
