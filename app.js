@@ -108,6 +108,9 @@ var cartApiRouter = require('./routes/api/cart')
 var bookingApiRouter = require('./routes/api/booking')
 var userProfileApiRouter = require('./routes/api/userProfile')
 
+//ICT APi
+var ictCartApiRouter = require('./routes/api/ict/cart')
+
 // view engine setup
 
 
@@ -174,6 +177,9 @@ app.use('/api', productApiRouter);
 app.use('/api', cartApiRouter);
 app.use('/api', bookingApiRouter);
 app.use('/api', userProfileApiRouter);
+
+//ICT APi
+app.use('/ict/api', ictCartApiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
