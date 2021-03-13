@@ -4,6 +4,7 @@ var multer = require('multer');
 var bcrypt = require('bcryptjs');
 var sharp = require('sharp');
 var dateFormat = require('dateformat');
+var axios = require('axios');
 var slug = require('slug');       
 var fs = require('fs');
 
@@ -38,15 +39,24 @@ router.post('/addtobookcart', function(req, res, next) {
     var booknumber = req.body.booknumber;
     var cookiesCustomerId = req.body.customerId;
 
-    // var cookiesCustomerToken = req.cookies.customerToken;
-    // var cookiesCustomerrName = req.cookies.customerName;
-    // var cookiesCustomerId = req.cookies.customerId;
-    // var cookiesCustomerEmail = req.cookies.customerEmail;
+    console.log(productId)
+    console.log(booknumber)
+    console.log(cookiesCustomerId)
 
-        //If signed In
-        ModelProduct.findById(productId).populate('book_attribute').exec(function(err,data){
+    axios
+    .get(`https://ict.bharyangnepal.org/api/product/${productId}`,
+    {
+        params:{
+            productId: productId
+         }
+     })
+    .then(function(response){
+     var data = response.data;
+                //If signed In
+     
           modelCart.findOne({customer_id:cookiesCustomerId}).exec(function(err1,cart){
             var total_quantity = 0;
+           
             
             //IF Cart is empty
             if(cart != null){
@@ -55,12 +65,14 @@ router.post('/addtobookcart', function(req, res, next) {
               //If Cart has same product
               if(existingProductIndex >= 0){
                 const existingProduct = cart.products[existingProductIndex];
+              
+
                 if(booknumber == undefined){
                   total_quantity =  parseInt(existingProduct.qty) + 1;
                 }else{
                   total_quantity =  parseInt(existingProduct.qty) + parseInt(booknumber);
                 }
-     
+           
                 //Update Quantity in Product  Array in cart
                 var updateArray = modelCart.update(
                   {customer_id:cookiesCustomerId, 
@@ -70,26 +82,41 @@ router.post('/addtobookcart', function(req, res, next) {
             
                 updateArray.exec(function(err3,data3){
                   //For Count Latest Item Quantity Number
-                  modelCart.findOne({customer_id:cookiesCustomerId}).populate({path: 'products.product_id',model: 'product', populate : { path: 'ebook_id', model: 'ebook' }}).exec(function(err5,cart2){
+                  modelCart.findOne({customer_id:cookiesCustomerId}).exec(function(err5,cart2){
+                        
+                    axios
+                    .get(`https://ict.bharyangnepal.org/api/product/${productId}`,
+                    {
+                        params:{
+                            productId: productId
+                         }
+                     })
+                    .then(function(response){
+                     var data1 = response.data;
                     
+  
+
+
                     var productItemNumber = 0;
                     var finalAmount = 0;
                     cart2.products.forEach(function(doc){
+                     
         
                       //For Showing Item Number
                       productItemNumber += parseInt(doc.qty);
 
                       if(doc.selected == true){
                         //If there is discount on product
-                        if(doc.product_id.discount_percent > 0){
+                        if(data1.discount > 0){
                           if(doc.booktype == 'paperbook' || doc.booktype == null){
-                            var productPrice = doc.product_id.product_price * doc.qty;
+                            var productPrice = parseInt(data1.price) * parseInt(doc.qty);
+                            console.log(productPrice);
                           }
                           if(doc.booktype == 'ebook'){
                             var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
                           }
         
-                          var discountPercent = doc.product_id.discount_percent; 
+                          var discountPercent = data1.discount; 
                           var discount_price = 0;
                           var discount_price = discountPercent/100 * productPrice;
                           var discountedAmount = productPrice - discount_price;
@@ -99,7 +126,7 @@ router.post('/addtobookcart', function(req, res, next) {
                           
                           //If there is no discount price
                           if(doc.booktype == 'paperbook' || doc.booktype == null){
-                            var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
+                            var productPrice = parseInt(doc.qty) * parseInt(data1.price);
                           }
         
                           if(doc.booktype == 'ebook'){
@@ -109,13 +136,16 @@ router.post('/addtobookcart', function(req, res, next) {
                           finalAmount += parseInt(productPrice);
                         }
                       } 
-                    });                 
+                    });   
+                    
+         
                     res.send({
                       'productitem': productItemNumber, 
                       'cart': cart,
                       'totalAmount' : finalAmount
                     });
                   });  
+                })
                 });
               }
               else
@@ -139,60 +169,77 @@ router.post('/addtobookcart', function(req, res, next) {
                 products.selected = false;
 
                 //Defining product object Id
-                products.product_id = data._id;
+                products.product_id = data.id;
                   
                 cart.products.push(products);
 
                 cart.save().then( arr => {
 
-                  //For Count Latest Item Quantity Number
-                  modelCart.findOne({customer_id:cookiesCustomerId}).populate({path: 'products.product_id',model: 'product', populate : {path: 'ebook_id', model: 'ebook'}}).exec(function(err5,cart1){
-                      
-                    var productItemNumber = 0;
-                    var finalAmount = 0;
-                    cart1.products.forEach(function(doc){
-            
-                      //For Showing Item Number
-                      productItemNumber += parseInt(doc.qty);
+                    modelCart.findOne({customer_id:cookiesCustomerId}).exec(function(err5,cart2){
+                        
+                        axios
+                        .get(`https://ict.bharyangnepal.org/api/product/${productId}`,
+                        {
+                            params:{
+                                productId: productId
+                             }
+                         })
+                        .then(function(response){
+                         var data1 = response.data;
+                            console.log(data1);
       
-                      if(doc.selected == true){
-                        //If there is discount on product
-                        if(doc.product_id.discount_percent > 0){
-                          if(doc.booktype == 'paperbook' || doc.booktype == null){
-                            var productPrice = doc.product_id.product_price * doc.qty;
-                          }
-                          if(doc.booktype == 'ebook'){
-                            var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
-                          }
-        
-                          var discountPercent = doc.product_id.discount_percent; 
-                          var discount_price = 0;
-                          var discount_price = discountPercent/100 * productPrice;
-                          var discountedAmount = productPrice - discount_price;
-                          finalAmount += parseInt(discountedAmount);
-                        }  
-                        else{ 
-                          
-                          //If there is no discount price
-                          if(doc.booktype == 'paperbook' || doc.booktype == null){
-                            var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.product_price);
-                          }
-        
-                          if(doc.booktype == 'ebook'){
-                            var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
-                          }
-        
-                          finalAmount += parseInt(productPrice);
-                        }
-                      } 
-                    });
-              
-                    res.send({
-                      'productitem': productItemNumber, 
-                      'cart': cart,
-                      'totalAmount' : finalAmount
-                    });
-                  });
+    
+    
+                        var productItemNumber = 0;
+                        var finalAmount = 0;
+                        cart2.products.forEach(function(doc){
+                         
+            
+                          //For Showing Item Number
+                          productItemNumber += parseInt(doc.qty);
+    
+                          if(doc.selected == true){
+                            //If there is discount on product
+                            if(data1.discount > 0){
+                              if(doc.booktype == 'paperbook' || doc.booktype == null){
+                                var productPrice = parseInt(data1.price) * parseInt(doc.qty);
+                             
+                              }
+                              if(doc.booktype == 'ebook'){
+                                var productPrice = doc.product_id.ebook_id.ebook_price * doc.qty;
+                              }
+            
+                              var discountPercent = data1.discount; 
+                              var discount_price = 0;
+                              var discount_price = discountPercent/100 * productPrice;
+                              var discountedAmount = productPrice - discount_price;
+                              finalAmount += parseInt(discountedAmount);
+                            }  
+                            else{ 
+                              
+                              //If there is no discount price
+                              if(doc.booktype == 'paperbook' || doc.booktype == null){
+                                var productPrice = parseInt(doc.qty) * parseInt(data1.price);
+                              }
+            
+                              if(doc.booktype == 'ebook'){
+                                var productPrice = parseInt(doc.qty) * parseInt(doc.product_id.ebook_id.ebook_price);
+                              }
+            
+                              finalAmount += parseInt(productPrice);
+                            }
+                          } 
+                        }); 
+                        console.log(finalAmount);  
+                        
+             
+                        res.send({
+                          'productitem': productItemNumber, 
+                          'cart': cart,
+                          'totalAmount' : finalAmount
+                        });
+                      });  
+                    })
                 });      
               }
             }
@@ -211,21 +258,22 @@ router.post('/addtobookcart', function(req, res, next) {
               }else{
                 products.qty = booknumber;
               }
+              console.log(products.qty);
 
               //Definiing product object Id
-              products.product_id = data._id;
+              products.product_id = data.id;
 
               //Defining Selected or not
               products.selected = false;
               
               //If book order is 0
-              var totalPrice = products.qty * data.product_price;
-                
+              var totalPrice = products.qty * data.price;
+              console.log(totalPrice);
               var finalAmount = 0;
               //If Discount percent is greater than 0
-              if(data.discount_percent > 0){
+              if(data.discount > 0){
                 var discount_price = 0;
-                var discount_price = data.discount_percent/100 * totalPrice;
+                var discount_price = data.discount/100 * totalPrice;
                 var finalAmount = totalPrice - discount_price;
 
                 var saveCart = new modelCart({
@@ -234,7 +282,7 @@ router.post('/addtobookcart', function(req, res, next) {
               }else{
 
                 //Final Price Amount
-                var finalAmount = data.product_price;
+                var finalAmount = data.price;
                 var saveCart = new modelCart({
                   customer_id : cookiesCustomerId
                 });
@@ -250,7 +298,12 @@ router.post('/addtobookcart', function(req, res, next) {
               });
             }
           }); 
-        });    
+    })
+
+ 
+
+    
+           
     
 });
 
