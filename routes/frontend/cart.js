@@ -123,6 +123,7 @@ var settingModel = require('../../modules/setting');
               cartProduct:data4,
               setting : dataa,
               finalAmount,
+              deliveryCharge,
               totalPrice : total,
               checked
             });

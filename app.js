@@ -8,12 +8,14 @@ var cookieParser = require('cookie-parser');
 var mongoose = require('mongoose');
 var logger = require('morgan');
 var session = require('express-session');
+var cors = require('cors');
 
 // var server = require('http').createServer(app);
 
 
 // const Emitter = require('events')
 
+app.use(cors());
 
 // //Event Emitter
 // const eventEmitter = new Emitter()

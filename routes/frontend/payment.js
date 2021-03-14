@@ -195,7 +195,7 @@ router.get('/', function(req, res, next) {
     // }
 
 
-    res.redirect('https://uat.esewa.com.np/epay/main?tAmt='+totalAmount+'&amt='+amount+'&txAmt='+taxAmount+'&psc='+serviceCharge+'&pdc='+DeliveryCharge+'&scd=EPAYTEST&pid='+orderId+'&su=http://127.0.0.1:3000/orders/?q=su&fu=http://127.0.0.1:3000/payment/?q=fu');
+    res.redirect('https://uat.esewa.com.np/epay/main?tAmt='+totalAmount+'&amt='+amount+'&txAmt='+taxAmount+'&psc='+serviceCharge+'&pdc='+DeliveryCharge+'&scd=EPAYTEST&pid='+orderId+'&su=http://www.kitabharu.com/orders/?q=su&fu=http://www.kitabharu.com/payment/?q=fu');
           
   //         //Emit Event
   //         const eventEmitter = req.app.get('eventEmitter');

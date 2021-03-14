@@ -261,3 +261,25 @@ function selectItem(){
 
     }
 }
+
+function proceedToCheckOut(){
+       var selectLength = $('.selectoption:checked').length;
+       if(selectLength <= 0){
+       alert('Please select an item to purchase')
+        event.preventDefault();
+       }
+    
+
+
+
+    // $('.selectoption').each(function(){ 
+    //     if($(this).prop('checked') == true){
+    //         return;
+    //     }else{
+    //         event.preventDefault();
+    //         console.log(222);
+    //     }
+    // })
+  
+
+}
