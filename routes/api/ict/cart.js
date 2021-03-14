@@ -7,6 +7,7 @@ var dateFormat = require('dateformat');
 var axios = require('axios');
 var slug = require('slug');       
 var fs = require('fs');
+var cors = require('cors');
 
 var router = app.Router();
 
@@ -26,14 +27,14 @@ const { rejects } = require('assert');
 /* GET home page. */
 
 //Cart View
-router.get('/cart/:customerId',async function(req, res, next){
+router.get('/cart/:customerId',cors(),async function(req, res, next){
     var customerId = req.params.customerId;
     var cartProduct = await modelCart.findOne({'customer_id':customerId});
     res.send(cartProduct);
 })
 
 //Add To Book Cart
-router.post('/addtobookcart', function(req, res, next) {
+router.post('/addtobookcart',cors(), function(req, res, next) {
 
     var productId = req.body.productId;
     var booknumber = req.body.booknumber;
@@ -299,7 +300,7 @@ router.post('/addtobookcart', function(req, res, next) {
 });
 
 
-router.get('/viewcart', function(req,res,next){
+router.get('/viewcart',cors(), function(req,res,next){
   var cookiesCustomerId = req.body.customerId;
 
 
