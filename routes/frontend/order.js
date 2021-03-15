@@ -49,6 +49,7 @@ router.get('/', async function(req, res, next) {
     var customerProducts = await cartModel.findOne({customer_id : cookiesCustomerId}).populate({path: 'products.product_id',model: 'product', populate : { path: 'ebook_id', model: 'ebook' }})
 
     var products = customerProducts.products;
+    console.log(products);
 
     var arr = [];
     products.forEach(function(d){

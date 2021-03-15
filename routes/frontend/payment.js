@@ -149,6 +149,10 @@ router.get('/', function(req, res, next) {
     var successLink = req.body.su;
     var failureLink = req.body.fu;
 
+    console.log(successLink)
+    console.log(failureLink)
+   
+
     var fullName = req.body.fullname;
     var phoneNumber = req.body.phonenumber;
     var city = req.body.city;
@@ -195,7 +199,7 @@ router.get('/', function(req, res, next) {
     // }
 
 
-    res.redirect('https://uat.esewa.com.np/epay/main?tAmt='+totalAmount+'&amt='+amount+'&txAmt='+taxAmount+'&psc='+serviceCharge+'&pdc='+DeliveryCharge+'&scd=EPAYTEST&pid='+orderId+'&su=http://www.kitabharu.com/orders/?q=su&fu=http://www.kitabharu.com/payment/?q=fu');
+    res.redirect('https://uat.esewa.com.np/epay/main?tAmt='+totalAmount+'&amt='+amount+'&txAmt='+taxAmount+'&psc='+serviceCharge+'&pdc='+DeliveryCharge+'&scd=EPAYTEST&pid='+orderId+'&su='+successLink+'&fu='+failureLink);
           
   //         //Emit Event
   //         const eventEmitter = req.app.get('eventEmitter');
