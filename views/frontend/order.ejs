@@ -23,27 +23,7 @@
   </div>
 </div>
  -->
- <% if(messages.success){ %>
-    <script>
-      $(document).ready(function () {
-        bootoast.toast({
-          message: 'Thank you for purchasing our products.',
-          type: 'success',
-          timeout: 8,
-          dismissable: true
-        });
 
-
-        bootoast.toast({
-          message: 'You can buy other products.',
-          type: 'success',
-          timeout: 10,
-          dismissable: true
-        });
-      });
-
-    </script>
-    <% } %>
 
  <section class="section" style="width: 100%;">
     <div class="container blogs">
@@ -112,6 +92,28 @@
 
 
 <%- include('../layouts/frontend/script') %>
+
+<% if(messages.success){ %>
+    <script>
+      $(document).ready(function () {
+        bootoast.toast({
+          message: 'Thank you for purchasing our products.',
+          type: 'success',
+          timeout: 8,
+          dismissable: true
+        });
+
+
+        bootoast.toast({
+          message: 'You can buy other products.',
+          type: 'success',
+          timeout: 10,
+          dismissable: true
+        });
+      });
+
+    </script>
+    <% } %>
 </body>
 
 <!-- Mirrored from themes.semicolonweb.com/html/canvas/menu-7.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 11 Jan 2020 08:25:24 GMT -->

@@ -670,8 +670,6 @@ router.get('/removeitem',async function(req, res, next){
   });
 
 
-
-
   router.get('/deselectoption',async function(req, res, next){
     var cookiesCustomerId = req.cookies.customerId;
 
