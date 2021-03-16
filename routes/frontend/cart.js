@@ -215,6 +215,7 @@ var settingModel = require('../../modules/setting');
       var productId = req.query.productId;
       var cookiesCustomerId = req.cookies.customerId;
       var bookType = req.query.bookType;
+    
 
       var productData = await ModelProduct.findById(productId);
       cartModel.findOne({customer_id:cookiesCustomerId}).exec(function(err1,cart){
@@ -225,27 +226,38 @@ var settingModel = require('../../modules/setting');
         // If book type is paperbook or ebook
       if(bookType == 'paperbook' || bookType == 'ebook'){
         var existingProductIndex = cart.products.findIndex(p => p.product_id == productId && p.booktype == bookType);
-      }else{ // if book type is null (Stationary)
-        var existingProductIndex = cart.products.findIndex(p => p.product_id == productId && p.booktype == null);
-      }
-
+        
       const existingProduct = cart.products[existingProductIndex];
- 
-      
       total_quantity =  parseInt(existingProduct.qty) + 1;
+
 
       // total =  parseInt(cart.total_price) + parseInt(totalPrice);
 
-      
       var updateArray = cartModel.updateOne( 
         { _id: cart.id, 
           "products": { "$elemMatch": { "product_id": existingProduct.product_id, "booktype": bookType }}
         }, 
         { $set: { "products.$.qty": total_quantity } }
       )
-       
-     
-   
+
+      }else{ // if book type is null (Stationary)
+        var existingProductIndex = cart.products.findIndex(p => p.product_id == productId && p.booktype == null);
+
+        const existingProduct = cart.products[existingProductIndex];
+        total_quantity =  parseInt(existingProduct.qty) + 1;
+  
+  
+        // total =  parseInt(cart.total_price) + parseInt(totalPrice);
+  
+        var updateArray = cartModel.updateOne( 
+          { _id: cart.id, 
+            "products": { "$elemMatch": { "product_id": existingProduct.product_id, "booktype": null }}
+          }, 
+          { $set: { "products.$.qty": total_quantity } }
+        )
+      }
+
+    
       updateArray.exec( function(err,data){
    
           //For Count Latest Item Quantity Number

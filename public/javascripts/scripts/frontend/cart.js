@@ -74,6 +74,8 @@ function productNumberAdd(){
    var max =  $(event.currentTarget).siblings('.qty').attr('max');
    var totalQuantity = parseInt(quantity) + parseInt(1);
 
+ 
+
     if(parseInt(totalQuantity) > 1){
         $(event.currentTarget).siblings('.minus').prop("disabled", false);
     }
@@ -84,7 +86,13 @@ function productNumberAdd(){
         $(event.currentTarget).removeAttr("disabled","");
     }
 
+
+ 
+  
+
    var perPrice = $(event.currentTarget).parent().parent().siblings('.cart-product-price').children().attr('amountperproduct');
+
+
    var totalPricePerProduct = totalQuantity * parseInt(perPrice);
    $(event.currentTarget).parent().parent().siblings('.cart-product-subtotal').children().html('Rs '+ totalPricePerProduct);
    $(event.currentTarget).parent().parent().siblings('.cart-product-subtotal').children().attr('totalPrice',totalPricePerProduct);

@@ -149,10 +149,6 @@ router.get('/', function(req, res, next) {
     var successLink = req.body.su;
     var failureLink = req.body.fu;
 
-    console.log(successLink)
-    console.log(failureLink)
-   
-
     var fullName = req.body.fullname;
     var phoneNumber = req.body.phonenumber;
     var city = req.body.city;
@@ -197,6 +193,8 @@ router.get('/', function(req, res, next) {
     //   'su' : successLink,
     //   'fu' : failureLink,
     // }
+
+
 
 
     res.redirect('https://uat.esewa.com.np/epay/main?tAmt='+totalAmount+'&amt='+amount+'&txAmt='+taxAmount+'&psc='+serviceCharge+'&pdc='+DeliveryCharge+'&scd=EPAYTEST&pid='+orderId+'&su='+successLink+'&fu='+failureLink);

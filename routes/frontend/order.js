@@ -23,7 +23,8 @@ const subCategoryModel = require('../../modules/subcategories');
 const { populate, db } = require('../../modules/categories');
 const cartModel = require('../../modules/cart');
 const settingModel = require('../../modules/setting');
-const orderModel = require('../../modules/orders') 
+const orderModel = require('../../modules/orders'); 
+const productModel = require('../../modules/product');
 
 /* GET home page. */
 
@@ -32,6 +33,7 @@ router.get('/', async function(req, res, next) {
 
      
   var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+
 
   //After E-sewa success Payment 
   if(fullUrl.includes('q=su')){
@@ -49,7 +51,6 @@ router.get('/', async function(req, res, next) {
     var customerProducts = await cartModel.findOne({customer_id : cookiesCustomerId}).populate({path: 'products.product_id',model: 'product', populate : { path: 'ebook_id', model: 'ebook' }})
 
     var products = customerProducts.products;
-    console.log(products);
 
     var arr = [];
     products.forEach(function(d){
@@ -101,6 +102,29 @@ router.get('/', async function(req, res, next) {
             })
         
             saveOrder.save().then(async result => {
+
+              // var records = util.inspect(result, false, null, true /* enable colors */);
+
+              var products = result.products;
+              products.forEach( async element => {
+                console.log(element);
+            
+                // var stock = element.product.product_stock;
+                var product = await productModel.findOne({_id:element.product._id});
+                var stock = product.product_stock - element.qty;
+
+                if(element.booktype != 'ebook'){
+                  await productModel.findOneAndUpdate({_id:element.product._id},{product_stock:stock});
+                }
+            
+          
+                // console.log(stock);
+                // db.collection('products').aggregate( [ { $project: { product_stock:{$subtract:[  'product_stock','5'] }}} ] )
+               
+              });
+             
+
+
               await cartModel.update({customer_id : cookiesCustomerId}, {$pull: {products:{selected:true}}})
               
               orderModel.populate(result,{path : 'customerId'},(err, placeOrder) => {

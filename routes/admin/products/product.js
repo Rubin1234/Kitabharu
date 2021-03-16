@@ -225,7 +225,7 @@ router.post('/store',upload,function(req,res,next){
             let width = 500;
             let height = 500;
             
-            sharp(productImage.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/'+ productImage.filename);     
+            sharp(productImage.path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/'+ productImage.filename);     
     }
 
 
@@ -309,7 +309,7 @@ router.post('/store',upload,function(req,res,next){
             let width = 500;
             let height = 500;
             
-            sharp(specialOfferImage.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
+            sharp(specialOfferImage.path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
         
     }
 
@@ -394,7 +394,7 @@ router.post('/store',upload,function(req,res,next){
                 let width = 500;
                 let height = 500;
                 
-                sharp(specialOfferImage.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
+                sharp(specialOfferImage.path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
         }
     
             var saveSpecialOffer = new SpecialOfferModel({
@@ -450,7 +450,7 @@ router.post('/store',upload,function(req,res,next){
             let width = 500;
             let height = 500;
             
-            sharp(specialOfferImage.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
+            sharp(specialOfferImage.path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
         
     }
 
@@ -537,7 +537,7 @@ router.post('/store',upload,function(req,res,next){
             let width = 500;
             let height = 500;
             
-            sharp(specialOfferImage.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
+            sharp(specialOfferImage.path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
         
     }
 
@@ -794,7 +794,7 @@ router.post('/update',edit_upload,function(req,res,next){
         let width = 500;
         let height = 500;
         
-        sharp(images.product_image[0].path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/'+ images.product_image[0].filename);
+        sharp(images.product_image[0].path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/'+ images.product_image[0].filename);
 
         if(previousProductImage != ''){
         var filePath = '/home/kitabharu/kitabharu/public/images/backend/products/'+previousProductImage;
@@ -841,7 +841,7 @@ router.post('/update',edit_upload,function(req,res,next){
                         let width = 500;
                         let height = 500;
                         
-                        sharp(specialOfferImage.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
+                        sharp(specialOfferImage.path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
                     
                 }
 
@@ -921,7 +921,7 @@ router.post('/update',edit_upload,function(req,res,next){
                         let width = 500;
                         let height = 500;
                         
-                        sharp(images.specialoffer_image[0].path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ images.specialoffer_image[0].filename);
+                        sharp(images.specialoffer_image[0].path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ images.specialoffer_image[0].filename);
                 
                         if(previousSpecialOfferImage != ''){
                         var filePath = '/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+previousSpecialOfferImage;
@@ -1015,7 +1015,7 @@ router.post('/update',edit_upload,function(req,res,next){
                         let width = 500;
                         let height = 500;
                         
-                        sharp(specialOfferImage.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
+                        sharp(specialOfferImage.path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
                     
                 }
 
@@ -1117,7 +1117,7 @@ router.post('/update',edit_upload,function(req,res,next){
                         let width = 500;
                         let height = 500;
                         
-                        sharp(images.specialoffer_image[0].path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ images.specialoffer_image[0].filename);
+                        sharp(images.specialoffer_image[0].path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ images.specialoffer_image[0].filename);
                 
                         if(previousSpecialOfferImage != ''){
                         var filePath = '/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+previousSpecialOfferImage;
@@ -1213,7 +1213,7 @@ router.post('/update',edit_upload,function(req,res,next){
                         let width = 500;
                         let height = 500;
                         
-                        sharp(specialOfferImage.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
+                        sharp(specialOfferImage.path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
                     
                 }
 
@@ -1306,7 +1306,7 @@ router.post('/update',edit_upload,function(req,res,next){
                         let width = 500;
                         let height = 500;
                         
-                        sharp(specialOfferImage.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
+                        sharp(specialOfferImage.path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
                     
                 }
 
@@ -1409,7 +1409,7 @@ router.post('/update',edit_upload,function(req,res,next){
                         let width = 500;
                         let height = 500;
                         
-                        sharp(images.specialoffer_image[0].path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ images.specialoffer_image[0].filename);
+                        sharp(images.specialoffer_image[0].path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ images.specialoffer_image[0].filename);
                 
                         if(previousSpecialOfferImage != ''){
                         var filePath = '/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+previousSpecialOfferImage;
@@ -1516,7 +1516,7 @@ router.post('/update',edit_upload,function(req,res,next){
                         let width = 500;
                         let height = 500;
                         
-                        sharp(images.specialoffer_image[0].path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ images.specialoffer_image[0].filename);
+                        sharp(images.specialoffer_image[0].path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ images.specialoffer_image[0].filename);
                 
                         if(previousSpecialOfferImage != ''){
                         var filePath = '/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+previousSpecialOfferImage;
@@ -1727,7 +1727,7 @@ router.post('/update',edit_upload,function(req,res,next){
                         let width = 500;
                         let height = 500;
                         
-                        sharp(specialOfferImage.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
+                        sharp(specialOfferImage.path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
                     
                 }
 
@@ -1802,7 +1802,7 @@ router.post('/update',edit_upload,function(req,res,next){
                             let width = 500;
                             let height = 500;
                             
-                            sharp(images.specialoffer_image[0].path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ images.specialoffer_image[0].filename);
+                            sharp(images.specialoffer_image[0].path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ images.specialoffer_image[0].filename);
                     
                             if(previousSpecialOfferImage != ''){
                             var filePath = '/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+previousSpecialOfferImage;
@@ -1873,7 +1873,7 @@ router.post('/update',edit_upload,function(req,res,next){
                         let width = 500;
                         let height = 500;
                         
-                        sharp(specialOfferImage.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
+                        sharp(specialOfferImage.path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
                     
                 }
 
@@ -1952,7 +1952,7 @@ router.post('/update',edit_upload,function(req,res,next){
                             let width = 500;
                             let height = 500;
                             
-                            sharp(images.specialoffer_image[0].path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ images.specialoffer_image[0].filename);
+                            sharp(images.specialoffer_image[0].path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ images.specialoffer_image[0].filename);
                     
                             if(previousSpecialOfferImage != ''){
                             var filePath = '/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+previousSpecialOfferImage;
@@ -2221,7 +2221,7 @@ router.post('/update',edit_upload,function(req,res,next){
                         let width = 500;
                         let height = 500;
                         
-                        sharp(specialOfferImage.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
+                        sharp(specialOfferImage.path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
                     
                 }
 
@@ -2289,7 +2289,7 @@ router.post('/update',edit_upload,function(req,res,next){
                             let width = 500;
                             let height = 500;
                             
-                            sharp(images.specialoffer_image[0].path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ images.specialoffer_image[0].filename);
+                            sharp(images.specialoffer_image[0].path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ images.specialoffer_image[0].filename);
                     
                             if(previousSpecialOfferImage != ''){
                             var filePath = '/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+previousSpecialOfferImage;
@@ -2362,7 +2362,7 @@ router.post('/update',edit_upload,function(req,res,next){
                         let width = 500;
                         let height = 500;
                         
-                        sharp(specialOfferImage.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
+                        sharp(specialOfferImage.path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
                     
                 }
 
@@ -2435,7 +2435,7 @@ router.post('/update',edit_upload,function(req,res,next){
                      let width = 500;
                      let height = 500;
                      
-                     sharp(images.specialoffer_image[0].path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ images.specialoffer_image[0].filename);
+                     sharp(images.specialoffer_image[0].path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ images.specialoffer_image[0].filename);
              
                      if(previousSpecialOfferImage != ''){
                      var filePath = '/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+previousSpecialOfferImage;
@@ -2508,7 +2508,7 @@ router.post('/update',edit_upload,function(req,res,next){
                   let width = 500;
                   let height = 500;
                   
-                  sharp(images.specialoffer_image[0].path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ images.specialoffer_image[0].filename);
+                  sharp(images.specialoffer_image[0].path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ images.specialoffer_image[0].filename);
           
                   if(previousSpecialOfferImage != ''){
                   var filePath = '/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+previousSpecialOfferImage;
@@ -2578,7 +2578,7 @@ router.post('/update',edit_upload,function(req,res,next){
                         let width = 500;
                         let height = 500;
                         
-                        sharp(specialOfferImage.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
+                        sharp(specialOfferImage.path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/special_offer/'+ specialOfferImage.filename);
                     
                 }
 
@@ -4111,7 +4111,7 @@ router.post('/:id/productimages/store',product,function(req,res,next){
         let width = 500;
         let height = 500;
         
-        sharp(data.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/product_images/'+ image);
+        sharp(data.path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/product_images/'+ image);
     }
   
         
@@ -4184,7 +4184,7 @@ router.post('/:id/productimages/update',edit_productImage,function(req,res,next)
         let width = 500;
         let height = 500;
         
-        sharp(req.file.path).resize(width,height).toFile('/home/kitabharu/kitabharu/public/images/backend/products/product_images/'+ req.file.filename);
+        sharp(req.file.path).resize(width,height, {fit:"fill"}).toFile('/home/kitabharu/kitabharu/public/images/backend/products/product_images/'+ req.file.filename);
 
         if(previousProductImage != ''){
         var filePath = '/home/kitabharu/kitabharu/public/images/backend/products/product_images/'+previousProductImage;
