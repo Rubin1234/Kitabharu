@@ -24,7 +24,7 @@ app.use(cors());
 
 //For Flash Message
 var MemoryStore = require('memorystore')(session)
-mongoose.connect('mongodb+srv://rubin123123:rubin123123@cluster0.mcxac.mongodb.net/kitabharu?retryWrites=true&w=majority', {useNewUrlParser: true, useCreateIndex: true,useUnifiedTopology: true});
+mongoose.connect('mongodb+srv://smart123123:smart123123@cluster0.mcxac.mongodb.net/kitabharu?retryWrites=true&w=majority', {useNewUrlParser: true, useCreateIndex: true,useUnifiedTopology: true});
 
 // app.use(session({
 //   secret: 'secret123',
@@ -77,10 +77,10 @@ var settingRouter = require('./routes/admin/setting/setting')
 var publicationsRouter = require('./routes/admin/publication/publication')
 var ordersRouter = require('./routes/admin/orders/orders')
 var sliderRouter = require('./routes/admin/slider/slider');
+var magazineRouter = require('./routes/admin/magazine/magazine');
 
 
 //Frontend
-
 var homeRouter = require('./routes/frontend/home');
 var bookRouter = require('./routes/frontend/books');
 var stationaryRouter = require('./routes/frontend/stationary');
@@ -146,6 +146,7 @@ app.use('/settings',settingRouter);
 app.use('/publication',publicationsRouter);
 app.use('/order',ordersRouter);
 app.use('/slider',sliderRouter)
+app.use('/magazine', magazineRouter);
 
 
 

@@ -53,16 +53,29 @@ $(function () {
 
 function changeCategory(){
    var ID = $(event.currentTarget).val();
+  
    var category = $(event.currentTarget).find('option:selected').attr('value');
 
 
    var bookType = '<div class="form-group row"><label for="inputEmail3" class="col-3 col-form-label">Book Type<span class="text-danger">*</span></label><div class="col-7"><div class="checkbox checkbox-success form-check-inline" style="margin-right: 2rem;padding-top: 5.5px;"><input type="checkbox" id="booktypeCheckbox1" value="paperbook" name="paperbook" onchange="changePaperbook()"><label for="inlineCheckbox1"> Paper Book</label></div><div class="checkbox checkbox-success form-check-inline" style="padding-top: 5.5px;"><input type="checkbox" id="booktypeCheckbox2" value="ebook" name="ebook" onchange="changeEbook()"><label for="inlineCheckbox2"> E-Book </label><div style="padding-left:15px;" id="booktypeErr"></div></div><br><span id="booktype-error" class="help-block" style="font-weight: normal;color: #f1556c;font-size: 14px;margin-bottom: 0;top: 6px;left: -5px; position: relative;"></span></div></div>';
+   
+   var magazineType = '<div class="form-group row"><label for="inputEmail3" class="col-3 col-form-label">Book Type<span class="text-danger">*</span></label><div class="col-7"><div class="checkbox checkbox-success form-check-inline" style="padding-top: 5.5px;"><input type="checkbox" id="booktypeCheckbox2" value="ebook" name="ebook" onchange="changeEbook()"  disabled checked><label for="inlineCheckbox2"> E-Book </label><div style="padding-left:15px;" id="booktypeErr"></div></div><br><span id="booktype-error" class="help-block" style="font-weight: normal;color: #f1556c;font-size: 14px;margin-bottom: 0;top: 6px;left: -5px; position: relative;"></span></div></div>';
+
+   var magazineContent = '<div style="padding: 25px 0; border: 2px solid lightgrey;margin-bottom: 2.5rem;border-radius: 5px;" ><div class="form-group row" style="margin-bottom:0px;"><label for="hori-pass3" class="col-3 col-form-label">E-Book PDF</label><div class="col-7"><span id="pdfError"></span><input type="hidden" name="previousPdfFile" value="" > <input type="file" id="pdfFile" class="form-control-file" name="ebook_file" onchange="pdfValidation()" ><span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">Upload PDF File</span></div></div></div>';
+
+   var magazineVolume = '<div class="form-group row"><label for="inputEmail3" class="col-3 col-form-label">Volume Part<span class="text-danger">*</span></label><div class="col-7"><input type="text" required parsley-type="text" class="form-control" id="inputEmail1" placeholder="Enter a volume number" value="" name="magazine_volume" required><span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">Please enter a magazine volume number. </span></div></div>';
    
    if(category == '5fc86fabe5825658544dfa06'){ //For Book
       $('#book_type').empty().append(bookType);
    }else if(category == '5fc871bce5825658544dfa0c'){ //For Stationary
       $('#book_type').empty();
       $('#e-book').empty();
+      $('#magazine-volume').empty();
+   }else if(category == '6051a40a97a69e41b4b046f7'){
+    $('#book_type').empty().append(magazineType);
+    $('#e-book').empty().append(magazineContent);
+    $('#magazine-volume').empty().append(magazineVolume);
+    $('#e-book').css('display','block');
    }
 
 
@@ -103,7 +116,6 @@ function changeCategory(){
 function editchangeCategory(){
   var ID = $(event.currentTarget).val();
   var category = $(event.currentTarget).find('option:selected').attr('value');
-
 
   var bookType = '<div class="form-group row"><label for="inputEmail3" class="col-3 col-form-label">Book Type<span class="text-danger">*</span></label><div class="col-7"><div class="checkbox checkbox-success form-check-inline" style="margin-right: 2rem;padding-top: 5.5px;"><input type="checkbox" id="booktypeCheckbox1" value="paperbook" name="paperbook" onchange="changePaperbook()"><label for="inlineCheckbox1"> Paper Book</label></div><div class="checkbox checkbox-success form-check-inline" style="padding-top: 5.5px;"><input type="checkbox" id="booktypeCheckbox2" value="ebook" name="ebook" onchange="changeEbook()"><label for="inlineCheckbox2"> E-Book </label></div><br><span id="booktype-error" class="help-block" style="font-weight: normal;color: #f1556c;font-size: 14px;margin-bottom: 0;top: 6px;left: -5px; position: relative;"></span></div></div>';
   
@@ -305,8 +317,6 @@ function specialoffer(){
 }
 
 
-
-
 function editspecialoffer(){
 
   var value = $(event.currentTarget).val();
@@ -346,7 +356,6 @@ function editspecialoffer(){
 }
 
 
-
 function editbulkdiscount(){
 
   var value = $(event.currentTarget).val();
@@ -366,11 +375,6 @@ function editbulkdiscount(){
   }
 
 }
-
-
-
-
-
 
 
 function bulkdiscount(){

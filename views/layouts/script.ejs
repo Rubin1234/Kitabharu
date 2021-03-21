@@ -179,7 +179,6 @@ function Validation(){
         }
 
   
-
       var pos_of_pdf_dot = pdfInput.lastIndexOf('.')+1;
       var pdf_ext = pdfInput.substring(pos_of_pdf_dot);
       var pdf_result = validPDFExt.includes(pdf_ext);
@@ -204,21 +203,34 @@ function Validation(){
 
    //For Image File Validation
    var validExt = ["jpeg","png","jpg"];   
-   var newImage = document.forms['parsley-examples']['product_image'].value;
+   
 
-   if(newImage == ''){
+   // if(newImage == ''){
+   //          imageInput = document.forms['parsley-examples']['previousproductImage'].value;
+   //      }else{
+   //          imageInput = newImage;
+   //      }
+   var url = window.location.href.split('/')[4];
+ 
+        if(url == "edit"){
+        var newImage = document.forms['parsley-examples']['product_image'].value;
+
+        if(newImage == ''){
             imageInput = document.forms['parsley-examples']['previousproductImage'].value;
         }else{
             imageInput = newImage;
         }
+    }else{
+        var imageInput = document.forms['parsley-examples']['product_image'].value;
+    }
 
   
    var pos_of_dot = imageInput.lastIndexOf('.')+1;
    var img_ext = imageInput.substring(pos_of_dot);
    var result = validExt.includes(img_ext);
 
-   
- 
+  
+
    if(imageInput != ''){
       if(result == false){
          $('#imgError').empty().append(' <p style="color: #f1556c;margin-bottom: 10px;"><i class="mdi mdi-close-circle"></i> Image File is not Image</p>')
@@ -246,6 +258,8 @@ function Validation(){
          event.preventDefault();
       }
     }
+
+    $("#booktypeCheckbox2").prop('disabled', false);
 }
 
 

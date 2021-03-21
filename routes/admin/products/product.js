@@ -129,6 +129,8 @@ var upload = multer({
 
 
 router.post('/store',upload,function(req,res,next){
+
+  
    
     var userName = req.cookies.userName;
     var adminType = req.cookies.adminType;
@@ -143,28 +145,19 @@ router.post('/store',upload,function(req,res,next){
     var ebook_price = req.body.ebook_price;
     var paperBook = req.body.paperbook;
     var ebook = req.body.ebook;
-
-
-
-   
+    var magazineVolume = req.body.magazine_volume;
+    
     var booktype;
     if(paperBook && ebook){
-       
         booktype = 'both';
-
     }else if(paperBook){
-        
         booktype = paperBook;
-    
-    }else if(ebook){
-        
+    }else if(ebook){  
         booktype = ebook;
-    
     }
-
-  
+    
+    return;
     ModelProduct.find({product_name:productName,category_id:category_id}).exec(function(er,doc){
-      
         if(doc.length > 0){
          req.flash('error','Sorry, The Product has Already Existed.');
          res.redirect('/product/create'); 
@@ -244,13 +237,11 @@ router.post('/store',upload,function(req,res,next){
   
     });
 
-
- 
         subcategoryModel.findOne({_id:subcategory_id},function(error,producttypedata){
             if(producttypedata){
                 producttypedata.products.push(saveProduct);
                 producttypedata.save();
-        }
+            }
        });
 
     //If Only FLash Sale & Special Offer Is Present

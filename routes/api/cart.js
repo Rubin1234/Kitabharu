@@ -920,8 +920,6 @@ router.post('/cart/item/removeitem',async function(req, res, next){
   
       var priceToBeDeduct= 0;
   
-     
-  
       // //Price to be deducted
       // if(bookType == 'paperbook' || bookType == ''){
   
