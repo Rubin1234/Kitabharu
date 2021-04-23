@@ -126,11 +126,5 @@ router.post('/booking/store',async function(req, res, next) {
   // });
 
   });
-
-
-
-
-
-
-          
+   
 module.exports = router;

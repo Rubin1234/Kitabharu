@@ -76,13 +76,13 @@ router.post('/login', function (req, res, next) {
 
   checkEmail.exec(function (err, data) {
 
-
     if (err) throw err;
     if (data != null) {
 
       var getCustomerId = data._id;
       var getemail = data.email;
       var username = data.user_name;
+      var phoneNumber = data.phone_number;
       var getPassword = data.password;
 
       if (data.status == "Active") {
@@ -99,10 +99,10 @@ router.post('/login', function (req, res, next) {
           res.cookie('customerEmail', getemail);
 
           res.send({
-
             'token': token,
             'name': username,
             'email': email,
+            'phoneNumber' : phoneNumber,
             'customer_id': getCustomerId,
 
           });

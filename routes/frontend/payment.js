@@ -156,6 +156,9 @@ router.get('/', function(req, res, next) {
     var paymentType = req.body.paymentmethod;
 
     var cookiesCustomerId = req.cookies.customerId;
+
+
+    
     var customerProducts = await cartModel.findOne({customer_id : cookiesCustomerId})
     var products = customerProducts.products;
 

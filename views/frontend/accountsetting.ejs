@@ -60,11 +60,15 @@
     <form id="register-form" name="register-form" class="nobottommargin" action="/customer/accountsetting" method="post">
         <div class="col_full">
             <label for="register-form-name">Name:</label>
-            <input type="text" value="<%= cookiesCustomerrName %>" id="register-form-name" name="customerusername" value="" class="form-control" required />
+            <input type="text" value="<%= cookiesCustomerrName %>" id="register-form-name" name="customerusername" v class="form-control" required />
         </div>
         <div class="col_full ">
             <label for="register-form-email">Email Address:</label>
-            <input type="email" value="<%= cookiesCustomerEmail %>" id="register-form-email" name="customeremail" value="" class="form-control" required/>
+            <input type="email" value="<%= cookiesCustomerEmail %>" id="register-form-email" name="customeremail"  class="form-control" required/>
+        </div>
+        <div class="col_full ">
+            <label for="register-form-email">Phone Number:</label>
+            <input type="number" value="<%= customerDetails.phone_number %>" id="register-form-email" name="pnumber" class="form-control" required/>
         </div>
         <div class="col_full">
             <label for="register-form-password">Old Password:</label>

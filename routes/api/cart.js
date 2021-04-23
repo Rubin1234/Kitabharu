@@ -913,7 +913,7 @@ router.post('/cart/item/removeitem',async function(req, res, next){
       if(bookType == 'paperbook' || bookType == 'ebook'){
         var existingProductIndex = data.products.findIndex(p => p.product_id == productId && p.booktype == bookType);
       }else{ // if book type is null (Stationary)
-        var existingProductIndex = data.products.findIndex(p => p.product_id_id == productId && p.booktype == null);
+        var existingProductIndex = data.products.findIndex(p => p.product_id == productId && p.booktype == null);
       }
   
       var existingProduct = data.products[existingProductIndex];

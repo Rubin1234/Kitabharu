@@ -95,6 +95,7 @@ next();
     var username = req.body.customerusername;
     var email = req.body.customeremail;
     var password = req.body.customerpassword;
+    var phoneNumber = req.body.pnumber;
     var slugname = slug(username);
 
 
@@ -111,6 +112,7 @@ next();
     var customer = new customerModel({
       user_name : username,
       email : email,
+      phone_number : phoneNumber,
       password : hashpassword,
       slug : slugname,
     });
@@ -155,6 +157,7 @@ next();
             res.cookie('customerName',username);
             res.cookie('customerId',getCustomerId);
             res.cookie('customerEmail',getemail);
+          
             req.flash('loggedin','Logged In Successfully.');
             res.redirect('/');
           }else{
@@ -188,17 +191,21 @@ next();
     var cookiesCustomerId = req.cookies.customerId;
     var cookiesCustomerEmail = req.cookies.customerEmail;
 
+    var customerDetails = customerModel.findOne({_id : cookiesCustomerId});
     var bookSubcategories = SubCategoryModel.find({category_type_id : ['5fba1ad7fae27545a03341fe','5fc86fabe5825658544dfa06']});
     var stationarySubcategories = SubCategoryModel.find({category_type_id : ['5fc871bce5825658544dfa0c','5fba1b3afae27545a0334206']});
     var ebookSubcategories = ModelProduct.find({book_type : ['ebook','both']}).populate('subcategory_id');
     var settingData = settingModel.findOne({});
 
-
+ 
     settingData.exec(function(errr,dataa){
       bookSubcategories.exec(function(err1,data1){
         stationarySubcategories.exec(function(err2,data2){
           ebookSubcategories.exec(function(err3,data3){
+            customerDetails.exec(function(err,data4){
+            
 
+            
             //Storing subcategories in array for taking unique value
             var array = [];
             data3.forEach(function(data4){
@@ -216,7 +223,9 @@ next();
               cookiesCustomerrName,
               cookiesCustomerId,
               cookiesCustomerEmail,
-              setting : dataa
+              setting : dataa,
+              customerDetails : data4
+            });
             });
           });
         });
@@ -229,6 +238,7 @@ next();
     var username = req.body.customerusername;
     var email = req.body.customeremail;
     var oldpassword = req.body.oldpassword;
+    var phoneNumber = req.body.pnumber;
     var newPassword = req.body.newpassword;
     var confirmPassword = req.body.confirmpassword;
 
@@ -237,7 +247,6 @@ next();
     var cookiesCustomerId = req.cookies.customerId;
     var cookiesCustomerEmail = req.cookies.customerEmail;
 
-    console.log(cookiesCustomerId);
 
     //if confirm password is null
     if(confirmPassword == ''){
@@ -251,6 +260,7 @@ next();
         if(bcrypt.compareSync(oldpassword,getPassword)){      
             var updateCustomer = customerModel.findByIdAndUpdate(cookiesCustomerId,{
               user_name: username,
+              phone_number : phoneNumber,
               email: email,
             });
         
@@ -291,9 +301,10 @@ next();
           
 
           var updatepasswordData = customerModel.findByIdAndUpdate(cookiesCustomerId,{
-            user_name: username,
+            user_name : username,
             email: email,
-            password:updatedpassword,
+            phone_number : phoneNumber,
+            password : updatedpassword,
 
           });
 

@@ -67,7 +67,7 @@
                                         <div class="form-group row">
                                             <label for="inputEmail3" class="col-3 col-form-label">Category<span class="text-danger">*</span></label>
                                             <div class="col-7">
-                                                <select id="product_category" name="product_category" class="selectpicker show-tick" data-style="btn-light" style="border: 1px solid lightgrey;" onchange="changeCategory()" required="">
+                                                <select id="product_category" name="product_category" class="selectpicker show-tick" data-style="btn-light" style="border: 1px solid lightgrey;" onchange="editchangeCategory()" required="">
                                                     <option value="">Please select category </option>
                                                     <% if(categories.length > 0){ %>
                                                         <% categories.forEach(function(data){ %>
@@ -100,9 +100,8 @@
                                     <h4 class="header-title m-t-0 m-b-20">Product Details</h4>
                                     <hr>
                                     
-
-                                    <div id="book_type" book_type = "<%= products.book_type%>">
-                                        <!-- <div class="form-group row">
+                                    <div id="book_type" book_type = "<%= products.book_type%>" style="display: none;">
+                                        <div class="form-group row">
                                             <label for="inputEmail3" class="col-3 col-form-label">Book Type<span class="text-danger">*</span></label>
                                             <div class="col-7">
                                                 <div class="checkbox checkbox-success form-check-inline" style="margin-right: 2rem;padding-top: 5.5px;">
@@ -111,13 +110,16 @@
                                                     <label for="booktypeCheckbox1"> Paper Book</label>
                                                 </div>
                                                 <div class="checkbox checkbox-success form-check-inline" style="padding-top: 5.5px;">
-                                                    <input type="checkbox" id="" value="ebook" name="ebook" onchange="editchangeEbook()" > 
+                                                    <input type="checkbox" id="booktypeCheckbox2" value="ebook" name="ebook" onchange="editchangeEbook()" > 
                                                     <label for="inlineCheckbox2"> E-Book </label>
                                                 </div><br>
-                                                <span id="booktype-error" class="help-block" style="font-weight: normal;color: #f1556c;font-size: 14px;margin-bottom: 0;top: 6px;left: -5px; position: relative;">
+                                                <span id="booktypeErr" class="help-block" style="font-weight: normal;color: #f1556c;font-size: 14px;margin-bottom: 0;top: 6px;left: -5px; position: relative;">
                                                  </span>
                                             </div>
-                                        </div> -->
+                                        </div>
+                                    </div>
+                                    <div id="mag_book_type" book_type = "<%= products.book_type%>" style="display: none;">
+                                        <div class="form-group row"><label for="inputEmail3" class="col-3 col-form-label">Book Type<span class="text-danger">*</span></label><div class="col-7"><div class="checkbox checkbox-success form-check-inline" style="padding-top: 5.5px;"><input type="checkbox" id="magbooktypeCheckbox2" value="ebook" name="mag_ebook" onchange="changeEbook()"  disabled checked><label for="inlineCheckbox2"> E-Book </label><div style="padding-left:15px;" id="booktypeErr"></div></div><br><span id="booktype-error" class="help-block" style="font-weight: normal;color: #f1556c;font-size: 14px;margin-bottom: 0;top: 6px;left: -5px; position: relative;"></span></div></div>
                                     </div>
 
                                    
@@ -145,34 +147,102 @@
                                                 </div>
                                             </div>
                                         </div>
-                                            <% }else{ %>
-                                                <div id="e-book" style="display: none;">
-                                                <div style="padding: 25px 0; border: 2px solid lightgrey;margin-bottom: 2.5rem;border-radius: 5px;" >
-                                                    <div class="form-group row">
-                                                        <label for="hori-pass3" class="col-3 col-form-label">E-Book PDF <span class="text-danger" style="font-size:16px">*</span></label>
-                                                        <div class="col-7">
-                                                            <span id="pdfError"></span>
-                                                            <input type="file" id="pdfFile" class="form-control-file" name="ebook_file" onchange="pdfValidation()">
-                                                            <input type="hidden" name="previousPdfFile" value="" > 
-                                                            <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">Upload PDF File</span>
-                                                        </div>
-                                                    </div> 
-                                                    <div class="form-group row" style="margin-bottom: 0px;">
-                                                        <label for="inputEmail3" class="col-3 col-form-label">E-Book Price<span class="text-danger">*</span></label>
-                                                        <div class="col-7">
-                                                            <input type="text"  parsley-type="text" class="form-control"id="edit_ebook_price" placeholder="Enter a E-book price" value="" name="ebook_price" required>
-                                                            <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">Please enter a e-book price. </span>
-                                                        </div>
+                                        <% }else{ %>
+                                            <div id="e-book" style="display: none;">
+                                            <div style="padding: 25px 0; border: 2px solid lightgrey;margin-bottom: 2.5rem;border-radius: 5px;" >
+                                                <div class="form-group row">
+                                                    <label for="hori-pass3" class="col-3 col-form-label">E-Book PDF <span class="text-danger" style="font-size:16px">*</span></label>
+                                                    <div class="col-7">
+                                                        <span id="pdfError"></span>
+                                                        <input type="file" id="pdfFile" class="form-control-file" name="ebook_file" onchange="pdfValidation()">
+                                                        <input type="hidden" name="previousPdfFile" value="" > 
+                                                        <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">Upload PDF File</span>
+                                                    </div>
+                                                </div> 
+                                                <div class="form-group row" style="margin-bottom: 0px;">
+                                                    <label for="inputEmail3" class="col-3 col-form-label">E-Book Price<span class="text-danger">*</span></label>
+                                                    <div class="col-7">
+                                                        <input type="text"  parsley-type="text" class="form-control"id="edit_ebook_price" placeholder="Enter a E-book price" value="" name="ebook_price" required>
+                                                        <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">Please enter a e-book price. </span>
                                                     </div>
                                                 </div>
-                                                </div>
-                                                <% } %>
+                                            </div>
+                                            </div>
+                                        <% } %>
+
+                                    <!-- For Magazine -->
+                                    <% if(products.category_id._id == '6051a40a97a69e41b4b046f7'){ %>
+                                    <div id="magazine-volumes" class="mb-4">
+                                   
+                                    
+                                            <% if(productMagazine.length > 0){ %>
+                                                <h4 style="color: #6b5ddeeb;font-weight: bold;">Add volumes of magazine</h4>
+                                            
+                                                <% productMagazine.forEach(function(data){ %>
+                                                    <div class="len" style="padding: 25px 0; border: 2px solid lightgrey;margin-bottom: 1rem;border-radius: 5px;position:relative;">
+                                                        <i class="mdi mdi-close closeMagVol" onclick="removeMagazineVol()"></i>
+                                                        <div class="d-flex">
+                                                            <div class="col-md-4 mx-auto ">
+                                                                <label class="font-weight-bold">Volume Part</label>
+                                                                <input type="text" required parsley-type="text" class="form-control" id="inputEmail1" placeholder="Enter a volume number" value="<%= data.volume_part %>" name="magazine_volume">
+                                                                <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">Please enter a magazine volume number. </span></div>
+                                                                <div class="col-md-5 m-auto">
+                                                                    <label class="font-weight-bold">E-Book PDF</label>
+                                                                    <div class="">
+                                                                        <span id="pdfError" class="pdfError"></span>
+                                                                        <iframe src="../../../images/backend/products/ebook/magazine/<%= data.magazine_ebook_file %>" width="100%" height="250px" style="margin-bottom: 25px;"></iframe>
+                                                                        <input type="hidden" class="previousMagPdfFile" name="previousMagPdfFile" value="<%= data.magazine_ebook_file %>">
+                                                                        <input type="file" id="pdfFile" class="form-control-file mag_ebook_file" name="mag_ebook_file1" onchange="pdfValidation()">
+                                                                        <input type="hidden" value="<%= data._id %>" name="mag_id" />
+                                                                        <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">Upload PDF File</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                <% }) %>  
+                                           <% } %>
                                         
+                                            <div class="text-center" id="magazineAddBtn"><button type="button" class="btn btn-success btn-rounded waves-effect waves-light pl-4 pr-4" onclick="addMagazineVol()">Add</button>&nbsp;&nbsp;</div>
+                                </div>  
+                                <% }else{ %>
+                                    <div id="magazine-volumes" class="mb-4" style="display: none;">
+                                            <h4 style="color: #6b5ddeeb;font-weight: bold;">Add volumes of magazine</h4>
+                                                <div class="len" style="padding: 25px 0; border: 2px solid lightgrey;margin-bottom: 1rem;border-radius: 5px;position:relative;">
+                                                    <i class="mdi mdi-close closeMagVol" onclick="removeMagazineVol()"></i>
+                                                    <div class="d-flex">
+                                                        <div class="col-md-4 mx-auto ">
+                                                            <label class="font-weight-bold">Volume Part</label>
+                                                            <input type="text" required parsley-type="text" class="form-control volume_part" placeholder="Enter a volume number" value="" name="magazine_volume">
+                                                            <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">Please enter a magazine volume number. </span></div>
+                                                            <div class="col-md-5 m-auto">
+                                                                <label class="font-weight-bold">E-Book PDF</label>
+                                                                <div class="">
+                                                                    <span id="pdfError" class="pdfError"></span>
+                                                                 
+                                                                    <input type="hidden" class="previousMagPdfFile" name="previousMagPdfFile" value="">
+                                                                    <input type="file" id="pdfFile" class="form-control-file" name="mag_ebook_file1" onchange="pdfValidation()">
+                                                                    <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">Upload PDF File</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                   
+                                    
+                                        <div class="text-center" id="magazineAddBtn"><button type="button" class="btn btn-success btn-rounded waves-effect waves-light pl-4 pr-4" onclick="addMagazineVol()">Add</button>&nbsp;&nbsp;</div>
+                            </div>
+
+                                <% } %>
+
+
+
+
+
+
                                     <div class="form-group row">
                                         <label for="inputEmail3" class="col-3 col-form-label">Product Name<span class="text-danger">*</span></label>
                                         <div class="col-7">
                                             <input type="text" required parsley-type="text" class="form-control"
-                                                id="inputEmail1" placeholder="Enter a product name" value="<%=  products.product_name %>" name="product_name" required>
+                                                id="" placeholder="Enter a product name" value="<%=  products.product_name %>" name="product_name" required>
                                                 <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
                                                     Please enter a product name. </span>
                                         </div>

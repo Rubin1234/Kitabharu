@@ -24,7 +24,7 @@ app.use(cors());
 
 //For Flash Message
 var MemoryStore = require('memorystore')(session)
-mongoose.connect('mongodb+srv://smart123123:smart123123@cluster0.mcxac.mongodb.net/kitabharu?retryWrites=true&w=majority', {useNewUrlParser: true, useCreateIndex: true,useUnifiedTopology: true});
+mongoose.connect('mongodb+srv://rubin123123:rubin123123@cluster0.mcxac.mongodb.net/kitabharu?retryWrites=true&w=majority', {useNewUrlParser: true, useCreateIndex: true,useUnifiedTopology: true});
 
 // app.use(session({
 //   secret: 'secret123',
@@ -107,6 +107,7 @@ var signUpApiRouter = require('./routes/api/signup');
 var loginApiRouter = require('./routes/api/login');
 var productApiRouter = require('./routes/api/product')
 var cartApiRouter = require('./routes/api/cart')
+var paymentApiRouter = require('./routes/api/payment')
 var bookingApiRouter = require('./routes/api/booking')
 var userProfileApiRouter = require('./routes/api/userProfile')
 
@@ -180,6 +181,7 @@ app.use('/api', productApiRouter);
 app.use('/api', cartApiRouter);
 app.use('/api', bookingApiRouter);
 app.use('/api', userProfileApiRouter);
+app.use('/api/payment',paymentApiRouter);
 
 //ICT APi
 app.use('/ict/api', ictCartApiRouter);

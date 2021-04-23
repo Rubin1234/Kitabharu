@@ -161,41 +161,102 @@ $('#specialoffer_startdate').flatpickr({
 
 
 
-
-
 function Validation(){
+   var product_category = $('#product_category').find('option:selected').attr('value');
+ 
+   // //if Product category is magazine removing disabled properties in checkbox
+   // if(product_category == "6051a40a97a69e41b4b046f7"){
+   // //  $("#booktypeCheckbox2").prop('disabled', false);
+   //  if($('#magbooktypeCheckbox2').is(":checked")){
+      
+   //    console.log('magazine')
+   //    }
+   // }
 
-     //For PDF File Validation
-   if( ($('#booktypeCheckbox2').is(":checked") && $('#booktypeCheckbox1').is(":checked")) ||  ($('#booktypeCheckbox2').is(":checked")) ){
-    
-      var validPDFExt = ["pdf"];
-      var newPdfInput = document.forms['parsley-examples']['pdfFile'].value;
-  
+   // event.preventDefault()
 
-      if(newPdfInput == ''){
-         pdfInput = document.forms['parsley-examples']['previousPdfFile'].value;
-        }else{
-         pdfInput = newPdfInput;
-        }
 
-  
-      var pos_of_pdf_dot = pdfInput.lastIndexOf('.')+1;
-      var pdf_ext = pdfInput.substring(pos_of_pdf_dot);
-      var pdf_result = validPDFExt.includes(pdf_ext);
+   // return
 
-      if(pdfInput != ''){
-         if(pdf_result == false){
-            $('#pdfError').empty().append(' <p style="color: #f1556c;margin-bottom: 10px;"><i class="mdi mdi-close-circle"></i>  File is not in PDF Format</p>')
-            event.preventDefault();
-       
-         }else{
-            $('#pdfError').empty();
+
+   //For PDF File Validation
+   if(($('#booktypeCheckbox2').is(":checked") && $('#booktypeCheckbox1').is(":checked")) ||  ($('#booktypeCheckbox2').is(":checked")) ||  ($('#magbooktypeCheckbox2').is(":checked")) ){
+
+      //IF Category is magazine
+      if(product_category == "6051a40a97a69e41b4b046f7"){ 
+         $('#edit_ebook_price').removeAttr('required');
+      
+         $('.len').each((i,obj) => {
+         
+            var validPDFExt = ["pdf"];
+            var newPdfInput = $(obj).find('.d-flex').find('.form-control-file').val();
+
+            if(newPdfInput == ''){
+               var pdfInput = $(obj).find('.d-flex').find('.previousMagPdfFile').val();
+            }else{
+               var pdfInput = newPdfInput;
+            }     
+
+            if(pdfInput != undefined){
+               
+               var pos_of_pdf_dot = pdfInput.lastIndexOf('.')+1;
+               var pdf_ext = pdfInput.substring(pos_of_pdf_dot);
+               var pdf_result = validPDFExt.includes(pdf_ext);
+
+               if(pdf_result == false){
+                  $(obj).find('.d-flex').find('.pdfError').empty().append(' <p style="color: #f1556c;margin-bottom: 10px;"><i class="mdi mdi-close-circle"></i>  File is not in PDF Format</p>')
+                  
+                  event.preventDefault();
+               }else{
+                  $(obj).find('.d-flex').find('.pdfError').empty();
+               }
+         
+            }else{
+               $(obj).find('.d-flex').find('.pdfError').empty().append(' <p style="color: #f1556c;margin-bottom: 10px;"><i class="mdi mdi-close-circle"></i> PDF File is required</p>')
+               event.preventDefault();
+            }
+         });
+      }else if(product_category == '5fc86fabe5825658544dfa06'){ //For Book Category
+
+         //If Paperbook
+         if( $('#booktypeCheckbox1').is(":checked") == true && $('#booktypeCheckbox2').is(":checked") == false){
+            $('#edit_ebook_price').removeAttr('required');
          }
+        
+
+         //If Ebook
+         if( ($('#booktypeCheckbox1').is(":checked") == false && $('#booktypeCheckbox2').is(":checked") == true) ||  ($('#booktypeCheckbox1').is(":checked") == true && $('#booktypeCheckbox2').is(":checked") == true)){
+
+            var validPDFExt = ["pdf"];
+            var newPdfInput = document.forms['parsley-examples']['ebook_file'].value;
        
-      }else{
-         $('#pdfError').empty().append(' <p style="color: #f1556c;margin-bottom: 10px;"><i class="mdi mdi-close-circle"></i> PDF File is required</p>')
-         event.preventDefault();
-     
+            if(newPdfInput == ''){
+               pdfInput = document.forms['parsley-examples']['previousPdfFile'].value;
+            }else{
+               pdfInput = newPdfInput;
+            }
+
+            var pos_of_pdf_dot = pdfInput.lastIndexOf('.')+1;
+            var pdf_ext = pdfInput.substring(pos_of_pdf_dot);
+            var pdf_result = validPDFExt.includes(pdf_ext);
+
+            if(pdfInput != ''){
+      
+               if(pdf_result == false){
+                  $('#pdfError').empty().append(' <p style="color: #f1556c;margin-bottom: 10px;"><i class="mdi mdi-close-circle"></i>  File is not in PDF Format</p>')
+                  event.preventDefault();
+               }else{
+                  $('#pdfError').empty();
+               }
+            
+            }else{
+               $('#pdfError').empty().append(' <p style="color: #f1556c;margin-bottom: 10px;"><i class="mdi mdi-close-circle"></i> PDF File is required</p>')
+               event.preventDefault();
+            }
+
+         }
+      }else if(product_category == '5fc871bce5825658544dfa0c'){
+         $('#edit_ebook_price').removeAttr('required');
       }
    }
 
@@ -211,18 +272,29 @@ function Validation(){
    //          imageInput = newImage;
    //      }
    var url = window.location.href.split('/')[4];
- 
-        if(url == "edit"){
-        var newImage = document.forms['parsley-examples']['product_image'].value;
+         //For PDF
 
-        if(newImage == ''){
-            imageInput = document.forms['parsley-examples']['previousproductImage'].value;
-        }else{
-            imageInput = newImage;
-        }
-    }else{
-        var imageInput = document.forms['parsley-examples']['product_image'].value;
-    }
+         // if(url == 'edit'){
+         //    if(($('#booktypeCheckbox2').is(":checked") && $('#booktypeCheckbox1').is(":checked")) ||  ($('#booktypeCheckbox2').is(":checked")) ){
+         //       $('.len').each((i,obj) => {
+         //          console.log('for edit');
+         // })
+         //       }       
+         // }
+
+
+         //Image
+         if(url == "edit"){
+            var newImage = document.forms['parsley-examples']['product_image'].value;
+
+            if(newImage == ''){
+                  imageInput = document.forms['parsley-examples']['previousproductImage'].value;
+            }else{
+                  imageInput = newImage;
+         }
+         }else{
+            var imageInput = document.forms['parsley-examples']['product_image'].value;
+         }
 
   
    var pos_of_dot = imageInput.lastIndexOf('.')+1;
@@ -243,23 +315,25 @@ function Validation(){
    }else{
       $('#imgError').empty().append(' <p style="color: #f1556c;margin-bottom: 10px;"><i class="mdi mdi-close-circle"></i> Image File is required</p>')
          event.preventDefault();
-    
     }
-
-
 
    //For CheckBox Validation
    var category =  $('option:selected', event.currentTarget).attr('category');
-   
 
+  
     if(category == 'Book'){
+     
       if( ($('#booktypeCheckbox1').is(":checked") == false) && ($('#booktypeCheckbox2').is(":checked") == false)){
-         $('#booktypeErr').empty().append('<span style="color: #f1556c;"><i class="mdi mdi-close-circle"></i>&nbsp;Please Select Book Type</span>');
+    
+         $('#book_type #booktypeErr').empty().append('<span style="color: #f1556c;"><i class="mdi mdi-close-circle"></i>&nbsp;Please Select Book Type</span>');
+         
          event.preventDefault();
       }
+
+    
     }
 
-    $("#booktypeCheckbox2").prop('disabled', false);
+    $("#magbooktypeCheckbox2").prop('disabled', false);
 }
 
 
@@ -290,7 +364,6 @@ function imageValidation(){
 
 
 function pdfValidation(){
-
    var validExt = ["pdf"];
    var pdfInput = $(event.currentTarget).val();
 
@@ -301,11 +374,11 @@ function pdfValidation(){
 
    if(pdfInput != ''){
       if(result == false){
-         $('#pdfError').empty().append(' <p style="color: #f1556c;margin-bottom: 10px;"><i class="mdi mdi-close-circle"></i>  File is not in PDF Format</p>')
+         $(event.currentTarget).siblings('#pdfError').empty().append(' <p style="color: #f1556c;margin-bottom: 10px;"><i class="mdi mdi-close-circle"></i>  File is not in PDF Format</p>')
          event.preventDefault();
          return false;
       }else{
-         $('#pdfError').empty();
+         $(event.currentTarget).siblings('#pdfError').empty();
       }
       return true;
    }

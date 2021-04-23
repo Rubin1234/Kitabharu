@@ -28,6 +28,7 @@ const { rejects } = require('assert');
 
     var username = req.body.customerusername;
     var email = req.body.customeremail;
+    var phoneNumber = req.body.pnumber;
     var password = req.body.customerpassword;
     var slugname = slug(username);
 
@@ -36,6 +37,7 @@ const { rejects } = require('assert');
     var customer = new customerModel({
       user_name : username,
       email : email,
+      phone_number : phoneNumber,
       password : hashpassword,
       slug : slugname,
     });

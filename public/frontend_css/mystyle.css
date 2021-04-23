@@ -1310,12 +1310,11 @@ button{
 
 .showdiscountpercent{
     position: absolute;
-    top: 14px;
-    right: 18px;
+    top: 15px;
+    left: 15px;
     background: #f3cd11;
     color: white;
-    padding: 5px 12px;
-    border-radius: 4px;
+    padding: 2px 10px;
 }
 
 
@@ -1341,6 +1340,8 @@ button{
 .small{
     font-size: 13px;
 }
+
+
 /*.publication .card .p{
     margin-bottom: 0px
 }*/

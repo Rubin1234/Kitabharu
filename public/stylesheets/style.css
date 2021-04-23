@@ -15,3 +15,12 @@
     padding: 15px 35px;
     font-size: 20px;
 }
+
+
+.closeMagVol{
+  position: absolute;right: 6px;top: 0px;font-size: 21px;color: #ff3232;
+}
+
+.closeMagVol:hover{
+  cursor: pointer;
+}

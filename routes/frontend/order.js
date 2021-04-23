@@ -107,7 +107,6 @@ router.get('/', async function(req, res, next) {
 
               var products = result.products;
               products.forEach( async element => {
-                console.log(element);
             
                 // var stock = element.product.product_stock;
                 var product = await productModel.findOne({_id:element.product._id});
